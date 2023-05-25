@@ -119,16 +119,16 @@ test: tests/built/.docker
 	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/
 
 tests/built/.docker: \
-		$(TMP)/setup.sh \
-		$(TMP)/00-parameters.yml
+		tests/built/setup.sh
 
 	mkdir -p "$(dir $@)"
 	cd tests && DOCKER_BUILDKIT=1 docker build --tag "test-ansible/ansible:local" .
 	touch "$@"
 
-$(TMP)/setup.sh: .devcontainer/setup.sh
+tests/built/setup.sh: .devcontainer/setup.sh
 	mkdir -p "$(dir $@)"
 	cp -f "$<" "$@"
+	touch "$@"
 
 $(TMP)/00-parameters.yml: inventory/00-parameters.yml \
 		bin/ansible-no-secrets

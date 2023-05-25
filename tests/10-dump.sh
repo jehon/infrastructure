@@ -6,8 +6,8 @@ set -o pipefail
 # Script Working Directory
 SWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
-# shellcheck source=SCRIPTDIR/lib-ansible-test.sh
-. "$SWD/lib-ansible-test.sh"
+# shellcheck source-path=SCRIPTDIR
+. "$SWD/lib-test.sh"
 
 (
 	cat <<-'EOS'
