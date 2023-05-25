@@ -134,6 +134,7 @@ tmp/00-parameters.yml: inventory/00-parameters.yml \
 	touch "$@"
 
 release: $(PUBLISH)/dev-config.json
+
 	/usr/bin/jh-github-publish-pages "$(PUBLISH)" "push"
 
 $(PUBLISH)/dev-config.json: tmp/dev-config.json
