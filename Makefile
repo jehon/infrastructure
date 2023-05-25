@@ -117,7 +117,9 @@ $(TMP)/dev-config.json: $(TMP)/.built
 	ansible-playbook --vault-password-file $(ABS_ROOT)/$(ENCRYPTION_MOCK) build-artifacts.yml
 	touch "$@"
 
-test: tests/built/.docker
+test: tests/built/.docker \
+		$(TMP)/00-parameters.yml
+
 	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/
 
 tests/built/.docker: \
