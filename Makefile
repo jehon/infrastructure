@@ -14,8 +14,7 @@ dev: clear dump lint build ok
 
 ABS_ROOT=$(shell pwd)
 
-TMP=tmp
-PUBLISH=$(TMP)/publish
+PUBLISH=tmp/publish
 ENCRYPTION_MOCK=.config/ansible-encryption-mock
 
 SHELL=/bin/bash -o pipefail -o errexit
@@ -43,7 +42,6 @@ clean:
 	rm -f "$(PUBLISH)/dev-config.json"
 	rm -fr built
 	rm -fr tmp
-	rm -fr tests/built
 	rm -fr .python
 	docker ps | ( grep test-ansible || true ) | awk '{print $$1}' | xargs --no-run-if-empty -- docker kill
 	docker image list --filter 'reference=test-ansible/*' --format '{{.Repository}}:{{.Tag}}' | xargs --no-run-if-empty -- docker image rm -f
@@ -51,7 +49,6 @@ clean:
 
 dump:
 	@echo "ABS_ROOT:          $(ABS_ROOT)"
-	@echo "TMP:               $(TMP)"
 	@echo "ENCRYPTION_MOCK:   $(ENCRYPTION_MOCK)"
 	@echo "PUBLISH:           $(PUBLISH)"
 	@echo ""
@@ -105,36 +102,31 @@ lint: dependencies
 	@echo "$@ ok"
 
 build: dependencies \
-	$(TMP)/.built \
-	$(TMP)/dev-config.json
+	tmp/.built \
+	tmp/dev-config.json
 
-$(TMP)/.built: .python/.built
+tmp/.built: .python/.built
 	mkdir -p "$(dir $@)"
 	touch "$@"
 
-$(TMP)/dev-config.json: $(TMP)/.built
+tmp/dev-config.json: tmp/.built
 	mkdir -p "$(dir $@)"
 	ansible-playbook --vault-password-file $(ABS_ROOT)/$(ENCRYPTION_MOCK) build-artifacts.yml
 	touch "$@"
 
-test: tests/built/.docker \
-		$(TMP)/00-parameters.yml
+test: tmp/tests/.built \
+		tmp/00-parameters.yml
 
 	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/
 
-tests/built/.docker: \
-		tests/built/setup.sh
+tmp/tests/.built: \
+		.devcontainer/setup.sh
 
 	mkdir -p "$(dir $@)"
-	cd tests && DOCKER_BUILDKIT=1 docker build --tag "test-ansible/ansible:local" .
+	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --tag "test-ansible/ansible:local" --file ../tests/Dockerfile .
 	touch "$@"
 
-tests/built/setup.sh: .devcontainer/setup.sh
-	mkdir -p "$(dir $@)"
-	cp -f "$<" "$@"
-	touch "$@"
-
-$(TMP)/00-parameters.yml: inventory/00-parameters.yml \
+tmp/00-parameters.yml: inventory/00-parameters.yml \
 		bin/ansible-no-secrets
 
 	mkdir -p "$(dir $@)"
@@ -144,7 +136,7 @@ $(TMP)/00-parameters.yml: inventory/00-parameters.yml \
 release: $(PUBLISH)/dev-config.json
 	/usr/bin/jh-github-publish-pages "$(PUBLISH)" "push"
 
-$(PUBLISH)/dev-config.json: $(TMP)/dev-config.json
+$(PUBLISH)/dev-config.json: tmp/dev-config.json
 	mkdir -p "$(dir $@)"
-	cp -f $(TMP)/dev-config.json "$@"
+	cp -f tmp/dev-config.json "$@"
 	touch "$@"

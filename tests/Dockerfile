@@ -1,6 +1,6 @@
 
 FROM debian:testing
 
-ADD built /
+ADD . /
 
-RUN --mount=type=cache,target=/var/cache/apt apt update && /setup.sh
+RUN --mount=type=cache,target=/var/cache/apt /setup.sh
