@@ -41,7 +41,9 @@ ok:
 
 clean:
 	rm -f "$(PUBLISH)/dev-config.json"
-	rm -fr tests/ansible/built
+	rm -fr built
+	rm -fr tmp
+	rm -fr tests/built
 	rm -fr .python
 	docker ps | ( grep test-ansible || true ) | awk '{print $$1}' | xargs --no-run-if-empty -- docker kill
 	docker image list --filter 'reference=test-ansible/*' --format '{{.Repository}}:{{.Tag}}' | xargs --no-run-if-empty -- docker image rm -f
