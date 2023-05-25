@@ -3,6 +3,9 @@
 set -o errexit
 set -o pipefail
 
+# shellcheck source-path=SCRIPTDIR
+. "$(dirname "${BASH_SOURCE[0]}")/../bin/lib.sh"
+
 # shellcheck source-path=SCRIPTDIR/../
 TEST_NAME="$(basename "${BASH_SOURCE[1]}")"
 exec &> >( /usr/bin/jh-tag-stdin "$TEST_NAME" )
@@ -35,7 +38,7 @@ test_in_docker() {
 			export PYTHONPATH="$REMOTE_PRJ/.python:\$PYTHONPATH"
 
 			cd $REMOTE_PRJ
-			make ansible-dependencies
+			make dependencies
 		EOS
 		cat -
 		cat <<-EOS
@@ -51,7 +54,7 @@ test_in_docker() {
 			--tmpfs "$REMOTE_PRJ/tmp" \
 			"$IMG" "bash" \
 		|& jh-tag-stdin "inside" \
-		|| fatal "!! Test failed: $TEST_NAME ($?) !!"
+		|| jh_fatal "!! Test failed: $TEST_NAME ($?) !!"
 
 	echo "**************************************"
 	echo "***                                ***"

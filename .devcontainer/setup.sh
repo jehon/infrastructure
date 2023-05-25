@@ -19,7 +19,9 @@ apt update
 
 apt_install curl git \
     python3 python3-pip python3-netaddr python3-passlib python3-apt \
-    libmysqlclient-dev
+    default-libmysqlclient-dev
+
+#    libmariadb-dev
 
 mkdir -p tmp
 chmod 777 tmp
