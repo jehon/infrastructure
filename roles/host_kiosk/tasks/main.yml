@@ -1,0 +1,44 @@
+---
+
+- name: Install packages
+  ansible.builtin.apt:
+    pkg:
+      - jehon-service-music
+      - jehon-service-kiosk
+
+- name: Install kiosk config file
+  block:
+    - name: Create folder
+      ansible.builtin.file:
+        path: /opt/jehon/kiosk/etc
+        state: directory
+        mode: "0755"
+
+    - name: Inject template
+      ansible.builtin.template:
+        src: kiosk.yml
+        dest: /opt/jehon/kiosk/etc/kiosk.yml
+        owner: root
+        group: root
+        mode: "0644"
+      notify:
+        - host_kiosk.restart-kiosk
+
+- name: Prepare service to avoid timeout (required on first install)
+  block:
+    - name: Run jh-repository-update to install dependencies
+      ansible.builtin.command:
+        cmd: /usr/bin/jh-repository-update
+        chdir: /opt/jehon/kiosk
+
+    - name: Select pictures
+      when: not virtual
+      ansible.builtin.command:
+        cmd: /etc/cron.daily/jh-kiosk-daily
+
+- name: Set Systemd for kiosk
+  ansible.builtin.systemd:
+    name: jh-kiosk
+    enabled: true
+    state: started
+  when: not virtual

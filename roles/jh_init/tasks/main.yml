@@ -1,0 +1,34 @@
+---
+
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_facts_module.html
+- name: Get installed packages
+  ansible.builtin.package_facts:
+    manager: auto
+
+- name: Guess os for jehon-os package
+  when: jehon_os_package is undefined or jehon_os_package | length == 0
+  block:
+    - name: Ensure lsb_module is installed
+      ansible.builtin.apt:
+        pkg:
+          - lsb-release
+
+    - name: Recalculate ansible_lsb
+      # ansible_lsb (or jehon_deb) depend on lsb-release to be installed => always refresh this value
+      ansible.builtin.setup:
+        filter:
+          # What to recalculate ?
+          - ansible_lsb
+
+    - name: Calculate os name from ansible_lsb.id
+      when: ansible_lsb.id | length > 0
+      ansible.builtin.set_fact:
+        jehon_os_package: "jehon-os-{{ ansible_lsb.id | lower }}"
+
+    - name: Fallback jehon_os_package
+      ansible.builtin.set_fact:
+        jehon_os_package: ""
+
+- name: What is jehon_os_package?
+  debug:
+    var: jehon_os_package

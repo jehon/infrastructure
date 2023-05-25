@@ -1,0 +1,18 @@
+{
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#3c0303",
+    },
+    "[dockerfile]": {
+        "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+    },
+    "github-actions.workflows.pinned.workflows": [
+        ".github/workflows/test.yml"
+    ],
+    "files.associations": {
+        "Makefile.*": "makefile"
+    },
+    "yaml.customTags": [
+        "!vault"
+    ],
+    "ansible.python.interpreterPath": "/bin/python"
+}

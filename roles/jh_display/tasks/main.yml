@@ -1,0 +1,23 @@
+---
+
+- name: In full machine
+  when: not virtual
+  block:
+    - name: Ensure ubuntu-frame is installed
+      community.general.snap:
+        name: ubuntu-frame
+        state: present
+        options:
+          - daemon=true
+      notify: jh-display.restart
+
+    - name: "Ensure installed snap {{ display_snap }}"
+      community.general.snap:
+        name: "{{ display_snap }}"
+        state: present
+        options:
+          - daemon=true
+          - devmode=true
+          - error-to-console=true
+          - "url=http://localhost:{{ display_localhost_port }}"
+      notify: jh-display.restart

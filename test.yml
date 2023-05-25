@@ -1,0 +1,15 @@
+---
+
+- name: Reboot systems
+  hosts: grp_jehon
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Let's test
+
+    - name: Include role
+      ansible.builtin.include_role:
+        name: jh_network
+
+    - name: Check that we are still connected
+      ansible.builtin.command: /usr/bin/true

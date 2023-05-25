@@ -1,0 +1,14 @@
+---
+
+- name: Update dependencies kiosk
+  listen: host_kiosk.restart-kiosk
+  ansible.builtin.command:
+    chdir: /opt/jehon/kiosk
+    cmd: /usr/bin/jh-npm-update-if-necessary
+
+- name: Restart kiosk
+  when: not virtual
+  listen: host_kiosk.restart-kiosk
+  ansible.builtin.systemd:
+    name: jh-kiosk
+    state: restarted

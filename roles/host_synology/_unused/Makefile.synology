@@ -1,0 +1,38 @@
+#!/usr/bin/env make
+
+prj-synology: synology-dump synology-build synology-lint
+
+SYNOLOGY_TMP=$(TMP_ROOT)/synology
+
+SYNOLOGY_ROOT=synology
+
+dump: synology-dump
+clean: synology-clean
+build: synology-build
+lint: synology-lint
+release: synology-release
+
+.PHONY: synology-dump
+synology-dump:
+	$(call dump_space)
+	$(call dump_title,SYNOLOGY)
+	$(call dump_info,SYNOLOGY_ROOT)
+	$(call dump_info,SYNOLOGY_TMP)
+
+.PHONY: synology-clean
+synology-clean:
+	rm -fr "$(SYNOLOGY_TMP)"
+
+.PHONY: synology-build
+synology-build: $(PRJ_PUBLISH)/synology.tar
+
+$(PRJ_PUBLISH)/synology.tar: $(SYNOLOGY_ROOT) release-version
+	$(call mkdir,$@)
+	tar -v --create --file $@ -C $(SYNOLOGY_ROOT) .
+	tar -v --append --file $@ -C $(PRJ_PUBLISH) version.txt
+
+.PHONY: synology-lint
+synology-lint:
+	@echo "$@ ok"
+
+synology-release: $(PRJ_PUBLISH)/synology.tar

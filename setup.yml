@@ -1,0 +1,39 @@
+---
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
+
+#
+# We need to pass through all this for handlers to run only once
+#
+
+- name: Setup systems
+  hosts: all
+  tasks:
+    - name: Initialize
+      when: "'grp_jehon' in group_names"
+      ansible.builtin.include_role:
+        name: jh_init
+
+    - name: Setup jh_common
+      when: "'grp_jehon' in group_names"
+      ansible.builtin.include_role:
+        name: jh_common
+
+    - name: Setup host dev
+      when: inventory_hostname == "dev"
+      ansible.builtin.include_role:
+        name: host_dev
+
+    - name: Setup host kiosk
+      when: inventory_hostname == "kiosk"
+      ansible.builtin.include_role:
+        name: host_kiosk
+
+    - name: Setup host piscine
+      when: inventory_hostname == "piscine"
+      ansible.builtin.include_role:
+        name: host_piscine
+
+    - name: Setup host synology
+      when: inventory_hostname == "synology"
+      ansible.builtin.include_role:
+        name: host_synology

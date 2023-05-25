@@ -1,0 +1,12 @@
+---
+
+- name: Build artifacts
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Generate dev-config.yml for github homepage
+      ansible.builtin.template:
+        src: "templates/setup-dev-config.json"
+        dest: "tmp/dev-config.json"
+        mode: "0644"

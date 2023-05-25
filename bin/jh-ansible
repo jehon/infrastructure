@@ -1,0 +1,114 @@
+#!/usr/bin/python3
+
+import argparse
+import os
+
+from jehon.system import jh
+
+####################################
+#
+# Variables
+#
+ansibleArgs=[]
+playbooks=[ "infos.yml", "upgrade.yml", "setup.yml" ]
+prjRoot=os.path.dirname(os.path.dirname(__file__))
+
+####################################
+#
+# Arguments parsing
+#
+parser = argparse.ArgumentParser(description='Proxy to ansible commands')
+parser.set_defaults(
+    action="setup",
+)
+parser.add_argument('--host', help='target host', required=True)
+parser.add_argument('--action', help='Target action', choices=[ "init", "setup" ])
+parser.add_argument('--playbooks', help='Override playbook')
+
+parser.add_argument('--ip', help='Target IP host')
+parser.add_argument('-u', '--ssh-user', help='Override SSH username')
+parser.add_argument('-p', '--ssh-password', help='Override SSH password')
+
+args=parser.parse_args()
+# print(args)
+
+####################################
+#
+# Playbooks
+#
+if args.playbooks:
+    playbooks=args.playbooks.split(",")
+
+jh.info("Selected playbooks: " + " ".join(playbooks))
+
+####################################
+#
+# Set the host
+#
+host=args.host
+jh.info("Selected host: " + host)
+ansibleArgs.append("--limit")
+ansibleArgs.append(host)
+
+#
+# Host specific config
+#
+match args.host:
+    case "dev":
+        ansibleArgs.append("--ask-become-pass")
+
+####################################
+#
+# SSH Connection credentials
+#
+# https://manpages.debian.org/bullseye/ansible/ansible-playbook.1.en.html
+# https://docs.ansible.com/ansible/2.9/plugins/connection/ssh.html
+#
+if args.ssh_user:
+    ansibleArgs.append("-e")
+    ansibleArgs.append("ansible_user=" + args.ssh_user)
+    if args.ssh_user != "root":
+        ansibleArgs.append("-e")
+        ansibleArgs.append("ansible_become=true")
+
+if args.ssh_password:
+    ansibleArgs.append("-e")
+    ansibleArgs.append("ansible_password=" + args.ssh_password)
+
+    if args.ssh_user != "root":
+        ansibleArgs.append("-e")
+        ansibleArgs.append("ansible_sudo_pass=" + args.ssh_password)
+
+if args.ip:
+    ansibleArgs.append("-e")
+    ansibleArgs.append("ansible_host=" + args.ip)
+    jh.shell([ "/usr/bin/jh-ssh-update-key", args.ip ], header="reset ip")
+    jh.shell([ "/usr/bin/jh-ssh-update-key", host ], header="reset host")
+
+####################################
+#
+# Go action
+#
+match args.action:
+    case "setup":
+        True
+    case "init":
+        print("************")
+        print("************ base image *****************")
+        print("************")
+        print("************ Debian 64 bits Lite")
+        print("************")
+
+        # ansibleArgs.append("-e")
+        # ansibleArgs.append("host_key_checking=false")
+
+        playbooks.append("reboot.yml")
+
+jh.shell([ "bin/jh-ansible-setup" ], cwd=prjRoot)
+
+# print(ansibleArgs)
+
+jh.shell([ os.path.join(prjRoot, ".python/bin/ansible-playbook") ] + ansibleArgs + playbooks,
+  cwd=os.path.join(prjRoot), 
+  env={ "PYTHONPATH": os.path.join(prjRoot, ".python") }
+)

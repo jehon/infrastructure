@@ -1,0 +1,61 @@
+---
+
+# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/getent_module.html
+- name: Get users
+  ansible.builtin.getent:
+    database: passwd
+
+# - name: "Database of users"
+#   ansible.builtin.debug:
+#     var: ansible_facts.getent_passwd
+
+- name: Add to system groups user {{ user }}
+  ansible.builtin.user:
+    name: "{{ user }}"
+    comment: "{{ display_name }}"
+    groups: sudo,docker,fuse,jh_secrets
+    append: true
+    generate_ssh_key: true
+
+- name: Set password
+  when: password | length > 0
+  ansible.builtin.user:
+    name: "{{ user }}"
+    # See https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
+    password: "{{ password | password_hash('sha512', 'salt') }}"
+
+- name: Set git user for {{ login + "-" + display_name }}
+  community.general.ini_file:
+    path: /home/{{ login }}/.gitconfig
+    section: user
+    option: name
+    value: "{{ display_name }}"
+    mode: '0600'
+    backup: true
+
+- name: Set git email for {{ login + " - " + github_login }}
+  community.general.ini_file:
+    path: /home/{{ login }}/.gitconfig
+    section: user
+    option: email
+    value: "{{ github_login }}@users.noreply.github.com"
+    mode: '0600'
+    backup: true
+
+- name: Set git user for root
+  community.general.ini_file:
+    path: /root/.gitconfig
+    section: user
+    option: name
+    value: "{{ display_name }}"
+    mode: '0600'
+    backup: true
+
+- name: Set git email for root
+  community.general.ini_file:
+    path: /root/.gitconfig
+    section: user
+    option: email
+    value: "{{ github_login }}@users.noreply.github.com"
+    mode: '0600'
+    backup: true

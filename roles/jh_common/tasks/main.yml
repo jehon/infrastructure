@@ -1,0 +1,125 @@
+---
+
+- name: Install packages
+  when: ansible_pkg_mgr == "apt"
+  block:
+    - name: Install jehon.deb
+      block:
+        # TODO: Detect if file exists
+        - name: Check if jehon-github is present
+          ansible.builtin.stat:
+            path: /etc/apt/sources.list.d/jehon-github.sources
+          register: jh_common_apt_source_jehon_github
+
+        - name: Ensure jehon-github repo is configured
+          when: not jh_common_apt_source_jehon_github.stat.exists
+          ansible.builtin.copy:
+            src: jehon-github.sources
+            dest: /etc/apt/sources.list.d/jehon-github.sources
+            mode: "0644"
+            owner: root
+            group: root
+
+        - name: Apt update
+          ansible.builtin.apt:
+            update_cache: true
+
+    - name: Install jehon.deb
+      block:
+        # We need this one to be installed first, because next line will depend on it
+        - name: "Ensure jehon.deb package is present"
+          ansible.builtin.apt:
+            pkg:
+              - jehon
+
+        - name: Refresh indexes for jehon.deb
+          ansible.builtin.apt:
+            update_cache: true
+
+    - name: Install jehon-hardware*.deb
+      when: jehon_hardware is defined and jehon_hardware | length > 0
+      block:
+        - name: "Ensure jehon-hardware is present for hardware {{ jehon_hardware }}"
+          ansible.builtin.apt:
+            pkg:
+              - "jehon-hardware-{{ jehon_hardware }}"
+          register: jh_common_hardware_installed
+
+        - name: Refresh indexes for jehon-hardware*.deb
+          when: jh_common_hardware_installed.changed
+          ansible.builtin.apt:
+            update_cache: true
+
+    - name: Install jehon-os-*.deb
+      block:
+        - name: "Ensure jehon-os package is present named {{ jehon_os_package }}"
+          when: jehon_os_package | length > 0
+          ansible.builtin.apt:
+            pkg:
+              - "{{ jehon_os_package }}"
+          register: jh_os_installed
+
+        - name: Refresh indexes for jehon-os*.deb
+          when: jh_os_installed.changed
+          ansible.builtin.apt:
+            update_cache: true
+
+- name: Setup networking
+  ansible.builtin.include_role:
+    name: jh_network
+
+- name: Configure users
+  block:
+    - name: Add secrets group
+      block:
+        - name: Add secrets group
+          ansible.builtin.group:
+            name: jh_secrets
+            state: present
+        - name: Create restricted folder
+          ansible.builtin.file:
+            path: /etc/jehon/restricted/
+            state: directory
+            owner: root
+            group: jh_secrets
+            mode: "0755"
+
+    - name: Add jh_pcloud
+      ansible.builtin.include_role:
+        name: jh_cloud
+
+    - name: Add jh_display
+      ansible.builtin.include_role:
+        name: jh_display
+      when: display_localhost_port is defined
+
+- name: In full machine
+  when: not virtual
+  block:
+    - name: Set a hostname to {{ inventory_hostname }}
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
+      when: inventory_hostname is match("[a-zA-Z][a-zA-Z0-9_-]+") and inventory_hostname != "localhost"
+
+    - name: Firewall - allow ssh
+      community.general.ufw:
+        rule: allow
+        name: ssh
+
+    - name: Firewall - enable
+      community.general.ufw:
+        state: enabled
+
+    - name: Add IP address to hosts
+      # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html
+      ansible.builtin.lineinfile:
+        dest: /etc/hosts
+        # Match: <ip|ipv6> <host>.honlet <legacy> # ansible
+        # TODO: remove <legacy> from match (when all hosts are adapted)
+        regexp: '.* {{ item }}.honlet .* # ansible'
+        # TODO: remove hostnames alias without .honlet
+        line: "{{ jehon.ip[item] }} {{ item }}.honlet {{ item }} # ansible"
+        state: present
+      when: jehon.ip[item] is defined
+      with_items: "{{ jehon.ip.keys() }}"
+      # On docker, the /etc/hosts is not writable

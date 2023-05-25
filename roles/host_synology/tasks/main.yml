@@ -1,0 +1,56 @@
+---
+
+- name: Copy script files
+  block:
+    # script_folder: /volume1/scripts/scripts
+    # https://docs.ansible.com/ansible/latest/collections/community/general/filetree_lookup.html
+    - name: Create directories in {{ script_folder }}
+      loop: >-
+        {{
+          lookup('community.general.filetree', 'templates/scripts/')
+            | selectattr('state', 'equalto', 'directory')
+            | map(attribute='path')
+        }}
+      ansible.builtin.file:
+        path: "{{ script_folder }}/{{ item }}"
+        state: directory
+        mode: "0777"
+
+    - name: Copy files and templates to {{ script_folder }}
+      # Thanks to https://stackoverflow.com/a/41668011/1954789
+      loop: >-
+        {{
+          lookup('community.general.filetree', 'templates/scripts/')
+            | selectattr('state', 'equalto', 'file')
+            | map(attribute='path')
+        }}
+      ansible.builtin.template:
+        src: "{{ role_path }}/templates/scripts/{{ item }}"
+        dest: "{{ script_folder }}/{{ item }}"
+        mode: "0755"
+
+    - name: Remove extraneous files
+     # https://stackoverflow.com/a/18016700/1954789
+      block:
+        - name: List files at destination
+          shell: find "{{ script_folder }}" -type f -printf '%P\n' | grep "\S"
+          register: host_synology_sync_files_remote
+          changed_when: false
+
+        - name: List local files
+          set_fact:
+            host_synology_sync_files_local: >-
+              {{
+                lookup('community.general.filetree', 'templates/scripts/')
+                  | selectattr('state', 'equalto', 'file')
+                  | map(attribute='path')
+              }}
+
+        - name: Remove files
+          with_items: "{{ host_synology_sync_files_remote.stdout_lines }}"
+          when: item not in host_synology_sync_files_local
+          ansible.builtin.file:
+            path: "{{ script_folder }}/{{ item }}"
+            state: absent
+          # debug:
+          #   var: item

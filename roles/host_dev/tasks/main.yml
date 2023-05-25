@@ -1,0 +1,123 @@
+---
+
+- name: Setup dev system
+  block:
+    - name: Install packages
+      ansible.builtin.apt:
+        pkg:
+          - jehon-desktop
+          - jehon-service-music-refresh
+          # Docker
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+
+    - name: Set systemd target
+      when: not virtual
+      ansible.builtin.include_role:
+        name: jh_systemd_target
+      vars:
+        target: graphical
+
+#
+# User/dev files
+#
+- name: Setup system-wide files for user
+  block:
+    - name: Set docker shared folder
+      ansible.builtin.file:
+        path: /mnt/docker
+        state: directory
+        mode: "0775"
+        group: jh_secrets
+
+    - name: Install secrets files
+      with_items:
+        - cryptomedic.php
+        - cryptomedic.sh
+        - dev.sh
+        - jenkins-master.key
+        - jenkins.env
+        - tmdb.key
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: /etc/jehon/restricted/{{ item }}
+        owner: root
+        group: jh_secrets
+        mode: "0750"
+
+    - name: Install /mnt/docker/jenkins
+      ansible.builtin.file:
+        state: directory
+        dest: /mnt/docker/jenkins
+        owner: root
+        group: jh_secrets
+        mode: "0755"
+
+    - name: Enable photo mount
+      when: not virtual
+      ansible.builtin.systemd:
+        name: mnt-cloud-photos.mount
+        enabled: true
+        state: started
+
+    - name: Add jh_camera
+      ansible.builtin.include_role:
+        name: jh_camera
+
+#
+# User side
+#
+- name: Setup profile
+  block:
+    - name: Add user jehon
+      ansible.builtin.include_role:
+        name: jh_user_dev
+      vars:
+        user: jehon
+
+    # - name: Setup user folder
+    #   become: true
+    #   become_user: jehon
+    #   block:
+    #     - name: Stat if ssh key exists
+    #       ansible.builtin.stat:
+    #         path: /home/jehon/.ssh/id_rsa
+    #       register: host_dev_ssh_key
+
+    #     - name: Add git devstack repo
+    #       when: host_dev_ssh_key.stat.exists
+    #       ansible.builtin.include_role:
+    #         name: jh_git
+    #       vars:
+    #         path: /home/jehon/src/devstack
+    #         url: git@github.com:jehon/devstack.git
+    #         clean: false
+
+    #     - name: Add git cryptomedic repo
+    #       when: host_dev_ssh_key.stat.exists
+    #       ansible.builtin.include_role:
+    #         name: jh_git
+    #       vars:
+    #         path: /home/jehon/src/cryptomedic
+    #         url: git@github.com:jehon/cryptomedic.git
+    #         clean: false
+
+    #     - name: Add git file-organizer repo
+    #       when: host_dev_ssh_key.stat.exists
+    #       ansible.builtin.include_role:
+    #         name: jh_git
+    #       vars:
+    #         path: /home/jehon/src/file-organizer
+    #         url: git@github.com:jehon/file-organizer.git
+    #         clean: false
+
+    #     - name: Add git tmdb-to-movie repo
+    #       when: host_dev_ssh_key.stat.exists
+    #       ansible.builtin.include_role:
+    #         name: jh_git
+    #       vars:
+    #         path: /home/jehon/src/tmdb-to-movie
+    #         url: git@github.com:jehon/tmdb-to-movie.git
+    #         clean: false

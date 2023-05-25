@@ -1,0 +1,17 @@
+---
+- name: Run jh-checks
+  hosts: grp_common
+  gather_facts: false
+  tasks:
+    - name: Run jh-ckechs
+      ansible.builtin.command:
+        cmd: /usr/bin/jh-checks
+      register: jh_checks
+
+    - name: Get jh-checks stdout
+      ansible.builtin.debug:
+        var: jh_checks.stdout
+
+    - name: Get jh-checks stderr
+      ansible.builtin.debug:
+        var: jh_checks.stderr

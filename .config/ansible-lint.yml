@@ -1,0 +1,21 @@
+---
+
+# https://ansible-lint.readthedocs.io/configuring/#using-local-configuration-files
+
+# null, min, basic, moderate,safety, shared, production
+profile: basic
+
+exclude_paths:
+  - .git
+  - inventory/*
+  - config/*
+  - .*
+  - _*
+
+enable_list:
+  - key-order
+
+skip_list:
+  - package-latest
+  - meta-no-info
+  - var-naming[no-role-prefix]

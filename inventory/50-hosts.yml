@@ -1,0 +1,66 @@
+---
+all:
+  vars:
+    virtual: false
+  hosts:
+    dev:
+      # ansible_host is defined by script
+      # ansible_host: "{{ jehon.ip.dev }}"
+      ansible_connection: local
+      ansible_become: true
+      cloud_type: pcloud-rw
+      cloud_cache_size: 20G
+      cloud_mount:
+        Musiques: rw
+        Photos: rw
+        Videos: rw
+      jehon_hardware: wsl
+    localhost:
+      # Used by build-artifacts
+      ansible_connection: local
+      virtual: true
+    kiosk:
+      ansible_host: "{{ jehon.ip.kiosk }}"
+      display_localhost_port: 5454
+      fixed_ip: "{{ jehon.ip.kiosk }}"
+      jehon_hardware: raspberrypi
+      synology:
+        username: "{{ jehon.credentials.synology.kiosk.username }}"
+        password: "{{ jehon.credentials.synology.kiosk.password }}"
+    piscine:
+      ansible_host: "{{ jehon.ip.piscine }}"
+      display_localhost_port: 8800
+      fixed_ip: "{{ jehon.ip.piscine }}"
+      jehon_hardware: raspberrypi
+      synology:
+        username: "{{ jehon.credentials.synology.piscine.username }}"
+        password: "{{ jehon.credentials.synology.piscine.password }}"
+    synology:
+      # We use also the /etc/ssh/ssh_config.d/jehon.conf
+      # See https://serverfault.com/a/926506/275843
+      ansible_port: 2022
+      ansible_user: "{{ jehon.credentials.synology.admin.username }}"
+      ansible_ssh_pass: "{{ jehon.credentials.synology.admin.password }}"
+      ansible_remote_tmp: /volume1/scripts/.ansible-tmp
+      ansible_pipelining: true
+      ansible_ssh_transfer_method: piped
+      data_volume: /volume1/
+      script_folder: /volume1/scripts/scripts
+  children:
+    grp_jehon:
+      # All system that get jehon.deb and the follow-up
+      hosts:
+        dev:
+        kiosk:
+        piscine:
+    grp_servers:
+      vars:
+        cloud_type: home
+        cloud_cache_size: 10M
+        cloud_mount:
+          Musiques: ro
+          Photos: ro
+          Videos: ro
+      hosts:
+        kiosk:
+        piscine:

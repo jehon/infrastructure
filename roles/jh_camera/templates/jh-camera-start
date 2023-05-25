@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+/snap/bin/vlc "rtsp://{{jehon.credentials.camera.username}}:{{jehon.credentials.camera.password}}@{{jehon.ip.camera}}/videoSub"

@@ -1,0 +1,21 @@
+---
+
+# Thanks to https://stackoverflow.com/a/72196011/1954789
+
+- name: In full machine
+  when: not virtual
+  block:
+    - name: Get current systemd default
+      ansible.builtin.command: systemctl get-default
+      changed_when: false
+      register: system_default_target
+      tags:
+        - skip_ansible_lint
+
+    - name: Dump default target
+      ansible.builtin.debug:
+        var: system_default_target.stdout
+
+    - name: Set default target to {{ target + ".target" }}
+      ansible.builtin.command: "systemctl set-default {{ target }}.target"
+      when: system_default_target.stdout != target + '.target'

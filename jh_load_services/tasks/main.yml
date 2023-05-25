@@ -1,0 +1,17 @@
+---
+
+- name: In full machine
+  when: not virtual
+  block:
+    - name: Populate service facts
+      ansible.builtin.service_facts:
+
+    - name: List running services
+      ansible.builtin.set_fact:
+        jh_load_services_running_services: >
+          "{{ ansible_facts.services
+              | dict2items
+              | selectattr('value.state', '==', 'running')
+              | map(attribute='key')
+              | select('search', '.service')
+              | list }}"

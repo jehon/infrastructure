@@ -1,0 +1,50 @@
+---
+
+#
+# Detect interface?
+#
+#   https://serverfault.com/a/948288/275843
+#
+# !! change are applied only after reboot
+#
+
+- name: Setup Lan
+  when: fixed_ip | length > 0 and not virtual
+  block:
+    # - name: Install needed network manager libs
+    #   ansible.builtin.package:
+        # name:
+        #     - NetworkManager-libnm
+        #     - nm-connection-editor
+        #     - libsemanage-python
+        #     - policycoreutils-python
+      # state: present
+
+    - name: Start Network Manager
+      ansible.builtin.systemd:
+        name: NetworkManager
+        enabled: true
+        state: started
+
+    - name: Dump the target ips
+      ansible.builtin.debug:
+        msg: "{{ [ansible_ssh_host, fixed_ip] | ansible.utils.ipv4 | ansible.builtin.unique }}"
+
+    #
+    # nmtui will only apply change on reboot
+    # so ansible can continue without any problem
+    #
+    # BUT we need to reboot afterward ==> add reboot.yml on first run
+    #
+    - name: "Set fixed ip address {{ fixed_ip }}"
+      community.general.nmcli:
+        type: ethernet
+        conn_name: 'eth0'
+        # https://docs.ansible.com/ansible/latest/collections/ansible/utils/docsite/filters_ipaddr.html#filtering-lists
+        # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/unique_filter.html
+        ip4: '{{ [ansible_ssh_host, fixed_ip] | ansible.utils.ipv4 | ansible.builtin.unique }}'
+        gw4: '{{ jehon.ip.gateway }}'
+        dns4:
+          - '{{ jehon.ip.gateway }}'
+          - 8.8.8.8
+        state: present

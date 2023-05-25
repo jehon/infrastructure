@@ -1,0 +1,16 @@
+---
+
+dependencies:
+  - jh_init
+
+argument_specs:
+  main:
+    options:
+      cloud_type:
+        type: string
+      cloud_cache_size:
+        type: string
+      cloud_mount:
+        type: dict
+      synology:
+        type: dict

@@ -1,0 +1,10 @@
+
+# Remove github repository
+
+#
+# !! Nothing extra allowed !!
+#
+
+Package: *
+Pin: origin jehon.github.io
+Pin-Priority: 12

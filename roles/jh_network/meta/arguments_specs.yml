@@ -1,0 +1,6 @@
+---
+argument_specs:
+  main:
+    options:
+      fixed_ip:
+        type: string

@@ -1,0 +1,7 @@
+---
+
+argument_specs:
+  main:
+    options:
+      display_localhost_port:
+        type: string

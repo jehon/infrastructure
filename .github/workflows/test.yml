@@ -1,0 +1,37 @@
+
+on:
+  push:
+  pull_request:
+    branches:
+    - main
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+concurrency: 
+  group: release-${{ github.ref_name }}
+  # cancel-in-progress: true
+
+jobs:
+  ga-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+    - uses: actions/checkout@main
+      with:
+        fetch-depth: 0
+
+    - name: Setup
+      run: sudo .devcontainer/setup.sh
+
+    - run: make dump
+
+    - run: make build
+
+    - run: make lint
+
+    - run: make test
+
+    - run: make release
+      if: ${{ github.ref_name == 'main' && github.ref_type == 'branch' }}

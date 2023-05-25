@@ -1,0 +1,15 @@
+---
+
+- name: Do reload daemon
+  listen: jh_cloud.remount
+  when: not virtual
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Do restart cloud mount
+  listen: jh_cloud.remount
+  when: not virtual
+  with_items: "{{ mount_list }}"
+  ansible.builtin.systemd:
+    name: mnt-cloud-{{ item | lower }}.mount
+    state: restarted

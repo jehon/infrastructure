@@ -1,0 +1,13 @@
+---
+
+# https://galaxy.ansible.com/docs/using/installing.html
+#
+#
+#    define the roles to be installed by ansible-galaxy
+#
+#
+
+# empty list
+roles:
+
+# !!! DISABLED IN MAKEFILE.ansible

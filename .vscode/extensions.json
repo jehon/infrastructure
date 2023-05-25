@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "cschleiden.vscode-github-actions",
+        "lizebang.bash-extension-pack",
+        "ms-vscode.makefile-tools"
+    ]
+}
