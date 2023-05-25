@@ -49,8 +49,8 @@ test_in_docker() {
 			-v "$PRJ_ROOT:$REMOTE_PRJ" \
 			-v "$PRJ_ROOT/tmp/00-parameters.yml:$REMOTE_PRJ/inventory/00-parameters.yml" \
 			-v "test-ansible-python-cache:$REMOTE_PRJ/.python" \
-			--tmpfs "$REMOTE_PRJ/ansible/.galaxy" \
-			--tmpfs "$REMOTE_PRJ/ansible/built" \
+			--tmpfs "$REMOTE_PRJ/.galaxy" \
+			--tmpfs "$REMOTE_PRJ/built" \
 			--tmpfs "$REMOTE_PRJ/tmp" \
 			"$IMG" "bash" \
 		|& jh-tag-stdin "inside" \

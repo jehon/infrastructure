@@ -8,7 +8,7 @@ set -o pipefail
 
 (
 	cat <<-'EOS'
-		cd ansible && ansible-playbook setup.yml --connection=local --limit piscine -e "virtual=true"
+		ansible-playbook setup.yml --connection=local --limit piscine -e "virtual=true"
 
 		dpkg -l | grep "jehon-hardware-raspberrypi"
 	EOS
