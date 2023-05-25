@@ -23,6 +23,6 @@ set -o pipefail
 		! cat inventory/00-parameters.yml | grep -q '!vault'
 
 		cat built/encryption-key
-		cat built/encryption-key | grep "1234"
+		cat built/encryption-key | grep "12345-encryption-key-6789"
 	EOS
 ) | test_in_docker

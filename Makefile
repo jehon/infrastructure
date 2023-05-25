@@ -83,7 +83,7 @@ built/encryption-key:
 		if [ -r /etc/jehon/restricted/encryption-key ]; then \
 			ln -fs /etc/jehon/restricted/encryption-key "built/encryption-key"; \
 		else \
-			echo "12345" > built/encryption-key; \
+			echo "12345-encryption-key-6789" > built/encryption-key; \
 		fi \
 	fi
 
