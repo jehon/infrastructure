@@ -8,9 +8,9 @@
 # Generate:
 #     x
 #
-full: clear clean dependencies dump lint build ok
+full: clear clean dump dependencies dump-runtimes lint build ok
 
-dev: clear dump lint build ok
+dev: clear dump dependencies dump-runtimes lint build ok
 
 ABS_ROOT=$(shell pwd)
 
@@ -35,9 +35,6 @@ export PYTHONPATH := $(ABS_ROOT)/.python
 clear:
 	clear
 
-ok:
-	@echo "Ok: done"
-
 clean:
 	rm -f "$(PUBLISH)/dev-config.json"
 	rm -fr built
@@ -54,16 +51,6 @@ dump:
 	@echo ""
 	@echo "PATH:              $(PATH)"
 	@echo "PYTHONPATH:        $(PYTHONPATH)"
-
-dump-runtimes: dependencies
-	@type ansible | grep "$(ABS_ROOT)/"
-	@ansible --version
-
-	@type ansible-lint | grep "$(ABS_ROOT)/"
-	@ansible-lint --version
-
-	@type ansible-playbook | grep "$(ABS_ROOT)/"
-	@ansible-playbook --version
 
 dependencies: .python/.built \
 	built/encryption-key \
@@ -96,6 +83,15 @@ built/ssh-key:
 		fi \
 	fi
 
+dump-runtimes: dependencies
+	@type ansible | grep "$(ABS_ROOT)/"
+	@ansible --version
+
+	@type ansible-lint | grep "$(ABS_ROOT)/"
+	@ansible-lint --version
+
+	@type ansible-playbook | grep "$(ABS_ROOT)/"
+	@ansible-playbook --version
 
 lint: dependencies
 	ansible-lint
@@ -141,3 +137,6 @@ $(PUBLISH)/dev-config.json: tmp/dev-config.json
 	mkdir -p "$(dir $@)"
 	cp -f tmp/dev-config.json "$@"
 	touch "$@"
+
+ok:
+	@echo "Ok: done"
