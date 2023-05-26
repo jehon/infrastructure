@@ -18,7 +18,7 @@ apt_install \
     python3 python3-pip \
     python3-netaddr python3-passlib python3-apt default-libmysqlclient-dev 
 
-mkdir --mode=0777 tmp
+mkdir --mode=0777 -p tmp
 curl -fsSL https://jehon.github.io/packages/jehon.deb -o tmp/jehon.deb
 apt_install ./tmp/jehon.deb
 
