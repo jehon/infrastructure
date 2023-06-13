@@ -96,7 +96,7 @@ if args.ip:
 match args.action:
     case "setup":
         True
-    case "init":
+    case "init" | "bootstrap ":
         print("************")
         print("************ base image *****************")
         print("************")
