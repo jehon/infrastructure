@@ -2,8 +2,9 @@
 
 import argparse
 import os
+import subprocess
 
-from jehon.system import jh
+import jehon.display as jdi
 
 ####################################
 #
@@ -23,7 +24,7 @@ parser.set_defaults(
 )
 parser.add_argument('--host', help='target host', required=True)
 parser.add_argument('--action', help='Target action', choices=[ "init", "setup" ])
-parser.add_argument('--playbooks', help='Override playbook')
+parser.add_argument('playbooks',  nargs='+', help='Override playbook')
 
 parser.add_argument('--ip', help='Target IP host')
 parser.add_argument('-u', '--ssh-user', help='Override SSH username')
@@ -31,22 +32,22 @@ parser.add_argument('-p', '--ssh-password', help='Override SSH password')
 
 args=parser.parse_args()
 # print(args)
+# exit(1)
 
 ####################################
 #
 # Playbooks
 #
 if args.playbooks:
-    playbooks=args.playbooks.split(",")
-
-jh.info("Selected playbooks: " + " ".join(playbooks))
+    playbooks = args.playbooks
+jdi.info("Selected playbooks: " + " ".join(playbooks))
 
 ####################################
 #
 # Set the host
 #
 host=args.host
-jh.info("Selected host: " + host)
+jdi.info("Selected host: " + host)
 ansibleArgs.append("--limit")
 ansibleArgs.append(host)
 
@@ -82,8 +83,11 @@ if args.ssh_password:
 if args.ip:
     ansibleArgs.append("-e")
     ansibleArgs.append("ansible_host=" + args.ip)
-    jh.shell([ "/usr/bin/jh-ssh-update-key", args.ip ], header="reset ip")
-    jh.shell([ "/usr/bin/jh-ssh-update-key", host ], header="reset host")
+    with jdi.header("reset ip"):
+        subprocess.run([ "/usr/bin/jh-ssh-update-key", args.ip ], check=True)
+
+    with jdi.header("reset host"):
+        subprocess.run([ "/usr/bin/jh-ssh-update-key", host ], check=False)
 
 ####################################
 #
@@ -109,6 +113,6 @@ jh.shell([ "bin/jh-ansible-setup" ], cwd=prjRoot)
 # print(ansibleArgs)
 
 jh.shell([ os.path.join(prjRoot, ".python/bin/ansible-playbook") ] + ansibleArgs + playbooks,
-  cwd=os.path.join(prjRoot), 
+  cwd=os.path.join(prjRoot),
   env={ "PYTHONPATH": os.path.join(prjRoot, ".python") }
 )
