@@ -5,8 +5,8 @@
   ansible.builtin.package_facts:
     manager: auto
 
-- name: Guess os for jehon-os package
-  when: jehon_os_package is undefined or jehon_os_package | length == 0
+- name: Guess os
+  when: jehon_os is undefined or jehon_os | length == 0
   block:
     - name: Ensure lsb_module is installed
       ansible.builtin.apt:
@@ -23,12 +23,12 @@
     - name: Calculate os name from ansible_lsb.id
       when: ansible_lsb.id | length > 0
       ansible.builtin.set_fact:
-        jehon_os_package: "jehon-os-{{ ansible_lsb.id | lower }}"
+        jehon_os: "{{ ansible_lsb.id | lower }}"
 
-    - name: Fallback jehon_os_package
+    - name: Fallback jehon_os
       ansible.builtin.set_fact:
-        jehon_os_package: ""
+        jehon_os: ""
 
-- name: What is jehon_os_package?
+- name: What is jehon_os?
   debug:
-    var: jehon_os_package
+    var: jehon_os

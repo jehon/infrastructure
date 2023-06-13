@@ -2,6 +2,7 @@
 all:
   vars:
     virtual: false
+    jehon_os: debian
   hosts:
     dev:
       # ansible_host is defined by script
