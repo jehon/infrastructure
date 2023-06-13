@@ -11,7 +11,6 @@ import jehon.display as jdi
 # Variables
 #
 ansibleArgs=[]
-playbooks=[ "infos.yml", "upgrade.yml", "setup.yml" ]
 prjRoot=os.path.dirname(os.path.dirname(__file__))
 
 ####################################
@@ -23,8 +22,8 @@ parser.set_defaults(
     action="setup",
 )
 parser.add_argument('--host', help='target host', required=True)
-parser.add_argument('--action', help='Target action', choices=[ "init", "setup" ])
-parser.add_argument('playbooks',  nargs='+', help='Override playbook')
+parser.add_argument('action', help='Target action', choices=[ "init", "setup" ])
+parser.add_argument('playbooks',  nargs='*', help='Override playbook', default=[ "infos.yml", "upgrade.yml", "setup.yml" ])
 
 parser.add_argument('--ip', help='Target IP host')
 parser.add_argument('-u', '--ssh-user', help='Override SSH username')
@@ -36,20 +35,11 @@ args=parser.parse_args()
 
 ####################################
 #
-# Playbooks
-#
-if args.playbooks:
-    playbooks = args.playbooks
-jdi.info("Selected playbooks: " + " ".join(playbooks))
-
-####################################
-#
 # Set the host
 #
-host=args.host
-jdi.info("Selected host: " + host)
+jdi.info("Selected host: " + args.host)
 ansibleArgs.append("--limit")
-ansibleArgs.append(host)
+ansibleArgs.append(args.host)
 
 #
 # Host specific config
@@ -87,7 +77,7 @@ if args.ip:
         subprocess.run([ "/usr/bin/jh-ssh-update-key", args.ip ], check=True)
 
     with jdi.header("reset host"):
-        subprocess.run([ "/usr/bin/jh-ssh-update-key", host ], check=False)
+        subprocess.run([ "/usr/bin/jh-ssh-update-key", args.host ], check=False)
 
 ####################################
 #
@@ -106,13 +96,16 @@ match args.action:
         # ansibleArgs.append("-e")
         # ansibleArgs.append("host_key_checking=false")
 
-        playbooks.append("reboot.yml")
+        args.playbooks.append("reboot.yml")
 
-jh.shell([ "bin/jh-ansible-setup" ], cwd=prjRoot)
+# jh.shell([ "bin/jh-ansible-setup" ], cwd=prjRoot)
 
-# print(ansibleArgs)
+jdi.info("Selected playbooks: " + " ".join(args.playbooks))
 
-jh.shell([ os.path.join(prjRoot, ".python/bin/ansible-playbook") ] + ansibleArgs + playbooks,
-  cwd=os.path.join(prjRoot),
-  env={ "PYTHONPATH": os.path.join(prjRoot, ".python") }
-)
+with jdi.header("run"):
+    subprocess.run(
+            [ os.path.join(prjRoot, ".python/bin/ansible-playbook") ] + ansibleArgs + args.playbooks,
+            cwd=os.path.join(prjRoot),
+            env={ "PYTHONPATH": os.path.join(prjRoot, ".python") },
+            check=True
+        )
