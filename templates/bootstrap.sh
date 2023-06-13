@@ -11,7 +11,7 @@ echo "Bootstrapping the system..."
 export DEBIAN_FRONTEND=noninteractive
 
 wget https://jehon.github.io/packages/jehon.deb -O jehon.deb
-dpkg -i ./jehon.deb
+apt install --yes  --fix-broken ./jehon.deb
 
 #
 # We have the jh-lib etc... installed
