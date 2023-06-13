@@ -25,17 +25,6 @@ fire:
   type: "video/mp4"
   path: "/mnt/cloud/videos/Fire/fire.720.1h.mp4"
 
-camera:
-  intervalSeconds: 15
-  nbCheck: 2
-  hardware:
-    host: "{{ jehon.ip.camera | ansible.utils.ipwrap }}"
-    username: "{{ jehon.credentials.camera.username }}"
-    password: "{{ jehon.credentials.camera.password }}"
-    position:
-      left: 1700
-      down: 150
-
 clock:
   # cron is: "min hour dom month[0-11?] dow[0-6]"
   tickers:
@@ -53,7 +42,7 @@ menu:
   - label: "Météo"
     url: "https://www.meteo.be/fr/havelange"
     icon: "http://www.meteo.be/meteo/html/2011/img/weather_klein/300.png"
-  
+
   - label: "Système"
     url: "http://localhost:53466/cgi-bin/checks"
     icon: "https://upload.wikimedia.org/wikipedia/commons/8/86/Utilities-system-monitor.svg"

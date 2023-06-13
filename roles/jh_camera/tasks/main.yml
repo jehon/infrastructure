@@ -1,9 +1,0 @@
----
-
-- name: Install jh-camera-start script
-  ansible.builtin.template:
-    src: "jh-camera-start"
-    dest: /etc/jehon/restricted/jh-camera-start
-    owner: root
-    group: jh_secrets
-    mode: "0755"

@@ -62,10 +62,6 @@
         enabled: true
         state: started
 
-    - name: Add jh_camera
-      ansible.builtin.include_role:
-        name: jh_camera
-
 #
 # User side
 #
