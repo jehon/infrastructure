@@ -33,6 +33,15 @@ args=parser.parse_args()
 # print(args)
 # exit(1)
 
+def run_ansible(title: str, playbooks: list[str], ansibleArgs: list[str]):
+    with jdi.header(title):
+        jshell.run(
+                [ os.path.join(prjRoot, ".python/bin/ansible-playbook") ] + ansibleArgs + playbooks,
+                cwd=os.path.join(prjRoot),
+                env={ "PYTHONPATH": os.path.join(prjRoot, ".python") }
+            )
+
+
 ####################################
 #
 # Set the host
@@ -102,10 +111,4 @@ match args.action:
 
 jdi.info("Selected playbooks: " + " ".join(args.playbooks))
 
-with jdi.header("run"):
-    subprocess.run(
-            [ os.path.join(prjRoot, ".python/bin/ansible-playbook") ] + ansibleArgs + args.playbooks,
-            cwd=os.path.join(prjRoot),
-            env={ "PYTHONPATH": os.path.join(prjRoot, ".python") },
-            check=True
-        )
+run_ansible('run', args.playbooks, ansibleArgs)
