@@ -5,6 +5,7 @@ import os
 import subprocess
 
 import jehon.display as jdi
+import jehon.shell as jshell
 
 ####################################
 #
@@ -102,10 +103,12 @@ match args.action:
         print("************ Debian 64 bits Lite")
         print("************")
 
-        # ansibleArgs.append("-e")
-        # ansibleArgs.append("host_key_checking=false")
+        run_ansible('run', [ "infos.yml", "bootstrap.yml" ], ansibleArgs)
 
-        args.playbooks.append("reboot.yml")
+        with jdi.header("ssh"):
+            jshell.run([ "ssh", args.ip, "-l", args.ssh_user, "sudo ./bootstrap.sh" ])
+
+        exit(0)
 
 # jh.shell([ "bin/jh-ansible-setup" ], cwd=prjRoot)
 
