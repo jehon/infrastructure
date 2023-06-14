@@ -114,7 +114,8 @@ tmp/dev-config.json: tmp/.built
 test: tmp/tests/.built \
 		tmp/00-parameters.yml
 
-	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/
+	vagrant up
+# run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/
 
 tmp/tests/.built: \
 		.devcontainer/setup.sh
