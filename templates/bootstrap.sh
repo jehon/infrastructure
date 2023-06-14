@@ -23,14 +23,14 @@ apt install --yes  --fix-broken ./jehon.deb
 apt --quiet --yes update | jh-tag-stdin "jehon/update"
 apt --yes full-upgrade | jh-tag-stdin "jehon/full-upgrade"
 
-if [ -n "{{ jehon_hardware_package }}" ]; then
-    apt --yes install "{{ jehon_hardware_package }}" | jh-tag-stdin "{{ jehon_hardware_package }}/install"
-    apt --quiet --yes update | jh-tag-stdin "{{ jehon_hardware_package }}/update"
-fi
-
 if [ -n "{{ jehon_os_package }}" ]; then
     apt --yes install "{{ jehon_os_package }}" | jh-tag-stdin "{{ jehon_os_package }}/install"
     apt --quiet --yes update | jh-tag-stdin "{{ jehon_os_package }}/update"
+fi
+
+if [ -n "{{ jehon_hardware_package }}" ]; then
+    apt --yes install "{{ jehon_hardware_package }}" | jh-tag-stdin "{{ jehon_hardware_package }}/install"
+    apt --quiet --yes update | jh-tag-stdin "{{ jehon_hardware_package }}/update"
 fi
 
 apt --yes auto-remove | jh-tag-stdin "jehon/auto-remove"

@@ -36,20 +36,6 @@
           ansible.builtin.apt:
             update_cache: true
 
-    - name: Install jehon-hardware*.deb
-      when: jehon_hardware is defined and jehon_hardware | length > 0
-      block:
-        - name: "Ensure jehon-hardware is present for hardware {{ jehon_hardware }}"
-          ansible.builtin.apt:
-            pkg:
-              - "jehon-hardware-{{ jehon_hardware }}"
-          register: jh_common_hardware_installed
-
-        - name: Refresh indexes for jehon-hardware*.deb
-          when: jh_common_hardware_installed.changed
-          ansible.builtin.apt:
-            update_cache: true
-
     - name: Install jehon-os-*.deb
       block:
         - name: "Ensure jehon-os package is present for {{ jehon_os }}"
@@ -61,6 +47,20 @@
 
         - name: Refresh indexes for jehon-os*.deb
           when: jh_os_installed.changed
+          ansible.builtin.apt:
+            update_cache: true
+
+    - name: Install jehon-hardware*.deb
+      when: jehon_hardware is defined and jehon_hardware | length > 0
+      block:
+        - name: "Ensure jehon-hardware is present for hardware {{ jehon_hardware }}"
+          ansible.builtin.apt:
+            pkg:
+              - "jehon-hardware-{{ jehon_hardware }}"
+          register: jh_common_hardware_installed
+
+        - name: Refresh indexes for jehon-hardware*.deb
+          when: jh_common_hardware_installed.changed
           ansible.builtin.apt:
             update_cache: true
 
