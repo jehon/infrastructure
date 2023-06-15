@@ -2,7 +2,6 @@
 all:
   vars:
     virtual: false
-    jehon_os: debian
   hosts:
     dev:
       # ansible_host is defined by script
@@ -16,6 +15,7 @@ all:
         Photos: rw
         Videos: rw
       jehon_hardware: wsl
+      jehon_os: debian
     localhost:
       # Used by build-artifacts
       ansible_connection: local

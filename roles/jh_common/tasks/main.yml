@@ -37,9 +37,9 @@
             update_cache: true
 
     - name: Install jehon-os-*.deb
+      when: jehon_os is defined and jehon_os | length > 0
       block:
         - name: "Ensure jehon-os package is present for {{ jehon_os }}"
-          when: jehon_os | length > 0
           ansible.builtin.apt:
             pkg:
               - "jehon-os-{{ jehon_os }}"
