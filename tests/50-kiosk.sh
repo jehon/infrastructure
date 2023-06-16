@@ -14,8 +14,12 @@ set -o pipefail
 
 		set -x
 		type jh-lib
+
 		type node
+		node --version
+
 		type npm
+		npm --version
 
 		dpkg -l | grep "jehon-hardware-raspberrypi"
 
