@@ -107,7 +107,7 @@ match args.action:
 
         with jdi.header("ssh"):
             jshell.run(
-                [ "sshpass", "-e", "ssh", args.ip, "-l", args.ssh_user, "sudo ./bootstrap.sh" ],
+                [ "sshpass", "-e", "ssh", args.ip, "-l", args.ssh_user, "screen sudo ./bootstrap.sh" ],
                 env={ "SSHPASS": args.ssh_password }
             )
 
