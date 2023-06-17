@@ -93,9 +93,14 @@ if args.ip:
 #
 # Go action
 #
+
+# jh.shell([ "bin/jh-ansible-setup" ], cwd=prjRoot)
+
 match args.action:
     case "setup":
-        True
+        jdi.info("Selected playbooks: " + " ".join(args.playbooks))
+        run_ansible('run', args.playbooks, ansibleArgs)
+
     case "init" | "bootstrap ":
         print("************")
         print("************ base image *****************")
@@ -111,10 +116,6 @@ match args.action:
                 env={ "SSHPASS": args.ssh_password }
             )
 
-        exit(0)
-
-# jh.shell([ "bin/jh-ansible-setup" ], cwd=prjRoot)
-
-jdi.info("Selected playbooks: " + " ".join(args.playbooks))
-
-run_ansible('run', args.playbooks, ansibleArgs)
+    case _:
+        print("Unknown action: " + args.action)
+        exit(1)
