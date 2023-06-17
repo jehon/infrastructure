@@ -28,7 +28,7 @@ if [ -n "{{ jehon_os }}" ]; then
 fi
 
 if [ -n "{{ jehon_hardware }}" ]; then
-    apt --yes install "{{ jehon_hardware }}" | jh-tag-stdin "hardware/{{ jehon_hardware }}/install"
+    apt --yes install "jehon-hardware-{{ jehon_hardware }}" | jh-tag-stdin "hardware/{{ jehon_hardware }}/install"
     apt --quiet --yes update | jh-tag-stdin "hardware/{{ jehon_hardware }}/update"
 fi
 
