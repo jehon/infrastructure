@@ -9,30 +9,47 @@ set -o pipefail
 echo "Bootstrapping the system..."
 
 export DEBIAN_FRONTEND=noninteractive
+export LC_ALL=C
+export LANG=C
 
-wget https://jehon.github.io/packages/jehon.deb -O jehon.deb
-apt install --yes  --fix-broken ./jehon.deb
+apt_do() {
+    apt --yes --quiet -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew" --allow-downgrades "$@"
+}
 
-#
-# We have the jh-lib etc... installed
-#
+install_if() {
+    PKG="$1"
+    TAG="$2"
+    SYSTEM="$3"
 
-# shellcheck source=/dev/null
-. jh-lib
+    if [ -n "$TAG" ]; then
+        if dpkg -L | grep "$PKG" | grep "ii" >& /dev/null; then
+            echo "Package $PKG already installed"
+        else
+            apt_do install "$PKG" | jh-tag-stdin "$SYSTEM/$TAG/install"
+            apt_do update | jh-tag-stdin "$SYSTEM/$TAG/update"
+        fi
+    fi
+}
 
-apt --quiet --yes update | jh-tag-stdin "jehon/update"
+apt_do install --fix-broken
 
-if [ -n "{{ jehon_os }}" ]; then
-    apt --yes install "jehon-os-{{ jehon_os }}" | jh-tag-stdin "os/{{ jehon_os }}/install"
-    apt --quiet --yes update | jh-tag-stdin "os/{{ jehon_os }}/update"
+if dpkg -L | grep "jehon" | grep "ii" >& /dev/null; then
+    echo "Package jehon already installed"
+else
+    wget https://jehon.github.io/packages/jehon.deb -O jehon.deb
+    apt_do install ./jehon.deb
+    #
+    # We have the jh-lib etc... installed
+    #
+    apt_do update | jh-tag-stdin "jehon/update"
 fi
 
-if [ -n "{{ jehon_hardware }}" ]; then
-    apt --yes install "jehon-hardware-{{ jehon_hardware }}" | jh-tag-stdin "hardware/{{ jehon_hardware }}/install"
-    apt --quiet --yes update | jh-tag-stdin "hardware/{{ jehon_hardware }}/update"
-fi
 
-apt --yes full-upgrade | jh-tag-stdin "full-upgrade"
-apt --yes auto-remove | jh-tag-stdin "auto-remove"
+install_if "jehon-hardware-{{ jehon_hardware }}" "{{ jehon_hardware }}" "hardware"
+install_if "jehon-hardware-{{ jehon_hardware }}" "{{ jehon_hardware }}" "hardware"
 
-echo "Ok"
+apt_do full-upgrade | jh-tag-stdin "full-upgrade"
+apt_do auto-remove | jh-tag-stdin "auto-remove"
+
+echo "Ok... rebooting"
+reboot
