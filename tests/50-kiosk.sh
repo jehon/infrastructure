@@ -24,7 +24,7 @@ set -o pipefail
 		dpkg -l | grep "jehon-hardware-raspberrypi"
 
 		test -r /opt/jehon/kiosk/package.json
-		/etc/cron.daily/jh-kiosk-daily /opt/jehon/kiosk/tests/kiosk.yml
+		/etc/cron.daily/jehon-kiosk-daily /opt/jehon/kiosk/tests/kiosk.yml
 
 		jh-checks | jh-tag-stdin "checks" || true
 	EOS

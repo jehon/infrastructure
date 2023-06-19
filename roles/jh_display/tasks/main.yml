@@ -9,7 +9,7 @@
         state: present
         options:
           - daemon=true
-      notify: jh-display.restart
+      notify: jehon-display.restart
 
     - name: "Ensure installed snap {{ display_snap }}"
       community.general.snap:
@@ -20,4 +20,4 @@
           - devmode=true
           - error-to-console=true
           - "url=http://localhost:{{ display_localhost_port }}"
-      notify: jh-display.restart
+      notify: jehon-display.restart

@@ -2,5 +2,5 @@
 
 - name: Do jh_display.restart
   when: not virtual
-  listen: jh-display.restart
+  listen: jehon-display.restart
   ansible.builtin.command: snap restart {{ display_snap | quote }}

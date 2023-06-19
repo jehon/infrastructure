@@ -34,11 +34,11 @@
     - name: Select pictures
       when: not virtual
       ansible.builtin.command:
-        cmd: /etc/cron.daily/jh-kiosk-daily
+        cmd: /etc/cron.daily/jehon-kiosk-daily
 
 - name: Set Systemd for kiosk
   ansible.builtin.systemd:
-    name: jh-kiosk
+    name: jehon-kiosk
     enabled: true
     state: started
   when: not virtual

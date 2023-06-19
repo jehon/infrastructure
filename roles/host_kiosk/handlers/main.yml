@@ -10,5 +10,5 @@
   when: not virtual
   listen: host_kiosk.restart-kiosk
   ansible.builtin.systemd:
-    name: jh-kiosk
+    name: jehon-kiosk
     state: restarted
