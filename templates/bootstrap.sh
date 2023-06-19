@@ -47,9 +47,22 @@ else
     apt_do update | jh-tag-stdin "jehon/update"
 fi
 
+if [ -n "{{ fixed_ip }}" ]; then
+    echo "Generating netplan configuration"
+    cat > /etc/netplan/eth0-fixed.yaml <<-EOF
+#
+# bootstrap generated file
+#
+
+network:
+    version: 2
+    ethernets:
+
+EOF
+fi
 
 install_if "jehon-hardware-{{ jehon_hardware }}" "{{ jehon_hardware }}" "hardware"
-install_if "jehon-hardware-{{ jehon_hardware }}" "{{ jehon_hardware }}" "hardware"
+install_if "jehon-os-{{ jehon_os }}" "{{ jehon_os }}" "os"
 
 apt_do full-upgrade | jh-tag-stdin "full-upgrade"
 apt_do auto-remove | jh-tag-stdin "auto-remove"
