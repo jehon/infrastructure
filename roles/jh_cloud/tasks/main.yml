@@ -14,16 +14,14 @@
       ansible.builtin.apt:
         name: rclone>=1.60
 
-    - name: "Config file"
-      block:
-        - name: "Install config ({{ cloud_type }})"
-          ansible.builtin.template:
-            src: "{{ cloud_type }}.conf"
-            dest: /etc/jehon/rclone.conf
-            owner: root
-            group: root
-            mode: "0644"
-          notify: jh_cloud.remount
+    - name: "Install config ({{ cloud_type }})"
+      ansible.builtin.template:
+        src: "{{ cloud_type }}.conf"
+        dest: /etc/jehon/rclone.conf
+        owner: root
+        group: root
+        mode: "0644"
+      notify: jh_cloud.remount
 ## ELSE ##
 - name: "Remove config"
   when: cloud_type | length == 0
