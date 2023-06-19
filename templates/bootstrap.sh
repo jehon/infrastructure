@@ -31,6 +31,9 @@ install_if() {
     fi
 }
 
+#
+# Without jh-tag-stdin...
+#
 apt_do install --fix-broken
 
 if dpkg -L | grep "jehon" | grep "ii" >& /dev/null; then
