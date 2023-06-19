@@ -7,8 +7,10 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'
+  repository_dispatch:
+    types: packages-updated
 
-concurrency: 
+concurrency:
   group: release-${{ github.ref_name }}
   # cancel-in-progress: true
 
