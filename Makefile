@@ -2,7 +2,7 @@
 
 #
 #
-# Depends on: 
+# Depends on:
 #     ansible/*
 #
 # Generate:
@@ -42,7 +42,7 @@ clean:
 	rm -fr .python
 	docker ps | ( grep test-ansible || true ) | awk '{print $$1}' | xargs --no-run-if-empty -- docker kill
 	docker image list --filter 'reference=test-ansible/*' --format '{{.Repository}}:{{.Tag}}' | xargs --no-run-if-empty -- docker image rm -f
-	docker volume list --quiet | ( grep 'test-ansible' || true ) | xargs --no-run-if-empty -- docker rm -f 
+	docker volume list --quiet | ( grep 'test-ansible' || true ) | xargs --no-run-if-empty -- docker rm -f
 
 dump:
 	@echo "ABS_ROOT:          $(ABS_ROOT)"
@@ -56,7 +56,7 @@ dependencies: .python/.built \
 	built/encryption-key \
 	built/ssh-key
 
-.python/.built:
+.python/.built: requirements.txt
 # pytest: lint
 	pip install --upgrade --target "$(ABS_ROOT)"/.python -r requirements.txt
 	touch "$@"
