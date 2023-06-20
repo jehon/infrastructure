@@ -13,3 +13,9 @@
         src: "templates/bootstrap.sh"
         dest: "bootstrap.sh"
         mode: "0755"
+
+    - name: Upload jehon.deb
+      ansible.builtin.get_url:
+        url: "https://jehon.github.io/packages/jehon.deb"
+        dest: "jehon.deb"
+        mode: "0644"

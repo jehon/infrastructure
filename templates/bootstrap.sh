@@ -34,12 +34,14 @@ install_if() {
 #
 # Without jh-tag-stdin...
 #
+echo "************* System updating.... *************"
 apt_do install --fix-broken
+apt_do full-upgrade
+echo "************* System updated *************"
 
 if dpkg -L | grep "jehon" | grep "ii" >& /dev/null; then
-    echo "Package jehon already installed"
+    echo "* Package jehon already installed"
 else
-    wget https://jehon.github.io/packages/jehon.deb -O jehon.deb
     apt_do install ./jehon.deb
     #
     # We have the jh-lib etc... installed
@@ -47,8 +49,12 @@ else
     apt_do update | jh-tag-stdin "jehon/update"
 fi
 
+# shellcheck source=/usr/bin/jh-lib
+. jh-lib
+jh_info "jh-lib loaded"
+
 if [ -n "{{ fixed_ip }}" ]; then
-    echo "Generating netplan configuration"
+    jh_info "Generating netplan configuration"
     cat > /etc/netplan/eth0-fixed.yaml <<-EOF
 #
 # bootstrap generated file
@@ -57,9 +63,32 @@ if [ -n "{{ fixed_ip }}" ]; then
 network:
     version: 2
     ethernets:
+        eth0:
+            addresses:
+              - {{ fixed_ip }}/24
+            routes:
+              - to: 0.0.0.0
+                via: {{ jehon.ip.gateway }}
+            nameservers:
+                addresses:
+                  - {{ jehon.ip.gateway }}
+                  - 8.8.8.8
+            # dhcp4: false
 
 EOF
 fi
+
+header_begin "Try the netplan configuration"
+netplan try --timeout=5 |& jh-tag-stdin "netplan/try"
+header_end
+
+header_begin "Apply the netplan configuration"
+netplan apply |& jh-tag-stdin "netplan/apply"
+header_end
+
+header_begin "Restart ssh (enable key authentication)"
+systemctl restart sshd
+header_end
 
 install_if "jehon-hardware-{{ jehon_hardware }}" "{{ jehon_hardware }}" "hardware"
 install_if "jehon-os-{{ jehon_os }}" "{{ jehon_os }}" "os"
