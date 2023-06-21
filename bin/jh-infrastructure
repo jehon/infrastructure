@@ -24,7 +24,7 @@ parser.set_defaults(
 )
 parser.add_argument('--host', help='target host', required=True)
 parser.add_argument('action', help='Target action', choices=[ "init", "setup" ])
-parser.add_argument('playbooks',  nargs='*', help='Override playbook', default=[ "infos.yml", "upgrade.yml", "setup.yml" ])
+parser.add_argument('playbooks',  nargs='*', help='Override playbook', default=[ "infos.yml", "setup.yml" ])
 
 parser.add_argument('--ip', help='Target IP host')
 parser.add_argument('-u', '--ssh-user', help='Override SSH username')
