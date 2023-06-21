@@ -2,5 +2,5 @@
 argument_specs:
   main:
     options:
-      fixed_ip:
+      jehon_ip:
         type: string

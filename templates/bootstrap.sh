@@ -40,7 +40,7 @@ echo "**************************************************************************
 echo "**************************************************************************************************"
 echo "*****"
 echo "*****"
-echo "***** Fixed ip:  {{ fixed_ip }}"
+echo "***** Fixed ip:  {{ jehon_ip }}"
 echo "***** Gateway:   {{ jehon.ip.gateway }}"
 echo "*****"
 echo "***** Harware:   {{ jehon_hardware }}"
@@ -71,7 +71,7 @@ fi
 . jh-lib
 jh_info "jh-lib loaded"
 
-if [ -n "{{ fixed_ip }}" ]; then
+if [ -n "{{ jehon_ip }}" ]; then
     jh_info "Generating netplan configuration"
     cat > /etc/netplan/eth0-fixed.yaml <<-EOF
 #
@@ -83,7 +83,7 @@ network:
     ethernets:
         eth0:
             addresses:
-              - {{ fixed_ip }}/24
+              - {{ jehon_ip }}/24
             routes:
               - to: 0.0.0.0
                 via: {{ jehon.ip.gateway }}

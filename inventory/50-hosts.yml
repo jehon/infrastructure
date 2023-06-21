@@ -3,8 +3,9 @@ all:
   vars:
     # Avoid undefined:
     virtual: false
-    jehon_os:
+    jehon_ip:
     jehon_hardware:
+    jehon_os:
   hosts:
     dev:
       # ansible_host is defined by script
@@ -26,7 +27,7 @@ all:
     kiosk:
       ansible_host: "{{ jehon.ip.kiosk }}"
       display_localhost_port: 5454
-      fixed_ip: "{{ jehon.ip.kiosk }}"
+      jehon_ip: "{{ jehon.ip.kiosk }}"
       jehon_hardware: raspberrypi
       jehon_os: debian
       synology:
@@ -35,7 +36,7 @@ all:
     piscine:
       ansible_host: "{{ jehon.ip.piscine }}"
       display_localhost_port: 8800
-      fixed_ip: "{{ jehon.ip.piscine }}"
+      jehon_ip: "{{ jehon.ip.piscine }}"
       jehon_hardware: raspberrypi
       jehon_os: debian
       synology:

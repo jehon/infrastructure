@@ -9,9 +9,8 @@
 #
 
 - name: Setup Lan
-  when: fixed_ip | length > 0 and not virtual
-  block:
-    # - name: Install needed network manager libs
+  when: jehon_ip | length > 0 and not virtual
+  block:    # - name: Install needed network manager libs
     #   ansible.builtin.package:
         # name:
         #     - NetworkManager-libnm
@@ -28,7 +27,7 @@
 
     - name: Dump the target ips
       ansible.builtin.debug:
-        msg: "{{ [ansible_ssh_host, fixed_ip] | ansible.utils.ipv4 | ansible.builtin.unique }}"
+        msg: "{{ [ansible_ssh_host, jehon_ip] | ansible.utils.ipv4 | ansible.builtin.unique }}"
 
     #
     # nmtui will only apply change on reboot
@@ -36,13 +35,13 @@
     #
     # BUT we need to reboot afterward ==> add reboot.yml on first run
     #
-    - name: "Set fixed ip address {{ fixed_ip }}"
+    - name: "Set fixed ip address {{ jehon_ip }}"
       community.general.nmcli:
         type: ethernet
         conn_name: 'eth0'
         # https://docs.ansible.com/ansible/latest/collections/ansible/utils/docsite/filters_ipaddr.html#filtering-lists
         # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/unique_filter.html
-        ip4: '{{ [ansible_ssh_host, fixed_ip] | ansible.utils.ipv4 | ansible.builtin.unique }}'
+        ip4: '{{ [ansible_ssh_host, jehon_ip] | ansible.utils.ipv4 | ansible.builtin.unique }}'
         gw4: '{{ jehon.ip.gateway }}'
         dns4:
           - '{{ jehon.ip.gateway }}'
