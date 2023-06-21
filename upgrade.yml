@@ -24,3 +24,4 @@
         if [ -x /usr/bin/jh-repository-update ]; then
           /usr/bin/jh-repository-update
         fi
+      changed_when: true

@@ -3,7 +3,7 @@
 # https://ansible-lint.readthedocs.io/configuring/#using-local-configuration-files
 
 # null, min, basic, moderate,safety, shared, production
-profile: basic
+profile: production
 
 exclude_paths:
   - .git

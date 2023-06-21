@@ -10,7 +10,7 @@
         name: jh_init
 
     - name: Debug jehon
-      debug:
+      ansible.builtin.debug:
         var: jehon
 
     - name: Display all variables/facts known for a host

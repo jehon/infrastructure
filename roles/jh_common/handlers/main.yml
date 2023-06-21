@@ -1,0 +1,7 @@
+---
+
+- name: Update indexes
+  listen: jehon_common.indexes
+  ansible.builtin.apt:
+    update_cache: true
+  changed_when: false

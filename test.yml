@@ -13,3 +13,4 @@
 
     - name: Check that we are still connected
       ansible.builtin.command: /usr/bin/true
+      changed_when: false

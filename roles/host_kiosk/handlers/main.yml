@@ -5,6 +5,8 @@
   ansible.builtin.command:
     chdir: /opt/jehon/kiosk
     cmd: /usr/bin/jh-npm-update-if-necessary
+  register: host_kiosk_handler_update
+  changed_when: "'Updating' in host_kiosk_handler_update.stdout"
 
 - name: Restart kiosk
   when: not virtual

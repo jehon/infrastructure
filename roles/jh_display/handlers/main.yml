@@ -4,3 +4,4 @@
   when: not virtual
   listen: jehon-display.restart
   ansible.builtin.command: snap restart {{ display_snap | quote }}
+  changed_when: true

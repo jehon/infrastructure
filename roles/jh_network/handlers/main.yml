@@ -3,4 +3,6 @@
 - name: Restart netplan
   listen: jh_network.changed
   when: not virtual
-  shell: netplan apply
+  ansible.builtin.command:
+    cmd: netplan apply
+  changed_when: true

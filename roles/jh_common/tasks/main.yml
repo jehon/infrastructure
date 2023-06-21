@@ -43,12 +43,10 @@
           ansible.builtin.apt:
             pkg:
               - "jehon-os-{{ jehon_os }}"
-          register: jh_os_installed
+          notify: jehon_common.indexes
 
-        - name: Refresh indexes for jehon-os*.deb
-          when: jh_os_installed.changed
-          ansible.builtin.apt:
-            update_cache: true
+        - name: Refresh indexes for jehon-os
+          ansible.builtin.meta: flush_handlers
 
     - name: Install jehon-hardware*.deb
       when: jehon_hardware is defined and jehon_hardware | length > 0
@@ -57,12 +55,10 @@
           ansible.builtin.apt:
             pkg:
               - "jehon-hardware-{{ jehon_hardware }}"
-          register: jh_common_hardware_installed
+          notify: jehon_common.indexes
 
-        - name: Refresh indexes for jehon-hardware*.deb
-          when: jh_common_hardware_installed.changed
-          ansible.builtin.apt:
-            update_cache: true
+        - name: Refresh indexes for jehon-hardware
+          ansible.builtin.meta: flush_handlers
 
 - name: Setup networking
   ansible.builtin.include_role:
@@ -110,7 +106,7 @@
       community.general.ufw:
         state: enabled
 
-    - name: Add IP address to hosts
+    - name: Add IP address to /etc/hosts
       # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html
       ansible.builtin.lineinfile:
         dest: /etc/hosts

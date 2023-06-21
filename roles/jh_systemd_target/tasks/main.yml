@@ -19,3 +19,4 @@
     - name: Set default target to {{ target + ".target" }}
       ansible.builtin.command: "systemctl set-default {{ target }}.target"
       when: system_default_target.stdout != target + '.target'
+      changed_when: true
