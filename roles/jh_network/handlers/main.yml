@@ -1,0 +1,6 @@
+---
+
+- name: Restart netplan
+  listen: jh_network.changed
+  when: not virtual
+  shell: netplan apply
