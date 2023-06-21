@@ -6,9 +6,6 @@
 
   tasks:
     - name: Upload init script
-      # vars:
-      #   jehon_hardware_package: "jehon-hardware-{{ jehon_hardware }}"
-      #   jehon_os_package: "jehon-os-{{ jehon_os | default('debian') }}"
       ansible.builtin.template:
         src: "templates/bootstrap.sh"
         dest: "bootstrap.sh"

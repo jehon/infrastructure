@@ -37,7 +37,7 @@
             update_cache: true
 
     - name: Install jehon-os-*.deb
-      when: jehon_os is defined and jehon_os | length > 0
+      when: jehon_os | length > 0
       block:
         - name: "Ensure jehon-os package is present for {{ jehon_os }}"
           ansible.builtin.apt:
@@ -49,7 +49,7 @@
           ansible.builtin.meta: flush_handlers
 
     - name: Install jehon-hardware*.deb
-      when: jehon_hardware is defined and jehon_hardware | length > 0
+      when: jehon_hardware | length > 0
       block:
         - name: "Ensure jehon-hardware is present for hardware {{ jehon_hardware }}"
           ansible.builtin.apt:

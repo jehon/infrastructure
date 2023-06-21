@@ -6,7 +6,7 @@
     manager: auto
 
 # - name: Guess os
-#   when: jehon_os is undefined or jehon_os | length == 0
+#   when: jehon_os | length == 0
 #   block:
 #     - name: Ensure lsb_module is installed
 #       ansible.builtin.apt:

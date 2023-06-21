@@ -3,9 +3,9 @@ all:
   vars:
     # Avoid undefined:
     virtual: false
-    jehon_ip:
-    jehon_hardware:
-    jehon_os:
+    jehon_ip: ''
+    jehon_hardware: ''
+    jehon_os: ''
   hosts:
     dev:
       # ansible_host is defined by script
