@@ -1,8 +1,0 @@
-# See https://systemd.network/systemd.network.html
-
-[Match]
-Name=br0
-
-[Network]
-Address={{ ip }}/24
-Gateway={{ jehon.ip.gateway }}
