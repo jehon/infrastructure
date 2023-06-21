@@ -111,8 +111,7 @@ header_end
 install_if "jehon-hardware-{{ jehon_hardware }}" "{{ jehon_hardware }}" "hardware"
 install_if "jehon-os-{{ jehon_os }}" "{{ jehon_os }}" "os"
 
-apt_do full-upgrade | jh-tag-stdin "full-upgrade"
-apt_do auto-remove | jh-tag-stdin "auto-remove"
+/usr/sbin/jh-system-upgrade | jh-tag-stdin "jh-system-upgrade"
 
 echo "Ok... rebooting"
 reboot
