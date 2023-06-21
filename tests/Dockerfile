@@ -1,5 +1,5 @@
 
-FROM debian:testing
+FROM debian:stable
 
 ADD . /
 
