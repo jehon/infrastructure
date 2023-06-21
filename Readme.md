@@ -6,8 +6,6 @@ ansible kiosk -m setup
 
 https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html
 
-ansible-playbook upgrade.yml --limit vm
-
 ## Key order:
 
 name
@@ -18,7 +16,7 @@ register
 
 ## Roles
 
-debug: 
+debug:
 https://docs.ansible.com/ansible/latest/collections/ansible/builtin/debug_module.html
 
 custom:
