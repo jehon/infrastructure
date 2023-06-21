@@ -100,6 +100,13 @@ match args.action:
         jdi.info("Selected playbooks: " + " ".join(args.playbooks))
         run_ansible('run', args.playbooks, ansibleArgs)
 
+    case "upgrade":
+        jshell.ssh(
+                host=args.host,
+                cmd="sudo /usr/sbin/jh-system-upgrade full",
+                title="upgrade"
+            )
+
     case "init" | "bootstrap ":
         print("************")
         print("************ base image *****************")
