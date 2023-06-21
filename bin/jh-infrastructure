@@ -42,7 +42,6 @@ def run_ansible(title: str, playbooks: list[str], ansibleArgs: list[str]):
                 env={ "PYTHONPATH": os.path.join(prjRoot, ".python") }
             )
 
-
 ####################################
 #
 # Set the host
@@ -110,11 +109,13 @@ match args.action:
 
         run_ansible('run', [ "infos.yml", "bootstrap.yml" ], ansibleArgs)
 
-        with jdi.header("ssh"):
-            jshell.run(
-                [ "sshpass", "-e", "ssh", args.ip, "-l", args.ssh_user, "sudo ./bootstrap.sh" ],
-                env={ "SSHPASS": args.ssh_password }
-            )
+        jshell.ssh(
+            host=args.ip,
+            cmd="sudo ./bootstrap.sh",
+            title="ssh/bootstrap",
+            user=args.ssh_user,
+            password=args.ssh_password
+        )
 
     case _:
         print("Unknown action: " + args.action)
