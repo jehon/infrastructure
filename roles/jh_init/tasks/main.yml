@@ -29,6 +29,6 @@
 #       ansible.builtin.set_fact:
 #         jehon_os: ""
 
-- name: What is jehon_os?
-  debug:
-    var: jehon_os
+# - name: What is jehon_os?
+#   debug:
+#     var: jehon_os
