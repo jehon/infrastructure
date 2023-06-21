@@ -4,7 +4,7 @@
   when: ansible_pkg_mgr == "apt"
   block:
     - name: Install jehon.deb
-      when: '"jehon" not in ansible_facts.packages'
+      when: "'jehon' not in ansible_facts.packages"
       block:
         # We need this one to be installed first, because next line will depend on it
         - name: "Install package from the web"
