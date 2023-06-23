@@ -6,6 +6,7 @@ all:
     jehon_ip: ''
     jehon_hardware: ''
     jehon_os: ''
+    jehon_server: false
   hosts:
     dev:
       # ansible_host is defined by script
@@ -68,6 +69,7 @@ all:
           Musiques: ro
           Photos: ro
           Videos: ro
+        jehon_server: true
       hosts:
         kiosk:
         piscine:

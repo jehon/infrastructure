@@ -1,4 +1,19 @@
 ---
+- name: Configure users
+  block:
+    - name: Add secrets group
+      block:
+        - name: Add secrets group
+          ansible.builtin.group:
+            name: jh_secrets
+            state: present
+        - name: Create restricted folder
+          ansible.builtin.file:
+            path: /etc/jehon/restricted/
+            state: directory
+            owner: root
+            group: jh_secrets
+            mode: "0755"
 
 - name: Install packages
   when: ansible_pkg_mgr == "apt"
@@ -39,25 +54,11 @@
         - name: Refresh indexes for jehon-hardware
           ansible.builtin.meta: flush_handlers
 
-- name: Setup networking
-  ansible.builtin.include_role:
-    name: jh_network
-
-- name: Configure users
-  block:
-    - name: Add secrets group
-      block:
-        - name: Add secrets group
-          ansible.builtin.group:
-            name: jh_secrets
-            state: present
-        - name: Create restricted folder
-          ansible.builtin.file:
-            path: /etc/jehon/restricted/
-            state: directory
-            owner: root
-            group: jh_secrets
-            mode: "0755"
+    - name: "Ensure jehon-service-server is present"
+      when: jehon_server
+      ansible.builtin.apt:
+        pkg:
+          - "jehon-service-server"
 
     - name: Add jh_pcloud
       ansible.builtin.include_role:
@@ -67,6 +68,10 @@
       ansible.builtin.include_role:
         name: jh_display
       when: display_localhost_port is defined
+
+- name: Setup networking
+  ansible.builtin.include_role:
+    name: jh_network
 
 - name: In full machine
   when: not virtual
