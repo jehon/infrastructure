@@ -2,11 +2,12 @@
 
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_facts_module.html
 - name: Get installed packages
+  when: ansible_pkg_mgr == "apt"
   ansible.builtin.package_facts:
     manager: auto
 
 # - name: Guess os
-#   when: jehon_os | length == 0
+#   when: jehon_os | length == 0 and ansible_pkg_mgr == "apt"
 #   block:
 #     - name: Ensure lsb_module is installed
 #       ansible.builtin.apt:
@@ -29,6 +30,6 @@
 #       ansible.builtin.set_fact:
 #         jehon_os: ""
 
-# - name: What is jehon_os?
-#   debug:
-#     var: jehon_os
+- name: What is jehon_os?
+  debug:
+    var: jehon_os
