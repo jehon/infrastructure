@@ -20,7 +20,6 @@ all:
         Photos: rw
         Videos: rw
       jehon_hardware: wsl
-      jehon_os: debian
     localhost:
       # Used by build-artifacts
       ansible_connection: local
@@ -30,7 +29,6 @@ all:
       display_localhost_port: 5454
       jehon_ip: "{{ jehon.ip.kiosk }}"
       jehon_hardware: raspberrypi
-      jehon_os: debian
       synology:
         username: "{{ jehon.credentials.synology.kiosk.username }}"
         password: "{{ jehon.credentials.synology.kiosk.password }}"
@@ -39,7 +37,6 @@ all:
       display_localhost_port: 8800
       jehon_ip: "{{ jehon.ip.piscine }}"
       jehon_hardware: raspberrypi
-      jehon_os: debian
       synology:
         username: "{{ jehon.credentials.synology.piscine.username }}"
         password: "{{ jehon.credentials.synology.piscine.password }}"
