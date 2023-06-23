@@ -12,6 +12,8 @@
     - name: Install packages (rclone)
       when: ansible_pkg_mgr == "apt"
       ansible.builtin.apt:
+        # In raspberry pi, rclone depend on libc wich is not available in default raspi repo
+        default_release: stable
         name: rclone>=1.60
 
     - name: "Install config ({{ cloud_type }})"
