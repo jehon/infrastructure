@@ -26,7 +26,7 @@ parser.set_defaults(
     action="setup",
 )
 parser.add_argument('--host', help='target host', required=True)
-parser.add_argument('action', help='Target action', choices=[ "init", "setup" ])
+parser.add_argument('action', help='Target action', choices=[ "dump", "init", "setup", "upgrade" ])
 parser.add_argument('playbooks',  nargs='*', help='Override playbook', default=[ "infos.yml", "setup.yml" ])
 
 parser.add_argument('--ip', help='Target IP host')
@@ -99,14 +99,10 @@ if args.ip:
 # jh.shell([ "bin/jh-ansible-setup" ], cwd=prjRoot)
 
 match args.action:
-    case "init" | "bootstrap ":
-        print("************")
-        print("************ base image *****************")
-        print("************")
-        print("************ Debian 64 bits Lite")
-        print("************")
+    case "dump":
+        run_ansible('run', [ "dump.yml" ], ansibleArgs)
 
-        run_ansible('run', [ "infos.yml", "bootstrap.yml" ], ansibleArgs)
+    case "init" | "bootstrap ":
 
         jshell.ssh(
             host=args.ip,
