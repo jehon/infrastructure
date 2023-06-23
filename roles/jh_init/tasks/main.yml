@@ -5,29 +5,3 @@
   when: ansible_pkg_mgr == "apt"
   ansible.builtin.package_facts:
     manager: auto
-
-- name: Guess os
-  when: jehon_os | length == 0
-  block:
-    - name: Ensure lsb_module is installed
-      when: ansible_pkg_mgr == "apt"
-      ansible.builtin.apt:
-        pkg:
-          - lsb-release
-      notify: jehon_init.lsb_release
-
-    - name: Recalculate the lsb_release infos
-      ansible.builtin.meta: flush_handlers
-
-    - name: Calculate os name from ansible_lsb.id
-      when: "'id' in ansible_lsb and ansible_lsb.id | length > 0"
-      ansible.builtin.set_fact:
-        jehon_os: "{{ ansible_lsb.id | lower }}"
-
-    - name: Fallback jehon_os
-      ansible.builtin.set_fact:
-        jehon_os: ""
-
-- name: What is jehon_os?
-  ansible.builtin.debug:
-    var: jehon_os

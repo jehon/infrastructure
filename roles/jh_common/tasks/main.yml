@@ -30,18 +30,6 @@
         - name: Refresh indexes for jehon
           ansible.builtin.meta: flush_handlers
 
-    - name: Install jehon-os-*.deb
-      when: jehon_os | length > 0
-      block:
-        - name: "Ensure jehon-os package is present for {{ jehon_os }}"
-          ansible.builtin.apt:
-            pkg:
-              - "jehon-os-{{ jehon_os }}"
-          notify: jehon_common.indexes
-
-        - name: Refresh indexes for jehon-os
-          ansible.builtin.meta: flush_handlers
-
     - name: Install jehon-hardware*.deb
       when: jehon_hardware | length > 0
       block:
