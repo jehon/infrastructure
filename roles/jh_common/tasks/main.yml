@@ -7,7 +7,7 @@
       when: "'jehon' not in ansible_facts.packages"
       block:
         # We need this one to be installed first, because next line will depend on it
-        - name: "Install package from the web"
+        - name: "Install jehon.deb from the web"
           ansible.builtin.apt:
             deb: "https://jehon.github.io/packages/jehon.deb"
           notify: jehon_common.indexes
