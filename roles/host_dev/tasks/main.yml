@@ -13,13 +13,6 @@
           - containerd.io
           - docker-compose-plugin
 
-    - name: Set systemd target
-      when: not virtual
-      ansible.builtin.include_role:
-        name: jh_systemd_target
-      vars:
-        target: graphical
-
 #
 # User/dev files
 #
