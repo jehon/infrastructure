@@ -1,11 +1,14 @@
 #!/usr/bin/python3
 
 import argparse
+import datetime
 import os
 import subprocess
 
 import jehon.display as jdi
 import jehon.shell as jshell
+
+jdi.info("Startup time: "+ str(datetime.datetime.now()))
 
 ####################################
 #
@@ -127,3 +130,5 @@ match args.action:
     case _:
         print("Unknown action: " + args.action)
         exit(1)
+
+jdi.info("End time: "+ str(datetime.datetime.now()))
