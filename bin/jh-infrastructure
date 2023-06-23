@@ -26,7 +26,7 @@ parser.set_defaults(
     action="setup",
 )
 parser.add_argument('--host', help='target host', required=True)
-parser.add_argument('action', help='Target action', choices=[ "dump", "init", "setup", "upgrade" ])
+parser.add_argument('action', help='Target action', choices=[ "dump", "setup", "upgrade" ])
 parser.add_argument('playbooks',  nargs='*', help='Override playbook', default=[ "infos.yml", "setup.yml" ])
 
 parser.add_argument('--ip', help='Target IP host')
@@ -101,16 +101,6 @@ if args.ip:
 match args.action:
     case "dump":
         run_ansible('run', [ "dump.yml" ], ansibleArgs)
-
-    case "init" | "bootstrap ":
-
-        jshell.ssh(
-            host=args.ip,
-            cmd="sudo ./bootstrap.sh",
-            title="ssh/bootstrap",
-            user=args.ssh_user,
-            password=args.ssh_password
-        )
 
     case "setup":
         jdi.info("Selected playbooks: " + " ".join(args.playbooks))
