@@ -9,7 +9,6 @@
   hosts: all
   tasks:
     - name: Initialize
-      when: "'grp_jehon' in group_names"
       ansible.builtin.include_role:
         name: jh_init
 
