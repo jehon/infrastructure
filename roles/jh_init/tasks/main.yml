@@ -31,5 +31,5 @@
 #         jehon_os: ""
 
 - name: What is jehon_os?
-  debug:
+  ansible.builtin.debug:
     var: jehon_os
