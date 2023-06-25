@@ -56,6 +56,10 @@
 #
 
 Package: *
+Pin: release o=Debian,a=testing
+Pin-Priority: 500
+
+Package: *
 Pin: release o=Debian,a=stable
 Pin-Priority: 500
 
@@ -79,10 +83,6 @@ Pin-Priority: 500
 #   => unstable: one shot install, no update
 #      + as soon as available in testing, will follow testing flow (and update)
 #
-
-Package: *
-Pin: release o=Debian,a=testing
-Pin-Priority: 75
 
 Package: *
 Pin: release o=Debian,a=unstable
