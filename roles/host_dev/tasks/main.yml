@@ -7,6 +7,10 @@
         src: jehon-debian.sources
         dest: /etc/apt/sources.list.d/
         mode: "0644"
+      notify: host_dev.repositories
+
+    - name: Update indexes
+      ansible.builtin.meta: flush_handlers
 
     - name: Setup debian preferences
       ansible.builtin.template:
