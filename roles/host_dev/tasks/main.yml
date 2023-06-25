@@ -38,8 +38,6 @@
         src: /usr/bin/dockerd
         # link name
         dest: /usr/sbin/dockerd
-        owner: foo
-        group: foo
         state: link
 
 #
