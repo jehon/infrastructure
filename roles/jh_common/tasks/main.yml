@@ -42,11 +42,11 @@
         - name: Refresh indexes for jehon-hardware
           ansible.builtin.meta: flush_handlers
 
-    - name: "Ensure jehon-service-server is present"
-      when: jehon_server
+    - name: "Ensure jehon-service-headless is present"
+      when: jehon_headless
       ansible.builtin.apt:
         pkg:
-          - "jehon-service-server"
+          - "jehon-service-headless"
 
     - name: Add jh_pcloud
       ansible.builtin.include_role:
