@@ -2,6 +2,25 @@
 
 - name: Setup dev system
   block:
+    - name: Setup debian repositories
+      ansible.builtin.template:
+        src: jehon-debian.sources
+        dest: /etc/apt/sources.list.d/
+        mode: "0644"
+
+    - name: Setup debian preferences
+      ansible.builtin.template:
+        src: 10-jehon-debian.pref
+        dest: /etc/apt/preferences.d/
+        mode: "0644"
+
+    - name: Remove packages
+      ansible.builtin.apt:
+        state: absent
+        pkg:
+          # Docker
+          - docker.io
+
     - name: Install packages
       ansible.builtin.apt:
         pkg:
@@ -12,6 +31,16 @@
           - docker-ce-cli
           - containerd.io
           - docker-compose-plugin
+
+    - name: Create links
+      ansible.builtin.file:
+        # pointing to
+        src: /usr/bin/dockerd
+        # link name
+        dest: /usr/sbin/dockerd
+        owner: foo
+        group: foo
+        state: link
 
 #
 # User/dev files
@@ -65,48 +94,3 @@
         name: jh_user_dev
       vars:
         user: jehon
-
-    # - name: Setup user folder
-    #   become: true
-    #   become_user: jehon
-    #   block:
-    #     - name: Stat if ssh key exists
-    #       ansible.builtin.stat:
-    #         path: /home/jehon/.ssh/id_rsa
-    #       register: host_dev_ssh_key
-
-    #     - name: Add git devstack repo
-    #       when: host_dev_ssh_key.stat.exists
-    #       ansible.builtin.include_role:
-    #         name: jh_git
-    #       vars:
-    #         path: /home/jehon/src/devstack
-    #         url: git@github.com:jehon/devstack.git
-    #         clean: false
-
-    #     - name: Add git cryptomedic repo
-    #       when: host_dev_ssh_key.stat.exists
-    #       ansible.builtin.include_role:
-    #         name: jh_git
-    #       vars:
-    #         path: /home/jehon/src/cryptomedic
-    #         url: git@github.com:jehon/cryptomedic.git
-    #         clean: false
-
-    #     - name: Add git file-organizer repo
-    #       when: host_dev_ssh_key.stat.exists
-    #       ansible.builtin.include_role:
-    #         name: jh_git
-    #       vars:
-    #         path: /home/jehon/src/file-organizer
-    #         url: git@github.com:jehon/file-organizer.git
-    #         clean: false
-
-    #     - name: Add git tmdb-to-movie repo
-    #       when: host_dev_ssh_key.stat.exists
-    #       ansible.builtin.include_role:
-    #         name: jh_git
-    #       vars:
-    #         path: /home/jehon/src/tmdb-to-movie
-    #         url: git@github.com:jehon/tmdb-to-movie.git
-    #         clean: false
