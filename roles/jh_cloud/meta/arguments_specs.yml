@@ -1,7 +1,7 @@
 ---
 
 dependencies:
-  - jh_init
+  - jh_vars
 
 argument_specs:
   main:

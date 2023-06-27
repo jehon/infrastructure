@@ -7,7 +7,7 @@
   tasks:
     - name: Initialize
       ansible.builtin.include_role:
-        name: jh_init
+        name: jh_vars
 
     - name: Debug jehon
       ansible.builtin.debug:

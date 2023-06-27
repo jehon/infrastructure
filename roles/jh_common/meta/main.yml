@@ -1,4 +1,4 @@
 ---
 
 dependencies:
-  - role: jh_init
+  - role: jh_vars
