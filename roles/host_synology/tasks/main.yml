@@ -55,5 +55,3 @@
           ansible.builtin.file:
             path: "{{ script_folder }}/{{ item }}"
             state: absent
-          # debug:
-          #   var: item
