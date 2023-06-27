@@ -72,13 +72,6 @@
         group: jehon_secrets
         mode: "0755"
 
-    - name: Enable photo mount
-      when: not virtual
-      ansible.builtin.systemd:
-        name: mnt-cloud-photos.mount
-        enabled: true
-        state: started
-
 #
 # User side
 #
