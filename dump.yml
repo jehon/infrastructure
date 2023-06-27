@@ -5,10 +5,6 @@
 #  gather_facts: false
 
   tasks:
-    - name: Initialize
-      ansible.builtin.include_role:
-        name: jh_vars
-
     - name: Debug jehon
       ansible.builtin.debug:
         var: jehon

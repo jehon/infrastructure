@@ -8,10 +8,6 @@
 - name: Setup systems
   hosts: all
   tasks:
-    - name: Initialize
-      ansible.builtin.include_role:
-        name: jh_vars
-
     - name: Setup jh_basis
       when: "'grp_jehon' in group_names"
       ansible.builtin.include_role:
