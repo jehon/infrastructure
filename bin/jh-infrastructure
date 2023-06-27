@@ -25,9 +25,9 @@ parser = argparse.ArgumentParser(description='Proxy to ansible commands')
 parser.set_defaults(
     action="setup",
 )
-parser.add_argument('--host', help='target host', required=True)
-parser.add_argument('action', help='Target action', choices=[ "dump", "setup", "upgrade" ])
-parser.add_argument('playbooks',  nargs='*', help='Override playbook', default=[ "infos.yml", "setup.yml" ])
+parser.add_argument('host', help='target host')
+parser.add_argument('action', help='Target action', choices=[ "dump", "setup", "upgrade" ], default="setup", nargs='?')
+parser.add_argument('--playbooks',  nargs='*', help='Override playbook', default=[ "infos.yml", "setup.yml" ])
 
 parser.add_argument('--ip', help='Target IP host')
 parser.add_argument('-u', '--ssh-user', help='Override SSH username')
