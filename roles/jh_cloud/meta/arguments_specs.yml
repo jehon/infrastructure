@@ -1,8 +1,5 @@
 ---
 
-dependencies:
-  - jh_vars
-
 argument_specs:
   main:
     options:
