@@ -13,7 +13,7 @@
   ansible.builtin.user:
     name: "{{ user }}"
     comment: "{{ display_name }}"
-    groups: sudo,docker,fuse,jh_secrets
+    groups: sudo,docker,fuse,jehon_secrets
     append: true
     generate_ssh_key: true
 
