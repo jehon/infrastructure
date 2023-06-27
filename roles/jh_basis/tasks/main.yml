@@ -9,7 +9,7 @@
         - name: "Install jehon.deb from the web"
           ansible.builtin.apt:
             deb: "https://jehon.github.io/packages/jehon.deb"
-          notify: jehon_common.indexes
+          notify: jh_basis.indexes
 
         - name: Refresh indexes for jehon
           ansible.builtin.meta: flush_handlers

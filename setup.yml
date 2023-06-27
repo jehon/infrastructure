@@ -12,10 +12,10 @@
       ansible.builtin.include_role:
         name: jh_vars
 
-    - name: Setup jh_common
+    - name: Setup jh_basis
       when: "'grp_jehon' in group_names"
       ansible.builtin.include_role:
-        name: jh_common
+        name: jh_basis
 
     - name: Setup host dev
       when: inventory_hostname == "dev"
