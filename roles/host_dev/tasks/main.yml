@@ -9,26 +9,19 @@
         mode: "0644"
       notify: host_dev.repositories
 
-    - name: Update indexes
-      ansible.builtin.meta: flush_handlers
-
     - name: Setup debian preferences
       ansible.builtin.template:
         src: 10-jehon-debian.pref
         dest: /etc/apt/preferences.d/
         mode: "0644"
 
-    - name: Remove packages
-      ansible.builtin.apt:
-        state: absent
-        pkg:
-          # Docker
-          - docker.io
+    - name: Update indexes
+      ansible.builtin.meta: flush_handlers
 
     - name: Install packages
       ansible.builtin.apt:
         pkg:
-          - jehon-desktop
+          - jehon-service-dev
           - jehon-service-music-refresh
           # Docker
           - docker-ce
