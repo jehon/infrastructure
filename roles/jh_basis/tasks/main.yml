@@ -3,13 +3,14 @@
   when: ansible_pkg_mgr == "apt"
   block:
     - name: Install jehon.deb
-      when: "'jehon' not in ansible_facts.packages"
       block:
         # We need this one to be installed first, because next line will depend on it
         - name: "Install jehon.deb from the web"
           ansible.builtin.apt:
             deb: "https://jehon.github.io/packages/jehon.deb"
           notify: jh_basis.indexes
+          register: jehon_basis_jehon_deb
+          failed_when: "jehon_basis_jehon_deb.failed and ('A later version is already installed' != jehon_basis_jehon_deb.msg)"
 
         - name: Refresh indexes for jehon
           ansible.builtin.meta: flush_handlers
