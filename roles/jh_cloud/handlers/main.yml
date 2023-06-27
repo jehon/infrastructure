@@ -5,6 +5,7 @@
   when: not virtual
   ansible.builtin.systemd:
     daemon_reload: true
+  changed_when: false
 
 - name: Do restart cloud mount
   listen: jh_cloud.remount
@@ -13,3 +14,4 @@
   ansible.builtin.systemd:
     name: mnt-cloud-{{ item | lower }}.mount
     state: restarted
+  changed_when: false
