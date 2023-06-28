@@ -2,21 +2,11 @@
 
 - name: Setup dev system
   block:
-    - name: Setup debian repositories
-      ansible.builtin.template:
-        src: jehon-debian.sources
-        dest: /etc/apt/sources.list.d/
-        mode: "0644"
-      notify: host_dev.repositories
+    # - name: Setup debian repositories
+    #   ansible.builtin.command:
+    #     command: "/usr/sbin/"
 
-    - name: Setup debian preferences
-      ansible.builtin.template:
-        src: 10-jehon-debian.pref
-        dest: /etc/apt/preferences.d/
-        mode: "0644"
-
-    - name: Update indexes
-      ansible.builtin.meta: flush_handlers
+      # TODO
 
     - name: Install packages
       ansible.builtin.apt:
