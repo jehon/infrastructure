@@ -1,16 +1,17 @@
 
 # What where?
 
-| Objective             | Types                             | Script (1) | Packages | Ansible | Not managed | Comment                                                        |
-| :-------------------- | --------------------------------- | :--------: | :------: | :-----: | ----------- | -------------------------------------------------------------- |
-| /                     | anything                          |            |   Yes    |         |             |                                                                |
-| /etc/                 | fixed config (link to /usr/share) |            |   Yes    |         |             |                                                                |
-| /etc/                 | host related                      |            |          |   Yes   |             |                                                                |
-| /etc/jehon/restricted | secrets                           |            |          |   Yes   |             |                                                                |
-| /etc/apt/*            | repositories for other sources    |     *1     |          |   *1    |             | Bundled as package, it is difficult to update and depend on it |
-| Users                 |                                   |            |    *2    |         |             | Do we need this?                                               |
-| Users secrets ?       | For rclone in self install?       |     *3     |    *3    |   *3    | *3          |                                                                |
-|                       |                                   |            |          |         |             |                                                                |
+| Objective             | Types                             | Script (1) | Packages | Ansible | Application | Not managed | Comment                                                        |
+| :-------------------- | --------------------------------- | :--------: | :------: | :-----: | ----------- | :---------: | -------------------------------------------------------------- |
+| /                     | anything                          |            |    X     |         |             |             |                                                                |
+| /etc/                 | fixed config (link to /usr/share) |            |    X     |         |             |             |                                                                |
+| /etc/                 | host related                      |            |          |    X    |             |             |                                                                |
+| /etc/jehon/restricted | secrets                           |            |          |    X    |             |             |                                                                |
+| /etc/apt/*            | repositories for other sources    |     X      |          |         |             |             | Bundled as package, it is difficult to update and depend on it |
+| Default users         | ml, silouane, rosalie...          |            |          |         |             |      X      | Desktop are moving too quickly                                 |
+| Users secrets         | For rclone in self install?       |            |          |         |             |      X      | Required by script when necessary                              |
+| Application folders   |                                   |            |          |         | X           |             |                                                                |
+|                       |                                   |            |          |         |             |             |                                                                |
 
 (1) Scripts are bundled into jehon.deb
 
@@ -22,7 +23,6 @@
 |                 |           |                   |         |                                             |
 
 ## Questions:
-- *1 Where to configure repositories?
 - *2 Do we have a default users install?
 - *3 Where to store users secrets (rclone)?
 
