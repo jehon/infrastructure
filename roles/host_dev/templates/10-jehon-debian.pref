@@ -56,12 +56,8 @@
 #
 
 Package: *
-Pin: release o=Debian,a=testing
-Pin-Priority: 500
-
-Package: *
 Pin: release o=Debian,a=stable
-Pin-Priority: 500
+Pin-Priority: 450
 
 ############################################################################
 #
@@ -69,6 +65,10 @@ Pin-Priority: 500
 # version available belonging to some other distribution or the installed
 # version is more recent
 #
+Package: *
+Pin: release o=Debian,a=testing
+Pin-Priority: 450
+
 
 ############################################################################
 #
