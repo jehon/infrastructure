@@ -2,9 +2,11 @@
 
 - name: Setup dev system
   block:
-    # - name: Setup debian repositories
-    #   ansible.builtin.command:
-    #     command: "/usr/sbin/"
+    - name: Setup debian repositories
+      ansible.builtin.command:
+        command: "/usr/sbin/jh-install-debian-testing"
+      register: host_dev_debian
+      changed_when: "'[Change]' in host_dev_debian.stdout"
 
       # TODO
 
