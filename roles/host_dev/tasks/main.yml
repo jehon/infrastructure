@@ -42,13 +42,6 @@
 #
 - name: Setup system-wide files for user
   block:
-    - name: Set docker shared folder
-      ansible.builtin.file:
-        path: /mnt/docker
-        state: directory
-        mode: "0775"
-        group: jehon_secrets
-
     - name: Install secrets files
       with_items:
         - cryptomedic.php
@@ -63,14 +56,6 @@
         owner: root
         group: jehon_secrets
         mode: "0750"
-
-    - name: Install /mnt/docker/jenkins
-      ansible.builtin.file:
-        state: directory
-        dest: /mnt/docker/jenkins
-        owner: root
-        group: jehon_secrets
-        mode: "0755"
 
 #
 # User side
