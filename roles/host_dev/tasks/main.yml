@@ -19,7 +19,6 @@
       ansible.builtin.apt:
         pkg:
           - jehon-service-dev
-          - jehon-service-music-refresh
 
     - name: Create links
       ansible.builtin.file:
