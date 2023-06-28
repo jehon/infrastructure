@@ -10,6 +10,13 @@
           - fuse3
       notify: jh_cloud.remount
 
+    - name: Upgrade rclone to latest
+      ansible.builtin.command:
+        cmd: "/usr/sbin/jh-install-rclone-latest"
+      register: jh_cloud_rclone_update
+      changed_when: "'rclone is up to date' is not in jh_cloud_rclone_update.stdout"
+      notify: jh_cloud.remount
+
     - name: "Install config ({{ cloud_type }})"
       ansible.builtin.template:
         src: "{{ cloud_type }}.conf"
