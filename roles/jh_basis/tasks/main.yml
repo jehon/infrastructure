@@ -44,13 +44,6 @@
         name: jh_display
       when: display_localhost_port is defined
 
-    - name: Set default tty
-      when: jehon_tty | int > 0
-      ansible.builtin.systemd:
-        name: jehon-chvt@{{ jehon_tty }}.service
-        enable: true
-        state: started
-
 - name: Setup networking
   ansible.builtin.include_role:
     name: jh_network
@@ -85,3 +78,10 @@
       when: jehon.ip[item] is defined
       with_items: "{{ jehon.ip.keys() }}"
       # On docker, the /etc/hosts is not writable
+
+    - name: Set default tty
+      when: jehon_tty | int > 0
+      ansible.builtin.systemd:
+        name: jehon-chvt@{{ jehon_tty }}.service
+        enabled: true
+        state: started
