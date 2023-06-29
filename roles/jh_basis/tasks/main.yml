@@ -10,7 +10,13 @@
             deb: "https://jehon.github.io/packages/jehon.deb"
           notify: jh_basis.indexes
           register: jehon_basis_jehon_deb
-          failed_when: "jehon_basis_jehon_deb.failed and ('A later version is already installed' != jehon_basis_jehon_deb.msg)"
+          # Example: [run]   msg: Breaks existing package 'jehon-hardware-wsl' dependency jehon (<= 2023.06.28.14.53.03)
+          failed_when: >
+            jehon_basis_jehon_deb.failed
+            and (
+              ('A later version is already installed' != jehon_basis_jehon_deb.msg)
+              and (' dependency jehon (' not in jehon_basis_jehon_deb.msg)
+            )
 
         - name: Refresh indexes for jehon
           ansible.builtin.meta: flush_handlers
