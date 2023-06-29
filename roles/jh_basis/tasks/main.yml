@@ -45,7 +45,7 @@
       when: display_localhost_port is defined
 
     - name: Set default tty
-      when: jehon_tty | length > 0
+      when: jehon_tty | int > 0
       ansible.builtin.systemd:
         name: jehon-chvt@{{ jehon_tty }}.service
         enable: true
