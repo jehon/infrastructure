@@ -6,6 +6,7 @@ all:
     jehon_ip: ''
     jehon_hardware: ''
     jehon_headless: false
+    jehon_tty: ''
   hosts:
     dev:
       # ansible_host is defined by script
@@ -33,9 +34,9 @@ all:
         password: "{{ jehon.credentials.synology.kiosk.password }}"
     piscine:
       ansible_host: "{{ jehon.ip.piscine }}"
-      display_localhost_port: 8800
       jehon_ip: "{{ jehon.ip.piscine }}"
       jehon_hardware: raspberrypi
+      jehon_tty: 10
       synology:
         username: "{{ jehon.credentials.synology.piscine.username }}"
         password: "{{ jehon.credentials.synology.piscine.password }}"

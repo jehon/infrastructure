@@ -38,6 +38,13 @@
         name: jh_display
       when: display_localhost_port is defined
 
+    - name: Set default tty
+      when: jehon_tty | length > 0
+      ansible.builtin.systemd:
+        name: jehon-chvt@{{ jehon_tty }}.service
+        enable: true
+        state: started
+
 - name: Setup networking
   ansible.builtin.include_role:
     name: jh_network
