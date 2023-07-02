@@ -5,7 +5,7 @@
     pkg:
       - jehon-service-music
 
-- name: Setup docker repository
+- name: Setup mopidy repository
   ansible.builtin.command:
     cmd: "/usr/sbin/jh-install-mopidy-repository"
   register: host_dev_docker
