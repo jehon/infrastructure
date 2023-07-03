@@ -39,11 +39,6 @@
       ansible.builtin.include_role:
         name: jh_cloud
 
-    - name: Add jh_display
-      ansible.builtin.include_role:
-        name: jh_display
-      when: display_localhost_port is defined
-
 - name: Setup networking
   ansible.builtin.include_role:
     name: jh_network

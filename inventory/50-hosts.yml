@@ -26,7 +26,6 @@ all:
       virtual: true
     kiosk:
       ansible_host: "{{ jehon.ip.kiosk }}"
-      display_localhost_port: 5454
       jehon_ip: "{{ jehon.ip.kiosk }}"
       jehon_hardware: raspberrypi
       synology:
