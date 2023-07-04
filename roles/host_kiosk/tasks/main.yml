@@ -6,6 +6,13 @@
       - jehon-service-music
       - jehon-service-kiosk
 
+- name: Setup mopidy repository
+  ansible.builtin.command:
+    cmd: "/usr/sbin/jh-install-mopidy-repository"
+  register: host_dev_docker
+  # TODO: detect changes
+  changed_when: true
+
 - name: Install kiosk config file
   block:
     - name: Create folder
