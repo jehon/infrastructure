@@ -28,6 +28,7 @@ all:
       ansible_host: "{{ jehon.ip.kiosk }}"
       jehon_ip: "{{ jehon.ip.kiosk }}"
       jehon_hardware: raspberrypi
+      jehon_tty: 11
       synology:
         username: "{{ jehon.credentials.synology.kiosk.username }}"
         password: "{{ jehon.credentials.synology.kiosk.password }}"
