@@ -15,16 +15,7 @@ set -o pipefail
 		set -x
 		type jh-lib
 
-		type node
-		node --version
-
-		type npm
-		npm --version
-
 		dpkg -l | grep "jehon-hardware-raspberrypi"
-
-		test -r /opt/jehon/kiosk/package.json
-		/etc/cron.daily/jehon-kiosk-daily /opt/jehon/kiosk/tests/kiosk.yml
 
 		jh-checks | jh-tag-stdin "checks" || true
 	EOS
