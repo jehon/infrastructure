@@ -9,13 +9,6 @@
       changed_when: "'[Change]' in host_dev_debian.stdout"
       notify: host_dev.repositories
 
-    - name: Setup docker repository
-      ansible.builtin.command:
-        cmd: "/usr/sbin/jh-install-docker"
-      register: host_dev_docker
-      # TODO: detect changes
-      changed_when: true
-
 #
 # User side
 #

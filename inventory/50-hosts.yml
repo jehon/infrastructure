@@ -17,6 +17,7 @@ all:
         Photos: rw
         Videos: rw
       jehon_hardware: wsl
+      jehon_repo_docker: true
       jehon_repo_mopidy: true
     localhost:
       # Used by build-artifacts

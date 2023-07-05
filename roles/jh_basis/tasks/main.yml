@@ -32,12 +32,24 @@
       when: jehon_repo_mopidy
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-mopidy-repository"
-      register: host_dev_docker
-      # TODO: detect changes
-      changed_when: true
+      register: result
+      changed_when: "'[change]' in result.stdout"
 
     - name: Refresh indexes for jehon
       ansible.builtin.meta: flush_handlers
+
+    ############################################
+    #
+    # Repositories and packages
+    #
+    ############################################
+
+    - name: Setup docker repository
+      when: jehon_repo_docker
+      ansible.builtin.command:
+        cmd: "/usr/sbin/jh-install-docker"
+      register: host_dev_docker
+      changed_when: "'[change]' in result.stdout"
 
     ############################################
     #
