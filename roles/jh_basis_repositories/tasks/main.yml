@@ -12,7 +12,7 @@
     - name: "Install jehon.deb from the web"
       ansible.builtin.apt:
         deb: "https://jehon.github.io/packages/jehon.deb"
-      notify: jh_basis.indexes
+      notify: jh_basis_repositories.indexes
       register: jehon_basis_jehon_deb
       # Example: [run]   msg: Breaks existing package 'jehon-hardware-wsl' dependency jehon (<= 2023.06.28.14.53.03)
       failed_when: >

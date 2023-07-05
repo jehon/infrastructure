@@ -1,8 +1,0 @@
----
-argument_specs:
-  main:
-    options:
-      jehon_repo_mopidy:
-        type: boolean
-      jehon_hardware:
-        type: string
