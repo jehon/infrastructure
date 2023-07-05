@@ -4,7 +4,6 @@ all:
     # Avoid undefined:
     virtual: false
     jehon_ip: ''
-    jehon_hardware: ''
   hosts:
     dev:
       # ansible_host is defined by script
