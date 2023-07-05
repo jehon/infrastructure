@@ -1,10 +1,9 @@
 ---
 all:
   vars:
-    # Avoid undefined:
+    # Avoid undefined in playbook:
     virtual: false
     jehon_headless: false
-    jehon_ip: ''
   hosts:
     dev:
       # ansible_host is defined by script
