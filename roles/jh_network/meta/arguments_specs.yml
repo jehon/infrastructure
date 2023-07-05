@@ -4,3 +4,5 @@ argument_specs:
     options:
       jehon_ip:
         type: string
+      virtual:
+        type: boolean

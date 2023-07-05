@@ -39,27 +39,9 @@
       ansible.builtin.include_role:
         name: jh_cloud
 
-- name: Setup networking
-  ansible.builtin.include_role:
-    name: jh_network
-
 - name: In full machine
   when: not virtual
   block:
-    - name: Set a hostname to {{ inventory_hostname }}
-      ansible.builtin.hostname:
-        name: "{{ inventory_hostname }}"
-      when: inventory_hostname is match("[a-zA-Z][a-zA-Z0-9_-]+") and inventory_hostname != "localhost"
-
-    - name: Firewall - allow ssh
-      community.general.ufw:
-        rule: allow
-        name: ssh
-
-    - name: Firewall - enable
-      community.general.ufw:
-        state: enabled
-
     - name: Add IP address to /etc/hosts
       # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html
       ansible.builtin.lineinfile:

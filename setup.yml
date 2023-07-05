@@ -13,6 +13,11 @@
       ansible.builtin.include_role:
         name: jh_basis
 
+    - name: Setup networking
+      when: "'grp_jehon' in group_names"
+      ansible.builtin.include_role:
+        name: jh_network
+
     - name: Setup host dev
       when: inventory_hostname == "dev"
       ansible.builtin.include_role:
