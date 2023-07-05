@@ -28,19 +28,3 @@
           ansible.builtin.apt:
             pkg:
               - "jehon-hardware-{{ jehon_hardware }}"
-
-    - name: "Ensure jehon-service-headless is present"
-      when: jehon_headless
-      ansible.builtin.apt:
-        pkg:
-          - "jehon-service-headless"
-
-- name: In full machine
-  when: not virtual
-  block:
-    - name: Set default tty
-      when: jehon_tty | int > 0
-      ansible.builtin.systemd:
-        name: jehon-chvt@{{ jehon_tty }}.service
-        enabled: true
-        state: started
