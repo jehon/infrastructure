@@ -28,3 +28,11 @@
           ansible.builtin.apt:
             pkg:
               - "jehon-hardware-{{ jehon_hardware }}"
+
+    - name: Setup mopidy repository
+      when: jehon_repo_mopidy
+      ansible.builtin.command:
+        cmd: "/usr/sbin/jh-install-mopidy-repository"
+      register: host_dev_docker
+      # TODO: detect changes
+      changed_when: true

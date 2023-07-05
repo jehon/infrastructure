@@ -18,6 +18,7 @@ all:
         Photos: rw
         Videos: rw
       jehon_hardware: wsl
+      jehon_repo_mopidy: true
     localhost:
       # Used by build-artifacts
       ansible_connection: local
@@ -57,6 +58,9 @@ all:
         kiosk:
         piscine:
     grp_servers:
+      hosts:
+        kiosk:
+        piscine:
       vars:
         cloud_type: home
         cloud_cache_size: 10M
@@ -65,6 +69,4 @@ all:
           Photos: ro
           Videos: ro
         jehon_headless: true
-      hosts:
-        kiosk:
-        piscine:
+        jehon_repo_mopidy: true

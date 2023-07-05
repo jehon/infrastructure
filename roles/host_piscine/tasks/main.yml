@@ -4,10 +4,3 @@
   ansible.builtin.apt:
     pkg:
       - jehon-service-music
-
-- name: Setup mopidy repository
-  ansible.builtin.command:
-    cmd: "/usr/sbin/jh-install-mopidy-repository"
-  register: host_dev_docker
-  # TODO: detect changes
-  changed_when: true
