@@ -11,7 +11,7 @@
     - name: Setup jh_basis
       when: "'grp_jehon' in group_names"
       ansible.builtin.include_role:
-        name: jh_basis_repositories
+        name: jh_repositories
 
     - name: Setup networking
       when: "'grp_jehon' in group_names"
