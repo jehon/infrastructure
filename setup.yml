@@ -13,6 +13,12 @@
       ansible.builtin.include_role:
         name: jh_repositories
 
+    - name: Setup Jehon Service Headless
+      when: jehon_headless
+      ansible.builtin.include_role:
+        name: jehon_service_headless
+
+    # Need service headless for netplan
     - name: Setup networking
       when: "'grp_jehon' in group_names"
       ansible.builtin.include_role:
@@ -21,11 +27,6 @@
     - name: Setup cloud
       ansible.builtin.include_role:
         name: jh_cloud
-
-    - name: Setup Jehon Service Headless
-      when: jehon_headless
-      ansible.builtin.include_role:
-        name: jehon_service_headless
 
     - name: Setup host dev
       when: inventory_hostname == "dev"
