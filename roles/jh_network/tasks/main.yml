@@ -22,7 +22,10 @@
 - name: Set a hostname to {{ inventory_hostname }}
   ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
-  when: not virtual and inventory_hostname is match("[a-zA-Z][a-zA-Z0-9_-]+") and inventory_hostname != "localhost"
+  when: >
+    not virtual
+    and inventory_hostname is match("[a-zA-Z][a-zA-Z0-9_-]+")
+    and inventory_hostname != "localhost"
 
 - name: Firewall - allow ssh
   when: not virtual
@@ -34,3 +37,22 @@
   when: not virtual
   community.general.ufw:
     state: enabled
+
+- name: Add IP address to /etc/hosts
+  with_items: "{{ jehon.ip.keys() }}"
+  when: jehon.ip[item] is defined
+  # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html
+
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    # Match: <ip|ipv6> <host>.honlet <legacy> # ansible
+    regexp: '.* {{ item }}.honlet .* # ansible'
+    # Set: <hostname>.honlet and <hostname> alias
+    line: "{{ jehon.ip[item] }} {{ item }}.honlet {{ item }} # ansible"
+    state: present
+  register: result
+  # On docker, the /etc/hosts is not writable
+  # complete message: [Errno 16] Device or resource busy
+  failed_when: >
+    result.failed
+    and "[Errno 16]" not in result.msg

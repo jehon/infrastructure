@@ -42,20 +42,6 @@
 - name: In full machine
   when: not virtual
   block:
-    - name: Add IP address to /etc/hosts
-      # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html
-      ansible.builtin.lineinfile:
-        dest: /etc/hosts
-        # Match: <ip|ipv6> <host>.honlet <legacy> # ansible
-        # TODO: remove <legacy> from match (when all hosts are adapted)
-        regexp: '.* {{ item }}.honlet .* # ansible'
-        # TODO: remove hostnames alias without .honlet
-        line: "{{ jehon.ip[item] }} {{ item }}.honlet {{ item }} # ansible"
-        state: present
-      when: jehon.ip[item] is defined
-      with_items: "{{ jehon.ip.keys() }}"
-      # On docker, the /etc/hosts is not writable
-
     - name: Set default tty
       when: jehon_tty | int > 0
       ansible.builtin.systemd:
