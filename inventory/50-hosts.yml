@@ -5,7 +5,6 @@ all:
     virtual: false
     jehon_ip: ''
     jehon_hardware: ''
-    jehon_headless: false
     jehon_tty: ''
   hosts:
     dev:

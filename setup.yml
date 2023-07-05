@@ -22,6 +22,11 @@
       ansible.builtin.include_role:
         name: jh_cloud
 
+    - name: Setup Jehon Service Headless
+      when: jehon_headless
+      ansible.builtin.include_role:
+        name: jehon_service_headless
+
     - name: Setup host dev
       when: inventory_hostname == "dev"
       ansible.builtin.include_role:

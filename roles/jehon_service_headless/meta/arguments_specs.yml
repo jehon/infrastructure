@@ -1,0 +1,6 @@
+---
+argument_specs:
+  main:
+    options:
+      jehon_tty:
+        type: int

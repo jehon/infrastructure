@@ -1,7 +1,6 @@
 ---
 
 - name: "Ensure jehon-service-headless is present"
-  when: jehon_headless
   ansible.builtin.apt:
     pkg:
       - "jehon-service-headless"
@@ -9,7 +8,7 @@
 - name: Set default tty
   when: >
     not virtual
-    and jehon_tty | int > 0
+    and jehon_tty > 0
   ansible.builtin.systemd:
     name: jehon-chvt@{{ jehon_tty }}.service
     enabled: true
