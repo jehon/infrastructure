@@ -35,8 +35,8 @@ ansible-vault encrypt_string "$SECRET" --name "$KEY"
 ## Key order
 
     name
-    when
     with_items
+    when
     <action>
     register
     failed_when
