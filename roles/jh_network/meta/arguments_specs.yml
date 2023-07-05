@@ -1,8 +1,0 @@
----
-argument_specs:
-  main:
-    options:
-      jehon_ip:
-        type: string
-      virtual:
-        type: boolean
