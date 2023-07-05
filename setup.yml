@@ -18,6 +18,10 @@
       ansible.builtin.include_role:
         name: jh_network
 
+    - name: Setup cloud
+      ansible.builtin.include_role:
+        name: jh_cloud
+
     - name: Setup host dev
       when: inventory_hostname == "dev"
       ansible.builtin.include_role:

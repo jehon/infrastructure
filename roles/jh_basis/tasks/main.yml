@@ -35,10 +35,6 @@
         pkg:
           - "jehon-service-headless"
 
-    - name: Add jh_pcloud
-      ansible.builtin.include_role:
-        name: jh_cloud
-
 - name: In full machine
   when: not virtual
   block:
