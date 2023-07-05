@@ -3,6 +3,7 @@ all:
   vars:
     # Avoid undefined:
     virtual: false
+    jehon_headless: false
     jehon_ip: ''
   hosts:
     dev:
