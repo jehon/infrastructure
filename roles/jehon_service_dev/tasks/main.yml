@@ -1,5 +1,57 @@
 ---
 
+############################################
+#
+# Packages
+#
+############################################
+
+- name: Install packages
+  ansible.builtin.apt:
+    pkg:
+      - jehon-service-dev
+
+############################################
+#
+# Fixes
+#
+############################################
+- name: Create links
+  ansible.builtin.file:
+    # pointing to
+    src: /usr/bin/dockerd
+    # link name
+    dest: /usr/sbin/dockerd
+    state: link
+
+############################################
+#
+# Config
+#
+############################################
+- name: Setup system-wide files for user
+  block:
+    - name: Install secrets files
+      with_items:
+        - cryptomedic.php
+        - cryptomedic.sh
+        - dev.sh
+        - jenkins-master.key
+        - jenkins.env
+        - tmdb.key
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: /etc/jehon/restricted/{{ item }}
+        owner: root
+        group: jehon_secrets
+        mode: "0750"
+
+############################################
+#
+# User config
+#
+############################################
+
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/getent_module.html
 - name: Get users
   ansible.builtin.getent:

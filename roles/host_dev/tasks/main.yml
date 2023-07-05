@@ -15,39 +15,6 @@
       # TODO: detect changes
       changed_when: true
 
-    - name: Install packages
-      ansible.builtin.apt:
-        pkg:
-          - jehon-service-dev
-
-    - name: Create links
-      ansible.builtin.file:
-        # pointing to
-        src: /usr/bin/dockerd
-        # link name
-        dest: /usr/sbin/dockerd
-        state: link
-
-#
-# User/dev files
-#
-- name: Setup system-wide files for user
-  block:
-    - name: Install secrets files
-      with_items:
-        - cryptomedic.php
-        - cryptomedic.sh
-        - dev.sh
-        - jenkins-master.key
-        - jenkins.env
-        - tmdb.key
-      ansible.builtin.template:
-        src: "{{ item }}"
-        dest: /etc/jehon/restricted/{{ item }}
-        owner: root
-        group: jehon_secrets
-        mode: "0750"
-
 #
 # User side
 #
@@ -55,6 +22,6 @@
   block:
     - name: Add user jehon
       ansible.builtin.include_role:
-        name: jh_user_dev
+        name: jehon_service_dev
       vars:
         user: jehon
