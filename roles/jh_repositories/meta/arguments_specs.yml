@@ -8,3 +8,5 @@ argument_specs:
         type: boolean
       jehon_repo_mopidy:
         type: boolean
+      jehon_testing:
+        type: int

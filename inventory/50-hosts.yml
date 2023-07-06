@@ -19,6 +19,7 @@ all:
       jehon_hardware: wsl
       jehon_repo_docker: true
       jehon_repo_mopidy: true
+      jehon_testing: 75
     localhost:
       # Used by build-artifacts
       ansible_connection: local

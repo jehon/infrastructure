@@ -1,14 +1,5 @@
 ---
 
-- name: Setup dev system
-  block:
-    - name: Setup debian repositories
-      ansible.builtin.command:
-        cmd: "/usr/sbin/jh-install-debian-testing"
-      register: result
-      changed_when: "'[change]' in result.stdout"
-      notify: host_dev.repositories
-
 #
 # User side
 #
