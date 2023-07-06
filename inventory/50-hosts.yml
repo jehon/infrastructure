@@ -1,4 +1,5 @@
 ---
+
 all:
   vars:
     # Avoid undefined in playbook:
