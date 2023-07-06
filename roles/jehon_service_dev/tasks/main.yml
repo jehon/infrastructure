@@ -13,19 +13,6 @@
 
 ############################################
 #
-# Fixes
-#
-############################################
-- name: Create links
-  ansible.builtin.file:
-    # pointing to
-    src: /usr/bin/dockerd
-    # link name
-    dest: /usr/sbin/dockerd
-    state: link
-
-############################################
-#
 # Config
 #
 ############################################
