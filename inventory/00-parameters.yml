@@ -43,13 +43,15 @@ all:
 
         gateway: 192.168.1.1
 
-        # B8:27:EB:7C:8E:F3
-        # fe80::ba27:ebff:fe7c:8ef3
         kiosk: 192.168.1.154
 
         # B8:27:Eb:02:62:FF
         # fe80::ba27:ebff:fe02:62ff
         piscine: 192.168.1.174
+
+        # B8:27:EB:7C:8E:F3
+        # fe80::ba27:ebff:fe7c:8ef3
+        jukebox: 192.168.1.158
 
         # 3c:7c:3f:8b:1b:d0
         switch: fe80::3e7c:3fff:fe8b:1bd0
