@@ -70,21 +70,27 @@ match args.host:
 if args.ssh_user:
     ansibleArgs.append("-e")
     ansibleArgs.append("ansible_user=" + args.ssh_user)
+    jdi.info("Using user" + args.ssh_user)
     if args.ssh_user != "root":
         ansibleArgs.append("-e")
         ansibleArgs.append("ansible_become=true")
+        jdi.info("With become root")
 
 if args.ssh_password:
     ansibleArgs.append("-e")
     ansibleArgs.append("ansible_password=" + args.ssh_password)
+    jdi.info("With password " + str(len(args.ssh_user)) + " characters")
 
     if args.ssh_user != "root":
         ansibleArgs.append("-e")
         ansibleArgs.append("ansible_sudo_pass=" + args.ssh_password)
+        jdi.info("With root password from user")
 
 if args.ip:
     ansibleArgs.append("-e")
     ansibleArgs.append("ansible_host=" + args.ip)
+    jdi.info("Using ip: " + args.ip)
+
     with jdi.header("reset ip"):
         subprocess.run([ "/usr/bin/jh-ssh-update-key", args.ip ], check=True)
 
