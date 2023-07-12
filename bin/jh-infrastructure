@@ -111,12 +111,12 @@ match args.action:
             case "dev":
                 jshell.run("sudo /usr/sbin/jh-system-upgrade full")
             case _:
+                pass
                 jshell.ssh(
                         host=args.host,
-                        cmd="/usr/sbin/jh-system-upgrade full",
+                        cmd=[ "/usr/sbin/jh-system-upgrade", "full" ],
                         title="upgrade"
                     )
-
     case _:
         print("Unknown action: " + args.action)
         exit(1)
