@@ -1,9 +1,0 @@
----
-
-- name: Recalculate lsb_release
-  listen: jehon_init.lsb_release
-  ansible.builtin.setup:
-    filter:
-      # What to recalculate ?
-      - ansible_lsb
-  changed_when: false

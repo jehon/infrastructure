@@ -1,7 +1,0 @@
----
-
-# https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_facts_module.html
-- name: Get installed packages
-  when: ansible_pkg_mgr == "apt"
-  ansible.builtin.package_facts:
-    manager: auto

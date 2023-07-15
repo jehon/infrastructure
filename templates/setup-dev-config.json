@@ -1,8 +1,0 @@
-{
-    "http": {
-        "nas":     "{{ jehon.ip.synology  | ansible.utils.ipwrap }}",
-        "piscine": "{{ jehon.ip.piscine   | ansible.utils.ipwrap }}",
-        "kiosk":   "{{ jehon.ip.kiosk     | ansible.utils.ipwrap }}",
-        "dev":     "{{ jehon.ip['dev']    | ansible.utils.ipwrap }}"
-    }
-}
