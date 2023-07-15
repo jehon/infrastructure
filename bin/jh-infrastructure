@@ -111,13 +111,19 @@ match args.action:
     case "setup":
         jdi.info("Selected playbooks: " + " ".join(args.playbooks))
         run_ansible('run', args.playbooks, ansibleArgs)
+        if args.ip:
+            jdi.info("Ansible done. Rebooting.")
+            jshell.ssh(
+                    host=args.host,
+                    cmd=[ "/usr/sbin/reboot" ],
+                    title="reboot"
+                )
 
     case "upgrade":
         match args.host:
             case "dev":
                 jshell.run("sudo /usr/sbin/jh-system-upgrade full")
             case _:
-                pass
                 jshell.ssh(
                         host=args.host,
                         cmd=[ "/usr/sbin/jh-system-upgrade", "full" ],
