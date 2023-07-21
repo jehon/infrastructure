@@ -47,6 +47,7 @@ kill_rclone
 
 syncOne "Documents" "$MAIN_VOLUME/Documents" || RES=1
 syncOne "Photos" "$MAIN_VOLUME/Photos" || RES=1
+syncOne "Bibliothèque" "$MAIN_VOLUME/Bibliothèque" || RES=1
 syncOne "Musiques" "$MAIN_VOLUME/Musiques" || RES=1
 syncOne "Videos" "$MAIN_VOLUME/Videos" || RES=1
 
