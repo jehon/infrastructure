@@ -4,6 +4,7 @@ import argparse
 import datetime
 import os
 import subprocess
+import sys
 
 import jehon.display as jdi
 import jehon.shell as jshell
@@ -25,8 +26,8 @@ parser = argparse.ArgumentParser(description='Proxy to ansible commands')
 parser.set_defaults(
     action="setup",
 )
+parser.add_argument('action', help='Target action', choices=[ "dump", "setup", "upgrade" ], default="setup")
 parser.add_argument('host', help='target host')
-parser.add_argument('action', help='Target action', choices=[ "dump", "setup", "upgrade" ], default="setup", nargs='?')
 parser.add_argument('--playbooks',  nargs='*', help='Override playbook', default=[ "infos.yml", "setup.yml" ])
 
 parser.add_argument('--ip', help='Target IP host')
@@ -45,20 +46,23 @@ def run_ansible(title: str, playbooks: list[str], ansibleArgs: list[str]):
                 env={ "PYTHONPATH": os.path.join(prjRoot, ".python") }
             )
 
+# jh.shell([ "bin/jh-ansible-setup" ], cwd=prjRoot)
+
 ####################################
 #
 # Set the host
 #
-jdi.info("Selected host: " + args.host)
-ansibleArgs.append("--limit")
-ansibleArgs.append(args.host)
+jdi.info(f"Selected host: {args.host}")
+if args.host:
+    ansibleArgs.append("--limit")
+    ansibleArgs.append(args.host)
 
-#
-# Host specific config
-#
-match args.host:
-    case "dev":
-        ansibleArgs.append("--ask-become-pass")
+    #
+    # Host specific config
+    #
+    match args.host:
+        case "dev" | "":
+            ansibleArgs.append("--ask-become-pass")
 
 ####################################
 #
@@ -68,6 +72,9 @@ match args.host:
 # https://docs.ansible.com/ansible/2.9/plugins/connection/ssh.html
 #
 if args.ssh_user:
+    if not args.host:
+        parser.error("ssh credentials set, but not the host", file=sys.stderr)
+    
     ansibleArgs.append("-e")
     ansibleArgs.append("ansible_user=" + args.ssh_user)
     jdi.info("Using user" + args.ssh_user)
@@ -77,6 +84,9 @@ if args.ssh_user:
         jdi.info("With become root")
 
 if args.ssh_password:
+    if not args.host:
+        parser.error("ssh credentials set, but not the host", file=sys.stderr)
+    
     ansibleArgs.append("-e")
     ansibleArgs.append("ansible_password=" + args.ssh_password)
     jdi.info("With password " + str(len(args.ssh_user)) + " characters")
@@ -87,6 +97,9 @@ if args.ssh_password:
         jdi.info("With root password from user")
 
 if args.ip:
+    if not args.host:
+        parser.error("ssh credentials set, but not the host", file=sys.stderr)
+    
     ansibleArgs.append("-e")
     ansibleArgs.append("ansible_host=" + args.ip)
     jdi.info("Using ip: " + args.ip)
@@ -95,15 +108,12 @@ if args.ip:
         subprocess.run([ "/usr/bin/jh-ssh-update-key", args.ip ], check=True)
 
     with jdi.header("reset host"):
-        subprocess.run([ "/usr/bin/jh-ssh-update-key", args.host ], check=False)
+        subprocess.run([ "/usr/bin/jh-ssh-update-key", args.host], check=False)
 
 ####################################
 #
 # Go action
 #
-
-# jh.shell([ "bin/jh-ansible-setup" ], cwd=prjRoot)
-
 match args.action:
     case "dump":
         run_ansible('run', [ "dump.yml" ], ansibleArgs)
@@ -112,6 +122,7 @@ match args.action:
         jdi.info("Selected playbooks: " + " ".join(args.playbooks))
         run_ansible('run', args.playbooks, ansibleArgs)
         if args.ip:
+            # when ip is set, host must be set - see above
             jdi.info("Ansible done. Rebooting.")
             jshell.ssh(
                     host=args.host,
@@ -130,7 +141,6 @@ match args.action:
                         title="upgrade"
                     )
     case _:
-        print("Unknown action: " + args.action)
-        exit(1)
+        parser.error(f"Unknown action: {args.action}", file=sys.stderr)
 
 jdi.info("End time: "+ str(datetime.datetime.now()))
