@@ -7,6 +7,6 @@ echo "* Currently running"
 # shellcheck disable=SC2009 # pgrep does not exist on synology
 ps -e | grep rclone || true
 
-kill_rclone
+rclone_kill
 
 echo "ok"

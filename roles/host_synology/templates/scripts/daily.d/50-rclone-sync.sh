@@ -43,7 +43,7 @@ syncOne() {
 	echo "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
 }
 
-kill_rclone
+rclone_kill
 
 syncOne "Documents" "$MAIN_VOLUME/Documents" || RES=1
 syncOne "Photos" "$MAIN_VOLUME/Photos" || RES=1

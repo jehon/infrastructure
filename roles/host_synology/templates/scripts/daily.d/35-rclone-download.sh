@@ -25,7 +25,7 @@ cd "$EXT"
 cd ..
 echo "* ...extracted"
 
-kill_rclone
+rclone_kill
 
 echo "* Installing..."
 rm -fr "$TARGET"

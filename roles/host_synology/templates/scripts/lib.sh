@@ -20,7 +20,7 @@ test_folder() {
 }
 test_folder "SCRIPTS_FOLDER" "$SCRIPTS_FOLDER"
 
-kill_rclone() {
+rclone_kill() {
     echo "* Killing running rclone..."
     pkill --echo --exact 'rclone' || true
     echo "* ...killed"
