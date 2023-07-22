@@ -34,4 +34,15 @@ exec &> >(tee "$LOG")
 
 date
 
+rclone_run() {
+    echo "Starting rclone with $*"
+	"$TMP"/rclone/rclone \
+		--verbose \
+		--stats 99d \
+		--config "$SCRIPTS_FOLDER"/config/rclone.conf \
+		--bwlimit "500K" \
+        "$@"
+    echo "Ended rclone with $*"
+}
+
 echo "* Loading lib done..."
