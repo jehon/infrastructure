@@ -27,7 +27,7 @@ parser.set_defaults(
     action="setup",
 )
 parser.add_argument('action', help='Target action', choices=[ "dump", "setup", "upgrade" ], default="setup")
-parser.add_argument('host', help='target host')
+parser.add_argument('host', help='target host', nargs='?', default=None)
 parser.add_argument('--playbooks',  nargs='*', help='Override playbook', default=[ "infos.yml", "setup.yml" ])
 
 parser.add_argument('--ip', help='Target IP host')
@@ -132,6 +132,9 @@ match args.action:
 
     case "upgrade":
         match args.host:
+            case "None":
+                # TODO: How to do this?
+                pass
             case "dev":
                 jshell.run("sudo /usr/sbin/jh-system-upgrade full")
             case _:
