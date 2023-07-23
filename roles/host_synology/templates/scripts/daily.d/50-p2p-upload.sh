@@ -21,7 +21,10 @@ if [ -n "$1" ]; then
     upload "$1"
 else
     for F in "$MAIN_VOLUME/p2p/downloaded/"*; do
-        upload "$F"
+        # Avoid glob errors
+        if [ -r "$F" ]; then
+            upload "$F"
+        fi
     done
 fi
 
