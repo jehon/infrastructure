@@ -41,7 +41,7 @@ rclone_run() {
 		--stats 99d \
 		--config "$SCRIPTS_FOLDER"/config/rclone.conf \
 		--bwlimit "500K" \
-		--exclude "@eaDir" --exclude "@eaDir/**"
+		--exclude "@eaDir" --exclude "@eaDir/**" \
         "$@"
     echo "Ended rclone with $*"
 }
