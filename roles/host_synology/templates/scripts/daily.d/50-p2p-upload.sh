@@ -6,26 +6,16 @@ set -o pipefail
 # shellcheck source-path=SCRIPTDIR/../
 . "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"/../lib.sh
 
-upload() {
-    SOURCE="$1"
-    N="$( basename "$1" )"
+CLOUD_WATCH="cloud:/Workspaces/Jean/p2p/watch/"
+SYNO_WATCH="$MAIN_VOLUME/p2p/watch/"
 
-    TARGET="cloud:/Workspaces/Jean/p2p/$N"
+SYNO_UPLOADED="$MAIN_VOLUME/p2p/downloaded"
+CLOUD_UPLOADED="cloud:/Workspaces/Jean/p2p/"
 
-    echo "*** Uploading $SOURCE to $TARGET..."
-
-    rclone_run move --delete-empty-src-dirs "$SOURCE" "$TARGET"
-}
-
-if [ -n "$1" ]; then
-    upload "$1"
-else
-    for F in "$MAIN_VOLUME/p2p/downloaded/"*; do
-        # Avoid glob errors
-        if [ -r "$F" ]; then
-            upload "$F"
-        fi
-    done
-fi
-
+echo "*** Uploading $SYNO_UPLOADED to $CLOUD_UPLOADED..."
+rclone_run move --delete-empty-src-dirs "$SYNO_UPLOADED" "$CLOUD_UPLOADED"
 echo "* Uploading done"
+
+echo "*** Uploading $CLOUD_WATCH to $SYNO_WATCH..."
+rclone_run move --delete-empty-src-dirs "$CLOUD_WATCH" "$SYNO_WATCH"
+echo "* Getting watch files done"
