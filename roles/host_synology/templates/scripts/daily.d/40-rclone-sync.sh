@@ -30,10 +30,9 @@ syncOne() {
 	# --bwlimit "500K": limit the bandwidth (at 500KBy/s, 1GByte = 30min)
 	#
 
-	rclone_run 
-		"sync" \
-		"cloud:/$SOURCE" "$TARGET" \
-		--exclude "@eaDir" --exclude "@eaDir/**"
+	rclone_run \
+		sync \
+		"cloud:/$SOURCE" "$TARGET"
 
 	echo "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
 	echo "vvv Syncing $SOURCE to $TARGET done"
