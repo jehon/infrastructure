@@ -8,6 +8,7 @@ profile: production
 exclude_paths:
   - .git
   - inventory/*
+  - .config/*
   - config/*
   - .*
   - _*
