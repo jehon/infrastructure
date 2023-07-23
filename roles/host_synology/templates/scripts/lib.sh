@@ -42,6 +42,7 @@ rclone_run() {
 		--config "$SCRIPTS_FOLDER"/config/rclone.conf \
 		--bwlimit "500K" \
 		--exclude "@eaDir" --exclude "@eaDir/**" \
+		--exclude "#recycle*" --exclude "Thumbs.*" \
         "$@"
     echo "Ended rclone with $*"
 }
