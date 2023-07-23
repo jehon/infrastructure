@@ -14,7 +14,7 @@ upload() {
 
     echo "*** Uploading $SOURCE to $TARGET..."
 
-    rclone_run mv "$SOURCE" "$TARGET"
+    rclone_run move --delete-empty-src-dirs "$SOURCE" "$TARGET"
 }
 
 if [ -n "$1" ]; then
