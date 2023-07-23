@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 
 # shellcheck source-path=SCRIPTDIR/../
-. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"/lib.sh
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"/../lib.sh
 
 upload() {
     SOURCE="$1"
@@ -12,9 +12,7 @@ upload() {
 
     TARGET="cloud:/Workspaces/Jean/p2p/$N"
 
-    echo "************************************************"
-    echo "*** Syncing $SOURCE to $TARGET..."
-    echo "************************************************"
+    echo "*** Uploading $SOURCE to $TARGET..."
 
     rclone_run mv "$SOURCE" "$TARGET"
 }
@@ -26,3 +24,5 @@ else
         upload "$F"
     done
 fi
+
+echo "* Uploading done"
