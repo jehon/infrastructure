@@ -50,7 +50,7 @@ all:
       ansible_remote_tmp: /volume1/scripts/.ansible-tmp
       ansible_pipelining: true
       ansible_ssh_transfer_method: piped
-      data_volume: /volume1/
+      data_volume: /volume1
       script_folder: /volume1/scripts/scripts
   children:
     grp_jehon:
