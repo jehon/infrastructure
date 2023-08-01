@@ -31,7 +31,7 @@ def recurse(folder):
         # Something here!
         return 1
 
-    print("We should remove " + folder)
+    print("Removing " + folder)
     ea = os.path.join(folder, EADIR)
     if os.path.isdir(ea):
         shutil.rmtree(ea)
@@ -45,4 +45,5 @@ else:
     recurse("{{ data_volume }}/Photos")
     recurse("{{ data_volume }}/Musiques")
     recurse("{{ data_volume }}/Videos")
+    recurse("{{ data_volume }}/photo/public")
   
