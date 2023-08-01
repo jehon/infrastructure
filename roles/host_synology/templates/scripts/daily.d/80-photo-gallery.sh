@@ -8,11 +8,11 @@ set -o errexit
 # https://manpages.debian.org/bullseye/rsync/rsync.1.en.html#protect,
 rsync \
     --recursive --links --times --omit-dir-times \
-    --delete --itemize-changes \
+    --itemize-changes \
     --exclude @eaDir \
     --exclude .dtrash \
     --exclude .digikam \
     --exclude "*.db" \
-    --delete-excluded --filter="P @eaDir" \
+    --delete  --delete-excluded --filter="P @eaDir" \
     "$MAIN_VOLUME/Photos/" \
     "$MAIN_VOLUME/photo/public/"
