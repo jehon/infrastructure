@@ -15,7 +15,7 @@ rsync \
     --exclude .dtrash \
     --exclude .digikam \
     --exclude "*.db" \
-    --delete  --delete-excluded --filter="P @eaDir" \
+    --delete --filter="P @eaDir/*" \
     "$MAIN_VOLUME/Photos/" \
     "$MAIN_VOLUME/photo/public/"
 echo "Syncing done"
