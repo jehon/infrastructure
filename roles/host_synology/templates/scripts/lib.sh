@@ -40,7 +40,7 @@ rclone_run() {
 		--verbose \
 		--stats 99d \
 		--config "$SCRIPTS_FOLDER"/config/rclone.conf \
-		--bwlimit "500K" \
+		--bwlimit "400K" \
 		--exclude "@eaDir" --exclude "@eaDir/**" \
 		--exclude "#recycle*" --exclude "Thumbs.*" \
         "$@"
