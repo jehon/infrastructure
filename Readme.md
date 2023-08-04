@@ -26,6 +26,12 @@
 - *2 Do we have a default users install?
 - *3 Where to store users secrets (rclone)?
 
+# Desktop install
+
+- 200 Gb root drive
+- 200 Gb home
+- 50 Gb swap
+
 # Ansible
 
 ansible-inventory --list
