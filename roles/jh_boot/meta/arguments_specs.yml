@@ -1,0 +1,9 @@
+---
+
+argument_specs:
+  main:
+    options:
+      key:
+        type: string
+      value:
+        type: string
