@@ -8,20 +8,21 @@
       register: jh_boot_file
 
     - name: Generate regular expression for existing arguments
-      set_fact:
+      ansible.builtin.set_fact:
         regex_existing: '{{ "\b" + key + "=[\w]*\b" }}'
         key_value_pair: '{{ key + "=" + value }}'
 
     - name: Generate regular expression for new arguments
-      set_fact:
+      ansible.builtin.set_fact:
         regex_add_missing: '{{ "^((?!(?:.|\n)*" + regex_existing + ")((?:.|\n)*))$" }}'
 
     - name: Update cmdline.txt
       become: true
-      copy:
+      ansible.builtin.copy:
         content: '{{ jh_boot_file.content
             | b64decode
             | regex_replace(regex_existing, key_value_pair)
             | regex_replace(regex_add_missing, key_value_pair + " \1")
           }}'
         dest: "{{ file }}.new"
+        mode: "0644"
