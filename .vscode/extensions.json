@@ -4,6 +4,7 @@
         "lizebang.bash-extension-pack",
         "ms-vscode.makefile-tools",
         "ms-azuretools.vscode-docker",
-        "rubymaniac.vscode-direnv"
+        "rubymaniac.vscode-direnv",
+        "wolfmah.ansible-vault-inline"
     ]
 }
