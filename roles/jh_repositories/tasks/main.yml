@@ -36,13 +36,16 @@
       register: result
       changed_when: "'[change]' in result.stdout"
 
-    - name: Setup debian repositories
-      when: jehon_testing > 0
-      ansible.builtin.command:
-        cmd: "/usr/sbin/jh-install-debian-testing {{ jehon_testing }}"
-      register: result
-      notify: jh_repositories.indexes
-      changed_when: "'[change]' in result.stdout"
+    - name: Setup Debian
+      when: ansible_distribution == "Debian"
+      block:
+        - name: Setup debian repositories
+          when: jehon_testing > 0
+          ansible.builtin.command:
+            cmd: "/usr/sbin/jh-install-debian-testing {{ jehon_testing }}"
+          register: result
+          notify: jh_repositories.indexes
+          changed_when: "'[change]' in result.stdout"
 
     - name: Refresh indexes for jehon
       ansible.builtin.meta: flush_handlers
