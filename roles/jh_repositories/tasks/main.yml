@@ -60,7 +60,7 @@
       when: jehon_repo_docker
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-docker"
-      register: host_dev_docker
+      register: result
       changed_when: >
         '[change]' in result.stdout
         or 'Preparing to unpack' in result.stdout
