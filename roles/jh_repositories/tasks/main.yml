@@ -37,6 +37,7 @@
       changed_when: "'[change]' in result.stdout"
 
     - name: Setup Debian
+      # TODO: Quid on raspbian ? actually raspberry pi does not have jehon_testing
       when: ansible_distribution == "Debian"
       block:
         - name: Setup debian repositories
