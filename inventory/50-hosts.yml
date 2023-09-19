@@ -17,7 +17,7 @@ all:
         Musiques: rw
         Photos: rw
         Videos: rw
-      jehon_hardware: wsl
+      # jehon_hardware: wsl
       jehon_repo_docker: true
       jehon_repo_mopidy: true
       jehon_testing: 75
