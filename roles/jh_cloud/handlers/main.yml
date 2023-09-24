@@ -13,5 +13,5 @@
   with_items: "{{ mount_list }}"
   ansible.builtin.systemd:
     name: mnt-cloud-{{ item | lower }}.mount
-    state: restarted
+    state: "{{ 'restarted' if jh_cloud_start else 'stopped' }}"
   changed_when: false

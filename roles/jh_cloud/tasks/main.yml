@@ -54,15 +54,24 @@
         state: absent
       notify: jh_cloud.remount
 
-    - name: Enable cloud mount service
+    - name: Enable cloud mount service?
       when: not virtual
-      with_items: "{{ mount_list }}"
-      vars:
-        jh_cloud_start: "{{ (cloud_mount is defined) and (cloud_mount[item] is defined) and (cloud_mount[item] != '') }}"
-      ansible.builtin.systemd:
-        name: mnt-cloud-{{ item | lower }}.mount
-        enabled: "{{ jh_cloud_start }}"
-        state: "{{ 'started' if jh_cloud_start else 'stopped' }}"
+      block:
+        - name: Enable cloud mount service
+          when: jehon_always_connected
+          with_items: "{{ mount_list }}"
+          ansible.builtin.systemd:
+            name: mnt-cloud-{{ item | lower }}.mount
+            enabled: "{{ jh_cloud_start }}"
+            state: "{{ 'started' if jh_cloud_start else 'stopped' }}"
+        ## ELSE ##
+        - name: Disable cloud mount service
+          when: not jehon_always_connected
+          with_items: "{{ mount_list }}"
+          ansible.builtin.systemd:
+            name: mnt-cloud-{{ item | lower }}.mount
+            enabled: false
+
 ## ELSE ##
 - name: "Remove config"
   when: cloud_type | length == 0

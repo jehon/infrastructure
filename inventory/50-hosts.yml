@@ -4,6 +4,7 @@ all:
   vars:
     # Avoid undefined in playbook:
     virtual: false
+    jehon_always_connected: false
     jehon_headless: false
   hosts:
     dev:
@@ -29,6 +30,7 @@ all:
       virtual: true
     kiosk:
       ansible_host: "{{ jehon.ip.kiosk }}"
+      jehon_always_connected: true
       jehon_ip: "{{ jehon.ip.kiosk }}"
       jehon_hardware: raspberrypi
       jehon_tty: 11
@@ -37,6 +39,7 @@ all:
         password: "{{ jehon.credentials.synology.kiosk.password }}"
     piscine:
       ansible_host: "{{ jehon.ip.piscine }}"
+      jehon_always_connected: true
       jehon_ip: "{{ jehon.ip.piscine }}"
       jehon_hardware: raspberrypi
       jehon_tty: 10
@@ -72,5 +75,6 @@ all:
           Musiques: ro
           Photos: ro
           Videos: ro
+        jehon_always_connected: true
         jehon_headless: true
         jehon_repo_mopidy: true

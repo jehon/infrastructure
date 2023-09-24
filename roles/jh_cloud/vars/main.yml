@@ -4,3 +4,5 @@ mount_list:
   - Musiques
   - Photos
   - Videos
+
+jh_cloud_start: "{{ jehon_always_connected and (cloud_mount is defined) and (cloud_mount[item] is defined) and (cloud_mount[item] != '') }}"
