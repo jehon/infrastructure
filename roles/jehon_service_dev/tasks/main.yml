@@ -63,38 +63,29 @@
     # See https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
     password: "{{ password | password_hash('sha512', 'salt') }}"
 
-- name: Set git user for {{ login + "-" + display_name }}
+- name: Set git user for {{ "'" + user + "-" + display_name + "'" }}
   community.general.ini_file:
-    path: /home/{{ login }}/.gitconfig
+    path: /home/{{ user }}/.gitconfig
+    mode: '0666'
+    owner: "{{ user }}"
     section: user
     option: name
     value: "{{ display_name }}"
-    mode: '0600'
-    backup: true
 
-- name: Set git email for {{ login + " - " + github_login }}
+- name: Include github config in general config
   community.general.ini_file:
-    path: /home/{{ login }}/.gitconfig
+    path: /home/{{ user }}/.gitconfig
+    mode: '0666'
+    owner: "{{ user }}"
+    section: includeIf "gitdir:~/src/"
+    option: path
+    value: ".gitconfig-github"
+
+- name: Set github config for {{ "'" + user + " - " + github_login + "'" }}
+  community.general.ini_file:
+    path: /home/{{ user }}/.gitconfig-github
+    mode: '0666'
+    owner: "{{ user }}"
     section: user
     option: email
     value: "{{ github_login }}@users.noreply.github.com"
-    mode: '0600'
-    backup: true
-
-- name: Set git user for root
-  community.general.ini_file:
-    path: /root/.gitconfig
-    section: user
-    option: name
-    value: "{{ display_name }}"
-    mode: '0600'
-    backup: true
-
-- name: Set git email for root
-  community.general.ini_file:
-    path: /root/.gitconfig
-    section: user
-    option: email
-    value: "{{ github_login }}@users.noreply.github.com"
-    mode: '0600'
-    backup: true

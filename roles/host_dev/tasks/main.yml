@@ -10,3 +10,5 @@
         name: jehon_service_dev
       vars:
         user: jehon
+        display_name: Jean Honlet
+        github_login: jehon
