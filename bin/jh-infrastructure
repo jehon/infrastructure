@@ -23,6 +23,7 @@ prjRoot=os.path.dirname(os.path.dirname(__file__))
 # Arguments parsing
 #
 parser = argparse.ArgumentParser(description='Proxy to ansible commands')
+parser = argparse.ArgumentParser(formatter_class=lambda prog: argparse.HelpFormatter(prog,max_help_position=80))
 parser.set_defaults(
     action="setup",
 )
@@ -31,6 +32,7 @@ parser.add_argument('host', help='target host', nargs='?', default=None)
 parser.add_argument('--playbooks',  nargs='*', help='Override playbook', default=[ "infos.yml", "setup.yml" ])
 
 parser.add_argument('--ip', help='Target IP host')
+parser.add_argument('--local', help='Use local sudo', action=argparse.BooleanOptionalAction)
 parser.add_argument('-u', '--ssh-user', help='Override SSH username')
 parser.add_argument('-p', '--ssh-password', help='Override SSH password')
 
@@ -57,12 +59,16 @@ if args.host:
     ansibleArgs.append("--limit")
     ansibleArgs.append(args.host)
 
-    #
-    # Host specific config
-    #
-    match args.host:
-        case "dev" | "":
-            ansibleArgs.append("--ask-become-pass")
+    # #
+    # # Host specific config
+    # #
+    # match args.host:
+    #     case "dev" | "":
+    #         ansibleArgs.append("--ask-become-pass")
+
+if args.local:
+    ansibleArgs.append("--connection local")
+    ansibleArgs.append("--ask-become-pass")
 
 ####################################
 #
