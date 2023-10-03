@@ -12,3 +12,32 @@
         user: jehon
         display_name: Jean Honlet
         github_login: jehon
+
+- name: Install desktop packages
+  ansible.builtin.apt:
+    pkg:
+      - copyq
+      - digikam
+      - gnome-network-displays
+
+- name: "Ensure installed snap (classic)"
+  when: not virtual
+  with_items:
+    - gimp
+    - ksnip
+    - mkvtoolnix-jz
+    - shellcheck
+    - snap-store
+    - vlc
+    - youtube-dl
+  community.general.snap:
+    name: "{{ item }}"
+    state: present
+
+- name: "Ensure installed snap (edge)"
+  with_items:
+    - firefox
+    - youtube-dl
+  community.general.snap:
+    name: "{{ item }}"
+    state: present
