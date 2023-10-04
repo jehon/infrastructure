@@ -22,8 +22,8 @@
         src: "{{ cloud_type }}.conf"
         dest: /etc/jehon/rclone.conf
         owner: root
-        group: root
-        mode: "0644"
+        group: jehon_secrets
+        mode: "0640"
       notify: jh_cloud.remount
 
     - name: Create dir
