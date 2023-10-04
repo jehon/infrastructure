@@ -1,7 +1,11 @@
 ---
 
 - name: Build artifacts
-  hosts: localhost
+  # Specifying stuff here do not define them in the inventory
+  # and so this particular host is not taken into account
+  # when setup.yml on all hosts...
+  hosts: 127.0.0.1
+  connection: local
   gather_facts: false
 
   tasks:

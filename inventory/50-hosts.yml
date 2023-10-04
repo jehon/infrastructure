@@ -23,10 +23,6 @@ all:
       jehon_repo_mopidy: true
       ## Depend also on the OS
       jehon_testing: 75
-    localhost:
-      # Used by build-artifacts
-      ansible_connection: local
-      virtual: true
     kiosk:
       ansible_host: "{{ jehon.ip.kiosk }}"
       jehon_always_connected: true
