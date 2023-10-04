@@ -35,6 +35,7 @@
     state: present
 
 - name: "Ensure installed snap (edge)"
+  when: not virtual
   with_items:
     - firefox
     - youtube-dl
