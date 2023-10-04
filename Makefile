@@ -107,7 +107,9 @@ tmp/.built: .python/.built
 
 tmp/dev-config.json: tmp/.built
 	mkdir -p "$(dir $@)"
-	ansible-playbook --vault-password-file $(ABS_ROOT)/$(ENCRYPTION_MOCK) build-artifacts.yml
+	ansible-playbook \
+		--vault-password-file $(ABS_ROOT)/$(ENCRYPTION_MOCK) \
+		build-artifacts.yml
 	touch "$@"
 
 test: tmp/tests/.built \

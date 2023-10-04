@@ -129,7 +129,7 @@ match args.action:
         run_ansible('run', args.playbooks, ansibleArgs)
         if args.ip:
             # when ip is set, host must be set - see above
-            jdi.info("Ansible done. Rebooting.")
+            jdi.info("Ansible done to target ip. Rebooting now.")
             jshell.ssh(
                     host=args.host,
                     cmd=[ "/usr/sbin/reboot" ],
