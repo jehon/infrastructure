@@ -137,18 +137,20 @@ match args.action:
                 )
 
     case "upgrade":
-        match args.host:
-            case "None":
-                # TODO: How to do this?
-                pass
-            case "dev":
-                jshell.run("sudo /usr/sbin/jh-system-upgrade full")
-            case _:
-                jshell.ssh(
-                        host=args.host,
-                        cmd=[ "/usr/sbin/jh-system-upgrade", "full" ],
-                        title="upgrade"
-                    )
+        playbooks = [ "upgrade.yml", "setup.yml" ]
+        jdi.info("Selected playbooks: " + " ".join(playbooks))
+        # Args? host only
+        run_ansible('run', playbooks, ansibleArgs)
+
+    #     match args.host:
+    #         case "dev":
+    #             jshell.run("sudo /usr/sbin/jh-system-upgrade full")
+    #         case _:
+    #             jshell.ssh(
+    #                     host=args.host,
+    #                     cmd=[ "/usr/sbin/jh-system-upgrade", "full" ],
+    #                     title="upgrade"
+    #                 )
     case _:
         parser.error(f"Unknown action: {args.action}", file=sys.stderr)
 
