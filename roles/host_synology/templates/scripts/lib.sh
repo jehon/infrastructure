@@ -8,8 +8,6 @@ export MAIN_VOLUME="{{ data_volume }}"
 # The path to the current script
 export SCRIPTS_FOLDER="{{ script_folder }}"
 export TMP="$SCRIPTS_FOLDER/../temp"
-LOG="$TMP/$(basename "$0").log"
-export LOG
 export RCLONE="$TMP/rclone/rclone"
 
 test_folder() {
@@ -27,10 +25,6 @@ rclone_kill() {
 }
 
 mkdir -p "$TMP"
-
-echo "Log name: $LOG"
-
-exec &> >(tee "$LOG")
 
 date
 
