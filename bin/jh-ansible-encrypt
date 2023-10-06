@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-SWD="$(realpath "$( dirname "${BASH_SOURCE[0]}")")"
+SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}")")"
 
 # shellcheck source-path=SCRIPTDIR/
 . "$SWD/lib.sh"

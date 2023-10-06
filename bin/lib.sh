@@ -5,7 +5,7 @@ set -o pipefail
 
 . /usr/bin/jh-lib
 
-PRJ_ROOT="$( dirname "$(realpath "$( dirname "${BASH_SOURCE[0]}")")" )"
+PRJ_ROOT="$( dirname "$(dirname "$( realpath "${BASH_SOURCE[0]}")")")"
 export PRJ_ROOT
 export PATH="$PRJ_ROOT/.python/bin/:$PATH"
 export PYTHONPATH="$PRJ_ROOT/.python"

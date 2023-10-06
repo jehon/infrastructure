@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SWD="$(dirname "${BASH_SOURCE[0]}")"
+SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}")")"
 
 PYTHON="$( dirname "$SWD" )"/.python
 

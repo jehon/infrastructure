@@ -3,7 +3,7 @@
 set -o errexit
 set -o pipefail
 
-SWD="$(dirname "${BASH_SOURCE[0]}")"
+SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}")")"
 PRJ_ROOT="$(dirname "$SWD")"
 
 apt_install() {
