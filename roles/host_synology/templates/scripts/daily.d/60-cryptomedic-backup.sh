@@ -5,7 +5,7 @@ set -o pipefail
 shopt -s nullglob
 
 # shellcheck source-path=SCRIPTDIR/../
-. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"/../lib.sh
+. "$(dirname "$( realpath "${BASH_SOURCE[0]}")")"/../lib.sh
 
 # shellcheck source-path=SCRIPTDIR/../
 . "$SCRIPTS_FOLDER"/config/cryptomedic.sh

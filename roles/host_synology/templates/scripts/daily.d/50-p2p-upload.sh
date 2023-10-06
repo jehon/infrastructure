@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 
 # shellcheck source-path=SCRIPTDIR/../
-. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"/../lib.sh
+. "$(dirname "$( realpath "${BASH_SOURCE[0]}")")"/../lib.sh
 
 CLOUD_WATCH="cloud:/Workspaces/Jean/p2p/Watch/"
 SYNO_WATCH="$MAIN_VOLUME/p2p/watch/"

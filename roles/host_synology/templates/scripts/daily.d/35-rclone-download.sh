@@ -3,7 +3,7 @@
 set -o errexit
 
 # shellcheck source-path=SCRIPTDIR/../
-. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"/../lib.sh
+. "$(dirname "$( realpath "${BASH_SOURCE[0]}")")"/../lib.sh
 
 cd "$TMP"
 ZIP="$TMP"/rclone.zip
