@@ -6,7 +6,7 @@
 | /                     | anything                          |            |    X     |         |             |             |                                                                |
 | /etc/                 | fixed config (link to /usr/share) |            |    X     |         |             |             |                                                                |
 | /etc/                 | host related                      |            |          |    X    |             |             |                                                                |
-| /etc/jehon/restricted | secrets                           |            |          |    X    |             |             |                                                                |
+| ~/restricted | secrets                           |            |          |    X    |             |             |                                                                |
 | /etc/apt/*            | repositories for other sources    |     X      |          |         |             |             | Bundled as package, it is difficult to update and depend on it |
 | Default users         | ml, silouane, rosalie...          |            |          |         |             |      X      | Desktop are moving too quickly                                 |
 | Users secrets         | For rclone in self install?       |            |          |         |             |      X      | Required by script when necessary                              |

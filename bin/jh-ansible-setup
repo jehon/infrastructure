@@ -5,12 +5,7 @@ set -o pipefail
 shopt -s nullglob
 
 # shellcheck source=/dev/null
-. "$(dirname "$( realpath "${BASH_SOURCE[0]}")")/lib.sh"
-
-if [ -r /etc/jehon/restricted/ansible-encryption-key ]; then
-    mkdir -p "$PRJ_ROOT/built"
-    ln -sfv /etc/jehon/restricted/ansible-encryption-key "$PRJ_ROOT"/built/ansible-encryption-key
-fi
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
 echo "Installing dependencies"
 make --directory "$PRJ_ROOT" dependencies

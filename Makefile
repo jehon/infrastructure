@@ -64,8 +64,8 @@ dependencies: .python/.built \
 built/encryption-key:
 	mkdir -p "$(dir $@)"
 	if [ ! -r "$@" ]; then \
-		if [ -r /etc/jehon/restricted/ansible-encryption-key ]; then \
-			ln -fs /etc/jehon/restricted/ansible-encryption-key "built/encryption-key"; \
+		if [ -r ~/restricted/ansible-encryption-key ]; then \
+			ln -fs ~/restricted/ansible-encryption-key "built/encryption-key"; \
 		else \
 			echo "12345-encryption-key-6789" > built/encryption-key; \
 		fi \
@@ -74,12 +74,8 @@ built/encryption-key:
 built/ssh-key:
 	mkdir -p "$(dir $@)"
 	if [ ! -r "$@" ]; then \
-		if [ -r /etc/jehon/restricted/ssh-key ]; then \
-			ln -fs /etc/jehon/restricted/ssh-key built/ssh-key; \
-		else \
-			if [ -r $(HOME)/.ssh/id_rsa ]; then \
-				ln -fs $(HOME)/.ssh/id_rsa built/ssh-key; \
-			fi \
+		if [ -r $(HOME)/.ssh/id_rsa ]; then \
+			ln -fs $(HOME)/.ssh/id_rsa "$@"; \
 		fi \
 	fi
 
