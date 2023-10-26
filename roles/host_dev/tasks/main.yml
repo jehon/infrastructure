@@ -19,6 +19,7 @@
       - copyq
       - digikam
       - gnome-network-displays
+      - gnome-shell-extensions
 
 - name: "Ensure installed snap (classic)"
   when: not virtual
