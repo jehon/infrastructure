@@ -27,6 +27,7 @@
     - gimp
     - ksnip
     - mkvtoolnix-jz
+    - node
     - shellcheck
     - snap-store
     - vlc
