@@ -18,8 +18,10 @@
     pkg:
       - copyq
       - digikam
+      - git-flow
       - gnome-network-displays
       - gnome-shell-extensions
+      - libfuse2                # pcloud
 
 - name: "Ensure installed snap (classic)"
   when: not virtual
