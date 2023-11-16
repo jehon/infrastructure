@@ -27,11 +27,7 @@
     # Tools
     #
     ############################################
-    - name: Setup nvm
-      ansible.builtin.command:
-        cmd: "/usr/sbin/jh-install-nvm"
-      register: result
-      changed_when: "'[modified]' in result.stdout"
+
 
     ############################################
     #
