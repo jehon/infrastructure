@@ -29,7 +29,6 @@
     - gimp
     - ksnip
     - mkvtoolnix-jz
-    - node
     - shellcheck
     - snap-store
     - vlc
@@ -37,6 +36,7 @@
   community.general.snap:
     name: "{{ item }}"
     state: present
+# node in snap? could not access pCloudDrive...
 
 - name: "Ensure installed snap (edge)"
   when: not virtual
