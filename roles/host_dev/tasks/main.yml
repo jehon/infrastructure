@@ -33,7 +33,7 @@
     - shellcheck
     - snap-store
     - vlc
-    - youtube-dl
+    - youtube-dl-pro
   community.general.snap:
     name: "{{ item }}"
     state: present
@@ -42,7 +42,6 @@
   when: not virtual
   with_items:
     - firefox
-    - youtube-dl
   community.general.snap:
     name: "{{ item }}"
     state: present
