@@ -14,7 +14,7 @@
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-rclone-latest"
       register: result
-      changed_when: "'[change]' in result.stdout"
+      changed_when: "'[modified]' in result.stdout"
       notify: jh_cloud.remount
 
     - name: "Install config ({{ cloud_type }})"

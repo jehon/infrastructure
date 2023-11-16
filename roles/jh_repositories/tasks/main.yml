@@ -31,7 +31,7 @@
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-nvm"
       register: result
-      changed_when: "'[change]' in result.stdout"
+      changed_when: "'[modified]' in result.stdout"
 
     ############################################
     #
@@ -45,7 +45,7 @@
         cmd: "/usr/sbin/jh-install-mopidy-repository"
       notify: jh_repositories.indexes
       register: result
-      changed_when: "'[change]' in result.stdout"
+      changed_when: "'[modified]' in result.stdout"
 
     - name: Setup Debian
       # TODO: Quid on raspbian ? actually raspberry pi does not have jehon_testing
@@ -57,7 +57,7 @@
             cmd: "/usr/sbin/jh-install-debian-testing {{ jehon_testing }}"
           register: result
           notify: jh_repositories.indexes
-          changed_when: "'[change]' in result.stdout"
+          changed_when: "'[modified]' in result.stdout"
 
     - name: Refresh indexes for jehon
       ansible.builtin.meta: flush_handlers
@@ -74,7 +74,7 @@
         cmd: "/usr/sbin/jh-install-docker"
       register: result
       changed_when: >
-        '[change]' in result.stdout
+        '[modified]' in result.stdout
         or 'Preparing to unpack' in result.stdout
 
     ############################################
