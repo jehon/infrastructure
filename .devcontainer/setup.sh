@@ -27,3 +27,5 @@ apt update
 if type direnv &>/dev/null ; then
     direnv allow "$PRJ_ROOT"/
 fi
+
+/usr/sbin/jh-install-shellcheck
