@@ -17,6 +17,14 @@
 #
 ############################################
 
+- name: Create restricted folder
+  ansible.builtin.file:
+    state: directory
+    dest: /home/{{ user }}/restricted/
+    owner: "{{ user }}"
+    group: jehon_secrets
+    mode: "0750"
+
 - name: Setup restricted files for user
   block:
     - name: Install secrets files
@@ -29,10 +37,10 @@
         - tmdb.key
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: /home/{{ user }}/restricted/{{ item }}
-        owner: root
+        dest: "/home/{{ user }}/restricted/{{ item }}"
+        owner: "{{ user }}"
         group: jehon_secrets
-        mode: "0750"
+        mode: "0700"
 
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/getent_module.html
 - name: Get users
