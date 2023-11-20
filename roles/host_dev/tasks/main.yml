@@ -31,6 +31,8 @@
     - ksnip
     - mkvtoolnix-jz
     - snap-store
+    - slack                        # Focus
+    - spotify
     - vlc
     - youtube-dl-pro
   community.general.snap:
@@ -40,6 +42,7 @@
 - name: "Ensure installed snap (classic)"
   when: not virtual
   with_items:
+    - code
     - node
   community.general.snap:
     name: "{{ item }}"
