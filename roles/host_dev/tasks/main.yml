@@ -21,30 +21,31 @@
       - git-flow
       - gnome-network-displays
       - gnome-shell-extensions
-      - libfuse2                # pcloud
+      - libfuse2                   # pcloud
 
-- name: "Ensure installed snap (classic)"
+- name: "Ensure installed snap"
   when: not virtual
   with_items:
+    - firefox
     - gimp
     - ksnip
     - mkvtoolnix-jz
-    - node
     - snap-store
     - vlc
     - youtube-dl-pro
   community.general.snap:
     name: "{{ item }}"
     state: present
-# node in snap? could not access pCloudDrive... but still the best option
 
-- name: "Ensure installed snap (edge)"
+- name: "Ensure installed snap (classic)"
   when: not virtual
   with_items:
-    - firefox
+    - node
   community.general.snap:
     name: "{{ item }}"
     state: present
+    classic: true
+# node in snap? could not access pCloudDrive... but still the best option
 
 - name: Setup google-chrome repository and packages
   ansible.builtin.command:
