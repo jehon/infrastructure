@@ -13,27 +13,6 @@
 
 ############################################
 #
-# Config
-#
-############################################
-- name: Setup system-wide files for user
-  block:
-    - name: Install secrets files
-      with_items:
-        - cryptomedic.php
-        - cryptomedic.sh
-        - dev.sh
-        - jenkins-master.key
-        - tmdb.key
-      ansible.builtin.template:
-        src: "{{ item }}"
-        dest: /etc/jehon/restricted/{{ item }}
-        owner: root
-        group: jehon_secrets
-        mode: "0750"
-
-############################################
-#
 # User config
 #
 ############################################
@@ -42,7 +21,12 @@
   block:
     - name: Install secrets files
       with_items:
+        - cryptomedic.php
+        - cryptomedic.sh
+        - dev.sh
         - jenkins.env
+        - jenkins-master.key
+        - tmdb.key
       ansible.builtin.template:
         src: "{{ item }}"
         dest: /home/{{ user }}/restricted/{{ item }}
