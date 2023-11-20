@@ -24,7 +24,6 @@
         - cryptomedic.sh
         - dev.sh
         - jenkins-master.key
-        - jenkins.env
         - tmdb.key
       ansible.builtin.template:
         src: "{{ item }}"
@@ -38,6 +37,18 @@
 # User config
 #
 ############################################
+
+- name: Setup restricted files for user
+  block:
+    - name: Install secrets files
+      with_items:
+        - jenkins.env
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: /home/{{ user }}/restricted/{{ item }}
+        owner: root
+        group: jehon_secrets
+        mode: "0750"
 
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/getent_module.html
 - name: Get users
