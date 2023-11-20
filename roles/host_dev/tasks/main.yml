@@ -47,10 +47,8 @@
     state: present
 
 - name: Setup google-chrome repository and packages
-  when: jehon_repo_docker
   ansible.builtin.command:
     cmd: "/usr/sbin/jh-install-google-chrome"
   register: result
   changed_when: >
     '[modified]' in result.stdout
-    or 'Preparing to unpack' in result.stdout
