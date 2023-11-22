@@ -22,6 +22,7 @@
       - gnome-network-displays
       - gnome-shell-extensions
       - libfuse2                   # pcloud
+      - solaar
 
 - name: "Ensure installed snap"
   when: not virtual
