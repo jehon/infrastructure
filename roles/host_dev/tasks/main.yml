@@ -50,6 +50,16 @@
     classic: true
 # node in snap? could not access pCloudDrive... but still the best option
 
+# TODO: Very old
+- name: "Ensure installed snap (special) "
+  when: not virtual
+  with_items:
+    - subtitle-edit
+  community.general.snap:
+    name: "{{ item }}"
+    state: present
+    channel: edge
+
 - name: Setup google-chrome repository and packages
   ansible.builtin.command:
     cmd: "/usr/sbin/jh-install-google-chrome"
