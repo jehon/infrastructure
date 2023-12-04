@@ -22,12 +22,15 @@
       - gnome-network-displays
       - gnome-shell-extensions
       - libfuse2                   # pcloud
+      - php                        # linting php in vscode
+      - php-xml                    # linting php in vscode
       - solaar
 
 - name: "Ensure installed snap"
   when: not virtual
   with_items:
     - firefox
+    - gh                           # GitHub for Cryptomedic
     - gimp
     - ksnip
     - mkvtoolnix-jz
