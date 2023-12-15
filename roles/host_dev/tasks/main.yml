@@ -7,11 +7,16 @@
   block:
     - name: Add user jehon
       ansible.builtin.include_role:
-        name: jehon_service_dev
+        name: user_jehon
       vars:
         user: jehon
         display_name: Jean Honlet
         github_login: jehon
+
+- name: Install package jehon-service-dev
+  ansible.builtin.apt:
+    pkg:
+      - jehon-service-dev
 
 - name: Install desktop packages
   ansible.builtin.apt:
