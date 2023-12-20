@@ -4,20 +4,21 @@
 # See https://manpages.debian.org/bookworm/openssh-client/ssh_config.5.en.html
 #
 
-GatewayPorts no
-
 Host prof-staging-bastion
   Hostname               {{ professional.bastion_stag }}
   Port                   10023
   User                   {{ professional.user }}
   AddressFamily          inet
   SessionType            none
-  ExitOnForwardFailure   yes
 
 Host prof-staging-database
   ProxyJump              prof-staging-bastion
   Hostname               database
   User                   {{ professional.user }}
   AddressFamily          inet
-  ExitOnForwardFailure   yes
   LocalForward           3306 localhost:3306                # Forward 3306(mariadb) from database to L:3306
+
+Host prof-prod-db
+  Hostname               {{ professional.prod_db_host }}
+  User                   {{ professional.prod_db_user }}
+  AddressFamily          inet
