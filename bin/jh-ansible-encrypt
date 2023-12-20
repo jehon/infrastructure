@@ -14,6 +14,6 @@ echo ""
 # https://docs.ansible.com/ansible/latest/vault_guide/vault_encrypting_content.html
 #
 
-ansible-vault encrypt_string "$1"
+ansible-vault encrypt_string "${1:?Need what to encrypt as [1]}"
 
 echo ""
