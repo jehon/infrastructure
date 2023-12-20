@@ -82,6 +82,14 @@
     option: email
     value: "{{ github_login }}@users.noreply.github.com"
 
+- name: Local SSH Config
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/ssh_config"
+    dest: /home/{{ user }}/.ssh/config
+    owner: "{{ user }}"
+    group: "jehon_secrets"
+    mode: "0640"
+
 ############################################
 #
 # User services
