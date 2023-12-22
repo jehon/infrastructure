@@ -16,7 +16,12 @@ Host prof-staging-database
   Hostname               database
   User                   {{ professional.user }}
   AddressFamily          inet
-#  LocalForward           3306 localhost:3306                # Forward 3306(mariadb) from database to L:3306
+
+Host prof-staging-eu2
+  ProxyJump              prof-staging-bastion
+  Hostname               eu2
+  User                   {{ professional.user | replace('_','.') }}
+  AddressFamily          inet
 
 Host prof-prod-db
   Hostname               {{ professional.prod_db_host }}
