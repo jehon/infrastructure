@@ -23,6 +23,12 @@ Host prof-staging-eu2
   User                   {{ professional.user | replace('_','.') }}
   AddressFamily          inet
 
+Host prof-staging-swarm
+  ProxyJump              prof-staging-bastion
+  Hostname               intellino-stag-art
+  User                   {{ professional.user | replace('_','.') }}
+  AddressFamily          inet
+
 Host prof-prod-db
   Hostname               {{ professional.prod_db_host }}
   User                   {{ professional.prod_db_user }}
