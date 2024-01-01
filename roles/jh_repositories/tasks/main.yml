@@ -2,6 +2,11 @@
 - name: Install packages
   when: ansible_pkg_mgr == "apt"
   block:
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_facts_module.html
+    - name: check packages
+      package_facts:
+        manager: auto
+
     ############################################
     #
     # Jehon.deb
@@ -10,6 +15,7 @@
 
     # We need this one to be installed first, because next line will depend on it
     - name: "Install jehon.deb from the web"
+      when: "'jehon' not in ansible_facts.packages"
       ansible.builtin.apt:
         deb: "https://jehon.github.io/packages/jehon.deb"
       notify: jh_repositories.indexes
