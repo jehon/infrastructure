@@ -26,6 +26,7 @@ all:
     kiosk:
       ansible_host: "{{ jehon.ip.kiosk }}"
       grafana:
+        template: grafana-raspberry.yaml
         metric_id: 1353997
         logs_id: 776025
         api_key: !vault |
