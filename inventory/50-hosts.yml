@@ -39,6 +39,7 @@ all:
     grafana_tenant_id: 1353997
     grafana_logs_id: 776025
     grafana_integrations_url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
+    grafana_metrics_url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
     grafana_logs_url: https://logs-prod-012.grafana.net/loki/api/v1/push
     jehon:
       ip:
