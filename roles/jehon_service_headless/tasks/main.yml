@@ -50,3 +50,12 @@
     name: jehon-chvt@{{ jehon_tty }}.service
     enabled: true
     state: started
+
+- name: Setup grafana
+  when: grafana.template | length > 0
+  block:
+    - name: Install config
+      ansible.builtin.template:
+        src: "{{ role_path }}/templates/{{ grafana.template }}"
+        dest: "/etc/grafana-agent.yaml"
+        mode: "0755"
