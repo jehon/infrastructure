@@ -112,7 +112,7 @@
             src: "{{ role_path }}/templates/{{ grafana_template }}.river"
             dest: "/etc/grafana-agent-flow.river"
             mode: "0640"
-            owner: root
+            owner: grafana-agent-flow
             group: jehon_secrets
 
         - name: Grafana - Enable service
