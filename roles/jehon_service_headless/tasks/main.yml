@@ -52,10 +52,23 @@
     state: started
 
 - name: Setup grafana
-  when: grafana.template | length > 0
+  when: grafana_template | length > 0
   block:
     - name: Install config
       ansible.builtin.template:
-        src: "{{ role_path }}/templates/{{ grafana.template }}"
+        src: "{{ role_path }}/templates/{{ grafana_template }}"
         dest: "/etc/grafana-agent.yaml"
         mode: "0755"
+
+    - name: Install grafana
+      when: "'grafana-agent-flow' not in ansible_facts.packages"
+      block:
+        - name: Configure repository
+          ansible.builtin.command:
+            cmd: "jehon/usr/sbin/jh-install-grafana-repository"
+          changed_when: true
+
+        - name: Install package
+          ansible.builtin.apt:
+            pkg:
+              grafana-agent-flow

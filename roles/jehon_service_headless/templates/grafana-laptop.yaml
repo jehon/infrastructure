@@ -5,8 +5,8 @@
 prometheus_remote_write:
   - basic_auth:
       username: {{ grafana_metric_id }}
-      password: {{ grafana.api_key }}
-    url: {{ grafana.integrations_url }}
+      password: {{ grafana_api_key }}
+    url: {{ grafana_integrations_url }}
   agent:
     enabled: true
     relabel_configs:
@@ -27,9 +27,9 @@ logs:
   configs:
   - clients:
     - basic_auth:
-        username: {{ grafana.logs_id }}
-        password: {{ grafana.api_key }}
-      url: {{ grafana.logs_url }}
+        username: {{ grafana_logs_id }}
+        password: {{ grafana_api_key }}
+      url: {{ grafana_logs_url }}
     name: integrations
     positions:
       filename: /tmp/positions.yaml
@@ -40,9 +40,9 @@ metrics:
   - name: integrations
     remote_write:
     - basic_auth:
-        username: {{ grafana.metric_id }}
-        password: {{ grafana.api_key }}
-      url: {{ grafana.metrics_url }}
+        username: {{ grafana_metric_id }}
+        password: {{ grafana_api_key }}
+      url: {{ grafana_metrics_url }}
     scrape_configs:
       # metrics.configs.scrape_configs section
   global:

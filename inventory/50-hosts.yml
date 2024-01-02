@@ -25,6 +25,10 @@
 # - TV: 64 -> 127
 #
 
+#
+# Take care that only top variables are merged -> a.b.c is overwriten and not merged!
+#
+
 all:
   vars:
     ansible_python_interpreter: auto_silent        # https://docs.ansible.com/ansible-core/2.13/reference_appendices/interpreter_discovery.html
@@ -32,6 +36,11 @@ all:
     jehon_always_connected: false
     jehon_headless: false
     virtual: false                                 # Avoid undefined in playbook
+    grafana_metric_id: 1353997
+    grafana_logs_id: 776025
+    grafana_integrations_url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
+    grafana_logs_url: https://logs-prod-012.grafana.net/loki/api/v1/push
+    grafana_metrics_url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
     jehon:
       ip:
         #
@@ -335,13 +344,12 @@ all:
       jehon_repo_mopidy: true
       ## Depend also on the OS
       jehon_testing: 75
+      grafana_api_key: TODO
+      grafana_template: grafana-laptop.yml
     kiosk:
       ansible_host: "{{ jehon.ip.kiosk }}"
-      grafana:
-        template: grafana-raspberry.yaml
-        metric_id: 1353997
-        logs_id: 776025
-        api_key: !vault |
+      grafana_template: grafana-raspberry.yaml
+      grafana_api_key: !vault |
                 $ANSIBLE_VAULT;1.1;AES256
                 34663034393466336533646338313933626334623235653434343135353736396663383330646636
                 6237356533636163363038643032613437376338653637350a666334613062303630656337353939
