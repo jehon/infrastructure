@@ -98,3 +98,25 @@
           ansible.builtin.apt:
             pkg:
               - "jehon-hardware-{{ jehon_hardware }}"
+
+    ############################################
+    #
+    # Configs
+    #
+    ############################################
+    - name: Setup grafana
+      when: grafana_template | length > 0
+      block:
+        - name: Grafana - Install config
+          ansible.builtin.template:
+            src: "{{ role_path }}/templates/{{ grafana_template }}.yml"
+            dest: "/etc/grafana-agent.yaml"
+            mode: "0640"
+            user: root
+            group: jehon_secrets
+
+        - name: Grafana - Enable service
+          ansible.builtin.systemd:
+            name: grafana-agent-flow
+            state: started
+            enabled: true

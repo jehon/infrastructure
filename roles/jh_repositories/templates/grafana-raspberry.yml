@@ -1,6 +1,6 @@
 ---
 
--- https://storage.googleapis.com/cloud-onboarding/agent/config/config.yamlintegrations:
+# https://storage.googleapis.com/cloud-onboarding/agent/config/config.yamlintegrations:
 
 prometheus_remote_write:
   - basic_auth:
