@@ -3,7 +3,7 @@
   when: ansible_pkg_mgr == "apt"
   block:
     # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_facts_module.html
-    - name: check packages
+    - name: Check packages
       ansible.builtin.package_facts:
         manager: auto
 

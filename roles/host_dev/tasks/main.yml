@@ -72,3 +72,4 @@
   when: "'google-chrome-stable' not in ansible_facts.packages"
   ansible.builtin.command:
     cmd: "/usr/sbin/jh-install-google-chrome"
+  changed_when: true
