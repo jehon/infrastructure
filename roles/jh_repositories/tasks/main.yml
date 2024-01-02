@@ -109,10 +109,10 @@
       block:
         - name: Grafana - Install config
           ansible.builtin.template:
-            src: "{{ role_path }}/templates/{{ grafana_template }}.yml"
-            dest: "/etc/grafana-agent.yaml"
+            src: "{{ role_path }}/templates/{{ grafana_template }}.river"
+            dest: "/etc/grafana-agent-flow.river"
             mode: "0640"
-            user: root
+            owner: root
             group: jehon_secrets
 
         - name: Grafana - Enable service

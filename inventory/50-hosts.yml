@@ -36,11 +36,10 @@ all:
     jehon_always_connected: false
     jehon_headless: false
     virtual: false                                 # Avoid undefined in playbook
-    grafana_metric_id: 1353997
+    grafana_username: 1353997
     grafana_logs_id: 776025
     grafana_integrations_url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
     grafana_logs_url: https://logs-prod-012.grafana.net/loki/api/v1/push
-    grafana_metrics_url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push
     jehon:
       ip:
         #
