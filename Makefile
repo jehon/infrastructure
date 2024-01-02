@@ -124,7 +124,7 @@ tmp/00-parameters.yml: inventory/00-parameters.yml \
 		bin/ansible-no-secrets
 
 	mkdir -p "$(dir $@)"
-	bin/ansible-no-secrets "inventory/00-parameters.yml" "$@"
+	bin/ansible-no-secrets "inventory/50-hosts.yml" "$@"
 	touch "$@"
 
 release: $(PUBLISH)/dev-config.json
