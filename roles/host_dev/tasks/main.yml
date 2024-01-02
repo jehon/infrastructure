@@ -69,6 +69,7 @@
     channel: edge
 
 - name: Setup google-chrome repository and packages
+  when: "'google-chrome-stable' not in ansible_facts.packages"
   ansible.builtin.command:
     cmd: "/usr/sbin/jh-install-google-chrome"
   register: result
