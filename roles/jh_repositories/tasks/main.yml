@@ -4,7 +4,7 @@
   block:
     # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_facts_module.html
     - name: check packages
-      package_facts:
+      ansible.builtin.package_facts:
         manager: auto
 
     ############################################
