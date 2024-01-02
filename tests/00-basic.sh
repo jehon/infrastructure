@@ -19,8 +19,8 @@ set -o pipefail
 
 		echo "************* Secrets are ok *******************"
 		ls inventory/
-		cat inventory/00-parameters.yml
-		! cat inventory/00-parameters.yml | grep -q '!vault'
+		cat inventory/50-hosts.yml
+		! cat inventory/50-hosts.yml | grep -q '!vault'
 
 		cat built/encryption-key
 		cat built/encryption-key | grep "12345-encryption-key-6789"

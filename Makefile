@@ -109,7 +109,7 @@ tmp/dev-config.json: tmp/.built
 	touch "$@"
 
 test: tmp/tests/.built \
-		tmp/00-parameters.yml
+		tmp/50-hosts.yml
 
 	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/
 
@@ -120,7 +120,7 @@ tmp/tests/.built: \
 	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --tag "test-ansible/ansible:local" --file ../tests/Dockerfile .
 	touch "$@"
 
-tmp/00-parameters.yml: inventory/00-parameters.yml \
+tmp/50-hosts.yml: inventory/50-hosts.yml \
 		bin/ansible-no-secrets
 
 	mkdir -p "$(dir $@)"

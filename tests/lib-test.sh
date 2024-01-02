@@ -47,7 +47,7 @@ test_in_docker() {
 		EOS
 	) | docker run --rm --name "test-ansible-$TEST_NAME" --interactive  \
 			-v "$PRJ_ROOT:$REMOTE_PRJ" \
-			-v "$PRJ_ROOT/tmp/00-parameters.yml:$REMOTE_PRJ/inventory/00-parameters.yml" \
+			-v "$PRJ_ROOT/tmp/50-hosts.yml:$REMOTE_PRJ/inventory/50-hosts.yml" \
 			-v "test-ansible-python-cache:$REMOTE_PRJ/.python" \
 			--tmpfs "$REMOTE_PRJ/.galaxy" \
 			--tmpfs "$REMOTE_PRJ/built" \
