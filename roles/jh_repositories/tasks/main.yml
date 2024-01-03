@@ -110,7 +110,7 @@
         - name: Grafana - Install config
           ansible.builtin.template:
             src: "{{ role_path }}/templates/{{ grafana_template }}.yaml"
-            dest: "/etc/grafana-agent.yml"
+            dest: /etc/grafana-agent.yml
             mode: "0640"
             owner: grafana-agent
             group: jehon_secrets

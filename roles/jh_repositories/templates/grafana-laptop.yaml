@@ -2,7 +2,8 @@
 
 # https://storage.googleapis.com/cloud-onboarding/agent/config/config.yamlintegrations:
 
-prometheus_remote_write:
+integrations:
+  prometheus_remote_write:
   - basic_auth:
       username: {{ grafana_tenant_id }}
       password: {{ grafana_api_key }}
