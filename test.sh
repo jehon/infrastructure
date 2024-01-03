@@ -11,7 +11,7 @@ fi
 
 cat <<EOS | ssh root@localhost
 
-systemctl restart grafana-agent-flow.service || true
-journalctl -xfu grafana-agent-flow.service
+systemctl restart grafana-agent.service || true
+journalctl -xfu grafana-agent.service
 
 EOS

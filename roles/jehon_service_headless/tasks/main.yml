@@ -50,3 +50,39 @@
     name: jehon-chvt@{{ jehon_tty }}.service
     enabled: true
     state: started
+
+- name: Setup grafana
+  when: grafana_template | length > 0
+  block:
+    - name: Grafana - Install api key
+      ansible.builtin.template:
+        src: "{{ role_path }}/templates/grafana-api-key.txt"
+        dest: /etc/restricted/grafana-api-key.txt
+        mode: "0640"
+        owner: grafana-agent-flow
+        group: jehon_secrets
+      notify: jehon_service_grafana.changed
+
+    - name: Grafana - Install config river
+      ansible.builtin.template:
+        src: "{{ role_path }}/templates/{{ grafana_template }}.river"
+        dest: /etc/grafana-agent-flow.river
+        mode: "0640"
+        owner: grafana-agent-flow
+        group: jehon_secrets
+      notify: jehon_service_grafana.changed
+
+    - name: Grafana - Install config river
+      ansible.builtin.template:
+        src: "{{ role_path }}/templates/{{ grafana_template }}.yaml"
+        dest: /etc/grafana-agent.yaml
+        mode: "0640"
+        owner: grafana-agent-flow
+        group: jehon_secrets
+      notify: jehon_service_grafana.changed
+
+    - name: Grafana - Enable service
+      ansible.builtin.systemd:
+        name: grafana-agent
+        state: started
+        enabled: true
