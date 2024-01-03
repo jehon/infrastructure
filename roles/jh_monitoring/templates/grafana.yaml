@@ -61,6 +61,29 @@ logs:
       filename: /tmp/positions.yaml
     scrape_configs:
       # BEGIN logs.configs.scrape_configs section
+    - job_name: integrations/node_exporter_journal_scrape
+      journal:
+        max_age: 24h
+        labels:
+          instance: '{{ inventory_hostname }}'
+          job: integrations/node_exporter
+      relabel_configs:
+      - source_labels: ['__journal__systemd_unit']
+        target_label: 'unit'
+      - source_labels: ['__journal__boot_id']
+        target_label: 'boot_id'
+      - source_labels: ['__journal__transport']
+        target_label: 'transport'
+      - source_labels: ['__journal_priority_keyword']
+        target_label: 'level'
+    - job_name: integrations/node_exporter_direct_scrape
+      static_configs:
+      - targets:
+        - localhost
+        labels:
+          instance: '{{ inventory_hostname }}'
+          __path__: /var/log/{syslog,messages,*.log}
+          job: integrations/node_exporter
       # END logs.configs.scrape_configs section
 
 metrics:
