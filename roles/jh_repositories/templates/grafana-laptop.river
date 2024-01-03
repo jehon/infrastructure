@@ -1,3 +1,9 @@
+// Load the api key
+local.file "apikey" {
+  filename  = "/var/data/my-api-key.txt"
+  is_secret = true
+}
+
 prometheus.remote_write "metrics_integrations" {
         endpoint {
                 name = "integrations-245025"
@@ -5,7 +11,7 @@ prometheus.remote_write "metrics_integrations" {
 
                 basic_auth {
                         username = "{{ grafana_metric_id }}"
-                        password = "{{ grafana_api_key }}"
+                        password = local.file.apikey.content
                 }
 
                 queue_config { }
@@ -68,7 +74,7 @@ loki.write "logs_integrations" {
 
                 basic_auth {
                         username = "{{ grafana_logs_id }}"
-                        password = "{{ grafana_api_key }}"
+                        password = local.file.apikey.content
                 }
         }
         external_labels = {}
@@ -112,7 +118,7 @@ prometheus.remote_write "integrations" {
 
                 basic_auth {
                         username = "{{ grafana_metric_id }}"
-                        password = "{{ grafana_api_key }}"
+                        password = local.file.apikey.content
                 }
 
                 queue_config { }
