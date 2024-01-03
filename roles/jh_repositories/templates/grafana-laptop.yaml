@@ -5,9 +5,9 @@
 integrations:
   prometheus_remote_write:
   - basic_auth:
-      username: {{ grafana_metrics_tenant_id }}
+      username: {{ grafana_metric_id }}
       password: {{ grafana_api_key }}
-    url: {{ grafana_integrations_url }}
+    url: {{ grafana_prom_url }}
   agent:
     enabled: true
     relabel_configs:
@@ -28,7 +28,7 @@ logs:
   configs:
   - clients:
     - basic_auth:
-        username: {{ grafana_logs_tenant_id }}
+        username: {{ grafana_logs_id }}
         password: {{ grafana_api_key }}
       url: {{ grafana_logs_url }}
     name: integrations
@@ -41,9 +41,9 @@ metrics:
   - name: integrations
     remote_write:
     - basic_auth:
-        username: {{ grafana_metrics_tenant_id }}
+        username: {{ grafana_metric_id }}
         password: {{ grafana_api_key }}
-      url: {{ grafana_metrics_url }}
+      url: {{ grafana_prom_url }}
     scrape_configs:
       # metrics.configs.scrape_configs section
   global:
