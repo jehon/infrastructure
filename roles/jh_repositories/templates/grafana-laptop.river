@@ -4,7 +4,7 @@ prometheus.remote_write "metrics_integrations" {
                 url  = "{{ grafana_integrations_url }}"
 
                 basic_auth {
-                        username = "{{ grafana_tenant_id }}"
+                        username = "{{ grafana_metrics_tenant_id }}"
                         password = "{{ grafana_api_key }}"
                 }
 
@@ -67,7 +67,7 @@ loki.write "logs_integrations" {
                 url = "{{ grafana_logs_url }}"
 
                 basic_auth {
-                        username = "{{ grafana_tenant_id }}"
+                        username = "{{ grafana_logs_tenant_id }}"
                         password = "{{ grafana_api_key }}"
                 }
         }
@@ -111,7 +111,7 @@ prometheus.remote_write "integrations" {
                 url = "{{ grafana_integrations_url }}"
 
                 basic_auth {
-                        username = "{{ grafana_tenant_id }}"
+                        username = "{{ grafana_metrics_tenant_id }}"
                         password = "{{ grafana_api_key }}"
                 }
 
