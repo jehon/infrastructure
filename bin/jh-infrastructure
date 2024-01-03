@@ -42,11 +42,13 @@ args=parser.parse_args()
 
 def run_ansible(title: str, playbooks: list[str], ansibleArgs: list[str]):
     with jdi.header(title):
-        jshell.run(
+        res = jshell.run(
                 [ os.path.join(prjRoot, ".python/bin/ansible-playbook") ] + ansibleArgs + playbooks,
                 cwd=os.path.join(prjRoot),
                 env={ "PYTHONPATH": os.path.join(prjRoot, ".python") }
             )
+        if res > 0:
+            sys.exit(res)
 
 # jh.shell([ "bin/jh-ansible-setup" ], cwd=prjRoot)
 

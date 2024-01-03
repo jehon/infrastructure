@@ -6,11 +6,3 @@
   ansible.builtin.command:
     cmd: netplan apply
   changed_when: true
-
-- name: Restart Grafana Agent
-  listen: jehon_service_grafana.changed
-  when: not virtual
-  ansible.builtin.systemd:
-    name: grafana-agent
-    state: restartd 
-  changed_when: true

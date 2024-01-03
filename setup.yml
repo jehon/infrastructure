@@ -24,6 +24,11 @@
       ansible.builtin.include_role:
         name: jh_network
 
+    - name: Setup monitoring
+      when: grafana_template | length > 0
+      ansible.builtin.include_role:
+        name: jh_monitoring
+
     - name: Setup cloud
       ansible.builtin.include_role:
         name: jh_cloud

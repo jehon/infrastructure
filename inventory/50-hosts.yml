@@ -36,8 +36,11 @@ all:
     jehon_always_connected: false
     jehon_headless: false
     virtual: false                                 # Avoid undefined in playbook
-    grafana_prom_id: 1353997             # See ?
-    grafana_logs_id: 776025                 # See https://grafana.com/orgs/jehon/hosted-logs/776025?src=hg_home
+    # Check connection here: 
+    #    - https://grafana.com/orgs/jehon/access-policies
+    #    - https://jehon.grafana.net/d/integration-agent/grafana-agent-overview?orgId=1&refresh=30s
+    grafana_prom_id: 1353997                                                               # See ?
+    grafana_logs_id: 776025                                                                # See https://grafana.com/orgs/jehon/hosted-logs/776025?src=hg_home
     grafana_prom_url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push  # See ?
     grafana_logs_url: https://logs-prod-012.grafana.net/loki/api/v1/push                   # See https://grafana.com/orgs/jehon/hosted-logs/776025?src=hg_home
     jehon:
@@ -343,9 +346,22 @@ all:
       jehon_repo_mopidy: true
       ## Depend also on the OS
       jehon_testing: 75
-      # See https://grafana.com/orgs/jehon/access-policies
-      grafana_api_key: glc_eyJvIjoiMTAyMDk4MiIsIm4iOiJzdGFjay04MjIzOTUtaW50ZWdyYXRpb24tZGV2IiwiayI6Im5IZFQ1NHoyNkt4TjBRSzVBT1I5NVMwNCIsIm0iOnsiciI6InByb2QtZXUtd2VzdC0yIn19
-      grafana_template: grafana-laptop
+      # Key generated here: https://grafana.com/orgs/jehon/access-policies
+      grafana_api_key: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          64323830373061343866323939663739393038396430653535623363333065656161646663393834
+          3263383738633833383332363536626263336262313666330a316332313035366636633361616232
+          62333938663766396634643332386563646635646131366637633062333733636634633937613965
+          3064666266656138370a323366643339326136643531663637313331633435323832633961653736
+          39306639363535616365303066343465623534313133613765613939363439326439623136333161
+          32646134666336363165303538336463326263316135313164633532613438346564646131343135
+          32653364313466366263336666633166363635326566356631386533353561346134383938313032
+          35663133323535386366376566323464313861613731326631323139383038663131666631633735
+          31626666633764323866343734623938613939663139383732386265656335656435333737373234
+          36616234663633636331653632323461653966633531316232323462613535383932633835386530
+          63356332303739383266316461613531343936373763336237356362363535303838353665316131
+          30313936643565653238
+      grafana_template: grafana
     kiosk:
       ansible_host: "{{ jehon.ip.kiosk }}"
       jehon_always_connected: true
