@@ -29,6 +29,7 @@
   notify: jehon_service_grafana.changed
 
 - name: Grafana - Enable service
+  when: not virtual
   ansible.builtin.systemd:
     name: grafana-agent
     state: started
