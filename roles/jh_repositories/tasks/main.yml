@@ -80,7 +80,7 @@
         or 'Preparing to unpack' in result.stdout
 
     - name: Setup Grafana agent repository and package
-      when: grafana_template | length > 0 and 'grafana-agent-flow' not in ansible_facts.packages
+      when: grafana_api_key | length > 0 and 'grafana-agent' not in ansible_facts.packages
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-grafana-agent"
       changed_when: true
