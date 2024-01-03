@@ -10,7 +10,7 @@
     group: jehon_secrets
   notify: jehon_service_grafana.changed
 
-# - name: Grafana - Install config river
+# - name: Grafana - Install config River
 #   ansible.builtin.template:
 #     src: "{{ role_path }}/templates/grafana.river"
 #     dest: /etc/grafana-agent-flow.river
@@ -19,7 +19,7 @@
 #     group: jehon_secrets
 #   notify: jehon_service_grafana.changed
 
-- name: Grafana - Install config river
+- name: Grafana - Install config Yaml
   ansible.builtin.template:
     src: "{{ role_path }}/templates/grafana.yaml"
     dest: /etc/grafana-agent.yaml
