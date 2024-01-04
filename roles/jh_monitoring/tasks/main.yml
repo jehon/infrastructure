@@ -38,6 +38,7 @@
 - name: Grafana - fix /var/log/boot.log
   ansible.builtin.file:
     path: /var/log/boot.log
+    state: touch
     mode: g+r
     owner: root
     group: adm
