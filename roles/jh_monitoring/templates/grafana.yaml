@@ -32,6 +32,7 @@ integrations:
     # exclude dynamic interfaces
     netclass_ignored_devices: "^(veth.*|cali.*|[a-f0-9]{15})$"
     netdev_device_exclude: "^(veth.*|cali.*|[a-f0-9]{15})$"
+    filesystem_mount_points_exclude: "^/(mnt/cloud|dev|proc|sys|var/lib/docker/.+)($|/)"
     # disable tmpfs
     filesystem_fs_types_exclude: "^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|tmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$"
     # drop extensive scrape statistics
