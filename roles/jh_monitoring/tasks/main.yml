@@ -34,3 +34,10 @@
     name: grafana-agent
     state: started
     enabled: true
+
+- name: Grafana - fix /var/log/boot.log
+  ansible.builtin.file:
+    path: /var/log/boot.log
+    mode: g+r
+    owner: root
+    group: adm
