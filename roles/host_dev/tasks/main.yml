@@ -30,6 +30,7 @@
       - php                        # linting php in vscode
       - php-xml                    # linting php in vscode
       - solaar
+      - sshfs                      # cryptomedic deploy
 
 - name: "Ensure installed snap"
   when: not virtual
