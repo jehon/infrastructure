@@ -42,6 +42,7 @@
     - mkvtoolnix-jz
     - slack                        # Focus
     - spotify
+    - whatsapp-for-linux           # Personnal (conf call)
     - vlc
     - youtube-dl-pro
   community.general.snap:
