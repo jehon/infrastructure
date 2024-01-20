@@ -366,7 +366,7 @@ all:
       jehon_always_connected: true
       jehon_ip: "{{ jehon.ip.kiosk }}"
       jehon_hardware: raspberrypi
-      jehon_tty: 11
+      jehon_tty: 2   # Fire
       # Key generated here: https://grafana.com/orgs/jehon/access-policies
       grafana_api_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
