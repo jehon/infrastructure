@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# shellcheck source=/usr/bin/jh-lib
+. jh-lib
+
+HOST=${1:?Need the target host [1]}
+
+ssh "${HOST}" fbgrab -d /dev/fb0 screenshot.png
+scp "${HOST}":screenshot.png "screenshot.png"
+open screenshot.png
