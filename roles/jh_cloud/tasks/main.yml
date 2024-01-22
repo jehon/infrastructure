@@ -17,7 +17,7 @@
       changed_when: "'[modified]' in result.stdout"
       notify: jh_cloud.remount
 
-    - name: "Install config ({{ cloud_type }})"
+    - name: "Install config (type: {{ cloud_type }})"
       ansible.builtin.template:
         src: "{{ cloud_type }}.conf"
         dest: /etc/jehon/rclone.conf
@@ -44,7 +44,7 @@
         owner: root
         group: root
         mode: "0644"
-      notify: jh_cloud.remount
+      notify: jh_cloud.systemctl_reload
     ## ELSE ##
     - name: "Remove override"
       when: not (cloud_cache_size or (mode != 'ro'))
@@ -52,7 +52,7 @@
       ansible.builtin.file:
         dest: /etc/system/systemd/mnt-cloud{{ item | lower }}.d/ansible.override
         state: absent
-      notify: jh_cloud.remount
+      notify: jh_cloud.systemctl_reload
 
     - name: Enable cloud mount service?
       when: not virtual
@@ -78,4 +78,4 @@
   ansible.builtin.file:
     dest: /etc/jehon/rclone.conf
     state: absent
-  notify: jh_cloud.remount
+  notify: jh_cloud.systemctl_reload

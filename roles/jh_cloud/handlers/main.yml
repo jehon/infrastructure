@@ -1,11 +1,12 @@
 ---
 
 - name: Do reload daemon
-  listen: jh_cloud.remount
+  listen: jh_cloud.systemctl_reload
   when: not virtual
   ansible.builtin.systemd:
     daemon_reload: true
   changed_when: false
+  notify: jh_cloud.remount
 
 - name: Do restart cloud mount
   listen: jh_cloud.remount
