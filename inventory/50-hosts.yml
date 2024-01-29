@@ -89,6 +89,9 @@ all:
       networks:
         hyperv: fe80::0/64
 
+      url:
+        synology_external: "https://jehon.synology.me:4001"
+
       credentials:
         pcloud:
           # configured here: https://docs.pcloud.com/my_apps/
