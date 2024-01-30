@@ -33,6 +33,7 @@
      # https://stackoverflow.com/a/18016700/1954789
       block:
         - name: List files at destination
+          # Will be expanded through shell
           ansible.builtin.shell:
             cmd: |
               set -o pipefail
