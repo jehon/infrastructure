@@ -90,6 +90,11 @@
     group: "jehon_secrets"
     mode: "0640"
 
+- name: Setup Gnome and other customizations
+  become_user: "{{ user }}"
+  ansible.builtin.command:
+    cmd: /usr/bin/jh-setup-user-profile
+
 ############################################
 #
 # User services
