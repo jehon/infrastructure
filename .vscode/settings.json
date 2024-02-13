@@ -10,5 +10,8 @@
     },
     "yaml.customTags": [
         "!vault"
+    ],
+    "cSpell.words": [
+        "jehon"
     ]
 }
