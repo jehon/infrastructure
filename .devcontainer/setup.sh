@@ -6,12 +6,14 @@ set -o pipefail
 SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}")")"
 PRJ_ROOT="$(dirname "$SWD")"
 
+cd "${SWD}"
+
 apt_install() {
     # /repo is not always available
-    DEBIAN_FRONTEND=noninteractive apt install --quiet --yes "$@"
+    sudo DEBIAN_FRONTEND=noninteractive apt install --quiet --yes "$@"
 }
 
-apt update
+sudo apt update
 
 apt_install \
     curl git sshpass \
@@ -22,10 +24,10 @@ mkdir --mode=0777 -p tmp
 curl -fsSL https://jehon.github.io/packages/jehon.deb -o tmp/jehon.deb
 apt_install ./tmp/jehon.deb
 
-apt update
+sudo apt update
 
 if type direnv &>/dev/null ; then
     direnv allow "$PRJ_ROOT"/
 fi
 
-/usr/sbin/jh-install-shellcheck
+sudo /usr/sbin/jh-install-shellcheck
