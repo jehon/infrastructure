@@ -6,6 +6,9 @@ set -o pipefail
 # shellcheck source-path=SCRIPTDIR
 . "$(dirname "${BASH_SOURCE[0]}")/../bin/lib.sh"
 
+# shellcheck source=/dev/null
+. jh-lib
+
 # shellcheck source-path=SCRIPTDIR/../
 TEST_NAME="$(basename "${BASH_SOURCE[1]}")"
 exec &> >( /usr/bin/jh-tag-stdin "$TEST_NAME" )
