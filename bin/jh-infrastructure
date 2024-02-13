@@ -9,7 +9,14 @@ import sys
 import jehon.display as jdi
 import jehon.shell as jshell
 
-jdi.info("Startup time: "+ str(datetime.datetime.now()))
+# https://pypi.org/project/termcolor/ <= see list of colors
+# python -m termcolor
+from termcolor import colored
+
+def info(msg: str):
+    print(colored(text=msg, color="blue"))
+
+info("Startup time: "+ str(datetime.datetime.now()))
 
 ####################################
 #
@@ -56,7 +63,7 @@ def run_ansible(title: str, playbooks: list[str], ansibleArgs: list[str]):
 #
 # Set the host
 #
-jdi.info(f"Selected host: {args.host}")
+info(f"Selected host: {args.host}")
 if args.host:
     ansibleArgs.append("--limit")
     ansibleArgs.append(args.host)
@@ -85,11 +92,11 @@ if args.ssh_user:
     
     ansibleArgs.append("-e")
     ansibleArgs.append("ansible_user=" + args.ssh_user)
-    jdi.info("Using user" + args.ssh_user)
+    info("Using user" + args.ssh_user)
     if args.ssh_user != "root":
         ansibleArgs.append("-e")
         ansibleArgs.append("ansible_become=true")
-        jdi.info("With become root")
+        info("With become root")
 
 if args.ssh_password:
     if not args.host:
@@ -97,12 +104,12 @@ if args.ssh_password:
     
     ansibleArgs.append("-e")
     ansibleArgs.append("ansible_password=" + args.ssh_password)
-    jdi.info("With password " + str(len(args.ssh_user)) + " characters")
+    info("With password " + str(len(args.ssh_user)) + " characters")
 
     if args.ssh_user != "root":
         ansibleArgs.append("-e")
         ansibleArgs.append("ansible_sudo_pass=" + args.ssh_password)
-        jdi.info("With root password from user")
+        info("With root password from user")
 
 if args.ip:
     if not args.host:
@@ -110,7 +117,7 @@ if args.ip:
     
     ansibleArgs.append("-e")
     ansibleArgs.append("ansible_host=" + args.ip)
-    jdi.info("Using ip: " + args.ip)
+    info("Using ip: " + args.ip)
 
     with jdi.header("reset ip"):
         subprocess.run([ "/usr/bin/jh-ssh-update-key", args.ip ], check=True)
@@ -127,11 +134,11 @@ match args.action:
         run_ansible('run', [ "dump.yml" ], ansibleArgs)
 
     case "setup":
-        jdi.info("Selected playbooks: " + " ".join(args.playbooks))
+        info("Selected playbooks: " + " ".join(args.playbooks))
         run_ansible('run', args.playbooks, ansibleArgs)
         if args.ip:
             # when ip is set, host must be set - see above
-            jdi.info("Ansible done to target ip. Rebooting now.")
+            info("Ansible done to target ip. Rebooting now.")
             jshell.ssh(
                     host=args.host,
                     cmd=[ "/usr/sbin/reboot" ],
@@ -140,20 +147,11 @@ match args.action:
 
     case "upgrade":
         playbooks = [ "upgrade.yml", "setup.yml" ]
-        jdi.info("Selected playbooks: " + " ".join(playbooks))
+        info("Selected playbooks: " + " ".join(playbooks))
         # Args? host only
         run_ansible('run', playbooks, ansibleArgs)
 
-    #     match args.host:
-    #         case "dev":
-    #             jshell.run("sudo /usr/sbin/jh-system-upgrade full")
-    #         case _:
-    #             jshell.ssh(
-    #                     host=args.host,
-    #                     cmd=[ "/usr/sbin/jh-system-upgrade", "full" ],
-    #                     title="upgrade"
-    #                 )
     case _:
         parser.error(f"Unknown action: {args.action}", file=sys.stderr)
 
-jdi.info("End time: "+ str(datetime.datetime.now()))
+info("End time: "+ str(datetime.datetime.now()))
