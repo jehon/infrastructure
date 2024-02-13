@@ -7,7 +7,7 @@ set -o errexit
 
 date
 
-time "$SCRIPTS_FOLDER"/daily.d/90-remove-empty-folders.py
+time "$SCRIPTS_FOLDER"/daily.d/90-remove-empty-folders.sh
 
 echo "Test script ended with success"
 date
