@@ -14,7 +14,7 @@ apt_install() {
 apt update
 
 apt_install \
-    curl git \
+    curl git sshpass \
     python3 python3-pip \
     python3-netaddr python3-passlib python3-apt default-libmysqlclient-dev
 
