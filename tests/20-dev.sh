@@ -8,6 +8,7 @@ set -o pipefail
 
 (
 	cat <<-'EOS'
+		cd infrastructure
 		ansible-playbook setup.yml --connection=local --limit dev -e "virtual=true"
 	EOS
 ) | test_in_docker

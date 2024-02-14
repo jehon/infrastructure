@@ -15,6 +15,7 @@ set -o pipefail
 		make dump-runtimes
 
 		echo "************* Share ansible is mounted *******************"
+		cd infrastructure
 		ls ansible.cfg
 
 		echo "************* Secrets are ok *******************"

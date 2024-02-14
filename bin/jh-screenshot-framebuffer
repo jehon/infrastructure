@@ -5,6 +5,8 @@
 
 HOST=${1:?Need the target host [1]}
 
+IMG="tmp/screenshot.png"
+
 ssh "${HOST}" fbgrab -d /dev/fb0 screenshot.png
-scp "${HOST}":screenshot.png "screenshot.png"
-open screenshot.png
+scp "${HOST}":screenshot.png "$IMG"
+open "$IMG"

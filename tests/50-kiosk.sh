@@ -8,6 +8,8 @@ set -o pipefail
 
 (
 	cat <<-'EOS'
+		cd infrastructure
+
 		cat inventory/*
 
 		ansible-playbook setup.yml --connection=local --limit kiosk -e "virtual=true"

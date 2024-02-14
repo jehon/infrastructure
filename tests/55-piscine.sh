@@ -8,6 +8,8 @@ set -o pipefail
 
 (
 	cat <<-'EOS'
+		cd infrastructure
+
 		ansible-playbook setup.yml --connection=local --limit piscine -e "virtual=true"
 
 		dpkg -l | grep "jehon-hardware-raspberrypi"

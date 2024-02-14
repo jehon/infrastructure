@@ -15,7 +15,7 @@ dev: clear dump dependencies dump-runtimes lint build ok
 ABS_ROOT=$(shell pwd)
 
 PUBLISH=tmp/publish
-ENCRYPTION_MOCK=.config/ansible-encryption-mock
+ENCRYPTION_MOCK=infrastructure/.config/ansible-encryption-mock
 
 SHELL=/bin/bash -o pipefail -o errexit
 export PATH := $(ABS_ROOT)/bin:$(ABS_ROOT)/.python/bin:$(PATH)
@@ -37,7 +37,7 @@ clear:
 
 clean:
 	rm -f "$(PUBLISH)/dev-config.json"
-	rm -fr built
+	rm -fr infrastructure/built
 	rm -fr tmp
 	rm -fr .python
 	docker ps | ( grep test-ansible || true ) | awk '{print $$1}' | xargs --no-run-if-empty -- docker kill
@@ -53,25 +53,25 @@ dump:
 	@echo "PYTHONPATH:        $(PYTHONPATH)"
 
 dependencies: .python/.built \
-	built/encryption-key \
-	built/ssh-key
+	infrastructure/built/encryption-key \
+	infrastructure/built/ssh-key
 
 .python/.built: requirements.txt
 # pytest: lint
 	pip install --upgrade --target "$(ABS_ROOT)"/.python -r requirements.txt
 	touch "$@"
 
-built/encryption-key:
+infrastructure/built/encryption-key:
 	mkdir -p "$(dir $@)"
 	if [ ! -r "$@" ]; then \
 		if [ -r ~/restricted/ansible-encryption-key ]; then \
-			ln -fs ~/restricted/ansible-encryption-key "built/encryption-key"; \
+			ln -fs ~/restricted/ansible-encryption-key "infrastructure/built/encryption-key"; \
 		else \
-			echo "12345-encryption-key-6789" > built/encryption-key; \
+			echo "12345-encryption-key-6789" > infrastructure/built/encryption-key; \
 		fi \
 	fi
 
-built/ssh-key:
+infrastructure/built/ssh-key:
 	mkdir -p "$(dir $@)"
 	if [ ! -r "$@" ]; then \
 		if [ -r $(HOME)/.ssh/id_rsa ]; then \
@@ -90,7 +90,7 @@ dump-runtimes: dependencies
 	@ansible-playbook --version
 
 lint: dependencies
-	ansible-lint
+	cd infrastructure/ && ansible-lint
 	@echo "$@ ok"
 
 build: dependencies \
@@ -103,7 +103,7 @@ tmp/.built: .python/.built
 
 tmp/dev-config.json: tmp/.built
 	mkdir -p "$(dir $@)"
-	ansible-playbook \
+	cd infrastructure/ && ansible-playbook \
 		--vault-password-file $(ABS_ROOT)/$(ENCRYPTION_MOCK) \
 		build-artifacts.yml
 	touch "$@"
@@ -117,14 +117,14 @@ tmp/tests/.built: \
 		setup.sh
 
 	mkdir -p "$(dir $@)"
-	docker build --tag "test-ansible/ansible:local" --file tests/Dockerfile .
+	docker build --tag "test-ansible/ansible:local" --file "$(ABS_ROOT)"/tests/Dockerfile .
 	touch "$@"
 
-tmp/50-hosts.yml: inventory/50-hosts.yml \
+tmp/50-hosts.yml: infrastructure/inventory/50-hosts.yml \
 		bin/ansible-no-secrets
 
 	mkdir -p "$(dir $@)"
-	bin/ansible-no-secrets "inventory/50-hosts.yml" "$@"
+	bin/ansible-no-secrets "infrastructure/inventory/50-hosts.yml" "$@"
 	touch "$@"
 
 release: $(PUBLISH)/dev-config.json
