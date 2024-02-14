@@ -117,7 +117,7 @@ tmp/tests/.built: \
 		.devcontainer/setup.sh
 
 	mkdir -p "$(dir $@)"
-	cd .devcontainer && DOCKER_BUILDKIT=1 docker build --tag "test-ansible/ansible:local" --file ../tests/Dockerfile .
+	cd .devcontainer && docker build --tag "test-ansible/ansible:local" --file ../tests/Dockerfile .
 	touch "$@"
 
 tmp/50-hosts.yml: inventory/50-hosts.yml \
