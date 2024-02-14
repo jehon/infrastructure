@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 
 SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}")")"
-PRJ_ROOT="$( "$SWD" )"
+PRJ_ROOT="$SWD"
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -36,10 +36,14 @@ mkdir --mode=0777 -p tmp
 curl -fsSL https://jehon.github.io/packages/jehon.deb -o tmp/jehon.deb
 apt_install ./tmp/jehon.deb
 
+echo "* Update post jehon.deb install..."
 root_or_sudo apt update
+echo "* Update post jehon.deb install done"
+
+echo "* Installing shellcheck..."
+root_or_sudo /usr/sbin/jh-install-shellcheck
+echo "* Installing shellcheck done"
 
 if type direnv &>/dev/null ; then
     direnv allow "$PRJ_ROOT"/
 fi
-
-root_or_sudo /usr/sbin/jh-install-shellcheck
