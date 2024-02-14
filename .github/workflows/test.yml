@@ -18,22 +18,27 @@ jobs:
   ga-test:
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    strategy:
+      matrix:
+        target:
+          - build
+          - lint
+          - test
 
     steps:
     - uses: actions/checkout@main
-      with:
-        fetch-depth: 0
 
-    - name: Setup
-      run: sudo .devcontainer/setup.sh
+    - run: .devcontainer/setup.sh
+    - run: make "${{ matrix.target }}"
 
-    - run: make dump
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ github.ref_name == 'main' && github.ref_type == 'branch' }}
 
-    - run: make build
+    steps:
+      - uses: actions/checkout@main
 
-    - run: make lint
-
-    - run: make test
-
-    - run: make release
-      if: ${{ github.ref_name == 'main' && github.ref_type == 'branch' }}
+      - run: .devcontainer/setup.sh
+      - run: make dump
+      - run: make release
