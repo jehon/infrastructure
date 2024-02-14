@@ -28,7 +28,7 @@ jobs:
     steps:
     - uses: actions/checkout@main
 
-    - run: .devcontainer/setup.sh
+    - run: ./setup.sh
     - run: make "${{ matrix.target }}"
 
   publish:
@@ -39,6 +39,6 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
-      - run: .devcontainer/setup.sh
+      - run: ./setup.sh
       - run: make dump
       - run: make release

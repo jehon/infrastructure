@@ -114,10 +114,10 @@ test: tmp/tests/.built \
 	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/
 
 tmp/tests/.built: \
-		.devcontainer/setup.sh
+		setup.sh
 
 	mkdir -p "$(dir $@)"
-	cd .devcontainer && docker build --tag "test-ansible/ansible:local" --file ../tests/Dockerfile .
+	docker build --tag "test-ansible/ansible:local" --file tests/Dockerfile .
 	touch "$@"
 
 tmp/50-hosts.yml: inventory/50-hosts.yml \
