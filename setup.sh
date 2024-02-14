@@ -4,12 +4,12 @@ set -o errexit
 set -o pipefail
 
 SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}")")"
-PRJ_ROOT="$(dirname "$SWD")"
+PRJ_ROOT="$( "$SWD" )"
 
 export DEBIAN_FRONTEND=noninteractive
 
 root_or_sudo() {
-    if [ $( id -u ) == 0 ]; then
+    if [ "$( id -u )" == "0" ]; then
         # In Docker
         "$@"
     else
