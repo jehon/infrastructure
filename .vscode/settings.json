@@ -11,7 +11,5 @@
     "yaml.customTags": [
         "!vault"
     ],
-    "cSpell.words": [
-        "jehon"
-    ]
+    "cSpell.words": ["jehon", "sshpass"]
 }
