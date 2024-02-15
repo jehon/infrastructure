@@ -111,13 +111,13 @@ tmp/dev-config.json: tmp/.built
 test: tmp/tests/.built \
 		tmp/50-hosts.yml
 
-	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/
+	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/infrastructure
 
 tmp/tests/.built: \
 		setup.sh
 
 	mkdir -p "$(dir $@)"
-	docker build --tag "test-ansible/ansible:local" --file "$(ABS_ROOT)"/tests/Dockerfile .
+	docker build --tag "test-ansible/ansible:local" --file "$(ABS_ROOT)"/tests/infrastructure/Dockerfile .
 	touch "$@"
 
 tmp/50-hosts.yml: infrastructure/inventory/50-hosts.yml \

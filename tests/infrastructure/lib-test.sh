@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 
 # shellcheck source-path=SCRIPTDIR
-. "$(dirname "${BASH_SOURCE[0]}")/../bin/lib.sh"
+. "$(dirname "${BASH_SOURCE[0]}")/../../bin/lib.sh"
 
 # shellcheck source=/dev/null
 . jh-lib
