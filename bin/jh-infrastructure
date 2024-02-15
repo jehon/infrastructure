@@ -5,16 +5,51 @@ import datetime
 import os
 import subprocess
 import sys
-
-import jehon.display as jdi
-import jehon.shell as jshell
+from typing import Optional
 
 # https://pypi.org/project/termcolor/ <= see list of colors
 # python -m termcolor
 from termcolor import colored
 
+# TODO: reuse the jehon package?
 def info(msg: str):
     print(colored(text=msg, color="blue"))
+
+# TODO: reuse the jehon package?
+def run(cmd: list[str], **kwargs):
+    """Run a script and send back all output
+    """
+
+    with subprocess.Popen(cmd, stdout=subprocess.PIPE, text=True, universal_newlines=True, **kwargs) as proc:
+        if proc.stdout is not None:
+            for stdout_line in proc.stdout:
+                sys.stdout.write(stdout_line)
+                sys.stdout.flush()
+
+        return proc.wait()
+
+# TODO: reuse the jehon package?
+def ssh(host: str, cmd: list[str],
+            title: str = "ssh",
+            user: Optional[str] = None,
+            password: Optional[str] = None
+        ):
+
+    cmdline: list[str] = []
+    env: dict[str, str]	 = {}
+
+    if password:
+        cmdline += [ "sshpass", "-e" ]
+        env["SSHPASS"] = password
+
+    cmdline += [ "ssh", host ]
+
+    if user:
+        cmdline += [ "-l", user ]
+
+    cmdline += cmd
+
+    run(cmdline,env=env)
 
 info("Startup time: "+ str(datetime.datetime.now()))
 
@@ -48,14 +83,13 @@ args=parser.parse_args()
 # exit(1)
 
 def run_ansible(title: str, playbooks: list[str], ansibleArgs: list[str]):
-    with jdi.header(title):
-        res = jshell.run(
-                [ os.path.join(prjRoot, ".python/bin/ansible-playbook") ] + ansibleArgs + playbooks,
-                cwd=os.path.join(prjRoot),
-                env={ "PYTHONPATH": os.path.join(prjRoot, ".python") }
-            )
-        if res > 0:
-            sys.exit(res)
+    res = run(
+            [ os.path.join(prjRoot, ".python/bin/ansible-playbook") ] + ansibleArgs + playbooks,
+            cwd=os.path.join(prjRoot, "infrastructure"),
+            env={ "PYTHONPATH": os.path.join(prjRoot, ".python") }
+        )
+    if res > 0:
+        sys.exit(res)
 
 # jh.shell([ "bin/jh-ansible-setup" ], cwd=prjRoot)
 
@@ -119,11 +153,9 @@ if args.ip:
     ansibleArgs.append("ansible_host=" + args.ip)
     info("Using ip: " + args.ip)
 
-    with jdi.header("reset ip"):
-        subprocess.run([ "/usr/bin/jh-ssh-update-key", args.ip ], check=True)
+    subprocess.run([ "/usr/bin/jh-ssh-update-key", args.ip ], check=True)
 
-    with jdi.header("reset host"):
-        subprocess.run([ "/usr/bin/jh-ssh-update-key", args.host], check=False)
+    subprocess.run([ "/usr/bin/jh-ssh-update-key", args.host], check=False)
 
 ####################################
 #
@@ -139,7 +171,7 @@ match args.action:
         if args.ip:
             # when ip is set, host must be set - see above
             info("Ansible done to target ip. Rebooting now.")
-            jshell.ssh(
+            ssh(
                     host=args.host,
                     cmd=[ "/usr/sbin/reboot" ],
                     title="reboot"
