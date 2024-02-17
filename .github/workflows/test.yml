@@ -28,6 +28,11 @@ jobs:
     steps:
     - uses: actions/checkout@main
 
+    # https://github.com/actions/setup-python
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
     - run: ./setup.sh
     - run: make "${{ matrix.target }}"
 
@@ -38,6 +43,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@main
+
+      - uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
 
       - run: ./setup.sh
       - run: make dump
