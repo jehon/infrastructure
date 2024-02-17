@@ -1,140 +1,186 @@
 #!/usr/bin/env make
 
-#
-#
-# Depends on:
-#     ansible/*
-#
-# Generate:
-#     x
-#
-full: clear clean dump dependencies dump-runtimes lint build ok
+.PHONY: pull-request
+pull-request: clear clean version dump lint build test ok
 
-dev: clear dump dependencies dump-runtimes lint build ok
-
-ABS_ROOT=$(shell pwd)
-
-PUBLISH=tmp/publish
-ENCRYPTION_MOCK=infrastructure/.config/ansible-encryption-mock
-
+# https://ftp.gnu.org/old-gnu/Manuals/make-3.79.1/html_chapter/make_7.html
+# https://stackoverflow.com/a/26936855/1954789
+# https://stackoverflow.com/a/39420097/1954789
+# SHELL := /bin/bash
 SHELL=/bin/bash -o pipefail -o errexit
-export PATH := $(ABS_ROOT)/bin:$(ABS_ROOT)/.python/bin:$(PATH)
-export PYTHONPATH := $(ABS_ROOT)/.python
 
-.PHONY: clear
-.PHONY: clean
-.PHONY: build
+# Locale per default
+LANG=C.UTF-8
+
+# .ONESHELL:
+.SECONDEXPANSION:
+
+ROOT = $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
+TMP_ROOT = $(ROOT)/tmp
+GITHUB_STEP_SUMMARY ?= "$(ROOT)/tmp/GITHUB_STEP_SUMMARY.log"
+PUBLISH=tmp/publish
+
+export PATH := $(ROOT)/bin:$(ROOT)/.python/bin:$(ROOT)/packages/jehon/usr/bin:$(PATH)
+export PYTHONPATH := $(ROOT)/.python
+
+define mkdir
+	@mkdir -p "$(dir $(1))"
+endef
+
+define touch
+	$(call mkdir,$(1))
+	@touch "$(1)"
+endef
+
+define copy
+	$(call mkdir,$(1))
+	@cp -fv "$(2)" "$(1)"
+endef
+
+# Identation is important:
+define version
+$(shell cat tmp/repo/version.txt || echo "1")
+endef
+
+DUMP_ALIGN=40
+define dump_info
+@if [ -n "$(2)" ]; then \
+	printf "* %-$(DUMP_ALIGN)s %s\n" '$(1): ' '$(2)'; \
+else \
+	printf "* %-$(DUMP_ALIGN)s %s\n" '$(1): ' '$($(1))'; \
+fi
+endef
+
+define dump_version
+@printf "* %-$(DUMP_ALIGN)s %s\n" '$(shell type $(1)): ' '$(shell $(1) --version | head -n $(if $2,$2,1) | tail -n 1)'
+endef
+
+define dump_title
+@printf "**************************** $(1) **************************\n"
+endef
+
+define dump_space
+@printf "*\n"
+endef
+
+VERSION_LAST_GIT=$(shell git log -1 --format="%at" | xargs -I{} date --utc -d @{} "+%Y.%m.%d.%H.%M.%S" )
+VERSION_CURRENT_TIME_TAG=$(shell date --utc "+%Y%m%d%H%M%S")
+ifeq "$(shell git status --porcelain)" ""
+	VERSION_RUN=$(VERSION_LAST_GIT)
+else
+	VERSION_RUN=$(VERSION_LAST_GIT).$(VERSION_CURRENT_TIME_TAG)
+endif
+
+# VERSION_LAST_EMAIL=$(git log -1 --pretty=format:'%ae')
+VERSION_LAST_EMAIL=$($(GITHUB_REPOSITORY_OWNER)@users.noreply.github.com)
+STARTUP_TIME:="$(shell date --utc "+%Y-%m-%d %H:%M:%S")"
+
+#
+#
+# Generic targets
+#
+#
 .PHONY: dump
-.PHONY: dependencies
-.PHONY: dump-runtimes
-.PHONY: lint
-.PHONY: test
-.PHONY: release
-.PHONY: ok
+dump:
+	$(call dump_space)
+	$(call dump_title,GLOBAL)
+	$(call dump_info,PWD,$(shell pwd))
+	$(call dump_info,ROOT)
+	$(call dump_info,TMP_ROOT)
+	$(call dump_info,REPO)
+	$(call dump_info,VERSION)
+	$(call dump_space)
+	$(call dump_info,VERSION_LAST_GIT)
+	$(call dump_info,VERSION_LAST_EMAIL)
+	$(call dump_info,VERSION_CURRENT_TIME_TAG)
+	$(call dump_info,VERSION_RUN)
+	$(call dump_space)
+	$(call dump_info,GITHUB_REPOSITORY_OWNER)
+	$(call dump_info,GITHUB_ACTOR)
+	$(call dump_info,GITHUB_STEP_SUMMARY)
+	$(call dump_space)
+	lsb_release -a || true
 
+.PHONY: dump-runtimes
+dump-runtimes:
+	@true
+
+.PHONY: clean
+clean:
+	rm -fr tmp
+
+.PHONY: build
+build:
+	@true
+
+.PHONY: test
+test:
+	@true
+
+.PHONY: lint
+lint:
+	@true
+
+.PHONY: release
+release:
+	@true
+
+#
+#
+# Helpers
+#
+#
+.PHONY: clear
 clear:
 	clear
 
-clean:
-	rm -f "$(PUBLISH)/dev-config.json"
-	rm -fr infrastructure/built
-	rm -fr tmp
-	rm -fr .python
-	docker ps | ( grep test-ansible || true ) | awk '{print $$1}' | xargs --no-run-if-empty -- docker kill
-	docker image list --filter 'reference=test-ansible/*' --format '{{.Repository}}:{{.Tag}}' | xargs --no-run-if-empty -- docker image rm -f
-	docker volume list --quiet | ( grep 'test-ansible' || true ) | xargs --no-run-if-empty -- docker rm -f
-
-dump:
-	@echo "ABS_ROOT:          $(ABS_ROOT)"
-	@echo "ENCRYPTION_MOCK:   $(ENCRYPTION_MOCK)"
-	@echo "PUBLISH:           $(PUBLISH)"
-	@echo ""
-	@echo "PATH:              $(PATH)"
-	@echo "PYTHONPATH:        $(PYTHONPATH)"
-
-dependencies: .python/.built \
-	infrastructure/built/encryption-key \
-	infrastructure/built/ssh-key
-
-.python/.built: requirements.txt
-# pytest: lint
-	pip install --upgrade --target "$(ABS_ROOT)"/.python -r requirements.txt
-	touch "$@"
-
-infrastructure/built/encryption-key:
-	mkdir -p "$(dir $@)"
-	if [ ! -r "$@" ]; then \
-		if [ -r ~/restricted/ansible-encryption-key ]; then \
-			ln -fs ~/restricted/ansible-encryption-key "infrastructure/built/encryption-key"; \
-		else \
-			echo "12345-encryption-key-6789" > infrastructure/built/encryption-key; \
-		fi \
-	fi
-
-infrastructure/built/ssh-key:
-	mkdir -p "$(dir $@)"
-	if [ ! -r "$@" ]; then \
-		if [ -r $(HOME)/.ssh/id_rsa ]; then \
-			ln -fs $(HOME)/.ssh/id_rsa "$@"; \
-		fi \
-	fi
-
-dump-runtimes: dependencies
-	@type ansible | grep "$(ABS_ROOT)/"
-	@ansible --version
-
-	@type ansible-lint | grep "$(ABS_ROOT)/"
-	@ansible-lint --version
-
-	@type ansible-playbook | grep "$(ABS_ROOT)/"
-	@ansible-playbook --version
-
-lint: dependencies
-	cd infrastructure/ && ansible-lint
-	@echo "$@ ok"
-
-build: dependencies \
-	tmp/.built \
-	tmp/dev-config.json
-
-tmp/.built: .python/.built
-	mkdir -p "$(dir $@)"
-	touch "$@"
-
-tmp/dev-config.json: tmp/.built
-	mkdir -p "$(dir $@)"
-	cd infrastructure/ && ansible-playbook \
-		--vault-password-file $(ABS_ROOT)/$(ENCRYPTION_MOCK) \
-		build-artifacts.yml
-	touch "$@"
-
-test: tmp/tests/.built \
-		tmp/50-hosts.yml
-
-	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/infrastructure
-
-tmp/tests/.built: \
-		setup.sh
-
-	mkdir -p "$(dir $@)"
-	docker build --tag "test-ansible/ansible:local" --file "$(ABS_ROOT)"/tests/infrastructure/Dockerfile .
-	touch "$@"
-
-tmp/50-hosts.yml: infrastructure/inventory/50-hosts.yml \
-		bin/ansible-no-secrets
-
-	mkdir -p "$(dir $@)"
-	bin/ansible-no-secrets "infrastructure/inventory/50-hosts.yml" "$@"
-	touch "$@"
-
-release: $(PUBLISH)/dev-config.json
-
-	/usr/bin/jh-github-publish-pages "$(PUBLISH)" "push"
-
-$(PUBLISH)/dev-config.json: tmp/dev-config.json
-	mkdir -p "$(dir $@)"
-	cp -f tmp/dev-config.json "$@"
-	touch "$@"
-
+.PHONY: ok
 ok:
 	@echo "Ok: done"
+
+# target 'start' could not exists, since it is the name of a file
+
+#
+#
+# Externals makefiles
+#
+#
+
+global: global-clean global-build global-test
+
+clean: global-clean
+build: global-build
+test: global-test
+
+.PHONY: global-clean
+global-clean:
+	rm -f tmp/repo/version.txt
+
+.PHONY: global-build
+global-build: tmp/repo/version.txt
+
+.PHONY: new-version
+new-version:
+	rm -f tmp/repo/version.txt
+	make version
+
+.PHONY: version
+version: tmp/repo/version.txt
+tmp/repo/version.txt: \
+		Makefile*
+
+	@echo "#################################################"
+	@echo "# Version: $(VERSION_RUN)"
+	@echo "#################################################"
+	mkdir -p "$(dir $@)"
+	echo "$(VERSION_RUN)" > tmp/repo/version.txt
+
+.PHONY: global-test
+global-test:
+	@true
+
+clean-force: clean
+# Thanks to https://stackoverflow.com/a/46273201/1954789
+	git clean -dfX
+
+include Makefile.infrastructure

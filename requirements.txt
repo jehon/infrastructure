@@ -1,4 +1,16 @@
+#
+# Ansible requirements
+#
+
 ansible
 ansible-lint
 ansible-vault
 pytest
+
+#
+# Packages requirements
+#   - build
+#
+
+pylint==3.0.3
+mypy==1.8.0

@@ -1,0 +1,128 @@
+#!/usr/bin/env make
+
+#
+#
+# Depends on:
+#     ansible/*
+#
+# Generate:
+#     x
+#
+
+ENCRYPTION_MOCK=infrastructure/.config/ansible-encryption-mock
+
+clean: infrastructure-clean
+dump: infrastructure-dump
+dump-runtimes: infrastructure-dump-runtimes
+dependencies: infrastructure-dependencies
+lint: infrastructure-lint
+build: infrastructure-build
+test: infrastructure-test
+release: infrastructure-release
+
+.PHONY: infrastructure-clean
+infrastructure-clean:
+	rm -f "$(PUBLISH)/dev-config.json"
+	rm -fr infrastructure/built
+	rm -fr tmp
+	rm -fr .python
+	docker ps | ( grep test-ansible || true ) | awk '{print $$1}' | xargs --no-run-if-empty -- docker kill
+	docker image list --filter 'reference=test-ansible/*' --format '{{.Repository}}:{{.Tag}}' | xargs --no-run-if-empty -- docker image rm -f
+	docker volume list --quiet | ( grep 'test-ansible' || true ) | xargs --no-run-if-empty -- docker rm -f
+
+.PHONY: infrastructure-dump
+infrastructure-dump:
+	$(call dump_space)
+	$(call dump_title,INFRASTRUCTURE)
+	$(call dump_info, ENCRYPTION_MOCK)
+	$(call dump_info, PUBLISH)
+
+.PHONY: infrastructure-dependencies
+infrastructure-dependencies: .python/.built \
+	infrastructure/built/encryption-key \
+	infrastructure/built/ssh-key
+
+.python/.built: requirements.txt
+# pytest: lint
+	pip install --upgrade --target "$(ROOT)"/.python -r requirements.txt
+	touch "$@"
+
+infrastructure/built/encryption-key:
+	mkdir -p "$(dir $@)"
+	if [ ! -r "$@" ]; then \
+		if [ -r ~/restricted/ansible-encryption-key ]; then \
+			ln -fs ~/restricted/ansible-encryption-key "infrastructure/built/encryption-key"; \
+		else \
+			echo "12345-encryption-key-6789" > infrastructure/built/encryption-key; \
+		fi \
+	fi
+
+infrastructure/built/ssh-key:
+	mkdir -p "$(dir $@)"
+	if [ ! -r "$@" ]; then \
+		if [ -r $(HOME)/.ssh/id_rsa ]; then \
+			ln -fs $(HOME)/.ssh/id_rsa "$@"; \
+		fi \
+	fi
+
+.PHONY: infrastructure-dump-runtimes
+infrastructure-dump-runtimes: dependencies
+	@type ansible | grep "$(ROOT)/"
+	@ansible --version
+
+	@type ansible-lint | grep "$(ROOT)/"
+	@ansible-lint --version
+
+	@type ansible-playbook | grep "$(ROOT)/"
+	@ansible-playbook --version
+
+.PHONY: infrastructure-lint
+infrastructure-lint: dependencies
+	cd infrastructure/ && ansible-lint
+	@echo "$@ ok"
+
+.PHONY: infrastructure-build
+infrastructure-build: dependencies \
+	tmp/.built \
+	tmp/dev-config.json
+
+tmp/.built: .python/.built
+	mkdir -p "$(dir $@)"
+	touch "$@"
+
+tmp/dev-config.json: tmp/.built
+	mkdir -p "$(dir $@)"
+	cd infrastructure/ && ansible-playbook \
+		--vault-password-file $(ROOT)/$(ENCRYPTION_MOCK) \
+		build-artifacts.yml
+	touch "$@"
+
+.PHONY: infrastructure-test
+infrastructure-test: tmp/tests/.built \
+		tmp/50-hosts.yml
+
+	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/infrastructure
+
+tmp/tests/.built: \
+		setup.sh
+
+	mkdir -p "$(dir $@)"
+	docker build --tag "test-ansible/ansible:local" --file "$(ROOT)"/tests/infrastructure/Dockerfile .
+	touch "$@"
+
+tmp/50-hosts.yml: infrastructure/inventory/50-hosts.yml \
+		bin/ansible-no-secrets
+
+	mkdir -p "$(dir $@)"
+	bin/ansible-no-secrets "infrastructure/inventory/50-hosts.yml" "$@"
+	touch "$@"
+
+.PHONY: infrastructure-release
+infrastructure-release: $(PUBLISH)/dev-config.json
+
+	/usr/bin/jh-github-publish-pages "$(PUBLISH)" "push"
+
+$(PUBLISH)/dev-config.json: tmp/dev-config.json
+	mkdir -p "$(dir $@)"
+	cp -f tmp/dev-config.json "$@"
+	touch "$@"
