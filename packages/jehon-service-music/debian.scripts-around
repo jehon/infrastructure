@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -o errexit
+
+case "$1" in
+install | upgrade)
+	dpkg-divert --rename --divert /etc/mopidy/mopidy.conf.diverted /etc/mopidy/mopidy.conf
+	dpkg-divert --rename --divert /etc/mpd.conf.diverted /etc/mpd.conf
+	;;
+
+purge | remove)
+	dpkg-divert --remove --rename --divert /etc/mopidy/mopidy.conf.diverted /etc/mopidy/mopidy.conf
+	dpkg-divert --remove --rename --divert /etc/mpd.conf.diverted /etc/mpd.conf
+	;;
+esac
+
+#
+# Legacy
+#
+
+exit 0

@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR
+. jh-lib
+
+ACTION="${1:?Need action}"
+FILE="${2:?Need file}"
+
+get_size() {
+    FILE="${1}"
+    if [ ! -r "$FILE" ]; then
+        return 1
+    fi
+
+    if [ -d "$FILE" ]; then
+        if [ -z "$( ls -A "$FILE" )" ]; then
+            return 1
+        else
+            return 0
+        fi
+    fi
+
+    if [ -s "$FILE" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+case "${ACTION}" in
+    "name" )
+        python3 -c "import pathlib; print(pathlib.Path('${FILE}').stem)"
+        ;;
+    "extension" )
+        python3 -c "import pathlib; print(pathlib.Path('${FILE}').suffix.lstrip('.'))"
+        ;;
+    "not-empty" )
+        if get_size "${FILE}"; then
+            exit 0
+        fi
+        exit 1
+        ;;
+    "is-empty" )
+        if get_size "${FILE}"; then
+            exit 1
+        fi
+        exit 0
+        ;;
+
+    "to-extension" )
+        EXT="${3:?Need new extension [3]}"
+        python3 -c "import pathlib; print(pathlib.Path('${FILE}').with_suffix('${EXT}'))"
+        ;;
+    * )
+        jh_fatal "Unknow action: $ACTION"
+        ;;
+esac
+

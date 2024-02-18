@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+clear
+
+PATTERN="$1"
+FILES="${2:-.}"
+
+grep \
+	--recursive \
+	--line-number \
+	--exclude-dir=.svn \
+	--exclude-dir=node_modules \
+	--exclude-dir=tmp \
+	--exclude-dir=.git \
+	--exclude=*~ \
+	--exclude=*.bak \
+	--color=auto \
+	-F \
+	"$PATTERN" \
+	"$FILES"

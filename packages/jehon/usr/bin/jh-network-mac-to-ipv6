@@ -1,0 +1,10 @@
+#!/bin/bash
+
+mac=$1
+ipv6_address=fe80::$(printf %02x $((0x${mac%%:*} ^ 2)))
+mac=${mac#*:}
+ipv6_address=$ipv6_address${mac%:*:*:*}ff:fe
+mac=${mac#*:*:}
+ipv6_address=$ipv6_address${mac%:*}${mac##*:}
+
+echo "$ipv6_address"

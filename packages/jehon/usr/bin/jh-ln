@@ -1,0 +1,29 @@
+#!/usr/bin/bash
+
+#
+# Same as ln, but show when something has changed
+#
+
+POINTING_TO="${1:?link target required [1]}"
+LINK_NAME="${2:?link name required [2]}"
+
+# A file exists
+if [ -e "$LINK_NAME" ]; then
+    # If it is a link
+    if [ -h "$LINK_NAME" ]; then
+        CUR_TARGET="$( readlink "$LINK_NAME" )"
+        # The link point an incorrect destination
+        if [ "$CUR_TARGET" != "$POINTING_TO" ]; then
+            echo "[modified] Removing link $LINK_NAME to $CUR_TARGET"
+            rm -f "$LINK_NAME"
+        fi
+    else
+        echo "[modified] Removing non link $LINK_NAME"
+        rm -fr "$LINK_NAME"
+    fi
+fi
+
+if [ ! -h "$LINK_NAME" ]; then
+    echo "[modified] Creating the link from $POINTING_TO to $LINK_NAME"
+    ln -sf "$POINTING_TO" "$LINK_NAME"
+fi

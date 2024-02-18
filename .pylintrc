@@ -1,0 +1,15 @@
+[MASTER]
+# https://github.com/kubeflow/examples/blob/master/.pylintrc
+
+[MESSAGES CONTROL]
+disable =
+    missing-module-docstring,
+    missing-class-docstring,
+    fixme,
+    line-too-long
+
+[tests/]
+disable =
+    missing-function-docstring,
+    too-few-public-methods,
+    invalid-name

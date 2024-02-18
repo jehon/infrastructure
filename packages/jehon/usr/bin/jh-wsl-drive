@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+[ -n "$1" ] || jh_fatal "Need drive as $1"
+
+mkdir -p "/mnt/$1"
+mount -t drvfs "$1:" "/mnt/$1"
+
+ls "/mnt/$1/"

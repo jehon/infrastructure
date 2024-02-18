@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+set -o errexit
+
+generateFile() {
+    FILE="$1"
+    FT="$(file --mime-type -b "$FILE")"
+    MT="${FT/\/*/}"
+
+    case "${MT}" in
+    "image")
+        echo "<li><img src='$FILE' height=50px>$FILE</li>"
+        ;;
+    "inode")
+        echo "<li><a href='$FILE'>$FILE</a></li>"
+        ;;
+    *)
+        echo "<li><a href='$FILE'>$FILE</a></li>"
+        ;;
+    esac
+}
+
+if [ -n "$1" ]; then
+    pushd "$1" >/dev/null || exit 1
+fi
+
+header_begin "Generating index.html in $(pwd)"
+(
+    echo "<html><body>"
+    date
+    echo "<ul>"
+    while read -r FILE; do
+        if [ "$FILE" = "index.html" ]; then
+            continue
+        fi
+
+        echo "+ $FILE" >&3
+        generateFile "$FILE"
+    done < <(find "." -name ".git" -prune -o -type f -printf "%P\n" | sort)
+
+    echo "</ul>"
+
+    echo "</body></html>"
+) >index.html
+header_end

@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+export NO_CLEAR=1
+
+header_begin "Update chore"
+git ls-files --modified | grep ".lock$" | xargs --no-run-if-empty -- git add
+git ls-files --modified | grep "package-lock.json$" | xargs --no-run-if-empty -- git add
+git commit -m "chore(deps): update locks" || true
+header_end
+
+header_begin "Merge $GIT_BRANCH"
+
+header_begin "checkout"
+git checkout main
+header_end
+
+header_begin "pull"
+git pull
+header_end
+
+header_begin "merge"
+git merge --squash "$GIT_BRANCH"
+header_end
+
+header_begin "commit"
+git commit --no-verify -m "Merge $GIT_BRANCH"
+header_end
+
+header_begin "push"
+git push
+header_end
+
+header_begin "delete branch"
+git branch -D "$GIT_BRANCH"
+header_end
+
+header_begin "final pull"
+git pull --all --prune
+header_end
+header_end
+
+echo ""
+echo ""
+jh_info "Remaining branches"
+git branch -a
+
+jh_value "Merged branch" "$GIT_BRANCH"

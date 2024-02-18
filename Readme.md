@@ -47,3 +47,4 @@ ansible-vault encrypt_string "$SECRET" --name "$KEY"
     register
     failed_when
     changed_when
+

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+ID="$1"
+FILE="$2"
+
+# Thanks to https://askubuntu.com/a/15272/638656
+
+gpg --keyserver pgpkeys.mit.edu --recv-key "$ID"
+gpg -a --export "$ID" >"$FILE"

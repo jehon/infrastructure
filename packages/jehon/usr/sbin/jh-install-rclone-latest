@@ -1,0 +1,38 @@
+#!/usr/bin/bash
+
+set -o errexit
+
+if type rclone >& /dev/null; then
+    VERSION="$( rclone version | head -n 1 | cut -d " " -f 2 )"
+    # Lowercase comparison
+    if dpkg --compare-versions "${VERSION,,}" lt "v1.64.2" 2> /dev/null ; then
+        echo "** Version can not self-update **"
+        echo "[modified] Removing old version"
+        REAL="$( type -P rclone )"
+        rm -fv "$REAL"
+
+        # Now we need to make the real install
+    else
+        echo "** Self updating (${VERSION}) **"
+        if ! rclone selfupdate --check | grep -v "beta" | grep "upgrade" >/dev/null; then
+            echo "Already at the latest"
+            exit 0
+        fi
+
+        #
+        # We have a self updating version, let's do that
+        #
+
+        # No change if "rclone is up to date"
+        echo "[modified] Self updating"
+        rclone selfupdate
+        exit 0
+    fi
+fi
+
+#
+# This should always change since it will install the latest version (>1.60)
+# and selfupdate is already present in 1.55
+#
+echo "[modified] Installing"
+curl https://rclone.org/install.sh | bash

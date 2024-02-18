@@ -1,0 +1,11 @@
+
+[Unit]
+Description=Refresh the picture's selection
+RequiresMountsFor=/mnt/cloud/photos
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/jehon-kiosk-select-pictures
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,12 @@
+
+# https://manpages.debian.org/bookworm/console-setup/console-setup.5.en.html
+
+# ACTIVE_CONSOLES="/dev/tty[1-6]"
+FONTFACE="Fixed"
+FONTSIZE="8x16"
+
+# Changed:
+BEEP=off
+CHARMAP="UTF-8"
+SCREEN_WIDTH=1600
+SCREEN_HEIGHT=1200

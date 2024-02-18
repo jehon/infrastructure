@@ -1,0 +1,14 @@
+
+[Unit]
+Description=Update rclone
+After=network-online.target
+ConditionFileIsExecutable=/usr/sbin/jh-install-rclone-latest
+
+[Service]
+# the VT is cleared by TTYVTDisallocate
+Type=oneshot
+ExecStart=/usr/sbin/jh-install-rclone-latest
+
+[Install]
+# Triggered by timer
+# WantedBy=multi-user.target

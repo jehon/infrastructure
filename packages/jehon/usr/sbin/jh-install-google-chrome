@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+#
+# No jh-lib since it can be called
+# as standalone...
+#
+
+set -o errexit
+
+[ -x /usr/bin/google-chrome ] && echo "Already installed"
+
+if [ "$(whoami)" != "root" ]; then
+    echo "You need to be root"
+    exit 1
+fi
+
+export DEBIAN_FRONTEND=noninteractive
+DEB=/tmp/google-chrome.deb
+
+echo "[modified] Downloading initial deb to $DEB"
+curl -fsSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o "$DEB"
+
+echo "[modified] Installing google chrome from $DEB"
+apt install --quiet --yes "$DEB"
+
+echo "[modified] Removing deb $DEB"
+rm -f "$DEB"

@@ -183,4 +183,7 @@ clean-force: clean
 # Thanks to https://stackoverflow.com/a/46273201/1954789
 	git clean -dfX
 
+include Makefile.python
+include Makefile.scripts
+include Makefile.packages
 include Makefile.infrastructure

@@ -1,0 +1,15 @@
+
+FROM ubuntu:latest
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+ADD root/ /
+ADD built/ /
+
+RUN apt update
+RUN apt install -y jehon
+
+# To avoid downloading from github
+RUN rm -f /etc/apt/sources.list.d/jehon-github.sources
+# Update according to above
+RUN apt update

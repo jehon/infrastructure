@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source=SCRIPTDIR/../../jehon/usr/bin/jh-lib
+. jh-lib
+
+MOUNT_NAME="$1"
+MOUNT_USER="$SUDO_USER"
+MOUNT_ROOT="/home/$MOUNT_USER/smb"
+MOUNT="$MOUNT_ROOT/$MOUNT_NAME"
+
+# Protect against hack
+MOUNT="$(realpath --canonicalize-missing --physical "$MOUNT")"
+
+if ! [[ "$MOUNT_NAME" =~ ^[[:alnum:]][[:alnum:]\.]*_[[:alnum:]\.]+_[[:alnum:]]+$ ]]; then
+    jh_error "Invalid mount name '$MOUNT_NAME'"
+    exit 1
+fi
+
+if ! [ -d "$MOUNT" ]; then
+    jh_error "Mount does not exists ($MOUNT)"
+    exit 1
+fi
+
+umount --lazy "$MOUNT"
+rmdir "$MOUNT"

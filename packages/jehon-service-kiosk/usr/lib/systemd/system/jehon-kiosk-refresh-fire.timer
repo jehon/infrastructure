@@ -1,0 +1,15 @@
+
+[Unit]
+Description=Refresh the fire
+RequiresMountsFor=/mnt/cloud/videos
+
+[Timer]
+OnBootSec=2min
+# In local time
+# Check with systemd-analyze calendar "xxx"
+OnCalendar=3:00
+Persistent=true
+RandomizedDelaySec=10m
+
+[Install]
+WantedBy=timers.target

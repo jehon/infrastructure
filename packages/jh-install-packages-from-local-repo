@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}")")"
+
+pushd "$SWD/../tmp/repo" > /dev/null
+
+dpkg -l | grep jehon- | grep ii \
+    | awk '{print $2}' \
+    | xargs -I "{}" find . -name "{}*.deb" \
+    | xargs -d '\n' apt install --yes ./jehon.deb

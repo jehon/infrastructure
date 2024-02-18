@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+while true; do
+    /usr/bin/jh-display-no-clear /usr/bin/jh-checks
+    sleep 1m
+done

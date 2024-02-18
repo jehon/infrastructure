@@ -1,0 +1,63 @@
+
+.PHONY: python
+python: clear python-dump python-test python-lint ok
+
+dump: python-dump
+clean: python-clean
+test: python-test
+lint: python-lint
+
+PYTHON_DEPENDENCY_MARK=tmp/python/requirements.txt
+
+export PYTHONPATH := $(ROOT)/packages/jehon/usr/lib/python3/dist-packages:$(ROOT)/tmp/var/lib/python/jehon:$(PYTHONPATH)
+
+.PHONY: python-dump
+python-dump:
+	$(call dump_space)
+	$(call dump_title,PYTHON)
+	$(call dump_version,python3)
+
+.PHONY: python-clean
+python-clean:
+	rm -fr tmp/python
+	rm -fr tmp/var/lib/python/
+	find . -name __pycache__ -exec rm -fr "{}" ";" -prune || true
+
+.PHONY: python-dependencies
+python-dependencies: \
+		$(PYTHON_DEPENDENCY_MARK) \
+		tmp/var/lib/python/jehon/requirements.txt
+
+$(PYTHON_DEPENDENCY_MARK): requirements.txt
+	python3 -m pip install -r "$<" --target "$(dir $@)" --upgrade
+	cp "$<" "$@"
+	touch "$@"
+
+tmp/var/lib/python/jehon/requirements.txt: packages/jehon/usr/lib/python3/dist-packages/jehon/requirements.txt
+	python3 -m pip install -r "$<" --target "$(dir $@)" --upgrade
+	cp "$<" "$@"
+	touch "$@"
+
+.PHONY: python-lint
+python-lint: python-pylint python-mypy
+
+.PHONY: python-pylint
+python-pylint: $(PYTHON_DEPENDENCY_MARK) \
+		tmp/var/lib/python/jehon/requirements.txt
+
+	@echo "Running $@..."
+	PYTHONPATH="$(ROOT)/tmp/python:$${PYTHONPATH}" tmp/python/bin/pylint --recursive=yes packages/jehon/usr/lib/python3/dist-packages/ tests/python/
+	@echo "Running $@ ok"
+
+.PHONY: python-mypy
+python-mypy: $(PYTHON_DEPENDENCY_MARK) \
+		tmp/var/lib/python/jehon/requirements.txt
+
+	@echo "Running $@..."
+	PYTHONPATH="$(ROOT)/tmp/python:$${PYTHONPATH}" tmp/python/bin/mypy packages/jehon/usr/lib/python3/dist-packages/ tests/python/
+	@echo "Running $@ ok"
+
+.PHONY: python-test
+python-test: tmp/var/lib/python/jehon/requirements.txt
+	python3 -m unittest discover --buffer --start-directory tests/python/
+	packages/jehon/usr/bin/jh-python-test

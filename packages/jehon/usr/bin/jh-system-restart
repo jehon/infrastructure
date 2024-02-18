@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+clear
+
+SERVICE=${1:-Need the service as [1]}
+
+systemctl restart "$SERVICE"
+
+sleep 2s
+
+systemctl status "$SERVICE" --no-pager
+
+sleep 5s
+
+journalctl -u "$SERVICE" -n 100 -f

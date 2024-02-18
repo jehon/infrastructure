@@ -1,0 +1,43 @@
+Essential: yes
+Depends: ${misc:Depends},
+	anacron,
+	apt-utils, apt-transport-https,
+	bash, bash-completion,
+	bc,
+	ca-certificates,
+# luks volumes:
+	cryptsetup, cryptsetup-initramfs,
+	curl,
+# gparted fat32
+	dosfstools, mtools,
+	exiftool,
+	file,
+# envsubst:
+	gettext-base,
+	git, git-restore-mtime,
+# Folder encryption (jh-private):
+	gocryptfs,
+	gnupg2,
+	htop,
+	iproute2,
+	isenkram-cli,
+	jq,
+	less,
+	locales,
+	lsof,
+	lsb-release,
+	nano,
+	netcat,
+	ntp | systemd-timesyncd,
+	openssh-server,
+	python3-full, python3-pip, python3-termcolor,
+	rclone,
+	rsync,
+	screen,
+	sed,
+# jh-music-canonize:
+	sox, libsox-fmt-mp3,
+	sudo,
+	ufw,
+	virt-what,
+	wget

@@ -1,0 +1,4 @@
+id;clef;nom;composant;label
+1;JIRA-1;changement;main;support
+2;JIRA-2;implémentation;main;bug
+3;JIRA-3;test;gui;support

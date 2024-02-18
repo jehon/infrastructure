@@ -1,0 +1,31 @@
+<sources>
+    <video>
+        <default pathversion="1"></default>
+        <source>
+            <name>Auto-mounted drives</name>
+            <path pathversion="1">/media/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Archives</name>
+            <path pathversion="1">/mnt/cloud/videos</path>
+            <allowsharing>true</allowsharing>
+        </source>
+    </video>
+    <music>
+        <default pathversion="1"></default>
+        <source>
+            <name>Auto-mounted drives</name>
+            <path pathversion="1">/media/</path>
+            <allowsharing>true</allowsharing>
+        </source>
+        <source>
+            <name>Musiques</name>
+            <path pathversion="1">/mnt/cloud/musiques</path>
+            <allowsharing>true</allowsharing>
+        </source>
+    </music>
+    <files>
+        <default pathversion="1"></default>
+    </files>
+</sources>

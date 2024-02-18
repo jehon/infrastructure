@@ -1,0 +1,11 @@
+
+[Unit]
+Description=Refresh the fire
+RequiresMountsFor=/mnt/cloud/videos
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/jehon-kiosk-fire-sync
+
+[Install]
+WantedBy=multi-user.target

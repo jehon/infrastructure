@@ -1,0 +1,128 @@
+#
+#
+# Depends on:
+#    Makefile.scripts
+#    debian/
+#    jehon*/
+#
+# Generate:
+#    repo/
+#
+
+packages: packages-dump packages-build packages-test
+
+PACKAGES_TMP=tmp/packages
+PACKAGES_TMP_STRUCTURE=$(PACKAGES_TMP)/structure
+PACKAGES_REPO=tmp/repo
+
+dump: packages-dump
+clean: packages-clean
+build: packages-build
+test: packages-test
+lint: packages-lint
+release: packages-release
+
+.PHONY: packages-dump
+packages-dump:
+	$(call dump_space)
+	$(call dump_title,PACKAGES)
+	$(call dump_info,PWD,$(shell pwd))
+	$(call dump_info,PACKAGES_TMP)
+	$(call dump_info,PACKAGES_TMP_STRUCTURE)
+	gpg --list-keys
+
+.PHONY: packages-clean
+packages-clean:
+	rm -fr repo/*
+	rm -fr "$(PACKAGES_TMP)"
+	rm -fr tests/packages/built
+	docker image rm -f $$( docker image ls --filter 'reference=test-packages/*' --format '{{.Repository}}:{{.Tag}}' ) 2>/dev/null || echo "!! No image to remove"
+
+.PHONY: packages-build
+packages-build:  $(PACKAGES_TMP)/.built
+
+$(PACKAGES_TMP)/.built: $(PACKAGES_REPO)/jehon.deb $(PACKAGES_REPO)/Release.gpg $(PACKAGES_REPO)/latest-key.pub
+	$(call touch,$@)
+
+$(PACKAGES_REPO)/latest-key.pub: packages/jehon/usr/share/jehon/etc/ssh/authorized_keys/root
+	mkdir -p "$(dir $@)"
+	cp -f "$<" "$@"
+	$(call touch,$@)
+
+$(PACKAGES_REPO)/jehon.deb: $(PACKAGES_REPO)/Packages
+	cp $(PACKAGES_REPO)/jehon_*.deb $(PACKAGES_REPO)/jehon.deb
+
+$(PACKAGES_REPO)/Release.gpg: $(PACKAGES_REPO)/Release
+	rm -f "$@"
+	gpg --sign --detach-sign --armor --local-user BE92EC0B8D9AD0707EF597724E69AF0D0EC8EDA1 --output "$@" "$<"
+	touch "$@"
+
+$(PACKAGES_REPO)/Release: $(PACKAGES_REPO)/Packages
+	# -o: APT::FTPArchive::Release::* => Origin, Label, Suite, Version, Codename, Date, NotAutomatic, ButAutomaticUpgrades, Acquire-By-Hash, Valid-Until, Signed-By, Architectures, Components and Description.
+	# See https://manpages.debian.org/testing/apt-utils/apt-ftparchive.1.en.html
+	cd $(PACKAGES_REPO) && apt-ftparchive -o "APT::FTPArchive::Release::Origin=jehon" release . >Release | jh-tag-stdin "index-release"
+	touch "$@"
+
+$(PACKAGES_REPO)/Packages: $(PACKAGES_TMP)/.structure.built
+
+	@echo "Building version $(call version)"
+
+# Clean up the files that we will generate
+	mkdir -p $(PACKAGES_REPO)/
+	rm -f $(PACKAGES_REPO)/*.deb
+	rm -f $(PACKAGES_REPO)/Release
+	rm -f $(PACKAGES_REPO)/Packages
+	rm -fr $(PACKAGES_TMP)/jehon*.deb
+	rm -f packages/jehon/usr/share/keyrings/jehon-packages.gpg
+
+# Build the deb packages
+# https://askubuntu.com/a/963445
+	cd $(PACKAGES_TMP_STRUCTURE) && DEBEMAIL="jehon@users.noreply.github.com" dch --newversion="$(call version)" --distribution "stable" "all latest updates" | jh-tag-stdin "build-changelog"
+	cd $(PACKAGES_TMP_STRUCTURE) && debuild -rfakeroot --no-lintian -uc -us --build=binary | jh-tag-stdin "build-debs"
+
+# debs are in one folder above, let's move them into $(PACKAGES_REPO)/
+	mv $(PACKAGES_TMP)/*.deb $(PACKAGES_REPO)/ | jh-tag-stdin "build-move"
+
+# build the references
+	cd $(PACKAGES_REPO) && dpkg-scanpackages -m . | sed -e "s%./%%" >Packages | jh-tag-stdin "index-packages"
+	touch "$@"
+
+.PHONY: packages-structure
+packages-structure: $(PACKAGES_TMP)/.structure.built
+
+$(PACKAGES_TMP)/.structure.built: packages/pkg-build-structure.sh \
+		$(PACKAGES_REPO)/version.txt \
+		packages/jehon/usr/share/keyrings/jehon-packages.gpg \
+		$(shell find packages/debian ) \
+		$(shell find packages/jehon* -type d -name "__*" -prune -or -type d -print )
+
+	packages/pkg-build-structure.sh "$(PACKAGES_TMP_STRUCTURE)" "$(call version)" | jh-tag-stdin "build-structure"
+	$(call touch,$@)
+
+packages/jehon/usr/share/keyrings/jehon-packages.gpg: conf/jehon-packages.pub.asc
+	gpg --dearmor --yes --output "$@" "$<"
+
+.PHONY: packages-test
+packages-test: packages-build
+	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*\.sh" ./tests/packages
+
+.PHONY: packages-lint
+packages-lint:
+	@true
+
+.PHONY: packages-release
+packages-release: $(PACKAGES_TMP)/.built
+	packages/pkg-build-pages.sh "$(PACKAGES_REPO)" "tmp/gh-pages" "push"
+	echo "Packages version: $(call version)" >> $(GITHUB_STEP_SUMMARY)
+	echo "Packages homepage: https://jehon.github.io/packages/index.html"  >> $(GITHUB_STEP_SUMMARY)
+
+.PHONY:
+packages-release-validate:
+	@mkdir -p tmp/github
+	curl -fsSL https://jehon.github.io/packages/Packages > tmp/github/Packages
+	@echo "*** Check content ***"
+	@grep "Source: jehon-debs" tmp/github/Packages > /dev/null
+	@grep "Package: " tmp/github/Packages
+	@grep "Version: " tmp/github/Packages | head -n 1
+	curl -fsSL https://jehon.github.io/packages/index.html > tmp/github/index.html
+	cat tmp/github/index.html

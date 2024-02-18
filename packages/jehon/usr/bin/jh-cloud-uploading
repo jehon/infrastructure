@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+if ! cd /var/cache/rclone/vfsMeta ; then
+    echo "vfsMeta not found" >&2
+    exit 0
+fi
+
+if ! grep --recursive --ignore-case --files-with-matches '"Dirty": true' . | nl ; then
+    echo "Nothing dirty"
+    exit 0
+fi
+
+exit 1

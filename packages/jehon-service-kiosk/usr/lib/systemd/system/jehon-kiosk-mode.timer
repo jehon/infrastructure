@@ -1,0 +1,11 @@
+
+[Unit]
+Description=Select the kiosk mode
+
+[Timer]
+OnBootSec=1min
+# At 6:00 and 16:00 every day
+OnCalendar=*-*-* *:00:00
+
+[Install]
+WantedBy=timers.target

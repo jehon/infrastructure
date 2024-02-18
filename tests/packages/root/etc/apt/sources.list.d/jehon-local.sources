@@ -1,0 +1,8 @@
+
+X-Repolib-Name: Jehon (/setup/repo)
+Types: deb
+URIs: file:///setup/repo
+Suites: /
+Components:
+Trusted: yes
+Enabled: yes

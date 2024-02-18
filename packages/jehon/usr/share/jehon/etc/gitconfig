@@ -1,0 +1,48 @@
+#
+# See https://git-scm.com/docs/git-config
+#
+
+[push]
+default = current
+followtags = true
+
+[pull]
+rebase = true
+
+[rebase]
+autoStash = true
+
+[fetch]
+prune = true
+pruneTags = true
+recurseSubmodules = true
+writeCommitGraph = true
+
+[init]
+defaultBranch = main
+
+[commit]
+gpgsign = false
+
+[core]
+# Convert crlf on input, checkout untouched
+# Thanks to https://stackoverflow.com/a/20653073/1954789
+autocrlf = input
+
+[submodule]
+    recurse = true
+
+#
+# GitFlow
+#
+
+[gitflow "branch"]
+	master = main
+	develop = develop
+
+[gitflow "prefix"]
+	feature = feature/
+	release = release/
+	hotfix = hotfix/
+	support = support/
+	versiontag =

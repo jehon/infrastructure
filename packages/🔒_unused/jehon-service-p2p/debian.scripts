@@ -1,0 +1,44 @@
+#!/bin/sh
+
+set -o errexit
+
+# shellcheck source=SCRIPTDIR/../jehon/usr/sbin/jh-deb-helpers.sh
+. /usr/sbin/jh-deb-helpers.sh
+
+jh_deb_helper_ufw "app" "jh-p2p" "home"
+
+case "$1" in
+configure)
+    # TODO: use override/divert of debian packages
+
+    # !! This file is owned by a package
+    # !! This file need to be override by transmission-daemon
+    #    => only copy is possible
+    cp -f /var/cache/jehon/templated/transmission-settings.json /etc/transmission-daemon/settings.json
+
+    invoke-rc.d transmission-daemon reload
+    ;;
+
+# !! Does not work as expected
+triggered)
+    case " $2" in
+    *" /etc/transmission-daemon"*)
+        # Currently transmission overwrites the settings.json configuration file
+        # on exit. The daemon can be instructed to reload the config with a SIGHUP,
+        /etc/transmission-daemon/reload-config
+        ;;
+    esac
+    ;;
+
+remove) ;;
+
+esac
+
+# We need to have the correct settings
+jh_deb_helper_service "transmission-daemon-resume"
+
+#
+# Legacy
+#
+
+exit 0

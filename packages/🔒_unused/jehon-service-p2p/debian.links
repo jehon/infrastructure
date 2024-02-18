@@ -1,0 +1,7 @@
+
+# /mnt/usb1/p2p/incomplete/                         /etc/transmission-daemon/incomplete
+# /mnt/usb1/p2p/downloaded/                         /etc/transmission-daemon/downloaded
+# /mnt/cloud/Serveurs/p2p/watch                     /etc/transmission-daemon/watch
+
+/var/lib/transmission-daemon/info/                /etc/transmission-daemon/jh-current-infos
+/var/lib/transmission-daemon/info/torrents        /etc/transmission-daemon/jh-current-torrents

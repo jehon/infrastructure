@@ -1,0 +1,4 @@
+[jehon-music]
+title=Local mopidy server
+description=Allow access to the mopidy server
+ports=6600/tcp

@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+export MARKER=node_modules/.built
+FOLDER="${1:-.}"
+
+if [[ "$FOLDER" =~ ${MARKER}$ ]]; then
+	# Makefile pass the
+	FOLDER="$(dirname "$(dirname "$1")")"
+fi
+
+if [[ "$FOLDER" =~ node_modules$ ]]; then
+	# Makefile pass the
+	FOLDER="$(dirname "$1")"
+fi
+
+#
+# Moving into folder
+#
+pushd "$FOLDER" >/dev/null
+(
+	if [ ! -r package.json ]; then
+		echo "Could not find package.json in $(pwd): "
+		ls
+		exit 1
+	fi
+
+	if diff --new-file package.json "$MARKER" 2>/dev/null >/dev/null; then
+		# echo "Already up-to-date package.json $MARKER"
+		exit 0
+	fi
+
+	# This is used by ansible to detect changed
+	echo "Updating..."
+	(
+		echo "** install $FOLDER **"
+		npm install --quiet --no-progress --omit=dev --allow-root --unsafe-perm=true
+	) | jh-tag-stdin "install"
+
+	(
+		echo "** prune $FOLDER **"
+		npm prune --quiet --no-progress || true
+	) | jh-tag-stdin "prune"
+
+	touch package-lock.json
+	cp -f package.json "$MARKER"
+) | jh-tag-stdin "npm: $FOLDER"

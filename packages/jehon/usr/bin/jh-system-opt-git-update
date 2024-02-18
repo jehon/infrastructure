@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+# shellcheck source=SCRIPTDIR/../bin/jh-lib
+. jh-lib
+
+findFileAndExec() {
+    FILE="$1"
+    CMD="$2"
+
+    find . \
+        -name node_modules -prune \
+        -o -name "$FILE" -print \
+        | while read -r F ; do
+            header_begin "$(pwd)"
+            cd "$(dirname "$F")"
+            bash -c "$CMD"
+            header_end
+        done
+}
+
+updateGit() {
+    F="$1"
+    (
+        cd "$F"
+        header_begin "Git pull $F"
+        (
+            git add . || true
+            git fetch --quiet
+            git rebase --autostash FETCH_HEAD
+        ) || jh_fatal "Could not update $F"
+        header_end
+
+        header_begin "Update npm"
+        /usr/bin/jh-npm-update-if-necessary
+        header_end
+    )
+}
+
+if jh-fs not-empty /opt/jehon; then
+    while read -r F; do
+        if [ -r "$F"/.git ]; then
+            updateGit "$F"
+        fi
+    done < <(find /opt/jehon/ -mindepth 1 -maxdepth 1)
+fi

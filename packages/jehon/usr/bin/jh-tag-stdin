@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+MSG="$1"
+MSG="${MSG%% }"
+MSG="${MSG## }"
+
+MSGS=( )
+if [ -n "$MSG" ]; then
+	MSGS+=( "$MSG" )
+fi
+
+# Keep spaces: IFS=''
+#    Thanks to https://stackoverflow.com/a/7314111/1954789
+while IFS='' read -r LINE; do
+	if [ "${LINE:0:1}" = '*' ]; then
+		# shellcheck disable=SC2001
+		CL="$( echo "$LINE" | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" )"
+		# H="$( echo "$CL" | cut -d ' ' -f 1 )"
+		T="$( echo "$CL" | cut -d ' ' -f 2- )"
+	fi
+
+	if [[ "$T" = *"..." ]]; then
+		T="${T%...}"
+		T="${T#Starting }"
+		MSGS+=( "$T" )
+	fi
+
+	MSG=""
+	COLOR=32
+	for m in "${MSGS[@]}" ; do
+		MSG="${MSG}[\e[1;${COLOR}m$m\e[00m]"
+		(( COLOR++ ))
+	done
+
+	if [ -n "$MSG" ]; then
+		MSG+=" "
+	fi
+
+	printf "$MSG%s\n" "$LINE"
+
+	if [[ "$T" = *" done" ]]; then
+		T="${T% done}"
+		unset "MSGS[-1]"
+	fi
+done

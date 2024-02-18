@@ -15,34 +15,40 @@ root_or_sudo() {
     else
         # On system
         sudo "$@"
-    fi  
+    fi
 }
 
 cd "${SWD}"
 
-apt_install() {
-    # /repo is not always available
-    root_or_sudo apt install --quiet --yes "$@"
-}
-
 root_or_sudo apt update
 
-apt_install \
-    curl git sshpass \
-    python3 python3-pip \
-    python3-netaddr python3-passlib python3-apt default-libmysqlclient-dev
-
-mkdir --mode=0777 -p tmp
-curl -fsSL https://jehon.github.io/packages/jehon.deb -o tmp/jehon.deb
-apt_install ./tmp/jehon.deb
-
-echo "* Update post jehon.deb install..."
-root_or_sudo apt update
-echo "* Update post jehon.deb install done"
+echo "* Installing packages..."
+# git-restore-mtime: https://stackoverflow.com/a/64147402/1954789
+root_or_sudo apt install --quiet --yes \
+    curl \
+    ca-certificates \
+    direnv \
+    exiftool \
+    debhelper binutils-arm-linux-gnueabihf dirmngr apt-utils desktop-file-utils rsync devscripts \
+    git-restore-mtime \
+    shellcheck \
+    gnupg2 \
+	python3-full python3-autopep8 python3-netaddr python3-passlib python3-apt \
+    git sshpass \
+    default-libmysqlclient-dev
+echo "* Installing packages done"
 
 echo "* Installing shellcheck..."
-root_or_sudo /usr/sbin/jh-install-shellcheck
+root_or_sudo "$SWD"/packages/jehon/usr/sbin/jh-install-shellcheck
 echo "* Installing shellcheck done"
+
+echo "* Installing jehon.deb..."
+mkdir --mode=0777 -p tmp
+curl -fsSL https://jehon.github.io/packages/jehon.deb -o tmp/jehon.deb
+root_or_sudo apt install --quiet --yes \
+    ./tmp/jehon.deb
+root_or_sudo apt update
+echo "* Installing jehon.deb done"
 
 if type direnv &>/dev/null ; then
     direnv allow "$PRJ_ROOT"/

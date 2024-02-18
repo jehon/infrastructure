@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+#
+# No jh-lib since it can be called
+# as standalone...
+#
+
+set -o errexit
+
+if [ "$(whoami)" != "root" ]; then
+    echo "You need to be root"
+    exit 1
+fi
+
+export DEBIAN_FRONTEND=noninteractive
+
+VERSION="${1:-current}"
+VERSION=18
+curl -fsSL "https://deb.nodesource.com/setup_$VERSION.x" | bash - >/dev/null

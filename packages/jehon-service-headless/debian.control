@@ -1,0 +1,6 @@
+Depends: ${misc:Depends},
+	jehon (<= JH_VERSION),
+	console-setup, kbd,
+	netplan.io,
+	rsyslog,
+	screen

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+SITE="$1"
+CFG="/usr/share/jehon/sites"
+
+[ -n "$SITE" ] || jh_fatal "Need site as [1]"
+
+if [ ! -d "$CFG/$SITE" ]; then
+    jh_fatal "Site not found: $SITE"
+fi
+
+chmod +x "$CFG/sites/$SITE"
+run-parts --verbose "$CFG/$SITE"
+
+chmod +x "$CFG/all"
+run-parts --verbose --arg "$SITE" "$CFG/all"

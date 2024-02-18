@@ -1,0 +1,29 @@
+#!/bin/sh
+
+set -o errexit
+
+# shellcheck source=SCRIPTDIR/../jehon/usr/sbin/jh-deb-helpers.sh
+. /usr/sbin/jh-deb-helpers.sh
+
+jh_deb_helper_service "mpd.service"
+jh_deb_helper_service "jehon-music-volume.service"
+jh_deb_helper_service "jehon-music-update-mpd.timer"
+jh_deb_helper_service "jehon-tty@tty10.service"
+jh_deb_helper_ufw "app" "jehon-music" "home"
+jh_deb_helper_ufw "app" "jehon-music" "homeIPv4"
+
+case "$1" in
+configure) ;;
+
+# !! Does not work as expected
+triggered) ;;
+
+remove) ;;
+
+esac
+
+#
+# Legacy
+#
+
+exit 0

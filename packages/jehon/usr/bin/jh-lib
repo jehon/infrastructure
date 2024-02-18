@@ -1,0 +1,312 @@
+#!/usr/bin/env bash
+
+#
+# Configs
+#
+#
+
+JH_START_TIME="$(date +%s.%N)"
+JH_TIMESTAMP="$(date "+%Y-%m-%d %H.%M.%S")"
+JH_DEFAULT_IDENT=10
+export JH_TIMESTAMP
+
+# For Debug easy (https://wiki.bash-hackers.org/scripting/debuggingtips)
+export PS4='\033[0;33m+${BASH_SOURCE[0]: -10}:${LINENO}:\033[0m ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+
+# ... src/
+export JH_SRC
+
+# ...src/packages
+export JH_PKG_FOLDER
+
+export JH_PKG_INITIAL="jehon"
+
+# relative to +1 script
+export JH_SWD
+
+export JH_MSG_OK
+export JH_MSG_KO
+
+export JH_TS
+
+# Other configs
+export JH_CLOUD_USER=~/pCloudDrive
+
+# Create a "3"rd out where all structured messages will go
+# This allow us to test_capture stdout and stderr everywhere,
+# while still letting passing through the messages "Success / failure / ..."
+exec 3>&1
+
+#
+# Loglevel can be:
+#   0 - normal
+#  10 - debug
+#
+if [ "$JH_LOGLEVEL" = "" ]; then
+    JH_LOGLEVEL=0
+fi
+
+if [ -n "$DEBUG" ]; then
+    JH_LOGLEVEL=10
+fi
+
+#
+# JH_SWD (Script Working Directory)
+#   where the script currently execute
+#
+#   /usr/(s)bin
+#   ~/src/packages/$JH_PKG_INITIAL/usr/(s)bin
+#
+#  !! this depend on [1] <= the caller script
+#
+JH_SWF="${BASH_SOURCE[1]}"
+if [[ -z "${JH_SWF}" && -n "${ZSH_VERSION}" ]]; then
+    # ZSH way
+    # shellcheck disable=SC2296
+    JH_SWF="${(%):-%N}"
+fi
+JH_SWD="$(dirname "$(realpath --physical "${JH_SWF}")")"
+
+#
+#
+# Where is the package source file located
+#
+#  !! this depend on [0] <= the jh-lib script
+#
+JH_PKG_FOLDER="$(dirname "$(dirname "$(dirname "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")")")")"
+# If SELF is as /usr/bin, then it is not under package source
+if [ "$JH_PKG_FOLDER" = "/" ]; then
+    JH_PKG_FOLDER=""
+fi
+JH_SRC="$(dirname "$JH_PKG_FOLDER")"
+
+JH_TS="$(date +%F-%H-%M-%S.%N)"
+
+if [ -z "$JH_DAEMON" ]; then
+    if [[ $- == *i* ]] || [ -t 0 ]; then
+        JH_DAEMON=""
+    else
+        JH_DAEMON="yes"
+    fi
+fi
+if [ "$JH_DAEMON" == "no" ]; then
+    JH_DAEMON=""
+fi
+export JH_DAEMON
+
+jh_color() {
+    COLOR=${1:-"0"}
+    if [ -z "$JH_DAEMON" ]; then
+        echo -en "\e[${COLOR}m"
+    fi
+}
+
+JH_HEADER_MSGS=()
+
+header_begin() {
+	JH_HEADER_MSGS+=( "$1" )
+	printf '*%.0s' $(seq ${#JH_HEADER_MSGS[@]})
+    jh_color 93
+    echo -n " ${JH_HEADER_MSGS[-1]}..."
+    jh_color
+    echo
+}
+
+header_end() {
+	printf '*%.0s' $(seq ${#JH_HEADER_MSGS[@]})
+    jh_color 93
+    echo -n " ${JH_HEADER_MSGS[-1]} done"
+    jh_color
+    echo
+	unset 'JH_HEADER_MSGS[${#arr[@]}-1]'
+}
+
+jh_debug() {
+    if ((JH_LOGLEVEL > 0)); then
+        jh_color 33
+        echo -n "[DEBUG] $*"
+        jh_color
+        echo
+    fi
+}
+
+jh_error() {
+    (
+        jh_color 41
+        echo -n "[ERROR] $*"
+        jh_color
+        echo
+    ) >&2
+}
+
+jh_fatal() {
+    jh_error "$@"
+    exit 1
+}
+
+jh_info() {
+    jh_color 36
+    echo "[INFOS] $*"
+    jh_color
+}
+
+jh_value() {
+    KEY="$1"
+    VALUE="$2"
+    # Add : to key to put empty spaces after the :
+    jh_color 36
+    echo -n " 🛈"
+    jh_color
+
+    printf " %-${JH_DEFAULT_IDENT}s " "$KEY:"
+    jh_color 36
+    echo "$VALUE"
+    jh_color
+}
+
+#
+# Log something for message (on >3)
+#
+jh_pipe_message() {
+    (echo "$@") >&3
+}
+
+ok_ko() {
+    msg="$1"
+    shift
+
+    if bash -c "$*"; then
+        ok "$msg"
+        return 0
+    else
+        ko "$msg"
+        return 1
+    fi
+}
+
+JH_MSG_OK="$(jh_color "01;32")✓$(jh_color)"
+JH_MSG_KO="$(jh_color "01;31")✗$(jh_color)"
+
+ok() {
+    if [ -n "$1" ]; then
+        echo "$JH_MSG_OK $*"
+    else
+        ok "Done"
+    fi
+}
+
+ko() {
+    echo -e "$JH_MSG_KO $*"
+}
+
+parse_ok_ko() {
+    while read -r L; do
+        if [[ "$L" =~ ^ok\ * ]]; then
+            echo "$JH_MSG_OK ${L/ok /}"
+        elif [[ "$L" =~ ^ko\ * ]]; then
+            echo "$JH_MSG_KO ${L/ko /}"
+        else
+            echo "$L"
+        fi
+    done
+}
+
+jh_time_taken() {
+    local F
+    F="$(date +%s.%N)"
+    jh_value "Time $1" "$(echo "scale=3;($F - $JH_START_TIME)/1" | bc) seconds"
+}
+
+jh_on_exit() {
+    # Thanks to https://stackoverflow.com/a/7287873/1954789
+    # for SIG_NAME in "EXIT"; do
+    local SIG_NAME="EXIT"
+    trap -- "$(
+        # helper fn to get existing trap command from output of trap -p
+        trap -p 'EXIT' | cut -d ' ' -f 3 | tr -d "'"
+        printf '%s\n' "$1"
+    )" "$SIG_NAME"
+    # done
+}
+
+jh_background_process() {
+    if [ -n "$JH_BACKGROUND_LOG" ]; then
+        "$@" >"$JH_BACKGROUND_LOG" 2>&1 &
+    else
+        "$@" &
+    fi
+    local PID="$!"
+    if [ "$PID" = "0" ]; then
+        jh_error "Failed to launch background process: $*"
+        return 1
+    fi
+    jh_on_exit "kill '$PID'"
+
+    # Return the result:
+    echo "$PID"
+}
+
+#
+# Redirect output to log only if not in JH_DAEMON mode
+#
+jh_log_or_tty() {
+    local LOG="$1"
+
+    if [ -z "$LOG" ]; then
+        jh_fatal "jh_log_or_tty: need the log file as [1]"
+    fi
+
+    if [ -n "$JH_DAEMON" ]; then
+        echo "****** Starting $0 at $(date) ******" >>"$LOG"
+        exec >>"$LOG" 2>>"$LOG" </dev/null
+    fi
+}
+
+jh_exclusive() {
+    CMD="${1:-take}"
+    LOCK_FILE="$2"
+
+    case "$CMD" in
+    "take")
+        jh_exclusive_take "$LOCK_FILE"
+        ;;
+    "steal")
+        jh_exclusive_kill "$LOCK_FILE"
+        jh_exclusive_take "$LOCK_FILE"
+        ;;
+    "kill")
+        jh_exclusive_kill "$LOCK_FILE"
+        exit 0
+        ;;
+    esac
+
+}
+
+# shellcheck disable=SC2120
+jh_exclusive_take() {
+    local LOCK_FILE
+    local FD
+
+    LOCK_FILE="/var/lock/$(basename "${1:-$0}").lock"
+    touch "$LOCK_FILE"
+
+    #
+    # check the actually running lock with
+    #     sudo fuser $LOCK_FILE
+    #
+
+    exec {FD}<"$LOCK_FILE"
+    # echo "LOCK_FILE: $LOCK_FILE"
+
+    flock --exclusive --nonblock "$FD" || jh_fatal "Could not acquire lock $LOCK_FILE" >&2
+
+    #    jh_on_exit "rm -f '$LOCK_FILE'"
+}
+
+# shellcheck disable=SC2120
+jh_exclusive_kill() {
+    local LOCK_FILE
+    LOCK_FILE="/var/lock/$(basename "${1:-$0}").lock"
+
+    fuser --kill "$LOCK_FILE"
+}

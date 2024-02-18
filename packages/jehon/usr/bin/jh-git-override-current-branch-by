@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+# shellcheck source-path=SCRIPTDIR
+. jh-lib
+
+BRANCH=${1:?Branch that will override current branch must be specified as [1]}
+
+header_begin "Current status is ${BRANCH}"
+git status
+header_end
+
+header_begin "Reset the current branch"
+git reset --hard "$1"
+header_end
+
+header_begin "Push"
+git push -f
+header_end
+
+header_begin "New status"
+git status
+header_end
