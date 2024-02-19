@@ -18,7 +18,9 @@ LANG=C.UTF-8
 ROOT = $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 TMP_ROOT = $(ROOT)/tmp
 GITHUB_STEP_SUMMARY ?= "$(ROOT)/tmp/GITHUB_STEP_SUMMARY.log"
-PUBLISH=tmp/publish
+PUBLISH = tmp/publish
+
+VERSION_FILE = $(PUBLISH)/repo/version.txt
 
 export PATH := $(ROOT)/bin:$(ROOT)/.python/bin:$(ROOT)/packages/jehon/usr/bin:$(PATH)
 export PYTHONPATH := $(ROOT)/.python
@@ -39,7 +41,7 @@ endef
 
 # Identation is important:
 define version
-$(shell cat tmp/repo/version.txt || echo "1")
+$(shell cat "$(VERSION_FILE)" || echo "1")
 endef
 
 DUMP_ALIGN=40
@@ -154,26 +156,26 @@ test: global-test
 
 .PHONY: global-clean
 global-clean:
-	rm -f tmp/repo/version.txt
+	rm -f "$(VERSION_FILE)"
 
 .PHONY: global-build
-global-build: tmp/repo/version.txt
+global-build: $(VERSION_FILE)
 
 .PHONY: new-version
 new-version:
-	rm -f tmp/repo/version.txt
+	rm -f "$(VERSION_FILE)"
 	make version
 
 .PHONY: version
-version: tmp/repo/version.txt
-tmp/repo/version.txt: \
+version: "$(VERSION_FILE)"
+$(VERSION_FILE): \
 		Makefile*
 
 	@echo "#################################################"
 	@echo "# Version: $(VERSION_RUN)"
 	@echo "#################################################"
 	mkdir -p "$(dir $@)"
-	echo "$(VERSION_RUN)" > tmp/repo/version.txt
+	echo "$(VERSION_RUN)" > "$(VERSION_FILE)"
 
 .PHONY: global-test
 global-test:

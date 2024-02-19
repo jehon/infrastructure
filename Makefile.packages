@@ -13,6 +13,8 @@ packages: packages-dump packages-build packages-test
 
 PACKAGES_TMP=tmp/packages
 PACKAGES_TMP_STRUCTURE=$(PACKAGES_TMP)/structure
+# TODO: simplify by using directly the publish repo
+#       but that implies the pkg-build-pages.sh script
 PACKAGES_REPO=tmp/repo
 
 dump: packages-dump
@@ -41,7 +43,7 @@ packages-clean:
 .PHONY: packages-build
 packages-build:  $(PACKAGES_TMP)/.built
 
-$(PACKAGES_TMP)/.built: $(PACKAGES_REPO)/jehon.deb $(PACKAGES_REPO)/Release.gpg $(PACKAGES_REPO)/latest-key.pub
+$(PACKAGES_TMP)/.built: $(PACKAGES_REPO)/jehon.deb $(PACKAGES_REPO)/latest-key.pub
 	$(call touch,$@)
 
 $(PACKAGES_REPO)/latest-key.pub: packages/jehon/usr/share/jehon/etc/ssh/authorized_keys/root
@@ -51,11 +53,6 @@ $(PACKAGES_REPO)/latest-key.pub: packages/jehon/usr/share/jehon/etc/ssh/authoriz
 
 $(PACKAGES_REPO)/jehon.deb: $(PACKAGES_REPO)/Packages
 	cp $(PACKAGES_REPO)/jehon_*.deb $(PACKAGES_REPO)/jehon.deb
-
-$(PACKAGES_REPO)/Release.gpg: $(PACKAGES_REPO)/Release
-	rm -f "$@"
-	gpg --sign --detach-sign --armor --local-user BE92EC0B8D9AD0707EF597724E69AF0D0EC8EDA1 --output "$@" "$<"
-	touch "$@"
 
 $(PACKAGES_REPO)/Release: $(PACKAGES_REPO)/Packages
 	# -o: APT::FTPArchive::Release::* => Origin, Label, Suite, Version, Codename, Date, NotAutomatic, ButAutomaticUpgrades, Acquire-By-Hash, Valid-Until, Signed-By, Architectures, Components and Description.
@@ -90,7 +87,7 @@ $(PACKAGES_REPO)/Packages: $(PACKAGES_TMP)/.structure.built
 packages-structure: $(PACKAGES_TMP)/.structure.built
 
 $(PACKAGES_TMP)/.structure.built: packages/pkg-build-structure.sh \
-		$(PACKAGES_REPO)/version.txt \
+		$(VERSION_FILE) \
 		packages/jehon/usr/share/keyrings/jehon.gpg \
 		$(shell find packages/ )
 
@@ -108,8 +105,15 @@ packages-test: packages-build
 packages-lint:
 	@true
 
+$(PACKAGES_REPO)/Release.gpg: $(PACKAGES_REPO)/Release
+	rm -f "$@"
+	gpg --sign --detach-sign --armor --local-user BE92EC0B8D9AD0707EF597724E69AF0D0EC8EDA1 --output "$@" "$<"
+	touch "$@"
+
 .PHONY: packages-release
-packages-release: $(PACKAGES_TMP)/.built
+packages-release: $(PACKAGES_TMP)/.built \
+		$(PACKAGES_REPO)/Release.gpg
+
 	packages/pkg-build-pages.sh "$(PACKAGES_REPO)" "tmp/gh-pages" "push"
 	echo "Packages version: $(call version)" >> $(GITHUB_STEP_SUMMARY)
 	echo "Packages homepage: https://jehon.github.io/packages/index.html"  >> $(GITHUB_STEP_SUMMARY)
