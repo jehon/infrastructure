@@ -43,11 +43,6 @@
       ansible.builtin.include_role:
         name: host_kiosk
 
-    - name: Setup host piscine
-      when: inventory_hostname == "piscine"
-      ansible.builtin.include_role:
-        name: host_piscine
-
     - name: Setup host synology
       when: inventory_hostname == "synology"
       ansible.builtin.include_role:
