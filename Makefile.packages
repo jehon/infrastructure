@@ -91,13 +91,13 @@ packages-structure: $(PACKAGES_TMP)/.structure.built
 
 $(PACKAGES_TMP)/.structure.built: packages/pkg-build-structure.sh \
 		$(PACKAGES_REPO)/version.txt \
-		packages/jehon/usr/share/keyrings/jehon-packages.gpg \
+		packages/jehon/usr/share/keyrings/jehon.gpg \
 		$(shell find packages/ )
 
 	packages/pkg-build-structure.sh "$(PACKAGES_TMP_STRUCTURE)" "$(call version)" | jh-tag-stdin "build-structure"
 	$(call touch,$@)
 
-packages/jehon/usr/share/keyrings/jehon-packages.gpg: conf/jehon-packages.pub.asc
+packages/jehon/usr/share/keyrings/jehon.gpg: conf/jehon-packages.pub.asc
 	gpg --dearmor --yes --output "$@" "$<"
 
 .PHONY: packages-test

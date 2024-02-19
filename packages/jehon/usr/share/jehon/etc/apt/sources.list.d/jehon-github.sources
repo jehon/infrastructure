@@ -10,4 +10,4 @@ URIs: http://jehon.github.io/packages/
 Suites: /
 Components:
 Enabled: yes
-Signed-By: /usr/share/keyrings/jehon-packages.gpg
+Signed-By: /usr/share/keyrings/jehon.gpg
