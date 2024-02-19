@@ -38,10 +38,7 @@ root_or_sudo apt install --quiet --yes \
     default-libmysqlclient-dev
 echo "* Installing packages done"
 
-echo "* Installing shellcheck..."
-root_or_sudo "$SWD"/packages/jehon/usr/sbin/jh-install-shellcheck
-echo "* Installing shellcheck done"
-
+# TODO: jehon.deb might not be necessary OR might be taken locally (see infra tests)
 echo "* Installing jehon.deb..."
 mkdir --mode=0777 -p tmp
 curl -fsSL https://jehon.github.io/packages/jehon.deb -o tmp/jehon.deb
@@ -49,6 +46,11 @@ root_or_sudo apt install --quiet --yes \
     ./tmp/jehon.deb
 root_or_sudo apt update
 echo "* Installing jehon.deb done"
+
+# TODO: shellcheck might not be available? Check against jehon.deb availability
+echo "* Installing shellcheck..."
+root_or_sudo /usr/sbin/jh-install-shellcheck
+echo "* Installing shellcheck done"
 
 if type direnv &>/dev/null ; then
     direnv allow "$PRJ_ROOT"/
