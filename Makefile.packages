@@ -73,7 +73,6 @@ $(PACKAGES_REPO)/Packages: $(PACKAGES_TMP)/.structure.built
 	rm -f $(PACKAGES_REPO)/Release
 	rm -f $(PACKAGES_REPO)/Packages
 	rm -fr $(PACKAGES_TMP)/jehon*.deb
-	rm -f packages/jehon/usr/share/keyrings/jehon-packages.gpg
 
 # Build the deb packages
 # https://askubuntu.com/a/963445
@@ -93,8 +92,7 @@ packages-structure: $(PACKAGES_TMP)/.structure.built
 $(PACKAGES_TMP)/.structure.built: packages/pkg-build-structure.sh \
 		$(PACKAGES_REPO)/version.txt \
 		packages/jehon/usr/share/keyrings/jehon-packages.gpg \
-		$(shell find packages/debian ) \
-		$(shell find packages/jehon* -type d -name "__*" -prune -or -type d -print )
+		$(shell find packages/ )
 
 	packages/pkg-build-structure.sh "$(PACKAGES_TMP_STRUCTURE)" "$(call version)" | jh-tag-stdin "build-structure"
 	$(call touch,$@)

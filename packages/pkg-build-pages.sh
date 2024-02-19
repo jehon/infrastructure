@@ -41,12 +41,12 @@ header_end
     # In days:
     # Please note that it is build every days automatically
     # so latest are always kept
-    find . -mtime +3 -delete
+    find . -not -path .git -type f -mtime +3 -delete
     header_end
 )
 
 header_begin "Adding new repo ${REPO} to ${TARGET}"
-rsync -ai "${REPO}" "$TARGET"
+rsync -ai "${REPO}/" "$TARGET"
 header_end
 
 jh-github-publish-pages "$TARGET" "$PUSH" | jh-tag-stdin "jh-github-publish-pages"
