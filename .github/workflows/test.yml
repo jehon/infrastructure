@@ -23,7 +23,10 @@ jobs:
         target:
           - build
           - lint
-          - test
+          - python-test
+          - scripts-test
+          - packages-test
+          - infrastructure-test
 
     steps:
     - uses: actions/checkout@main
