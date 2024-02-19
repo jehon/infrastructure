@@ -55,7 +55,7 @@ scripts-lint-shellcheck:
 	@echo "Running $@..."
 	@find packages/ tests \
 		-type f \
-		-not -name "_*" \
+		-not -name "🔒*" -not -path "*/🔒*" \
 		-exec bash -c "file -bi '{}' | grep 'x-shellscript' &>/dev/null" ';' \
 		-print0 \
 		| xargs -0 -I "{}" -- shellcheck '{}'
@@ -64,5 +64,9 @@ scripts-lint-shellcheck:
 .PHONY: scripts-lint-desktop
 scripts-lint-desktop:
 	@echo "Running $@..."
-	@find . -name "*.desktop" -type f -exec "desktop-file-validate" "{}" ";"
+	@find . \
+		-name "*.desktop" \
+		-not -name "🔒*" -not -path "*/🔒*" \
+		-type f \
+		-exec "desktop-file-validate" "{}" ";"
 	@echo "Running $@ ok"
