@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$GIT_BRANCH" = "main" ]; then
+	git pull --all --prune
+
+    GIT_BRANCH_RAW="$(git branch --format='%(refname:short)' --all | grep -v 'main$' | grep -v 'HEAD$' | fzf)"
+    GIT_BRANCH="${GIT_BRANCH_RAW#origin\/}"
+    jh_info "Switching to $GIT_BRANCH"
+    git checkout "$GIT_BRANCH"
+fi
+export NO_CLEAR=1
+
+header_begin "Prepare env in $GIT_BRANCH"
+git pull
+git rebase main || (
+    git rebase --abort
+    echo "Could not rebase"
+    exit 1
+)
+make clean | jh-tag-stdin "$GIT_BRANCH clean"
+header_end
+
+header_begin "Make (default target)"
+make | jh-tag-stdin "$GIT_BRANCH make"
+header_end
+
+jh_info "Tests are successfull!"
+
+if [ "$GIT_BRANCH" != "main" ]; then
+    "$JH_SWD"/jh-ci-merge | jh-tag-stdin "$GIT_BRANCH merge"
+    "$0"
+fi

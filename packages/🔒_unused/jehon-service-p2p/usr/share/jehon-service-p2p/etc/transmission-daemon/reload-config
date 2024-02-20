@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+invoke-rc.d transmission-daemon reload

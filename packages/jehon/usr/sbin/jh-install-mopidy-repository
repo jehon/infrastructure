@@ -1,0 +1,24 @@
+#!/usr/bin/bash
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/../bin/
+. jh-lib
+
+VERSION="$(lsb_release --codename --short )"
+VERSION="bullseye"
+
+# jh-install-file: will report if file is modified
+cat <<EOS | jh-install-file "/etc/apt/sources.list.d/jehon-mobipy.sources"
+#
+# Installed through $0
+#
+# See https://docs.mopidy.com/en/latest/installation/debian/
+#
+
+Types: deb
+URIs: https://apt.mopidy.com
+Suites: $VERSION
+Components: main contrib non-free
+Signed-By: /usr/share/keyrings/jehon-mopidy.gpg
+EOS

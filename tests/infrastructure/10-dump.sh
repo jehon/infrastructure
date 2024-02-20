@@ -7,8 +7,8 @@ set -o pipefail
 . "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/lib-test.sh"
 
 (
-	cat <<-'EOS'
+	cat <<-EOS
 		cd infrastructure
-		ansible-playbook dump.yml --connection=local --limit dev -e "virtual=true"
+		ansible-playbook dump.yml ${JH_ANSIBLE_TEST} --limit dev
 	EOS
 ) | test_in_docker

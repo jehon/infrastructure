@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/../bin/
+. jh-lib
+
+DEST=${1:?Need the dest as [1]}
+
+# TODO: clean up all home's ?
+
+cp --preserve=all -v "$JH_SWD/jh-system-transfert-from" "$DEST/"
+
+mkdir -p "$DEST/home"
+rsync -ai \
+        --progress --stats --human-readable \
+        --one-file-system \
+        --delete --delete-excluded \
+        --exclude "*.log" --exclude "log" --exclude "logs" \
+        --exclude .cache \
+        --exclude Trash \
+        --exclude Cache \
+        --exclude tmp \
+        --exclude vendor --exclude node_modules --exclude .mypy_cache --exclude .npm \
+        --exclude "/*/.cloud/Cache/cached" --exclude "/*/pCloudDrive" \
+        --exclude "/*/.vscode/" \
+        --exclude "/*/.local/share/docker" \
+	--exclude "lost+found"  --filter "P lost+found" \
+        /home/ \
+        "$DEST/home/"
+
+header_begin "Syncing"
+sync
+header_end
+
+jh_info "Used space:        $( du -ksh "$DEST" )"
+jh_info "Remaiging space:   $( df -h --output=avail "$DEST" |tail -n 1 )"
+
+ok

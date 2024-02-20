@@ -1,6 +1,17 @@
+/.galaxy
+/.python
+
+#
+# Global
+#
+*~
+*.tmp.*
+*.tmp
+*.log
+.built
+.*.built
 
 built
-.built
-tmp
-/.python
-/.galaxy
+tmp/
+vendor
+__pycache__

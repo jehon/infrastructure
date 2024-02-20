@@ -1,0 +1,30 @@
+#!/usr/bin/sh
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
+. /usr/sbin/jh-deb-helpers.sh
+
+jh_deb_helper_service "jehon-dmesg.service"
+
+case "$1" in
+configure)
+	if [ -s /etc/sysctl.conf ]; then
+		mv /etc/sysctl.conf /etc/sysctl.d/50-initial-sysctl.conf
+		touch /etc/sysctl.conf
+	fi
+	;;
+
+# !! Does not work as expected
+triggered)
+		;;
+
+remove) ;;
+
+esac
+
+#
+# Legacy
+#
+
+exit 0

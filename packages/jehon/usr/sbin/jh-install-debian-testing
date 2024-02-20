@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+export TESTING_PRIORITY="${1:?Missing testing priority [1]}"
+
+if [ ! -d "/etc/apt/keyrings" ]; then
+    mkdir /etc/apt/keyrings
+fi
+
+envsubst < /usr/share/jehon/jehon-debian.pref.template > /var/cache/jehon/jehon-debian.pref
+jh-ln /var/cache/jehon/jehon-debian.pref /etc/apt/preferences.d/80-jehon-debian.pref
+
+# We need the rest to be setup before linking this...
+jh-ln /usr/share/jehon/jehon-debian.sources /etc/apt/sources.list.d/jehon-debian.sources
+
+case "$( lsb_release -si )" in
+    "Debian" )
+        echo "** Debian"
+        # if [ -r /etc/apt/sources.list ]; then
+        #     echo "[modified] Removing initial sources.list"
+        #     mv /etc/apt/sources.list /etc/apt/sources.list.jehon-initial
+        # fi
+        ;;
+    "Raspbian" )
+        echo "** Raspbian"
+
+        if [ ! -r /usr/share/keyrings/debian-archive-keyring.gpg ]; then
+            # They use the legacy
+            cp -f /usr/share/jehon/jehon-debian.gpg /usr/share/keyrings/debian-archive-keyring.gpg
+        fi
+
+        jh-ln /usr/share/jehon/jehon-raspbian.sources /etc/apt/sources.list.d/jehon-raspbian.sources
+        ;;
+esac

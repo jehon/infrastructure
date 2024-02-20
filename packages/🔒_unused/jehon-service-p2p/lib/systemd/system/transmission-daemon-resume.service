@@ -1,0 +1,13 @@
+[Unit]
+Description=Start all torrents
+PartOf=transmission-daemon.service
+After=transmission-daemon.service
+
+[Service] 
+Type=oneshot
+User=debian-transmission
+ExecStart=/usr/bin/transmission-remote --torrent all --start --netrc /var/cache/jehon/templated/transmission-daemon.netrc
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

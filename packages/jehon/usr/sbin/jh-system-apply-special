@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+# shellcheck source-path=SCRIPTDIR/../bin/
+. jh-lib
+
+# Where config files are present
+ROOT=/usr/share/jehon
+VAR=/var/cache/jehon
+
+mkdir -p "$VAR"
+
+jh_debug "ROOT is $ROOT"
+jh_debug "VAR  is $VAR"
+
+################################
+#
+# Patch
+#
+(
+	# Where we store the patching cache
+	mkdir -p "$VAR/patched/"
+
+	# The files that we are patching
+	PATCHING="$VAR/patched/patching-files.txt"
+
+	# The files that where previously patched (format: "file:tag")
+	PATCHED="$VAR/patched/patched-files.txt"
+	touch "$PATCHED"
+
+	# We did not patch already
+	truncate --size 0 "$PATCHING"
+
+	#
+	# For all files in $ROOT/patch, do patch it
+	#    and add it to the PATCHING list
+	#
+	if jh-fs "not-empty" "$ROOT/patch"; then
+		for S in "$ROOT"/patch/*; do
+			# jh_value "Patch" "$S"
+			/usr/bin/jh-patch-file "$S" | tee -a "$PATCHING" |& jh-tag-stdin "Apply $(basename "$S")"
+		done
+	else
+		jh_debug "No patch found"
+	fi
+
+	#
+	# Unpatch files
+	#   For all files that where previously patched (see list in $PATCHED)
+	#   and that are not patched anymore (not in $PATCHING)
+	#
+	while read -r L; do
+		I=${L:2}
+		FILE=${I%:*}
+		TAG=${I#*:}
+		if [ -z "$FILE" ]; then
+			continue
+		fi
+
+		# jh_info "Remove $FILE ($TAG)"
+		/usr/bin/jh-patch-file "uninstall" "$FILE" "$TAG" |& jh-tag-stdin "uninstall: $FILE"
+	done < <(diff --new-file "$PATCHED" "$PATCHING" | grep "<")
+
+	#
+	# Commiting the list of patched files
+	#
+	cat "$PATCHING" >"$PATCHED"
+	rm -f "$PATCHING"
+) |& jh-tag-stdin "patching"
+
+date --utc "+%Y-%m-%d %H:%M:%S" >"$VAR"/jh-system-apply-special.last-run

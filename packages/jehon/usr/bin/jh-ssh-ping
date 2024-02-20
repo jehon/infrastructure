@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+OPT_PORT=22
+OPT_USER=anyone
+
+while getopts "wp:u:" option; do
+  case "${option}" in
+  "w")
+    OPT_WAIT=1
+    ;;
+  "p")
+    OPT_PORT="$OPTARG"
+    ;;
+  "u")
+    OPT_USER="$OPTARG"
+    ;;
+  *)
+    usage
+    ;;
+  esac
+done
+shift "$((OPTIND - 1))"
+OPT_HOST="$1"
+
+if [ -n "$OPT_WAIT" ]; then
+  jh_info "Pinging ${OPT_HOST} on ${OPT_PORT}"
+  while ! jh-ssh-ping -p "$OPT_PORT" -u "$OPT_USER" "$OPT_HOST"; do
+    sleep 2s
+  done
+  exit 0
+fi
+
+if ! ping -w 1 -c 1 "$OPT_HOST" >/dev/null; then
+  ko "ICMP ping: '$OPT_HOST' is not reachable" >&2
+  exit 2
+fi
+
+status=$(
+  ssh \
+    -o ConnectTimeout=20 \
+    -o HashKnownHosts=no \
+    -o BatchMode=yes \
+    -o PasswordAuthentication=no \
+    -p "${OPT_PORT}" \
+    "${OPT_USER}@${OPT_HOST}" echo pong 2>&1 | grep -oE 'pong|denied|sftp'
+)
+
+if [[ "$status" != "pong" ]] &&
+  [[ "$status" != "denied" ]] &&
+  [[ "$status" != "sftp" ]] &&
+  [[ "$status" != "permission denied*" ]]; then
+  ko "SSH ping ${OPT_HOST}(${OPT_PORT}): failed with status: $status"
+  exit 2
+fi
+
+ok "SSH ping ${OPT_HOST}(${OPT_PORT}): success"
+exit 0

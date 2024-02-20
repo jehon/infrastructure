@@ -7,12 +7,12 @@ set -o pipefail
 . "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/lib-test.sh"
 
 (
-	cat <<-'EOS'
+	cat <<-EOS
 		cd infrastructure
 
 		cat inventory/*
 
-		ansible-playbook setup.yml --connection=local --limit kiosk -e "virtual=true"
+		ansible-playbook setup.yml ${JH_ANSIBLE_TEST} --limit kiosk
 
 		set -x
 		type jh-lib

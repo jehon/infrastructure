@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+TARGET="${1:-../}"
+N="${2:-1}"
+
+echo "TARGET: $TARGET"
+echo "N: $N"
+
+# null termniated lines
+find . -type f -print0 | head -z -n "$N" | xargs -0 "-I{}" mv -v "{}" "$TARGET" | nl

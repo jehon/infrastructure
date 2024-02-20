@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+echo "* files ignored:"
+if [ "$1" = "-v" ]; then
+    git check-ignore -v -- **/*
+else
+    git check-ignore -- **/*
+fi
+
+echo "* files in git that should be ignored:"
+git ls-files --cached -i --exclude-standard

@@ -1,0 +1,21 @@
+#!/usr/bin/zsh
+
+# shellcheck shell=bash # TODO: shellcheck for zsh
+
+#
+# Loaded from zshrc => interactive shells only
+#
+
+if [ -d /etc/jehon/zsh-profile.d ]; then
+    for zpi in /etc/jehon/zsh-profile.d/*.zsh; do
+        if [ -r "$zpi" ]; then
+            # echo "Loading $zpi"
+            # shellcheck source=/dev/null
+            . "$zpi"
+            # echo "Loading $zpi done"
+        else
+            echo "Skipping $zpi" >&2
+        fi
+    done
+    unset zpi
+fi

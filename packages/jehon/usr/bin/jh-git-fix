@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+#
+#
+# Thanks to https://stackoverflow.com/a/72786517/1954789
+#
+#
+
+if ! git gc --prune --aggressive --auto ; then
+	header_begin "Remove problematic objects"
+	rm -r .git/objects/* .git/refs/heads/* .git/refs/remotes/* .git/refs/stash .git/refs/tags/*
+	header_end
+fi
+
+header_begin "Pull all from online"
+git pull --all --prune --recurse-submodules
+header_end
+
+header_begin "Garbage collection aggressively"
+git gc --prune --aggressive --auto
+header_end

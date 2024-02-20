@@ -1,0 +1,223 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR
+. jh-lib
+
+CRYPTED_MOUNTED="${HOME}/Private"
+TO_BE_ENCRYPTED="${HOME}/to-be-encrypted"
+NEWLY_ENCRYPTED="${CRYPTED_MOUNTED}/divers"
+NEWLY_ENCRYPTED_OTHER="${CRYPTED_MOUNTED}/divers-others"
+CRYPTED_SOURCE="${JH_CLOUD_USER}/Workspaces/Jean/.encrypted_2023b"
+
+if [ ! -r "${TO_BE_ENCRYPTED}" ]; then
+	mkdir "${TO_BE_ENCRYPTED}"
+fi
+chmod "0700" "${TO_BE_ENCRYPTED}"
+
+umount_folder() {
+	MOUNTED="$1"
+
+	if mount | grep "${MOUNTED}" >/dev/null; then
+		header_begin "Unmouning ${MOUNTED}"
+		fusermount -u -z "${MOUNTED}/"
+		if [ -d "${MOUNTED}" ]; then
+			rmdir "${MOUNTED}"
+		fi
+		header_end
+	else
+		echo "Folder was already unmounted: ${MOUNTED}"
+	fi
+}
+
+start() {
+
+	header_begin "Mounting ${CRYPTED_SOURCE} to ${CRYPTED_MOUNTED}"
+
+	if [ ! -d "${CRYPTED_SOURCE}" ]; then
+		echo "Encrypted source dir not found" >&2
+		exit 255
+	fi
+
+	mkdir -p "${CRYPTED_MOUNTED}" || true
+	if ! stat "${CRYPTED_MOUNTED}"/* >/dev/null 2>&1; then
+		echo "Encore un secret:"
+		jh_info "Mounting folder"
+
+		gocryptfs "${CRYPTED_SOURCE}" "${CRYPTED_MOUNTED}"
+
+		# (
+		#   read -r -s PWD
+		# 	PWD_CRYTED="$( echo "$PWD" | rclone obscure - )"
+
+		# 	#
+		# 	# Thanks to https://forum.rclone.org/t/rclone-one-liner-to-connect-a-webdav-mount-without-rclone-conf/20444
+		# 	#
+		# 	#  @see connection-strings: https://rclone.org/docs/#connection-strings
+		# 	#  @see log-level: https://rclone.org/docs/#log-level-level
+		# 	#  @see vfs caching: https://rclone.org/commands/rclone_mount/#vfs-file-caching
+		# 	#     !! caching is done outside of folder, so uncrypted data is available to all
+		# 	#  @see other options: https://rclone.org/crypt/#standard-options
+		# 	#
+		# 	rclone mount \
+		# 		--log-level=ERROR \
+		# 		--vfs-cache-mode=off \
+		# 		":crypt,remote=${CRYPTED_SOURCE},filename_encryption=standard,directory_name_encryption,password='$PWD_CRYTED',password2='$PWD_CRYTED'":/ \
+		# 		"${CRYPTED_MOUNTED}" \
+		# 		2>&1 >/dev/null | jh-tag-stdin "rclone"
+		# ) &
+
+		sleep 1s
+
+		header_begin "Check that the folder is correctly mounted"
+		if [ ! -r "${CRYPTED_MOUNTED}"/.mounted ]; then
+			echo "Folder incorrectly mounted (exists)" >&2
+			exit 1
+		fi
+
+		if echo "13cb24c5065f9da4df9a93cb77de4292  ${CRYPTED_MOUNTED}/.mounted" | md5sum -c - > /dev/null ; then
+			true
+		else
+			echo "Folder incorrectly mounted (md5sum)" >&2
+			exit 1
+		fi
+		header_end
+	fi
+	header_end
+
+	do_move_to_be_encrypted_files
+
+	ok "Started"
+}
+
+stop() {
+	header_begin "Stopping..."
+
+	jh_info "List of mounted drives in home folder:"
+	mount | grep "${HOME}"
+
+	umount_folder "${CRYPTED_MOUNTED}"
+
+	header_begin "Cleaning data"
+	if [ -r ~/.local/share/Trash/metadata ]; then
+		rm -fr ~/.local/share/Trash/
+	fi
+	rm -fr ~/.thumbnails/
+	header_end
+
+	header_end "Stopped !"
+	exit 0
+}
+jh_on_exit stop
+
+function do_move_to_be_encrypted_files() {
+	if [ ! -d "${NEWLY_ENCRYPTED}" ] ; then
+		echo "NEWLY_ENCRYPTED not found: ${NEWLY_ENCRYPTED}" >&2
+		return
+	fi
+
+	local LAST
+	local LAST_NAME
+	local I
+	local F
+
+	cd "${TO_BE_ENCRYPTED}"
+
+	header_begin "Calculating index"
+	LAST="$( find "${NEWLY_ENCRYPTED}" -regex '.*\/[0-9]*\..*' -print | sort | tail -n 1 )"
+	LAST_NAME="$( jh-fs name "${LAST}" )"
+	# Force base 10 even with leading 00
+	(( I = 10#${LAST_NAME} + 1 ))
+	jh_value "Actual counter" "${I}"
+	header_end
+
+	for F in "${TO_BE_ENCRYPTED}"/* ; do
+		if [ ! -e "$F" ]; then
+			break;
+		fi
+
+		local EXT
+		local MIME
+		local FN
+
+		header_begin "File ${F}"
+		EXT="$( jh-fs extension "${F}" )"
+		MIME="$( mimetype -b "${F}" )"
+		jh_value "Mime" "${MIME}"
+
+		case $MIME in
+			image/* )
+				;;
+			# video/* )
+			# 	continue
+			# 	;;
+			* )
+				mkdir -p "${NEWLY_ENCRYPTED_OTHER}"
+				mv "${F}" "${NEWLY_ENCRYPTED_OTHER}/"
+				header_end
+				continue
+				;;
+		esac
+
+		exiftool -overwrite_original "-UserComment<filename" "-TagsList+=_new" "${F}"
+		FN="${NEWLY_ENCRYPTED}/$( printf %08d ${I} ).${EXT}"
+		mv -v "$F" "$FN"
+		(( ++I ))
+		header_end
+	done
+
+	header_begin "Remaining in TO_BE_ENCRYPTED (${TO_BE_ENCRYPTED})"
+	ls "${TO_BE_ENCRYPTED}"
+	header_end
+}
+
+function treatAction() {
+	case "$1" in
+	"start" )
+		start
+		;;
+	"s" | "stop")
+		jh_info "Force unmounting"
+		# stop? We use the 'trap EXIT'
+		exit 0
+		;;
+	"i" | "import")
+		jh_info "Moving files"
+		start
+		do_move_to_be_encrypted_files
+		;;
+	"d")
+		start
+		jh_info "Launching digikam"
+	# 	digikam --database-directory "${CRYPTED_MOUNTED}"/.metadata/ &
+		;;
+	"n" | "nautilus")
+		start
+		jh_info "Launching nautilus"
+		nautilus "${CRYPTED_MOUNTED}"/ &
+		;;
+	"p" | "prefetch" )
+		jh-cloud-prefetch "${CRYPTED_SOURCE}"
+		;;
+	*)
+		return 1
+		;;
+	esac
+	return 0
+}
+
+if [ -n "$1" ]; then
+	treatAction "$1"
+else
+	treatAction "start"
+fi
+
+while echo -n "?" && read -r A; do
+	echo "Action (s/n/d/i/y): $A"
+	if ! treatAction "$A"; then
+		echo "Unknown action: $A"
+	fi
+done
+
+# stop

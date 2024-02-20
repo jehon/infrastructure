@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+PID1="$( ps --no-headers -o comm 1 )"
+QUIET=
+
+info() {
+    if [ -z "$QUIET" ]; then
+        echo "$*"
+    fi
+}
+
+do_test() {
+    # 1: message
+    # 2..n: test
+    #   2: also additionnal info in ko
+    #
+    MSG="$1"
+    shift
+    if test "$@" ; then
+        echo "$MSG: ok"
+        return 0
+    else
+        echo "$MSG: ko ($1)"
+        return 1
+    fi
+}
+
+test_one() {
+    case "$1" in
+        "-q" )
+            QUIET=1
+            ;;
+        "systemd" )
+            do_test "Systemd is started" "$PID1" = 'systemd'
+            ;;
+        "hardware" | "physical" )
+            do_test "Hardware is physical" "$( virt-what | tr '\n' ' ' )" = ''
+            ;;
+        "test" )
+            do_test "Empty" 1
+            ;;
+        *)
+            jh_fatal "Unknown command: $1"
+            ;;
+    esac
+}
+
+if [ -n "$1" ]; then
+    while [ -n "$1" ] ; do
+        test_one "$1"
+        shift
+    done
+else
+    test_one "systemd"
+fi
+
+echo "check ok"

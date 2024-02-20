@@ -1,0 +1,16 @@
+// Test automatic upgrade configuration:
+// apt-config dump APT::Periodic::Unattended-Upgrade Unattended-Upgrade
+// sudo unattended-upgrade
+
+APT::Periodic::AutocleanInterval "7";
+Unattended-Upgrade::Automatic-Reboot "true";
+Unattended-Upgrade::Automatic-Reboot-Time "02:00";
+
+// See /var/lib/apt/lists
+Unattended-Upgrade::Allowed-Origins {
+	// Allowed-Origins is a simple list of patterns of the form "origin:archive".
+	// Take it from:  apt-cache policy <pkg>
+	// Origin: jehon (taken from Packages & Release)
+	// Suite: * (taken from Release)
+    "jehon:*";
+}

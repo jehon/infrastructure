@@ -1,0 +1,35 @@
+#!/usr/bin/bash
+
+set -o errexit
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+findAndDeleteThis() {
+    find . -mount -name "$1" -exec "rm" "-fr" "{}" ";"
+}
+
+rm -fr .cache
+rm -fr .cloud/Cache/cached
+rm -fr .local/share/Trash
+rm -fr .vscode/extensions
+rm -fr Cache
+rm -fr Trash
+
+findAndDeleteThis ".cache"
+findAndDeleteThis ".mypy_cache"
+findAndDeleteThis ".thumb"
+findAndDeleteThis ".thumbnails"
+findAndDeleteThis "log"
+findAndDeleteThis "logs"
+findAndDeleteThis "node_modules"
+findAndDeleteThis "vendor"
+findAndDeleteThis "thumbnails"
+findAndDeleteThis "tmp"
+
+findAndDeleteThis "*.log"
+
+find . -mount -name "Makefile" -execdir "make" "clean" ";"
+
+echo "** Info: old files **"
+find . -mount -type f -atime +61

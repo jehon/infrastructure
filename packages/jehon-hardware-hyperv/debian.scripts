@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -o errexit
+
+# shellcheck source=SCRIPTDIR/../jehon/usr/sbin/jh-deb-helpers.sh
+. /usr/sbin/jh-deb-helpers.sh
+
+case "$1" in
+configure)
+    if jh-is-full-machine ; then
+        echo "update grub"
+        /usr/sbin/update-grub
+    fi
+    ;;
+
+# !! Does not work as expected
+triggered) ;;
+
+remove) ;;
+
+esac
+
+#
+# Legacy
+#
+
+exit 0

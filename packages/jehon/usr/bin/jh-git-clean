@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# shellcheck source-path=SCRIPTDIR
+. jh-lib
+
+CURRENT="$( git branch --show-current )"
+
+header_begin "pruning"
+git remote prune origin
+header_end
+
+header_begin "removing local branches"
+git branch --merged \
+    | grep -v "${CURRENT}" \
+    | xargs git branch -d
+header_end

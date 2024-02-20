@@ -19,11 +19,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     strategy:
+      # Do not stop the rest of the matrix in case of failure
+      fail-fast: false
       matrix:
         target:
           - build
           - lint
-          - test
+          - python-test
+          - scripts-test
+          - packages-test
+          - infrastructure-test
 
     steps:
     - uses: actions/checkout@main

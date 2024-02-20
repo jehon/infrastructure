@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+set -o errexit
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+snapGetConfigFor() {
+    snap list 2>/dev/null | grep "^$1 "
+}
+
+snapGetMetaFor() {
+    echo "/snap/$1/current/meta/snap.yaml"
+}
+
+# snapGetChannelFor() {
+#     S="$1"
+#     jh-yaml2json "$( snapGetMetaFor "$S")"
+# }

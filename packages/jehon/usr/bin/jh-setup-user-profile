@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+# shellcheck source-path=SCRIPTDIR/
+. jh-lib
+
+gsettings_set() {
+    NEW_VAL="$3"
+
+    CUR_VAL="$( gsettings get "$1" "$2" )"
+    if [ "$CUR_VAL" != "$NEW_VAL" ]; then
+        if type gsettings >& /dev/null; then
+            gsettings set "$1" "$2" "$3"
+        else
+            echo "!! gsettings not installed"
+        fi
+        echo "[modified] ${CUR_VAL} => ${NEW_VAL} $OK done"
+    fi
+}
+
+header_begin "Customize gnome"
+
+jh_info "Disable beep"
+gsettings_set org.gnome.desktop.sound event-sounds false
+
+jh_info "Cycle through current window only"
+gsettings_set org.gnome.shell.window-switcher current-workspace-only true
+
+jh_info "One dash per workspace"
+gsettings_set org.gnome.shell.extensions.dash-to-dock isolate-workspaces true
+
+jh_info "One dash per monitor"
+gsettings_set org.gnome.shell.extensions.dash-to-dock isolate-monitors true
+
+jh_info "Workspace only on main screen"
+gsettings_set org.gnome.mutter workspaces-only-on-primary true
+
+jh_info "Shrink dash"
+gsettings_set org.gnome.shell.extensions.dash-to-dock custom-theme-shrink true
+
+jh_info "Remove default keys for screenshot - allow ksnip to take them"
+gsettings_set org.gnome.shell.keybindings screenshot "@as []"
+gsettings_set org.gnome.shell.keybindings screenshot-window "@as []"
+gsettings_set org.gnome.shell.keybindings show-screenshot-ui "@as []"
+
+header_end
+
+header_begin "Setup Oh My ZSH"
+if [ ! -d ~/.oh-my-zsh ]; then
+    header_begin "Install Oh My ZSH"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    header_end
+else
+    jh_info "Oh My ZSH already installed"
+fi
+
+if grep -E "^JH_OMZ=1" ~/.zshrc >& /dev/null; then
+    jh_info "zshrc already patched"
+else
+    header_begin "Hook my scripts into .zshrc"
+    cat <<EOS > .zshrc
+#
+# Generated throudgh $0
+#
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+JH_OMZ=1
+if [ -x /etc/jehon/zsh-profile ]; then
+    . /etc/jehon/zsh-profile
+fi
+EOS
+    header_end
+fi
+
+if [ ! -r "$HOME/.fonts/Hack" ]; then
+    header_begin "Setup fonts"
+    jh-install-hack-fonts
+    header_end
+else
+    jh_info "Fonts already installed"
+fi
+
+header_end

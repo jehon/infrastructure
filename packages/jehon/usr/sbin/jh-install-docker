@@ -1,0 +1,68 @@
+#!/usr/bin/bash
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/../bin/
+. jh-lib
+
+export DEBIAN_FRONTEND=noninteractive
+
+ARCH="$(dpkg --print-architecture)"
+DIST="$( lsb_release --id --short | tr '[:upper:]' '[:lower:]')"
+VERSION="$(lsb_release --codename --short )"
+
+# The channel to install from:
+#   * stable
+#   * test
+#   * edge (deprecated)
+#   * nightly (unmaintained)
+if [ -z "$CHANNEL" ]; then
+	CHANNEL="stable"
+fi
+
+if [ "$( lsb_release --id --short )" == "Debian" ]; then
+	VERSION="bookworm"
+fi
+
+jh_value "ARCH"    "$ARCH"
+jh_value "CHANNEL" "$CHANNEL"
+jh_value "DIST"    "$DIST"
+jh_value "VERSION" "$VERSION"
+
+cat  <<EOS | jh-install-file "/etc/apt/sources.list.d/jehon-docker-$DIST.sources"
+Types: deb
+URIs: https://download.docker.com/linux/$DIST
+Suites: $VERSION
+Components: $CHANNEL
+Signed-By: /usr/share/keyrings/jehon-docker-$DIST.gpg
+Arch: $ARCH
+EOS
+
+apt update --yes --quiet
+# uidmap: rootless docker
+apt install --yes --quiet docker-ce docker-ce-cli docker-ce-rootless-extras containerd.io docker-buildx-plugin docker-compose-plugin uidmap
+
+if [ -x /usr/sbin/dockerd ] && [ ! -x /usr/bin/dockerd ]; then
+	jh-ln /usr/bin/dockerd /usr/sbin/dockerd
+fi
+
+# Rootless
+header_begin "Rootless"
+# already done ?
+# cat <<EOF >> /etc/subuid
+# # Add subuid entry for jehon
+# jehon:100000:65536
+# # Add subgid entry for jehon
+# jehon:100000:65536
+# EOF
+
+if jh-is-full-machine ; then
+	systemctl stop docker.service docker.socket
+	systemctl disable docker.service docker.socket
+fi
+
+rm -f /var/run/docker.sock
+
+echo "Run as user: /usr/bin/dockerd-rootless-setuptool.sh install"
+
+header_end

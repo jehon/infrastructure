@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+FILE="${1:?"Need file as [1]"}"
+
+MD5_BEFORE="$( md5sum "$FILE" 2>/dev/null)"
+
+cat - > "$FILE"
+
+MD5_AFTER="$( md5sum "$FILE" 2>/dev/null)"
+
+if [ "$MD5_BEFORE" != "$MD5_AFTER" ]; then
+    if [ "$MD5_BEFORE" = "" ]; then
+        echo "[modified] $FILE installed"
+    else
+        echo "[modified] $FILE updated"
+    fi
+fi

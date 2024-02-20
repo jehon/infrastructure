@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+WHERE="${1:-.}"
+
+find "$WHERE" -type f -exec md5sum '{}' ";"

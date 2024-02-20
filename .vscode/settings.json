@@ -1,15 +1,31 @@
 {
-    "workbench.colorCustomizations": {
-        "titleBar.activeBackground": "#3389a9",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit"
     },
-    "[dockerfile]": {
-        "editor.defaultFormatter": "ms-azuretools.vscode-docker"
-    },
+    "cSpell.words": ["jehon", "sshpass"],
+    "eslint.format.enable": true,
     "files.associations": {
-        "Makefile.*": "makefile"
+      "Makefile.*": "makefile"
+    },
+    "files.trimTrailingWhitespace": true,
+    "github-actions.workflows.pinned.workflows": [
+      ".github/workflows/test.yml"
+    ],
+    "javascript.preferences.importModuleSpecifier": "relative",
+    "javascript.preferences.importModuleSpecifierEnding": "js",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "python.analysis.extraPaths": [
+      "jehon/usr/lib/python3/dist-packages"
+    ],
+    "python.analysis.typeCheckingMode": "basic",
+    "python.autoComplete.extraPaths": [
+      "tmp/var/lib/python/jehon"
+    ],
+    "terminal.integrated.scrollback": 100000,
+    "workbench.colorCustomizations": {
+      "titleBar.activeBackground": "#3389a9"
     },
     "yaml.customTags": [
-        "!vault"
+      "!vault"
     ],
-    "cSpell.words": ["jehon", "sshpass"]
-}
+  }

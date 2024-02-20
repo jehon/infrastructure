@@ -1,0 +1,13 @@
+[Unit]
+Description=Remove dmesg from tty
+
+[Service]
+Type=oneshot
+# Avoid messages:
+#   hwmon hwmon1: Undervoltage detected
+#
+ExecStart=/usr/bin/dmesg --console-level emerg
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

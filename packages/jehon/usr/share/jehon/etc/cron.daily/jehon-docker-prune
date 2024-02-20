@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+SELF="$( realpath "$0" )"
+# echo "SELF: $SELF"
+
+docker system prune --volumes --force
+docker builder prune --filter until=48h --force
+
+if [ "$( id -u )" == "0" ]; then
+    echo "Deleting to other users too"
+
+    while read -r U; do
+        runuser "$U" "$SELF" | jh-tag-stdin "$U"
+    done < <( getent group docker | awk -F: '{print $4}' |  tr "," " " )
+fi

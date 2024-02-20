@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+RP=$(type -p "$1")
+shift
+
+sudo -E "$RP" "$@"

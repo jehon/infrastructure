@@ -1,0 +1,30 @@
+
+############################################
+#
+# Stable
+#
+############################################
+
+Types: deb
+URIs: http://raspbian.raspberrypi.org/raspbian/
+Suites: stable
+Components: main
+Signed-By: /usr/share/keyrings/jehon-raspbian.gpg
+
+############################################
+#
+# Testing
+#
+############################################
+
+Types: deb
+URIs: http://raspbian.raspberrypi.org/raspbian/
+Suites: testing
+Components: main
+Signed-By: /usr/share/keyrings/jehon-raspbian.gpg
+
+############################################
+#
+# Unstable
+#
+############################################

@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+# https://help.ubuntu.com/community/NautilusScriptsHowto
+# https://help.ubuntu.com/community/NautilusScriptsHowto/SampleScripts
+
+fo "$@"

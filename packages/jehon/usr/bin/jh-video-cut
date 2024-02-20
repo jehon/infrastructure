@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/
+. jh-lib
+
+INPUT="$1"
+START="$2"
+STOP="$3"
+
+: "${INPUT:?Need input as [1]}"
+: "${START:?Need start as [2]}"
+: "${STOP:?Need stop as [3]}"
+
+OUTPUT="$(jh-fs name "$INPUT") [${START/:/-} to ${STOP/:/-}].$(jh-fs extension "$INPUT")"
+
+echo "OUTPUT: $OUTPUT"
+
+rm -f "$OUTPUT"
+ffmpeg -ss "$START" -i "$INPUT" -c copy -to "$STOP" "$OUTPUT"
+
+echo "Done"

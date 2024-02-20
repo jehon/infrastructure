@@ -1,0 +1,19 @@
+#
+# Jehon
+#
+
+X-Repolib-Name: Jehon (GitHub)
+Types: deb
+URIs: http://jehon.github.io/packages/
+Suites: /
+Components:
+Enabled: yes
+Signed-By: /usr/share/keyrings/jehon.gpg
+
+X-Repolib-Name: Jehon (GitHub-infrastructure)
+Types: deb
+URIs: http://jehon.github.io/packages/
+Suites: /
+Components:
+Enabled: yes
+Signed-By: /usr/share/keyrings/jehon.gpg

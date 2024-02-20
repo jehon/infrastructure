@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+if jh-is-full-machine >/dev/null; then
+    sudo echo "Unlocked sudo"
+    jh_background_process sudo systemd-inhibit --no-pager sleep infinity
+fi
+
+header_begin "With systemd-inhibit lock"
+if [ -n "$1" ]; then
+    "$@"
+else
+    jh_info "Sleeping with systemd-inhibit lock"
+    sleep infinity
+fi
+header_end

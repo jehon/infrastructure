@@ -1,0 +1,5 @@
+#    pointing_to     link_name 
+
+# To allow auto mounting throug rclone (https://rclone.org/commands/rclone_mount/)
+/usr/bin/rclone /sbin/mount.rclone
+/usr/bin/rclone /usr/bin/rclonefs

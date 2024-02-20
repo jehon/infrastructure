@@ -10,3 +10,5 @@ argument_specs:
         type: boolean
       jehon_testing:
         type: int
+      jh_repositories_deb_url:
+        type: string

@@ -1,0 +1,15 @@
+
+[Unit]
+Description=Set the initial volume from main
+# Wait for the card to be ready
+After=alsa-state.service
+After=dev-snd-controlC1.device
+
+[Service]
+Type=oneshot
+# Help: https://askubuntu.com/q/1159063
+ExecStart=/usr/bin/amixer -c 0 cset 'numid=1' '80%'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+for F in * ; do
+    if [ -r "$F/.git" ]; then
+        (
+            cd "$F"
+            jh-git-status | grep "✗" || true
+        ) | jh-tag-stdin "$F"
+    fi
+done

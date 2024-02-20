@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+set -o errexit
+set -o pipefail
+
+LOG="$HOME/log"
+
+exec &> >( tee "$LOG" )
+
+if [ "$( id -u )" == "0" ]; then
+    echo "Switching to user jehon-tty"
+    # User need access to /dev/fb0
+    su jehon-tty "$0"
+fi
+
+/usr/bin/fbi --autozoom --timeout 15 "/var/cache/jehon/pictures"/*
+
+echo "TTY Photos Script has exited..."
+exit 1

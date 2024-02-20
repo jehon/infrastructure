@@ -1,0 +1,21 @@
+#!/usr/bin/sh
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
+. /usr/sbin/jh-deb-helpers.sh
+
+# see: dh_installdeb(1)
+
+case "$1" in
+configure)
+    update-alternatives --set x-terminal-emulator /usr/bin/terminator
+	;;
+
+esac
+
+#
+# Legacy
+#
+
+exit 0

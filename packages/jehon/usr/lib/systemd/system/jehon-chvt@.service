@@ -1,0 +1,13 @@
+
+[Unit]
+Description=Change console to %I
+# After=jehon-tty@tty%I.service
+ConditionPathExists=/dev/tty0
+ConditionFileIsExecutable=/usr/bin/chvt
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/chvt %I
+
+[Install]
+WantedBy=getty.target

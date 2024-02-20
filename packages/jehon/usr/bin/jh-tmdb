@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source=SCRIPTDIR/../../../jehon/usr/bin/jh-lib
+. jh-lib
+
+ROOT="/opt/jehon/tmdb-to-movie"
+
+jh-npm-update-if-necessary "$ROOT"
+
+"$ROOT"/main.js "$@"

@@ -1,0 +1,6 @@
+
+# Minimum build: 19041
+
+[wsl2]
+# memory=6GB
+processors=2

@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+
+import argparse
+
+import jehon.display as jdi
+import jehon.shell as jshell
+
+parser = argparse.ArgumentParser(description='Test')
+parser.add_argument('folder', nargs='?', default='/')
+args = parser.parse_args()
+
+with jdi.block("test_with_headers"):
+    jdi.header_begin("test")
+    print("hello 1")
+    jdi.header_begin("test2")
+    print("hello 2")
+    jdi.header_end()
+    print("hello 1")
+    jdi.header_end()
+
+    jdi.header_begin("test newline")
+    print("hello 2\nhello 3")
+    jdi.header_end()
+
+    jdi.header_begin("test newline")
+    print("hello 2\nhello 3\n")
+    jdi.header_end()
+
+with jdi.block("test_with_headers"):
+    with jdi.header("subsection_1"):
+        jdi.info("We are inside test 1")
+        with jdi.header("subsection_2"):
+            jdi.info("We are inside test 2")
+        jdi.info("We are inside test 1")
+
+with jdi.header("subprocess"):
+    with jdi.header("cwd"):
+        jshell.run(["ls"], shell=True)
+    with jdi.header(f"folder '{args.folder}'"):
+        jshell.run([f"ls '{args.folder}'"], shell=True)

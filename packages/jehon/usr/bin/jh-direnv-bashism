@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+SWD="$(dirname "$( realpath "${BASH_SOURCE[1]}")")"
+
+path_add() {
+    echo "Adding to $1: $2"
+    export "$1"="${SWD}/$2:${!1}"
+}
+
+PATH_add() {
+    path_add PATH "$1"
+}

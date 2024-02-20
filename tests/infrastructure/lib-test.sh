@@ -21,6 +21,8 @@ echo "*******************************************************"
 
 docker kill "test-ansible-$TEST_NAME" &>/dev/null || true
 docker rm -f "test-ansible-$TEST_NAME" &> /dev/null || true
+# Caution: will be pasted as-is
+export JH_ANSIBLE_TEST="--connection=local --extra-vars 'virtual=true blablabla=1'"
 
 # shellcheck disable=SC2120
 # shellcheck disable=SC2119

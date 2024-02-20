@@ -1,0 +1,12 @@
+Source: jehon-debs
+Section: unknown
+Priority: extra
+Maintainer: Jean Honlet <jeanhonlet@gmail.com>
+Build-Depends: debhelper (>= 10)
+Standards-Version: 4.1.2
+Homepage: http://www.github.org/jehon/packages/
+Vcs-Git: git@github.org:jehon/packages.git
+Vcs-Browser: https://www.github.org/jehon/packages/
+
+# ----------- end of standard header ------------------
+

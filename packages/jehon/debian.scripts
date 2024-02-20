@@ -1,0 +1,136 @@
+#!/usr/bin/sh
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
+. /usr/sbin/jh-deb-helpers.sh
+
+# see: dh_installdeb(1)
+
+# if [ -e "/usr/share/debconf/confmodule" ]; then
+# 	# export DEBCONF_DEBUG=developer
+
+# 	# http://www.fifi.org/doc/debconf-doc/tutorial.html
+# 	# shellcheck disable=SC1091
+# 	. /usr/share/debconf/confmodule
+# fi
+
+jh_deb_helper_system_group "docker"
+jh_deb_helper_system_group "fuse"
+jh_deb_helper_system_group "sudo"
+jh_deb_helper_system_group "jehon_secrets"
+
+jh_deb_helper_ufw "port" "ssh" "public"
+jh_deb_helper_ufw "app" "jehon-supertuxkart" "home"
+jh_deb_helper_ufw "app" "jehon-supertuxkart" "homeIPv4"
+
+jh_deb_helper_system_user "jehon"
+jh_deb_helper_user_in_group "jehon" "docker"
+jh_deb_helper_user_in_group "jehon" "fuse"
+jh_deb_helper_user_in_group "jehon" "sudo"
+
+jh_deb_helper_system_user "jehon-tty"
+# jh_deb_helper_user_in_group "jehon-tty" "audio"
+# jh_deb_helper_user_in_group "jehon-tty" "input"
+jh_deb_helper_user_in_group "jehon-tty" "video"
+
+jh_deb_helper_service "jehon-tty@tty8.service"
+jh_deb_helper_service "jehon-ssh-get-latest.timer"
+# mount and rclone timer depend on network
+# On Ubuntu, network is managed by NetworkManager
+# and NetowkManager start too late to setup network
+# => So network related units are not started automatically
+
+jh_deb_helper_patch "/etc/adduser.conf" "jehon" "/usr/share/jehon/etc_adduser.conf.patch"
+jh_deb_helper_patch "/etc/fuse.conf" "jehon" "/usr/share/jehon/etc_fuse.conf.patch"
+jh_deb_helper_patch "/etc/inputrc" "jehon" "/usr/share/jehon/etc_inputrc.patch"
+
+jh_deb_helper_python "/usr/lib/python3/dist-packages/jehon/requirements.txt" "/var/lib/python/jehon"
+
+case "$1" in
+configure)
+	if [ ! -d /etc/jehon/restricted/ ]; then
+		echo "- Creating /etc/jehon/restricted..."
+		mkdir -p /etc/jehon/restricted/
+		chmod 700 /etc/jehon/restricted
+	fi
+
+	if ! find /etc/ssh/ssh_host_* 1>/dev/null 2>/dev/null; then
+		echo "- Generating host keys for ssh..."
+		cd /etc/ssh && ssh-keygen -A
+	fi
+
+	if ! [ -r /etc/default/locale ]; then
+		cp -f /usr/share/jehon/locale /etc/default/locale
+	fi
+
+	mkdir -p /mnt/cloud
+	chmod a+rX /mnt/cloud
+
+	mkdir -p /var/cache/rclone
+
+	if id pi >/dev/null 2>&1; then
+		echo "* Disabling user pi"
+		passwd -l pi || true
+	fi
+
+	jh_enable_locale() {
+		L="$1"
+
+		if ! grep -e "^$L" /etc/locale.gen 2>/dev/null >/dev/null; then
+			echo "Activating and generating locales $L"
+			sed --in-place "s/^# $L/$L/" /etc/locale.gen
+			# /usr/sbin/locale-gen "$L"
+		fi
+	}
+
+	jh_enable_locale 'fr_BE.UTF-8'
+	jh_enable_locale 'en_IE.UTF-8'
+	jh_enable_locale 'en_US.UTF-8'
+
+	/usr/sbin/locale-gen --keep-existing
+
+	if [ -x /usr/sbin/jh-system-apply-special ]; then
+		/usr/sbin/jh-system-apply-special | jh-tag-stdin "triggered"
+	fi
+
+	if jh-is-full-machine ; then
+		for F in /etc/sysctl.conf /etc/sysctl.d/*.conf ; do
+			echo "* Sysctl: Reload $F"
+			sysctl -p "$F"
+		done
+
+		if systemctl is-active --quiet ssh ; then
+			echo "* Reload ssh config"
+			systemctl reload ssh
+		fi
+	fi
+
+	mkdir -p /etc/jehon/restricted
+	chmod --changes --recursive "u=rwX,g=rX,o=" /etc/jehon/restricted
+	chown --changes --recursive "root:jehon_secrets" /etc/jehon/restricted
+
+	mkdir -p /mnt/docker
+	chmod --changes --recursive "u=rwX,g=rX,o=" /mnt/docker
+	chown --changes --recursive "root:jehon_secrets" /mnt/docker
+
+	# We are not triggered by usself, so we need to run this manually
+	echo "Self-trigger /usr/sbin/jh-system-apply-special..."
+	/usr/sbin/jh-system-apply-special
+	echo "Self-trigger /usr/sbin/jh-system-apply-special done"
+	;;
+
+triggered)
+	echo "******************* TRIGGERED ******************"
+	# /usr/sbin/jh-system-apply-special
+	;;
+
+remove) ;;
+
+esac
+
+#
+# Legacy
+#
+
+exit 0

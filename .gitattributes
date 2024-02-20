@@ -1,0 +1,6 @@
+#
+# Global
+#
+
+*.sh text eol=lf
+*.md text

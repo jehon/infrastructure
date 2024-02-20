@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+JH_DEFAULT_IDENT=20
+
+SOURCE="${1:?Need to specify movie as [1]}"
+SOURCE_FOLDER="$( dirname "${SOURCE}" )"
+SOURCE_FILENAME="$( jh-fs name "${SOURCE}" )"
+SOURCE_EXTENSION="$( jh-fs extension "${SOURCE}" )"
+
+BACKUP="${SOURCE_FOLDER}/${SOURCE_FILENAME}.orig.${SOURCE_EXTENSION}"
+DESTINATION_TMP="${SOURCE}.fix.mkv"
+DESTINATION_CLEAN="${SOURCE_FOLDER}/${SOURCE_FILENAME}.mkv"
+
+jh_value "SOURCE" "${SOURCE}"
+jh_value "SOURCE_FOLDER" "${SOURCE_FOLDER}"
+jh_value "SOURCE_FILENAME" "${SOURCE_FILENAME}"
+jh_value "SOURCE_EXTENSION" "${SOURCE_EXTENSION}"
+
+jh_value "BACKUP" "${BACKUP}"
+jh_value "DESTINATION_TMP" "${DESTINATION_TMP}"
+jh_value "DESTINATION_CLEAN" "${DESTINATION_CLEAN}"
+
+if [ -r "$DESTINATION_TMP" ]; then
+	jh_error "File already exists at destination - removing it: $DESTINATION_TMP"
+	rm -f "$DESTINATION_TMP"
+fi
+
+header_begin "Fixing the streams"
+#
+# -loglevel warning
+# -xerror: stop and exit on error
+# --flags:
+#    +genpts: Generate missing PTS if DTS is present.
+#
+# !! destination is always an mkv (see above)
+ffmpeg \
+	-hide_banner -xerror \
+	-err_detect ignore_err \
+	-i "${SOURCE}" \
+	-map 0 \
+	-c:v h264 \
+	-c:a aac\
+	-fflags +genpts \
+	-async 1 -strict experimental \
+	"${DESTINATION_TMP}"
+header_end
+
+header_begin "Moving file in place"
+mv "${SOURCE}" "${BACKUP}"
+mv "${DESTINATION_TMP}" "${DESTINATION_CLEAN}"
+header_end
+
+ok "Done"

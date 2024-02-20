@@ -1,0 +1,72 @@
+
+#
+#
+# Depends on: x
+#
+#
+
+.PHONY: scripts
+scripts: scripts-dump scripts-build scripts-test scripts-lint ok
+
+dump: scripts-dump
+clean: scripts-clean
+build: scripts-build
+test: scripts-test
+lint: scripts-lint
+
+SCRIPTS_TMP=tmp/scripts
+
+.PHONY: scripts-dump
+scripts-dump:
+	$(call dump_space)
+	$(call dump_title,SCRIPTS)
+	$(call dump_info,SCRIPTS_TMP)
+	$(call dump_version,shellcheck,2)
+
+.PHONY: scripts-clean
+scripts-clean:
+	rm -fr "$(SCRIPTS_TMP)"
+
+.PHONY: scripts-build
+scripts-build:
+	@true
+
+scripts-chmod:
+	chmod +x packages/*.sh
+	find packages/jehon*/usr -name "*.sh" -exec "chmod" "+x" "{}" ";"
+	find packages/jehon*/usr/bin -exec "chmod" "+x" "{}" ";"
+	find packages/jehon*/usr/sbin -exec "chmod" "+x" "{}" ";"
+	find packages/jehon*/usr/share/jehon/etc/*/checks/ -exec "chmod" "+x" "{}" ";"
+
+.PHONY: scripts-test
+scripts-test: \
+	scripts-test-shell
+
+.PHONY: scripts-test-shell
+scripts-test-shell: scripts-build
+	find tests/ -name "*.sh" -exec "chmod" "+x" "{}" ";"
+	jh-test-runner ./tests/scripts/
+
+.PHONY: scripts-lint
+scripts-lint: scripts-lint-shellcheck scripts-lint-desktop
+
+.PHONY: scripts-lint-shellcheck
+scripts-lint-shellcheck:
+	@echo "Running $@..."
+	@find packages/ tests \
+		-type f \
+		-not -name "🔒*" -not -path "*/🔒*" \
+		-exec bash -c "file -bi '{}' | grep 'x-shellscript' &>/dev/null" ';' \
+		-print0 \
+		| xargs -0 -I "{}" -- shellcheck '{}'
+	@echo "Running $@ ok"
+
+.PHONY: scripts-lint-desktop
+scripts-lint-desktop:
+	@echo "Running $@..."
+	@find . \
+		-name "*.desktop" \
+		-not -name "🔒*" -not -path "*/🔒*" \
+		-type f \
+		-exec "desktop-file-validate" "{}" ";"
+	@echo "Running $@ ok"

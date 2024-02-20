@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+case $(hostname) in
+"kiosk")
+    echo "home"
+    ;;
+*)
+    # TODO: test by ip ping ?
+    echo "public"
+    ;;
+esac

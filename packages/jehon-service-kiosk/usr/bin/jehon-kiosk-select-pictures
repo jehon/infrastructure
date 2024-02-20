@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+set -o errexit
+set -o pipefail
+
+# shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin/
+. jh-lib
+
+export PYTHONPATH="$PYTHONPATH:/usr/lib/python3/dist-packages:/var/lib/python/jehon"
+
+header_begin "Refreshing pictures"
+/usr/share/jehon-service-kiosk/jh-select-pictures "/mnt/cloud/photos" --dest "/var/cache/jehon/pictures"
+header_end
+
+systemctl restart jehon-tty@tty2.service

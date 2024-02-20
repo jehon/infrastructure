@@ -1,0 +1,7 @@
+Depends: ${misc:Depends},
+	jehon (<= JH_VERSION),
+# mopidy, mopidy-mpd,
+	mpd,
+	alsa-utils,
+	ncmpcpp,
+	mpc

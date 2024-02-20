@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+SOURCE="${1:?"Need source as [1]"}"
+TARGET="${2:?"Need target as [2]"}"
+shift
+shift
+
+rsync --itemize-changes \
+        --recursive --times --delete \
+        "$@" \
+        "${SOURCE}" "${TARGET}" \
+    | awk '{ print "[modified] " $0; }'

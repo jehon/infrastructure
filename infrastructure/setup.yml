@@ -12,6 +12,8 @@
       when: "'grp_jehon' in group_names"
       ansible.builtin.include_role:
         name: jh_repositories
+      vars:
+        jh_repositories_deb_url: "{{ jehon_deb_url }}"
 
     - name: Setup Jehon Service Headless
       when: jehon_headless
@@ -42,11 +44,6 @@
       when: inventory_hostname == "kiosk"
       ansible.builtin.include_role:
         name: host_kiosk
-
-    - name: Setup host piscine
-      when: inventory_hostname == "piscine"
-      ansible.builtin.include_role:
-        name: host_piscine
 
     - name: Setup host synology
       when: inventory_hostname == "synology"

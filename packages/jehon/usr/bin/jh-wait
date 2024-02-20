@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+T="$1"
+CMD="$2"
+DELAY="${3:-5}"
+
+if [ -z "$CMD" ]; then
+	jh_fatal "Need T seconds [1] and check CMD [2]"
+fi
+
+echo -n "Waiting for '$CMD'... "
+((I = 1))
+((N = T / DELAY))
+while ! bash -c "$CMD" 2>/dev/null >/dev/null; do
+	if ((I % 10)); then
+		echo -n "."
+	else
+		echo -n ":"
+	fi
+	((I++))
+	if [[ "$I" -gt "$N" ]]; then
+		echo "waiting failed" >&2
+		exit 1
+	fi
+	sleep "$DELAY"
+done
+echo "...done"

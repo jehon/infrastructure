@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+
+# shellcheck source=SCRIPTDIR/jh-lib
+. jh-lib
+
+set -o errexit
+
+TARGET="${1:-tmp/gh-pages}"
+if [ -z "$TARGET" ]; then
+    echo "You must specify folder as [1]" >&2
+    exit 1
+fi
+DO_PUSH="${2:-no_push}"
+
+PAGE_BRANCH="gh-pages"
+
+GIT_REPO="$(basename "$(git rev-parse --show-toplevel)")"
+GIT_HASH="$(git rev-parse HEAD)"
+GIT_AUTHOR_NAME="$(git log -1 --pretty=format:'%an')"
+GIT_AUTHOR_EMAIL="$(git log -1 --pretty=format:'%ae')"
+
+jh_value "Hash"   "$GIT_HASH"
+jh_value "Author" "$GIT_AUTHOR_NAME"
+jh_value "EMail"  "$GIT_AUTHOR_EMAIL"
+jh_value "Folder" "$(pwd)/$TARGET"
+
+# In packages build, the git folder is already present
+if [ ! -r "$TARGET"/.git ]; then
+    header_begin "Adding git"
+    rsync .git/ "$TARGET/.git" -ar --delete
+    header_end
+else
+    jh_info "Using existing git"
+fi
+
+######################
+#
+# Going into folder to be published
+#
+#
+pushd "$TARGET" >/dev/null || exit 1
+jh_value "Folder" "$(pwd)"
+
+header_begin "Building indexes"
+jh-html-generate-index
+header_end
+
+if [ "$(git branch --show-current)" != "$PAGE_BRANCH" ]; then
+    header_begin "Recreate branch $PAGE_BRANCH"
+    git branch -D "$PAGE_BRANCH" || true
+    git checkout -b "$PAGE_BRANCH"
+    header_end
+else
+    jh_info "Already on branch"
+fi
+header_begin "Configuring git local"
+git config user.name "$GIT_AUTHOR_NAME"
+git config user.email "$GIT_AUTHOR_EMAIL"
+# https://stackoverflow.com/a/15851500/1954789
+# https://git-scm.com/docs/git-config#Documentation/git-config.txt-httppostBuffer
+git config http.postBuffer 524288000
+git config ssh.postBuffer 524288000
+git gc --aggressive
+header_end
+
+header_begin "Creating commit $(pwd)"
+git add . >/dev/null
+git commit -m "publishing $GIT_HASH" #>/dev/null
+header_end
+
+if [ "$DO_PUSH" = "push" ]; then
+    header_begin "Pushing branch $BRANCH"
+    git push --force --set-upstream origin gh-pages
+
+    echo "***********************************************************************"
+    echo "***                                                                 ***"
+    echo "***   Go check this at http://jehon.github.io/${GIT_REPO}/index.html   ***"
+    echo "***                                                                 ***"
+    echo "***              published at  $( date +%T )                             ***"
+    echo "***                                                                 ***"
+    echo "***********************************************************************"
+    header_end
+else
+    jh_info "Not really publishing as told so"
+fi
+
+popd >/dev/null || exit 1
+
+rm -fr "$TARGET"/.git

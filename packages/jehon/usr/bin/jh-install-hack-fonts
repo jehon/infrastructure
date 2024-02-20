@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+# shellcheck source=SCRIPTDIR/../bin/jh-lib
+. jh-lib
+
+TARGET="$HOME/.fonts/Hack"
+TMP="$HOME/tmp/hack-fonts"
+
+rm -fr "${TMP}"1
+mkdir -p "${TMP}"
+
+mkdir -p "${TARGET}"
+
+# TODO: install in tmp and use jh-install-file to have the [modified] tag
+
+cd "${TMP}"
+curl -fsSL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip | busybox unzip -
+
+jh-install-rsync "${TMP}/" "${TARGET}" --checksum --no-times --exclude .uuid
+
+fc-cache "${TARGET}"
+
+
+# TODO: move to system wide?
+# TODO: configure terminator to use this

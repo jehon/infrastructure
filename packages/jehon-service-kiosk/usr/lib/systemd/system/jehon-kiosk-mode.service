@@ -1,0 +1,10 @@
+
+[Unit]
+Description=Select the kiosk mode
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/jh-kiosk-mode
+
+[Install]
+WantedBy=multi-user.target

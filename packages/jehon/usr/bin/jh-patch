@@ -1,0 +1,47 @@
+#!/usr/bin/bash
+
+set -o errexit
+
+# Usage:
+# - <file> -> will dump on stdout the patched file
+# - "uninstall" <file> [tag]
+#
+
+TARGET="$1"
+TAG="$2"
+# Empty to remove
+INCLUDE="$3"
+
+if [ ! -r "$TARGET" ]; then
+	echo "File $TARGET does not exists, bailing out..." >&2
+	exit 0
+fi
+
+if [ -n "$INCLUDE" ]; then
+	if [ ! -f "$INCLUDE" ]; then
+		echo "Include file does not exists [1]: $INCLUDE" >&2
+		exit 255
+	fi
+fi
+
+if [ ! -w "$TARGET" ]; then
+	echo "Could not write to $TARGET" >&2
+	exit 1
+fi
+
+TAG_BEGIN="### JEHON BEGIN ${TAG} ###"
+TAG_END="### JEHON END ${TAG} ###"
+
+BACKUP="$TARGET-before-patch"
+cp -f "$TARGET" "$BACKUP"
+
+{
+	sed "/$TAG_BEGIN/,/$TAG_END/d" "$BACKUP"
+	if [ "$INCLUDE" != "" ]; then
+		echo "$TAG_BEGIN"
+		echo "# Live source: $INCLUDE"
+		# Include file
+		cat "$INCLUDE"
+		echo "$TAG_END"
+	fi
+} > "$TARGET"
