@@ -2,8 +2,6 @@
 # Jehon
 #
 
-# deb [trusted=yes] http://jehon.github.io/packages/ /
-
 X-Repolib-Name: Jehon (GitHub)
 Types: deb
 URIs: http://jehon.github.io/packages/
