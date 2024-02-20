@@ -113,8 +113,7 @@ $(PACKAGES_REPO)/Release.gpg: $(PACKAGES_REPO)/Release
 
 .PHONY: packages-release
 packages-release: $(PACKAGES_TMP)/.built \
-		$(PACKAGES_REPO)/Release.gpg \
-		$(PACKAGES_REPO)/jehon.deb
+		$(PACKAGES_REPO)/Release.gpg
 
 # TODO: does not work !
 	packages/pkg-build-pages.sh "$(PACKAGES_REPO)" "tmp/gh-pages" "push"
