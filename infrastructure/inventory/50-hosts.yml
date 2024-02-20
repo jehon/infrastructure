@@ -34,6 +34,7 @@ all:
     ansible_python_interpreter: auto_silent        # https://docs.ansible.com/ansible-core/2.13/reference_appendices/interpreter_discovery.html
     ansible_user: root
     jehon_always_connected: false
+    jehon_deb_url: https://jehon.github.io/packages/jehon.deb
     jehon_headless: false
     virtual: false                                 # Avoid undefined in playbook
     # Check connection here:

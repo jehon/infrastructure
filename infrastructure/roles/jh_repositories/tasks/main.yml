@@ -14,10 +14,10 @@
     ############################################
 
     # We need this one to be installed first, because next line will depend on it
-    - name: "Install jehon.deb from {{ jehon_deb_url }}"
+    - name: "Install jehon.deb from {{ jh_repositories_deb_url }}"
       when: "'jehon' not in ansible_facts.packages"
       ansible.builtin.apt:
-        deb: "{{ jehon_deb_url }}"
+        deb: "{{ jh_repositories_deb_url }}"
       notify: jh_repositories.indexes
       register: jehon_basis_jehon_deb
       # Example: [run]   msg: Breaks existing package 'jehon-hardware-wsl' dependency jehon (<= 2023.06.28.14.53.03)
