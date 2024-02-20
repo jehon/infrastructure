@@ -7,4 +7,4 @@ ConditionFileIsExecutable=/usr/bin/curl
 [Service]
 # the VT is cleared by TTYVTDisallocate
 Type=oneshot
-ExecStart=/usr/bin/curl -fsSl -o /etc/ssh/authorized_keys/latest https://jehon.github.io/packages/latest-key.pub
+ExecStart=/usr/bin/curl -fsSl -o /etc/ssh/authorized_keys/latest https://jehon.github.io/infrastructure/latest-key.pub
