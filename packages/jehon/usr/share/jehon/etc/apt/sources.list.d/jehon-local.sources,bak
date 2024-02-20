@@ -1,0 +1,11 @@
+#
+# Jehon
+#
+
+X-Repolib-Name: Jehon (Local)
+Types: deb
+URIs: file://etc/apt/repo
+Suites: /
+Components:
+Enabled: yes
+Signed-By: /usr/share/keyrings/jehon.gpg
