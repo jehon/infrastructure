@@ -77,7 +77,8 @@ $(PACKAGES_REPO)/Packages: $(PACKAGES_TMP)/.structure.built
 	cd $(PACKAGES_TMP_STRUCTURE) && debuild -rfakeroot --no-lintian -uc -us --build=binary | jh-tag-stdin "build-debs"
 
 # debs are in one folder above, let's move them into $(PACKAGES_REPO)/
-	mv $(PACKAGES_TMP)/*.deb $(PACKAGES_REPO)/ | jh-tag-stdin "build-move"
+	mv $(PACKAGES_TMP)/*.deb $(PACKAGES_REPO)/ | jh-tag-stdin "build-move-deb"
+	mv $(PACKAGES_TMP)/jehon-debs* $(PACKAGES_REPO)/ | jh-tag-stdin "build-move-jehon"
 
 # build the references
 	cd $(PACKAGES_REPO) && dpkg-scanpackages -m . | sed -e "s%./%%" >Packages | jh-tag-stdin "index-packages"
