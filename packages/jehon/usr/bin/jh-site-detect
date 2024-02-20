@@ -4,7 +4,7 @@
 . jh-lib
 
 case $(hostname) in
-"piscine" | "kiosk")
+"kiosk")
     echo "home"
     ;;
 *)
