@@ -20,7 +20,7 @@ TMP_ROOT = $(ROOT)/tmp
 GITHUB_STEP_SUMMARY ?= "$(ROOT)/tmp/GITHUB_STEP_SUMMARY.log"
 PUBLISH = tmp/publish
 
-VERSION_FILE = $(PUBLISH)/repo/version.txt
+VERSION_FILE = $(PUBLISH)/version.txt
 
 export PATH := $(ROOT)/bin:$(ROOT)/.python/bin:$(ROOT)/packages/jehon/usr/bin:$(PATH)
 export PYTHONPATH := $(ROOT)/.python
@@ -168,7 +168,7 @@ new-version:
 	make version
 
 .PHONY: version
-version: "$(VERSION_FILE)"
+version: $(VERSION_FILE)
 $(VERSION_FILE): \
 		Makefile*
 
