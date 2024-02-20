@@ -22,11 +22,24 @@ cd "${SWD}"
 
 root_or_sudo apt update
 
+echo "* Installing strict minimum packages..."
+root_or_sudo apt install --quiet --yes \
+    ca-certificates \
+    curl
+echo "* Installing strict minimum packages done"
+
+echo "* Installing jehon.deb..."
+mkdir --mode=0777 -p tmp
+# TODO: jehon.deb might not be necessary OR might be taken locally (see infra tests)
+curl -fsSL https://jehon.github.io/packages/jehon.deb -o tmp/jehon.deb
+root_or_sudo apt install --quiet --yes \
+    ./tmp/jehon.deb
+root_or_sudo apt update
+echo "* Installing jehon.deb done"
+
 echo "* Installing packages..."
 # git-restore-mtime: https://stackoverflow.com/a/64147402/1954789
 root_or_sudo apt install --quiet --yes \
-    curl \
-    ca-certificates \
     direnv \
     exiftool \
     debhelper binutils-arm-linux-gnueabihf dirmngr apt-utils desktop-file-utils rsync devscripts \
@@ -38,20 +51,11 @@ root_or_sudo apt install --quiet --yes \
     default-libmysqlclient-dev
 echo "* Installing packages done"
 
-# TODO: jehon.deb might not be necessary OR might be taken locally (see infra tests)
-echo "* Installing jehon.deb..."
-mkdir --mode=0777 -p tmp
-curl -fsSL https://jehon.github.io/packages/jehon.deb -o tmp/jehon.deb
-root_or_sudo apt install --quiet --yes \
-    ./tmp/jehon.deb
-root_or_sudo apt update
-echo "* Installing jehon.deb done"
-
 # TODO: shellcheck might not be available? Check against jehon.deb availability
 echo "* Installing shellcheck..."
 root_or_sudo /usr/sbin/jh-install-shellcheck
 echo "* Installing shellcheck done"
 
-if type direnv &>/dev/null ; then
-    direnv allow "$PRJ_ROOT"/
-fi
+echo "* Enabling direnv..."
+direnv allow "$PRJ_ROOT"/
+echo "* Enabling direnv done"
