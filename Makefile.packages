@@ -95,9 +95,6 @@ $(PACKAGES_TMP)/.structure.built: packages/pkg-build-structure.sh \
 	packages/pkg-build-structure.sh "$(PACKAGES_TMP_STRUCTURE)" "$(call version)" | jh-tag-stdin "build-structure"
 	$(call touch,$@)
 
-packages/jehon/usr/share/keyrings/jehon.gpg: conf/jehon-packages.pub.asc
-	gpg --dearmor --yes --output "$@" "$<"
-
 .PHONY: packages-test
 packages-test: packages-build
 	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*\.sh" ./tests/packages
