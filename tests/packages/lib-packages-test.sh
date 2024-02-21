@@ -20,11 +20,11 @@ echo "*** Test in docker: $TEST_NAME"
 echo "***"
 echo "*******************************************************"
 
-# TODO: unused?
-mkdir -p "$SWD/built/setup/repo"
-rsync -r --archive --delete "$JH_ROOT/tmp/publish/repo/" "$SWD/built/setup/repo"
-
-docker build -f "$SWD/$TEST_NAME.docker" --tag "$TAG" "$SWD" | jh-tag-stdin "building"
+docker build \
+	-f "$SWD/$TEST_NAME.docker" \
+	--build-context "publish=${JH_ROOT}/tmp/publish" \
+	--tag "$TAG" \
+	"$SWD" | jh-tag-stdin "building"
 
 # shellcheck disable=SC2120
 # shellcheck disable=SC2119

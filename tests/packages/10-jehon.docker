@@ -1,10 +1,10 @@
 
 FROM debian:testing
 
-ENV DEBIAN_FRONTEND=noninteractive 
+ENV DEBIAN_FRONTEND=noninteractive
 
 ADD root/ /
-ADD built/ /
+COPY --from=publish . /setup
 
 RUN apt update
 

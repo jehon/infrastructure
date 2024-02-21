@@ -37,7 +37,6 @@ packages-dump:
 packages-clean:
 	rm -fr repo/*
 	rm -fr "$(PACKAGES_TMP)"
-	rm -fr tests/packages/built
 	docker image rm -f $$( docker image ls --filter 'reference=test-packages/*' --format '{{.Repository}}:{{.Tag}}' ) 2>/dev/null || echo "!! No image to remove"
 
 .PHONY: packages-build
