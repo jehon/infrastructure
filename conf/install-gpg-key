@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+gpg --dearmor --yes --output packages/jehon/usr/share/keyrings/jehon.gpg conf/jehon-packages.pub.asc
