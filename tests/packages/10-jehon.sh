@@ -14,6 +14,9 @@ SWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 		ok_ko "lib can test something positive" "[ 1 == 1 ]"
 		ok_ko "Testing Release is present" "[ -r /setup/repo/Release ]"
 
+		echo "************* defined sources *******************"
+		ls -l /etc/apt/sources.list.d/
+
 		echo "************* all jehon packages available *******************"
 		apt-cache search jehon
 
