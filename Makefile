@@ -130,7 +130,6 @@ release:
 #	packages/pkg-build-pages.sh "$(PUBLISH)" "push"
 
 	echo "Version: $(call version)" >> $(GITHUB_STEP_SUMMARY)
-	echo "Homepage: https://jehon.github.io/infrastructure/index.html"  >> $(GITHUB_STEP_SUMMARY)
 
 #
 #
