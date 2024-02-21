@@ -1,14 +1,13 @@
 ---
 
-- name: Grafana - Install api key
-  ansible.builtin.template:
-    src: "{{ role_path }}/templates/grafana-api-key.txt"
-    # TODO: move that to restricted + add grafana user to jehon_secrets
-    dest: /etc/jehon/grafana-api-key.txt
-    mode: "0640"
-    owner: grafana-agent
-    group: jehon_secrets
-  notify: jehon_service_grafana.changed
+# - name: Grafana - Install api key
+#   ansible.builtin.template:
+#     src: "{{ role_path }}/templates/grafana-api-key.txt"
+#     dest: /etc/jehon/grafana-api-key.txt
+#     mode: "0640"
+#     owner: grafana-agent
+#     group: jehon_secrets
+#   notify: jehon_service_grafana.changed
 
 # - name: Grafana - Install config River
 #   ansible.builtin.template:

@@ -59,7 +59,6 @@
     classic: true
 # node in snap? could not access pCloudDrive... but still the best option
 
-# TODO: Very old
 - name: "Ensure installed snap (special) "
   when: not virtual
   with_items:

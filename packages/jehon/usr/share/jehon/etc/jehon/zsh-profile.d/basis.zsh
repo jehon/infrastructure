@@ -1,8 +1,6 @@
 #!/usr/bin/zsh
 
-# shellcheck shell=bash # TODO: shellcheck for zsh
-
-# shell check disable=all  # TODO: shellcheck for zsh
+# shellcheck shell=bash # FIXME: shellcheck for zsh
 
 ## Handled by omz
 # HISTSIZE=1000
