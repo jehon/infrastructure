@@ -127,8 +127,6 @@ lint:
 release:
 	jh-html-generate-index "$(PUBLISH)"
 
-#	packages/pkg-build-pages.sh "$(PUBLISH)" "push"
-
 	echo "Version: $(call version)" >> $(GITHUB_STEP_SUMMARY)
 
 #
