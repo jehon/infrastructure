@@ -11,18 +11,20 @@ set -o pipefail
 
 # shellcheck source-path=SCRIPTDIR/../
 TEST_NAME="$(basename "${BASH_SOURCE[1]}")"
+TAG="test-ansible-${TEST_NAME}"
 exec &> >( /usr/bin/jh-tag-stdin "$TEST_NAME" )
 
 echo "*******************************************************"
 echo "***"
-echo "*** Test in docker: $TEST_NAME"
+echo "*** Test in docker: ${TEST_NAME}"
+echo "*** Tag:            ${TAG}"
 echo "***"
 echo "*******************************************************"
 
-docker kill "test-ansible-$TEST_NAME" &>/dev/null || true
-docker rm -f "test-ansible-$TEST_NAME" &> /dev/null || true
+docker kill "${TAG}" &>/dev/null || true
+docker rm -f "${TAG}" &> /dev/null || true
 # Caution: will be pasted as-is
-export JH_ANSIBLE_TEST="--connection=local --extra-vars 'virtual=true blablabla=1'"
+export JH_ANSIBLE_TEST="--connection=local --extra-vars '{"virtual": true, "jehon_deb_url": "file:///setup/repo/jehon.deb"'}"
 
 # shellcheck disable=SC2120
 # shellcheck disable=SC2119
@@ -42,7 +44,7 @@ test_in_docker() {
 			export PATH="$REMOTE_PRJ/.python/bin:\$PATH"
 			export PYTHONPATH="$REMOTE_PRJ/.python:\$PYTHONPATH"
 
-			cd $REMOTE_PRJ
+			cd "${REMOTE_PRJ}"
 			make dependencies
 		EOS
 		cat -
@@ -50,7 +52,7 @@ test_in_docker() {
 			set +x
 			echo
 		EOS
-	) | docker run --rm --name "test-ansible-$TEST_NAME" --interactive  \
+	) | docker run --rm --name "$TAG" --interactive  \
 			-v "$PRJ_ROOT:$REMOTE_PRJ" \
 			-v "$PRJ_ROOT/tmp/50-hosts.yml:$REMOTE_PRJ/infrastructure/inventory/50-hosts.yml" \
 			-v "test-ansible-python-cache:$REMOTE_PRJ/.python" \

@@ -11,6 +11,9 @@ set -o pipefail
 		echo "************* Dump *******************"
 		make dump
 
+		echo "************* Repositories *******************"
+		ls -l /etc/apt/sources.list.d
+
 		echo "************* Ansible is installed *******************"
 		make dump-runtimes
 
