@@ -8,7 +8,7 @@ COPY --from=publish . /setup
 
 RUN apt update
 
-RUN apt install -y jehon
+RUN --mount=type=cache,target=/var/cache/apt apt install -y jehon
 
 # To avoid downloading from github
 RUN rm -f /etc/apt/sources.list.d/jehon-github.sources
