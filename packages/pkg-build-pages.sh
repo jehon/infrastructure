@@ -5,16 +5,14 @@ set -o errexit
 # shellcheck source=SCRIPTDIR/jehon/usr/bin/jh-lib
 . jh-lib
 
-REPO="${1:?Need repo as [1]}"
-TARGET="${2:?Need target as [2]}"
-PUSH="$3"
+SOURCE="${1:?Need source as [1]}"
+# PUSH="$2"
 PAGE_BRANCH="gh-pages"
 
-rm -fr "$TARGET"
-mkdir -p "$TARGET"
+TARGET="tmp/${PAGE_BRANCH}"
 
-header_begin "Current repo ${REPO}"
-ls -l "${REPO}"
+header_begin "Current source ${SOURCE}"
+find "${SOURCE}" -type f
 header_end
 
 header_begin "Sync git"
@@ -46,7 +44,7 @@ header_end
 )
 
 header_begin "Adding new repo ${REPO} to ${TARGET}"
-rsync -ai "${REPO}/" "$TARGET"
+rsync -ai "${SOURCE}/" "${TARGET}"
 header_end
 
 jh-github-publish-pages "$TARGET" "$PUSH" | jh-tag-stdin "jh-github-publish-pages"

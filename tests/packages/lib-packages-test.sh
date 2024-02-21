@@ -20,8 +20,9 @@ echo "*** Test in docker: $TEST_NAME"
 echo "***"
 echo "*******************************************************"
 
+# TODO: unused?
 mkdir -p "$SWD/built/setup/repo"
-rsync -r --archive --delete "$JH_ROOT/tmp/repo/" "$SWD/built/setup/repo"
+rsync -r --archive --delete "$JH_ROOT/tmp/publish/repo/" "$SWD/built/setup/repo"
 
 docker build -f "$SWD/$TEST_NAME.docker" --tag "$TAG" "$SWD" | jh-tag-stdin "building"
 

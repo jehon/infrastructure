@@ -15,7 +15,7 @@ PACKAGES_TMP=tmp/packages
 PACKAGES_TMP_STRUCTURE=$(PACKAGES_TMP)/structure
 # TODO: simplify by using directly the publish repo
 #       but that implies the pkg-build-pages.sh script
-PACKAGES_REPO=tmp/repo
+PACKAGES_REPO=$(PUBLISH)/repo
 
 dump: packages-dump
 clean: packages-clean
@@ -114,9 +114,6 @@ $(PACKAGES_REPO)/Release.gpg: $(PACKAGES_REPO)/Release
 .PHONY: packages-release
 packages-release: $(PACKAGES_TMP)/.built \
 		$(PACKAGES_REPO)/Release.gpg
-
-# TODO: does not work !
-	packages/pkg-build-pages.sh "$(PACKAGES_REPO)" "tmp/gh-pages" "push"
 
 .PHONY:
 packages-release-validate:
