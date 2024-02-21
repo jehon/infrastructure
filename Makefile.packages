@@ -43,7 +43,7 @@ packages-clean:
 .PHONY: packages-build
 packages-build:  $(PACKAGES_TMP)/.built
 
-$(PACKAGES_TMP)/.built: $(PACKAGES_REPO)/jehon.deb $(PUBLISH)/latest-key.pub $(PACKAGES_REPO)/Release
+$(PACKAGES_TMP)/.built: $(PACKAGES_REPO)/jehon.deb $(PACKAGES_REPO)/Release $(PUBLISH)/latest-key.pub
 	$(call touch,$@)
 
 $(PUBLISH)/latest-key.pub: packages/jehon/usr/share/jehon/etc/ssh/authorized_keys/root
