@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+SWD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+# shellcheck source-path=SCRIPTDIR/
+. "$SWD/../bin/lib.sh"
+
+#
+# Files are written hardcoded to allow CI to have some clean folders
+#
+
+pushd "${PRJ_ROOT}"
+
+echo "Installing gpg public key: "
+gpg --verbose --dearmor --yes --output packages/jehon/usr/share/keyrings/jehon.gpg conf/jehon-packages.pub.asc
+echo ""
+
+echo "Installing authorized keys:"
+cp -fv conf/ssh_keys packages/jehon/usr/share/jehon/etc/ssh/authorized_keys/root
+echo ""
+
+echo "Done"
