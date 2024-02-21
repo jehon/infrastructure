@@ -107,7 +107,12 @@ tmp/tests/.built: \
 		setup.sh
 
 	mkdir -p "$(dir $@)"
-	docker build --tag "test-ansible/ansible:local" --file "$(ROOT)"/tests/infrastructure/Dockerfile .
+	docker build \
+		--tag "test-ansible/ansible:local" \
+		--build-context "root=$(ROOT)/tests/packages/root" \
+		--build-context "publish=$(ROOT)/tmp/publish" \
+		--file "$(ROOT)"/tests/infrastructure/Dockerfile \
+		.
 	touch "$@"
 
 tmp/50-hosts.yml: infrastructure/inventory/50-hosts.yml \
