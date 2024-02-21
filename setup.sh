@@ -51,7 +51,6 @@ root_or_sudo apt install --quiet --yes \
     default-libmysqlclient-dev
 echo "* Installing packages done"
 
-# TODO: shellcheck might not be available? Check against jehon.deb availability
 echo "* Installing shellcheck..."
 root_or_sudo /usr/sbin/jh-install-shellcheck
 echo "* Installing shellcheck done"
