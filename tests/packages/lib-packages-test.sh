@@ -17,6 +17,7 @@ TAG="test-packages/$TEST_NAME"
 echo "*******************************************************"
 echo "***"
 echo "*** Test in docker: $TEST_NAME"
+echo "*** Tag:            $TAG"
 echo "***"
 echo "*******************************************************"
 
