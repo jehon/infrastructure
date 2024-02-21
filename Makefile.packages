@@ -16,6 +16,7 @@ PACKAGES_TMP_STRUCTURE=$(PACKAGES_TMP)/structure
 # TODO: simplify by using directly the publish repo
 #       but that implies the pkg-build-pages.sh script
 PACKAGES_REPO=$(PUBLISH)/repo
+PACKAGES_REPO_MARK=$(PACKAGES_REPO)/.buit
 
 dump: packages-dump
 clean: packages-clean
@@ -42,12 +43,15 @@ packages-clean:
 .PHONY: packages-build
 packages-build:  $(PACKAGES_TMP)/.built
 
-$(PACKAGES_TMP)/.built: $(PACKAGES_REPO)/jehon.deb $(PACKAGES_REPO)/Release $(PUBLISH)/latest-key.pub
+$(PACKAGES_TMP)/.built: $(PUBLISH)/latest-key.pub $(PACKAGES_REPO_MARK)
 	$(call touch,$@)
 
 $(PUBLISH)/latest-key.pub: packages/jehon/usr/share/jehon/etc/ssh/authorized_keys/root
 	mkdir -p "$(dir $@)"
 	cp -f "$<" "$@"
+	$(call touch,$@)
+
+$(PACKAGES_REPO_MARK): $(PACKAGES_REPO)/jehon.deb $(PACKAGES_REPO)/Release
 	$(call touch,$@)
 
 $(PACKAGES_REPO)/jehon.deb: $(PACKAGES_REPO)/Packages
