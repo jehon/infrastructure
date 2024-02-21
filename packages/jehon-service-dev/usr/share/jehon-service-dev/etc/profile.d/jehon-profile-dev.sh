@@ -5,14 +5,13 @@ if [ "$(id -u)" -eq "0" ]; then
     return
 fi
 
-# See https://unix.stackexchange.com/a/26782/240487
-# interactive => if [[ $- == *i* ]]
-# login       => if shopt -q login_shell
-if [[ $- != *i* ]]; then
-    # TODO: It seem that it is not loaded by default, but to be checked
-    # Not when non-interractive
-    return
-fi
+# # See https://unix.stackexchange.com/a/26782/240487
+# # interactive => if [[ $- == *i* ]]
+# # login       => if shopt -q login_shell
+# if [[ $- != *i* ]]; then
+#     # Not when non-interractive
+#     return
+# fi
 
 echo "Loading jh-profile-dev: interactive"
 # enable color support of ls and also add handy aliases

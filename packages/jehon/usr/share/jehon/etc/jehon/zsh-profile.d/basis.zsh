@@ -16,9 +16,5 @@ setopt CORRECT
 # setopt SHARE_HISTORY
 # setopt APPEND_HISTORY
 
-# TODO: handled by omz?
-autoload -Uz compinit && compinit
-autoload bashcompinit && bashcompinit
-
 # Will be overriden by omz!
 # PROMPT='\n%(?.%F{green}√.%F{red}?%?)%f %B%F{240}%1~%f%b %# '
