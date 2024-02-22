@@ -1,0 +1,104 @@
+#!/usr/bin/python3
+
+import argparse
+from typing import Set
+
+from jehon.jira import JJira
+
+parser = argparse.ArgumentParser(description='Modify jira tickets')
+parser.add_argument('project')
+parser.add_argument('component', nargs='?')
+parser.add_argument('version', nargs='?')
+parser.add_argument('-dry-run', '-n', type=bool, default=False, action=argparse.BooleanOptionalAction)
+args = parser.parse_args()
+
+project = args.project
+jira: JJira = JJira("nsi-jira")
+
+###################################################
+#
+# for all my projects, get unreleased tickets
+#
+print("")
+print("************************")
+print("** Unrealeased tickets: ")
+print("************************")
+
+listing = jira.get_issues(
+        f"(project = {project}) AND (statusCategory = Done) AND (fixVersion is EMPTY)",
+        [ "id", "summary", "components" ]
+    )
+jira.print_issues(listing)
+
+###################################################
+#
+# get unreleased components
+#
+components: Set[str] = set()
+for issue in listing:
+    for comp in issue.fields.components:
+        components.add(comp.name)
+
+print("")
+print("*************************")
+print("** Available components: ")
+print("*************************")
+print(components)
+
+###################################################
+#
+# Select a component
+#
+
+if (args.component):
+    component = args.component
+else:
+    print("")
+    print("")
+    print("!! Please select a component.")
+    exit(0)
+
+###################################################
+#
+# List matching issues
+#
+
+print("")
+print("********************")
+print(f"** Selected issues for {component}")
+print("********************")
+listing = jira.get_issues(
+        f"(project = {project}) "
+         + "AND (statusCategory = Done) "
+         + "AND (fixVersion is EMPTY) "
+         + f"AND (component = '{component}')",
+        [ "id", "summary" ]
+    )
+jira.print_issues(listing)
+
+###################################################
+#
+# Set the fix version
+#
+if (args.version):
+    version = args.version
+else:
+    print("")
+    print("")
+    print("!! Please select a version.")
+    exit(0)
+
+print("")
+print("*********************************")
+print(f"** Fixing issues to {version}:  ")
+print("*********************************")
+
+for issue in listing:
+    print(f"{issue}... ", end="")
+
+    if opts.dry_run:
+        print(" !mock! ", end="")
+    else:
+        pass
+        # issue.update(fixVersion=version)
+    print("ok")

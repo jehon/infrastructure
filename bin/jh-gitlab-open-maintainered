@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+# shellcheck source=/usr/bin/jh-lib
+. jh-lib
+
+SUB_URL="$1"
+
+# curl --request GET "https://gitlab.example.com/api/v4/projects"
+
+#
+# https://docs.gitlab.com/ee/api/projects.html#list-all-projects
+# https://docs.gitlab.com/ee/api/members.html#roles 40 = Maintainer
+#
+"${JH_SWD}"/jh-gitlab "/projects?membership=true&min_access_level=40" | jq -r "((.[].web_url) + \"${SUB_URL}\")" | xargs google-chrome

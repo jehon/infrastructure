@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+#
+# @overview
+#     This script will make a release of the project [1]
+#     by creating a release branch (release/date.hour) based on develop (see exceptions)
+#     and a merge request toward master (see exceptions)
+#
+#     After, it revert to develop and delete the local release branch
+#
+# @param [1] the name of the projet (as the folder name)
+#
+# @requires - that the project name on gitlab is the same as the folder name used locally
+#           - that the branch are develop/master (see exceptions below in the code)
+#
+# @throws if the use does not have the rights
+#
+
+set -o errexit
+set -o pipefail
+
+# shellcheck source-path=SCRIPTDIR
+. "$( dirname "${BASH_SOURCE[0]}")"/lib.sh
+
+# shellcheck source=/dev/null
+. focus.sh
+
+RELEASE="$( date +%F.%H )"
+RELEASE_BRANCH="release/${RELEASE}"
+DEV_BRANCH="develop"
+PROD_BRANCH="master"
+
+MR_URL="${GITLAB_HOST}${GITLAB_PROJECT_ROOTS}/${PRJ}/merge_requests/new?merge_request[source_branch]=$RELEASE_BRANCH&merge_request[PROD_BRANCH_branch]=${PROD_BRANCH}"
+
+echo ""
+echo ""
+echo "** RELEASE:        ${RELEASE}"
+echo "** RELEASE_BRANCH: ${RELEASE_BRANCH}"
+echo "** PROD_BRANCH:    ${PROD_BRANCH}"
+echo "** DEV_BRANCH:     ${DEV_BRANCH}"
+echo "** MR_URL:         ${MR_URL}"
+echo ""
+echo ""
+
+git stash || true
+git fetch --all --prune
+git checkout "${DEV_BRANCH}"
+git pull
+git status
+
+git checkout -b "${RELEASE_BRANCH}"
+git push origin "${RELEASE_BRANCH}"
+sleep 1
+
+# tee? trick to wait for the open to finish...
+open "${MR_URL}" | tee /dev/null
+
+git checkout "${DEV_BRANCH}"
+git branch -d "${RELEASE_BRANCH}"
+
+echo "✔ Done"
