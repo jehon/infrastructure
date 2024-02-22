@@ -1,6 +1,6 @@
 #!/usr/bin/zsh
 
-# shellcheck shell=bash # TODO: shellcheck for zsh
+# shellcheck shell=bash # FIXME: shellcheck for zsh
 
 #
 # Loaded from zshrc => interactive shells only

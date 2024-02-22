@@ -11,45 +11,8 @@ from typing import Optional
 # python -m termcolor
 from termcolor import colored
 
-# TODO: reuse the jehon package?
-def info(msg: str):
-    print(colored(text=msg, color="blue"))
-
-# TODO: reuse the jehon package?
-def run(cmd: list[str], **kwargs):
-    """Run a script and send back all output
-    """
-
-    with subprocess.Popen(cmd, stdout=subprocess.PIPE, text=True, universal_newlines=True, **kwargs) as proc:
-        if proc.stdout is not None:
-            for stdout_line in proc.stdout:
-                sys.stdout.write(stdout_line)
-                sys.stdout.flush()
-
-        return proc.wait()
-
-# TODO: reuse the jehon package?
-def ssh(host: str, cmd: list[str],
-            title: str = "ssh",
-            user: Optional[str] = None,
-            password: Optional[str] = None
-        ):
-
-    cmdline: list[str] = []
-    env: dict[str, str]	 = {}
-
-    if password:
-        cmdline += [ "sshpass", "-e" ]
-        env["SSHPASS"] = password
-
-    cmdline += [ "ssh", host ]
-
-    if user:
-        cmdline += [ "-l", user ]
-
-    cmdline += cmd
-
-    run(cmdline,env=env)
+from jehon.shell import ssh, run
+from jehon.display import info
 
 info("Startup time: "+ str(datetime.datetime.now()))
 
@@ -123,7 +86,7 @@ if args.local:
 if args.ssh_user:
     if not args.host:
         parser.error("ssh credentials set, but not the host", file=sys.stderr)
-    
+
     ansibleArgs.append("-e")
     ansibleArgs.append("ansible_user=" + args.ssh_user)
     info("Using user" + args.ssh_user)
@@ -135,7 +98,7 @@ if args.ssh_user:
 if args.ssh_password:
     if not args.host:
         parser.error("ssh credentials set, but not the host", file=sys.stderr)
-    
+
     ansibleArgs.append("-e")
     ansibleArgs.append("ansible_password=" + args.ssh_password)
     info("With password " + str(len(args.ssh_user)) + " characters")
@@ -148,7 +111,7 @@ if args.ssh_password:
 if args.ip:
     if not args.host:
         parser.error("ssh credentials set, but not the host", file=sys.stderr)
-    
+
     ansibleArgs.append("-e")
     ansibleArgs.append("ansible_host=" + args.ip)
     info("Using ip: " + args.ip)

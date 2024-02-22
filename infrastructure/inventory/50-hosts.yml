@@ -303,8 +303,7 @@ all:
         Musiques: rw
         Photos: rw
         Videos: rw
-      # TODO: should detect automatically...
-      # jehon_hardware: wsl
+      # jehon_hardware: wsl # TODO: should detect automatically... https://stackoverflow.com/questions/78043794/detect-if-host-is-wsl-in-ansible-playbook
       jehon_repo_docker: true
       jehon_repo_mopidy: true
       ## Depend also on the OS

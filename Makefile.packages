@@ -13,8 +13,6 @@ packages: packages-dump packages-build packages-test
 
 PACKAGES_TMP=tmp/packages
 PACKAGES_TMP_STRUCTURE=$(PACKAGES_TMP)/structure
-# TODO: simplify by using directly the publish repo
-#       but that implies the pkg-build-pages.sh script
 PACKAGES_REPO=$(PUBLISH)/repo
 PACKAGES_REPO_MARK=$(PACKAGES_REPO)/.buit
 
@@ -66,6 +64,7 @@ $(PACKAGES_REPO)/Release: $(PACKAGES_REPO)/Packages
 $(PACKAGES_REPO)/Packages: $(PACKAGES_TMP)/.structure.built
 
 	@echo "Building version $(call version)"
+# TODO: get previous versions of everything from repo
 
 # Clean up the files that we will generate
 	mkdir -p $(PACKAGES_REPO)/
