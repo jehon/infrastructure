@@ -4,7 +4,7 @@
   ],
   "automerge": true,
   "ignorePaths": [
-    "jenkins/**",
+    "devstack/jenkins/**",
     "unused/**"
   ]
 }
