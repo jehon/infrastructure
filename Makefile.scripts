@@ -53,7 +53,7 @@ scripts-lint: scripts-lint-shellcheck scripts-lint-desktop
 .PHONY: scripts-lint-shellcheck
 scripts-lint-shellcheck:
 	@echo "Running $@..."
-	@find packages/ tests \
+	@find bin/ packages/ tests \
 		-type f \
 		-not -name "🔒*" -not -path "*/🔒*" \
 		-exec bash -c "file -bi '{}' | grep 'x-shellscript' &>/dev/null" ';' \
