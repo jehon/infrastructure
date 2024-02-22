@@ -8,8 +8,7 @@
 Types: deb
 URIs: http://deb.debian.org/debian
 Suites: stable stable-updates
-Components: main contrib non-free
-# TODO add component: non-free-firmware
+Components: main contrib non-free non-free-firmware
 Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
 
 Types: deb
