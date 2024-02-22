@@ -14,3 +14,9 @@ if [ -n "$SWD" ]; then
     echo "Path: Adding '$LOCAL_BIN'"
     export PATH="$LOCAL_BIN:$PATH"
 fi
+
+# if [ -d ~/restricted ]; then
+#     LOCAL_BIN=~/restricted
+#     echo "Path: Adding '$LOCAL_BIN'"
+#     export PATH="$LOCAL_BIN:$PATH"
+# fi

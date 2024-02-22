@@ -191,3 +191,4 @@ include Makefile.python
 include Makefile.scripts
 include Makefile.packages
 include Makefile.infrastructure
+include Makefile.devstack
