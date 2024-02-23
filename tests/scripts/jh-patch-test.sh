@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# shellcheck source=SCRIPTDIR/../test-helpers.sh
-. "$(dirname "${BASH_SOURCE[0]}")/../test-helpers.sh"
+# shellcheck source-path=SCRIPTDIR
+. "$(dirname "${BASH_SOURCE[0]}")/lib-scripts-helpers.sh"
 
-mkdir -p "${JH_TEST_TMP}"
+mkdir -p "${JH_TEST_SCRIPTS_TMP}"
 
-PATCH="$JH_TEST_TMP/jh-patch-patch.txt"
-TARGET="$JH_TEST_TMP/jh-patch-original.txt"
+PATCH="$JH_TEST_SCRIPTS_TMP/jh-patch-patch.txt"
+TARGET="$JH_TEST_SCRIPTS_TMP/jh-patch-original.txt"
 BACKUP="$TARGET-before-patch"
 
 (

@@ -2,8 +2,8 @@
 
 set -o errexit
 
-# shellcheck source-path=SCRIPTDIR/
-. "$(dirname "${BASH_SOURCE[0]}")/../test-helpers.sh"
+# shellcheck source-path=SCRIPTDIR
+. "$(dirname "${BASH_SOURCE[0]}")/lib-scripts-helpers.sh"
 
 SCRIPT="$JH_ROOT/packages/jehon/usr/bin/jh-disk-space-test.sh"
 

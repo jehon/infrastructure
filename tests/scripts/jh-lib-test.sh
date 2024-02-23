@@ -2,8 +2,8 @@
 
 set -o errexit
 
-# shellcheck source=SCRIPTDIR/../../packages/jehon/usr/bin/jh-lib
-. "$(dirname "${BASH_SOURCE[0]}")/../test-helpers.sh"
+# shellcheck source-path=SCRIPTDIR
+. "$(dirname "${BASH_SOURCE[0]}")/lib-scripts-helpers.sh"
 
 # Script Working Directory
 TWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"

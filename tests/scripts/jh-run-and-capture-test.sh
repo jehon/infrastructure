@@ -2,8 +2,8 @@
 
 set -o errexit
 
-# shellcheck source=SCRIPTDIR/../test-helpers.sh
-. "$(dirname "${BASH_SOURCE[0]}")/../test-helpers.sh"
+# shellcheck source-path=SCRIPTDIR
+. "$(dirname "${BASH_SOURCE[0]}")/lib-scripts-helpers.sh"
 
 test_capture_empty
 
