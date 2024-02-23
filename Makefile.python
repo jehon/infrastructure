@@ -11,6 +11,8 @@ PYTHON_DEPENDENCY_MARK=tmp/python/requirements.txt
 
 export PYTHONPATH := $(ROOT)/tmp/python:$(ROOT)/packages/jehon/usr/lib/python3/dist-packages:$(ROOT)/tmp/var/lib/python/jehon:$(PYTHONPATH)
 export PATH := $(ROOT)/tmp/python/bin:$(PATH)
+# https://docs.python.org/3/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
+export PYTHONDONTWRITEBYTECODE = "do-not-write"
 
 .PHONY: python-dump
 python-dump:
