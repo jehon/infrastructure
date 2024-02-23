@@ -27,6 +27,6 @@ set -o pipefail
 		! cat inventory/50-hosts.yml | grep -q '!vault'
 
 		cat built/encryption-key
-		cat built/encryption-key | grep "12345-encryption-key-6789"
+		cat built/encryption-key | grep "encryption-key-mock"
 	EOS
 ) | test_in_docker

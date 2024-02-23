@@ -47,7 +47,7 @@ infrastructure/built/encryption-key:
 		if [ -r ~/restricted/ansible-encryption-key ]; then \
 			ln -fs ~/restricted/ansible-encryption-key "infrastructure/built/encryption-key"; \
 		else \
-			echo "12345-encryption-key-6789" > infrastructure/built/encryption-key; \
+			cat infrasctructure/.config/ansible-encryption-mock > infrastructure/built/encryption-key; \
 		fi \
 	fi
 
