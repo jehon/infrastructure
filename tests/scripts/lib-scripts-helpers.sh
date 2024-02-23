@@ -2,8 +2,9 @@
 
 set -o errexit
 
-# For test-helpers.sh
-SUB_TEST="scripts"
+TEST_SELF="$( realpath "${BASH_SOURCE[1]}" )"
+
+export JH_TEST_NAME="$( basename "$( dirname "${TEST_SELF}" )" )/$( basename "${TEST_SELF}" )"
 
 # shellcheck source-path=SCRIPTDIR
 . "$(dirname "${BASH_SOURCE[0]}")"/../test-helpers.sh
