@@ -22,8 +22,7 @@ PUBLISH = tmp/publish
 
 VERSION_FILE = $(PUBLISH)/version.txt
 
-export PATH := $(ROOT)/bin:$(ROOT)/.python/bin:$(ROOT)/packages/jehon/usr/bin:$(PATH)
-export PYTHONPATH := $(ROOT)/.python
+export PATH := $(ROOT)/bin:$(ROOT)/packages/jehon/usr/bin:$(PATH)
 
 define mkdir
 	@mkdir -p "$(dir $(1))"

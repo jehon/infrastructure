@@ -9,7 +9,8 @@ lint: python-lint
 
 PYTHON_DEPENDENCY_MARK=tmp/python/requirements.txt
 
-export PYTHONPATH := $(ROOT)/packages/jehon/usr/lib/python3/dist-packages:$(ROOT)/tmp/var/lib/python/jehon:$(PYTHONPATH)
+export PYTHONPATH := $(ROOT)/tmp/python:$(ROOT)/packages/jehon/usr/lib/python3/dist-packages:$(ROOT)/tmp/var/lib/python/jehon:$(PYTHONPATH)
+export PATH := $(ROOT)/tmp/python/bin:$(PATH)
 
 .PHONY: python-dump
 python-dump:

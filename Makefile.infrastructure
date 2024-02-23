@@ -25,7 +25,6 @@ infrastructure-clean:
 	rm -f "$(PUBLISH)/dev-config.json"
 	rm -fr infrastructure/built
 	rm -fr tmp
-	rm -fr .python
 	docker ps | ( grep test-ansible || true ) | awk '{print $$1}' | xargs --no-run-if-empty -- docker kill
 	docker image list --filter 'reference=test-ansible/*' --format '{{.Repository}}:{{.Tag}}' | xargs --no-run-if-empty -- docker image rm -f
 	docker volume list --quiet | ( grep 'test-ansible' || true ) | xargs --no-run-if-empty -- docker rm -f
@@ -38,14 +37,9 @@ infrastructure-dump:
 	$(call dump_info, PUBLISH)
 
 .PHONY: infrastructure-dependencies
-infrastructure-dependencies: .python/.built \
+infrastructure-dependencies: $(PYTHON_DEPENDENCY_MARK) \
 	infrastructure/built/encryption-key \
 	infrastructure/built/ssh-key
-
-.python/.built: requirements.txt
-# pytest: lint
-	pip install --upgrade --target "$(ROOT)"/.python -r requirements.txt
-	touch "$@"
 
 infrastructure/built/encryption-key:
 	mkdir -p "$(dir $@)"
@@ -86,7 +80,7 @@ infrastructure-build: dependencies \
 	tmp/.built \
 	tmp/dev-config.json
 
-tmp/.built: .python/.built
+tmp/.built: $(PYTHON_DEPENDENCY_MARK)
 	mkdir -p "$(dir $@)"
 	touch "$@"
 

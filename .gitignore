@@ -1,5 +1,3 @@
-/.galaxy
-/.python
 
 #
 # Global
@@ -13,5 +11,4 @@
 
 built
 tmp/
-vendor
 __pycache__

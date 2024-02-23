@@ -41,8 +41,8 @@ test_in_docker() {
 			set -o errexit
 			set -o pipefail
 
-			export PATH="$REMOTE_PRJ/.python/bin:\$PATH"
-			export PYTHONPATH="$REMOTE_PRJ/.python:\$PYTHONPATH"
+			export PATH="$REMOTE_PRJ/tmp/python/bin:\$PATH"
+			export PYTHONPATH="$REMOTE_PRJ/tmp/python:\$PYTHONPATH"
 
 			cd "${REMOTE_PRJ}"
 			make dependencies
@@ -55,8 +55,7 @@ test_in_docker() {
 	) | docker run --rm --name "$TAG" --interactive  \
 			-v "$PRJ_ROOT:$REMOTE_PRJ" \
 			-v "$PRJ_ROOT/tmp/50-hosts.yml:$REMOTE_PRJ/infrastructure/inventory/50-hosts.yml" \
-			-v "test-ansible-python-cache:$REMOTE_PRJ/.python" \
-			--tmpfs "$REMOTE_PRJ/.galaxy" \
+			-v "test-ansible-python-cache:$REMOTE_PRJ/tmp/python" \
 			--tmpfs "$REMOTE_PRJ/infrastructure/built" \
 			--tmpfs "$REMOTE_PRJ/tmp" \
 			"$IMG" "bash" \
