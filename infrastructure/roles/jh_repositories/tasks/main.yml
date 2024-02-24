@@ -17,7 +17,7 @@
     - name: "Install jehon.deb from {{ jh_repositories_deb_url }}"
       when: "'jehon' not in ansible_facts.packages"
       ansible.builtin.apt:
-        deb: "{{ jh_repositories_deb_url }}"
+        deb: "{{ jh_repositories_deb_url | default('https://jehon.github.io/infrastructure/repo/jehon.deb') }}"
       notify: jh_repositories.indexes
       register: jehon_basis_jehon_deb
       # Example: [run]   msg: Breaks existing package 'jehon-hardware-wsl' dependency jehon (<= 2023.06.28.14.53.03)
