@@ -1,7 +1,7 @@
 
-X-Repolib-Name: Jehon (/setup/repo)
+X-Repolib-Name: Jehon (/setup/packages)
 Types: deb
-URIs: file:///setup/repo
+URIs: file:///setup/packages
 Suites: /
 Components:
 Trusted: yes

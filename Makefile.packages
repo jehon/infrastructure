@@ -13,7 +13,7 @@ packages: packages-dump packages-build packages-test
 
 PACKAGES_TMP=tmp/packages
 PACKAGES_TMP_STRUCTURE=$(PACKAGES_TMP)/structure
-PACKAGES_REPO=$(PUBLISH)/repo
+PACKAGES_REPO=$(PUBLISH)/packages
 PACKAGES_REPO_MARK=$(PACKAGES_REPO)/.buit
 
 dump: packages-dump
@@ -113,6 +113,8 @@ $(PACKAGES_REPO)/Release.gpg: $(PACKAGES_REPO)/Release
 .PHONY: packages-release
 packages-release: $(PACKAGES_TMP)/.built \
 		$(PACKAGES_REPO)/Release.gpg
+
+	rsync -a "$(PACKAGES_REPO)" "$(PUBLISH)/repo"
 
 .PHONY:
 packages-release-validate:
