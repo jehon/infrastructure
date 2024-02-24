@@ -90,6 +90,13 @@
     #
     ############################################
 
+    - name: Install WSL package
+      # https://stackoverflow.com/a/78046212/1954789
+      when: ansible_facts['os_family'] == "Debian" and ansible_facts['system_vendor'] == "Microsoft Corporation"
+      ansible.builtin.apt:
+        pkg:
+          - "jehon-hardware-wsl"
+
     - name: Install jehon-hardware*.deb
       when: jehon_hardware | length > 0
       block:
