@@ -1,0 +1,58 @@
+Format: 1.8
+Date: Sat, 24 Feb 2024 18:53:50 +0000
+Source: jehon-debs
+Binary: jehon jehon-hardware-docker jehon-hardware-hyperv jehon-hardware-raspberrypi jehon-hardware-wsl jehon-service-dev jehon-service-headless jehon-service-kiosk jehon-service-music
+Built-For-Profiles: noudeb
+Architecture: all
+Version: 2024.02.24.18.33.55
+Distribution: stable
+Urgency: medium
+Maintainer: Jean Honlet <jeanhonlet@gmail.com>
+Changed-By:  <jehon@users.noreply.github.com>
+Description:
+ jehon      - Jehon debian package
+ jehon-hardware-docker - Jehon debian package
+ jehon-hardware-hyperv - Jehon debian package
+ jehon-hardware-raspberrypi - Jehon debian package
+ jehon-hardware-wsl - Jehon debian package
+ jehon-service-dev - Jehon debian package
+ jehon-service-headless - Jehon debian package
+ jehon-service-kiosk - Jehon debian package
+ jehon-service-music - Jehon debian package
+Changes:
+ jehon-debs (2024.02.24.18.33.55) stable; urgency=medium
+ .
+   * all latest updates
+Checksums-Sha1:
+ 4af29847d716842356c8c6fdea7a26de687300bd 18045 jehon-debs_2024.02.24.18.33.55_amd64.buildinfo
+ 8d992e6a3c837176a659b9ec5d35a0c21e816938 1870 jehon-hardware-docker_2024.02.24.18.33.55_all.deb
+ 6aa4b55290a9273a9c926f31c8df6734df3ee4bf 2734 jehon-hardware-hyperv_2024.02.24.18.33.55_all.deb
+ f77f951761ddac2e07a7ec20e90fa1969cd60acb 2430 jehon-hardware-raspberrypi_2024.02.24.18.33.55_all.deb
+ d1f75b657b56a065181d5b95838df6d33e61cd78 2344 jehon-hardware-wsl_2024.02.24.18.33.55_all.deb
+ 62d2bd71a320c1b4cfd1e77ca896e8297ca0b15a 4014 jehon-service-dev_2024.02.24.18.33.55_all.deb
+ 8da0c7ab7728452c38b4917c5a24967d9b7dc189 2834 jehon-service-headless_2024.02.24.18.33.55_all.deb
+ 9f8b17b973c2c020b1f3dd77fce64d4a6be6c574 5574 jehon-service-kiosk_2024.02.24.18.33.55_all.deb
+ fec3dcf7202cb569e3bb22c97b20fa2b98db1d89 4934 jehon-service-music_2024.02.24.18.33.55_all.deb
+ 1f59e5e9f4716835b7fbfcbddf2dac38af6994c2 146594 jehon_2024.02.24.18.33.55_all.deb
+Checksums-Sha256:
+ 0ca2a68a116208e2616d28d6382c2dd4b8f72ecdb34f3f02f3423a02587e3086 18045 jehon-debs_2024.02.24.18.33.55_amd64.buildinfo
+ dd19fde4c2aa098513f2654e2431e47e6b6fa39ea98e9bbc1f23f1d0d98e133b 1870 jehon-hardware-docker_2024.02.24.18.33.55_all.deb
+ eed21804f82a7b4fdb27fd65dafce609f510083757dff6d60f325616ba6c97f2 2734 jehon-hardware-hyperv_2024.02.24.18.33.55_all.deb
+ dde007d3c7a1ce9d1d1af0e258f639aa2c36f974f58ec074e482811595470b7b 2430 jehon-hardware-raspberrypi_2024.02.24.18.33.55_all.deb
+ 3dd380581f2ba7c5fd183726f15a664a230a4cf1f6c300a83fb54bd96ca08241 2344 jehon-hardware-wsl_2024.02.24.18.33.55_all.deb
+ d4fc4ffbfed82d15c014f0df1a243150e9f00e1aec037a09233d2dddc3435f11 4014 jehon-service-dev_2024.02.24.18.33.55_all.deb
+ 0647b0f924e89f566bf182a0939e2ac7bcce1bbb4949ae246dcda813014c9746 2834 jehon-service-headless_2024.02.24.18.33.55_all.deb
+ aa4b26201ca9cf5d631a36d242338f89e0de1ed00e17499011b6a3efe4331415 5574 jehon-service-kiosk_2024.02.24.18.33.55_all.deb
+ 9c453a9d179f91cfab40f080b564e59cac263dd4621a35d562692387b162a879 4934 jehon-service-music_2024.02.24.18.33.55_all.deb
+ 920eb08ab5a08e28cf489795913d8cefdd7f8cb3420674a3bb2b3ea14e64babf 146594 jehon_2024.02.24.18.33.55_all.deb
+Files:
+ a0f8726c9c4d4b0382c742bca655e55b 18045 unknown extra jehon-debs_2024.02.24.18.33.55_amd64.buildinfo
+ cec775862093313b6b5ca1706c79f14c 1870 unknown extra jehon-hardware-docker_2024.02.24.18.33.55_all.deb
+ 3098ac8a9bef2f5290909fd4e3f5b154 2734 unknown extra jehon-hardware-hyperv_2024.02.24.18.33.55_all.deb
+ 7a71895292e429b227f7251e23e0e16a 2430 unknown extra jehon-hardware-raspberrypi_2024.02.24.18.33.55_all.deb
+ 2a3907bee896f872311ea88f69a007d8 2344 unknown extra jehon-hardware-wsl_2024.02.24.18.33.55_all.deb
+ 96427cf7972903fdfe7e700f3513b816 4014 unknown extra jehon-service-dev_2024.02.24.18.33.55_all.deb
+ db0356e6b36b0bc34b3b2d589df1e04a 2834 unknown extra jehon-service-headless_2024.02.24.18.33.55_all.deb
+ 3576c54ca6e8e28a66a6868b7754b23c 5574 unknown extra jehon-service-kiosk_2024.02.24.18.33.55_all.deb
+ b10c380074f3d28cfd8b1a1ff0d5b26f 4934 unknown extra jehon-service-music_2024.02.24.18.33.55_all.deb
+ 4e682cfe7f9ee84fda3b858f8d31e97c 146594 unknown extra jehon_2024.02.24.18.33.55_all.deb

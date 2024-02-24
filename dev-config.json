@@ -1,0 +1,8 @@
+{
+    "http": {
+        "nas":          "192.168.1.9",
+        "kiosk":        "192.168.1.154",
+        "dev":          "127.0.0.1",
+        "nas_external": "https://jehon.synology.me:4001"
+    }
+}

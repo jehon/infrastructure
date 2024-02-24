@@ -1,0 +1,166 @@
+Package: jehon
+Source: jehon-debs
+Version: 2024.02.24.18.33.55
+Architecture: all
+Essential: yes
+Maintainer: Jean Honlet <jeanhonlet@gmail.com>
+Installed-Size: 505
+Depends: anacron, apt-utils, apt-transport-https, bash, bash-completion, bc, ca-certificates, cryptsetup, cryptsetup-initramfs, curl, dosfstools, mtools, exiftool, file, gettext-base, git, git-restore-mtime, gocryptfs, gnupg2, htop, iproute2, isenkram-cli, jq, less, locales, lsof, lsb-release, nano, netcat, ntp | systemd-timesyncd, openssh-server, python3-full, python3-pip, python3-termcolor, rclone, rsync, screen, sed, sox, libsox-fmt-mp3, sudo, ufw, virt-what, wget
+Filename: jehon_2024.02.24.18.33.55_all.deb
+Size: 146594
+MD5sum: 4e682cfe7f9ee84fda3b858f8d31e97c
+SHA1: 1f59e5e9f4716835b7fbfcbddf2dac38af6994c2
+SHA256: 920eb08ab5a08e28cf489795913d8cefdd7f8cb3420674a3bb2b3ea14e64babf
+Section: unknown
+Priority: extra
+Homepage: http/www.github.org/jehon/packages/
+Description: Jehon debian package
+
+Package: jehon-hardware-docker
+Source: jehon-debs
+Version: 2024.02.24.18.33.55
+Architecture: all
+Maintainer: Jean Honlet <jeanhonlet@gmail.com>
+Installed-Size: 11
+Depends: jehon (<= 2024.02.24.18.33.55)
+Conflicts: jehon-hardware
+Replaces: jehon-hardware
+Provides: jehon-hardware (= 2024.02.24.18.33.55)
+Filename: jehon-hardware-docker_2024.02.24.18.33.55_all.deb
+Size: 1870
+MD5sum: cec775862093313b6b5ca1706c79f14c
+SHA1: 8d992e6a3c837176a659b9ec5d35a0c21e816938
+SHA256: dd19fde4c2aa098513f2654e2431e47e6b6fa39ea98e9bbc1f23f1d0d98e133b
+Section: unknown
+Priority: extra
+Homepage: http/www.github.org/jehon/packages/
+Description: Jehon debian package
+
+Package: jehon-hardware-hyperv
+Source: jehon-debs
+Version: 2024.02.24.18.33.55
+Architecture: all
+Maintainer: Jean Honlet <jeanhonlet@gmail.com>
+Installed-Size: 24
+Depends: jehon (<= 2024.02.24.18.33.55), cloud-utils
+Conflicts: jehon-hardware
+Replaces: jehon-hardware
+Provides: jehon-hardware (= 2024.02.24.18.33.55)
+Filename: jehon-hardware-hyperv_2024.02.24.18.33.55_all.deb
+Size: 2734
+MD5sum: 3098ac8a9bef2f5290909fd4e3f5b154
+SHA1: 6aa4b55290a9273a9c926f31c8df6734df3ee4bf
+SHA256: eed21804f82a7b4fdb27fd65dafce609f510083757dff6d60f325616ba6c97f2
+Section: unknown
+Priority: extra
+Homepage: http/www.github.org/jehon/packages/
+Description: Jehon debian package
+
+Package: jehon-hardware-raspberrypi
+Source: jehon-debs
+Version: 2024.02.24.18.33.55
+Architecture: all
+Maintainer: Jean Honlet <jeanhonlet@gmail.com>
+Installed-Size: 24
+Depends: jehon (<= 2024.02.24.18.33.55), fbcat
+Conflicts: jehon-hardware
+Replaces: jehon-hardware
+Provides: jehon-hardware (= 2024.02.24.18.33.55)
+Filename: jehon-hardware-raspberrypi_2024.02.24.18.33.55_all.deb
+Size: 2430
+MD5sum: 7a71895292e429b227f7251e23e0e16a
+SHA1: f77f951761ddac2e07a7ec20e90fa1969cd60acb
+SHA256: dde007d3c7a1ce9d1d1af0e258f639aa2c36f974f58ec074e482811595470b7b
+Section: unknown
+Priority: extra
+Homepage: http/www.github.org/jehon/packages/
+Description: Jehon debian package
+
+Package: jehon-hardware-wsl
+Source: jehon-debs
+Version: 2024.02.24.18.33.55
+Architecture: all
+Maintainer: Jean Honlet <jeanhonlet@gmail.com>
+Installed-Size: 18
+Depends: jehon (<= 2024.02.24.18.33.55)
+Conflicts: jehon-hardware
+Replaces: jehon-hardware
+Provides: jehon-hardware (= 2024.02.24.18.33.55)
+Filename: jehon-hardware-wsl_2024.02.24.18.33.55_all.deb
+Size: 2344
+MD5sum: 2a3907bee896f872311ea88f69a007d8
+SHA1: d1f75b657b56a065181d5b95838df6d33e61cd78
+SHA256: 3dd380581f2ba7c5fd183726f15a664a230a4cf1f6c300a83fb54bd96ca08241
+Section: unknown
+Priority: extra
+Homepage: http/www.github.org/jehon/packages/
+Description: Jehon debian package
+
+Package: jehon-service-dev
+Source: jehon-debs
+Version: 2024.02.24.18.33.55
+Architecture: all
+Maintainer: Jean Honlet <jeanhonlet@gmail.com>
+Installed-Size: 21
+Depends: jehon (<= 2024.02.24.18.33.55), build-essential, chromium-browser | chromium, cifs-utils, debfoster, dialog, direnv, entr, exfat-fuse, exif, exiftran, exiv2, ffmpeg, gcc, gettext-base, gparted, gstreamer1.0-plugins-bad, gstreamer1.0-plugins-ugly, imagemagick-6.q16, iputils-ping, jq, lftp, libasound2, libatk1.0-dev, libexiv2-dev, libgtk2.0-0, libimage-exiftool-perl, libnss3, libnss3-dev, libxss1, lsb-release, lsd, make, multitail, nmap, openssh-client, p7zip-full, parted, samba, sshpass, terminator, traceroute, xvfb, xauth, libatk1.0-0, libatk-bridge2.0-0, libgtk-3-0, libgbm1, xdg-utils
+Filename: jehon-service-dev_2024.02.24.18.33.55_all.deb
+Size: 4014
+MD5sum: 96427cf7972903fdfe7e700f3513b816
+SHA1: 62d2bd71a320c1b4cfd1e77ca896e8297ca0b15a
+SHA256: d4fc4ffbfed82d15c014f0df1a243150e9f00e1aec037a09233d2dddc3435f11
+Section: unknown
+Priority: extra
+Homepage: http/www.github.org/jehon/packages/
+Description: Jehon debian package
+
+Package: jehon-service-headless
+Source: jehon-debs
+Version: 2024.02.24.18.33.55
+Architecture: all
+Maintainer: Jean Honlet <jeanhonlet@gmail.com>
+Installed-Size: 27
+Depends: jehon (<= 2024.02.24.18.33.55), console-setup, kbd, netplan.io, rsyslog, screen
+Filename: jehon-service-headless_2024.02.24.18.33.55_all.deb
+Size: 2834
+MD5sum: db0356e6b36b0bc34b3b2d589df1e04a
+SHA1: 8da0c7ab7728452c38b4917c5a24967d9b7dc189
+SHA256: 0647b0f924e89f566bf182a0939e2ac7bcce1bbb4949ae246dcda813014c9746
+Section: unknown
+Priority: extra
+Homepage: http/www.github.org/jehon/packages/
+Description: Jehon debian package
+
+Package: jehon-service-kiosk
+Source: jehon-debs
+Version: 2024.02.24.18.33.55
+Architecture: all
+Maintainer: Jean Honlet <jeanhonlet@gmail.com>
+Installed-Size: 36
+Depends: jehon (<= 2024.02.24.18.33.55), fbi, vlc
+Filename: jehon-service-kiosk_2024.02.24.18.33.55_all.deb
+Size: 5574
+MD5sum: 3576c54ca6e8e28a66a6868b7754b23c
+SHA1: 9f8b17b973c2c020b1f3dd77fce64d4a6be6c574
+SHA256: aa4b26201ca9cf5d631a36d242338f89e0de1ed00e17499011b6a3efe4331415
+Section: unknown
+Priority: extra
+Homepage: http/www.github.org/jehon/packages/
+Description: Jehon debian package
+
+Package: jehon-service-music
+Source: jehon-debs
+Version: 2024.02.24.18.33.55
+Architecture: all
+Maintainer: Jean Honlet <jeanhonlet@gmail.com>
+Installed-Size: 51
+Depends: jehon (<= 2024.02.24.18.33.55), mpd, alsa-utils, ncmpcpp, mpc
+Filename: jehon-service-music_2024.02.24.18.33.55_all.deb
+Size: 4934
+MD5sum: b10c380074f3d28cfd8b1a1ff0d5b26f
+SHA1: fec3dcf7202cb569e3bb22c97b20fa2b98db1d89
+SHA256: 9c453a9d179f91cfab40f080b564e59cac263dd4621a35d562692387b162a879
+Section: unknown
+Priority: extra
+Homepage: http/www.github.org/jehon/packages/
+Description: Jehon debian package
+

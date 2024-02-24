@@ -1,3 +1,0 @@
-#!/usr/bin/bash
-
-exec /usr/bin/ncmpcpp --config /usr/share/jehon-service-music/ncmpcpp.conf

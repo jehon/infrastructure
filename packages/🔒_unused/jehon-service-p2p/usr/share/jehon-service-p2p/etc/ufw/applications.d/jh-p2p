@@ -1,4 +1,0 @@
-[jh-p2p]
-title=Local music server
-description=Allow access to the p2p server
-ports=9091/tcp

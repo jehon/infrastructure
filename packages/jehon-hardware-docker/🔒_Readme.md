@@ -1,3 +1,0 @@
-# Readme
-
-Used in devcontainer

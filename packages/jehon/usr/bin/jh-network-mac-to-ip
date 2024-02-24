@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-ping -c 1 "$1"
-
-arp -an | grep "$1"

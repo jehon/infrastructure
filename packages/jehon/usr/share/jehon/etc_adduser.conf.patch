@@ -1,5 +1,0 @@
-#
-# File: /etc/adduser.conf
-#
-
-EXTRA_GROUPS=fuse users

@@ -1,4 +1,0 @@
-# https://raphaelhertzog.com/2010/09/17/how-to-create-debian-packages-with-alternative-compression-methods/
-
-compression = "gzip"
-compression-level = 9

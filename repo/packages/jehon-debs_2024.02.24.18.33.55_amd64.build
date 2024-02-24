@@ -1,0 +1,62 @@
+ dpkg-buildpackage -rfakeroot -us -uc -ui --build=binary --build=binary
+dpkg-buildpackage: info: source package jehon-debs
+dpkg-buildpackage: info: source version 2024.02.24.18.33.55
+dpkg-buildpackage: info: source distribution stable
+dpkg-buildpackage: info: source changed by  <jehon@users.noreply.github.com>
+ dpkg-source --before-build .
+dpkg-buildpackage: info: host architecture amd64
+dpkg-source: info: using options from structure/debian/source/options: --compression=gzip --compression-level=9
+ fakeroot debian/rules clean
+dh clean
+   dh_auto_clean
+   dh_clean
+ debian/rules build
+dh build
+   dh_update_autotools_config
+   dh_autoreconf
+   dh_auto_configure
+   dh_auto_build
+	make -j4 "INSTALL=install --strip-program=true"
+make[1]: Entering directory '/home/runner/work/infrastructure/infrastructure/tmp/packages/structure'
+true
+make[1]: Leaving directory '/home/runner/work/infrastructure/infrastructure/tmp/packages/structure'
+   dh_auto_test
+   create-stamp debian/debhelper-build-stamp
+ fakeroot debian/rules binary
+dh binary
+   dh_testroot
+   dh_prep
+   dh_auto_install
+   dh_install
+   dh_installdocs
+   dh_installchangelogs
+   dh_perl
+   dh_link
+   dh_strip_nondeterminism
+   dh_compress
+   dh_fixperms
+   dh_missing
+   dh_installdeb
+   dh_gencontrol
+   dh_md5sums
+   debian/rules override_dh_builddeb
+make[1]: Entering directory '/home/runner/work/infrastructure/infrastructure/tmp/packages/structure'
+dh_builddeb -- -Zgzip
+dpkg-deb: building package 'jehon' in '../jehon_2024.02.24.18.33.55_all.deb'.
+dpkg-deb: building package 'jehon-hardware-raspberrypi' in '../jehon-hardware-raspberrypi_2024.02.24.18.33.55_all.deb'.
+dpkg-deb: building package 'jehon-service-headless' in '../jehon-service-headless_2024.02.24.18.33.55_all.deb'.
+dpkg-deb: building package 'jehon-hardware-wsl' in '../jehon-hardware-wsl_2024.02.24.18.33.55_all.deb'.
+dpkg-deb: building package 'jehon-service-kiosk' in '../jehon-service-kiosk_2024.02.24.18.33.55_all.deb'.
+dpkg-deb: building package 'jehon-service-dev' in '../jehon-service-dev_2024.02.24.18.33.55_all.deb'.
+dpkg-deb: building package 'jehon-service-music' in '../jehon-service-music_2024.02.24.18.33.55_all.deb'.
+dpkg-deb: building package 'jehon-hardware-docker' in '../jehon-hardware-docker_2024.02.24.18.33.55_all.deb'.
+dpkg-deb: building package 'jehon-hardware-hyperv' in '../jehon-hardware-hyperv_2024.02.24.18.33.55_all.deb'.
+make[1]: Leaving directory '/home/runner/work/infrastructure/infrastructure/tmp/packages/structure'
+ dpkg-genbuildinfo --build=binary -O../jehon-debs_2024.02.24.18.33.55_amd64.buildinfo
+dpkg-genbuildinfo: warning:     debian/changelog(l7): found end of file where expected start of change data
+ dpkg-genchanges --build=binary -O../jehon-debs_2024.02.24.18.33.55_amd64.changes
+dpkg-genchanges: warning:     debian/changelog(l7): found end of file where expected start of change data
+dpkg-genchanges: info: binary-only upload (no source code included)
+ dpkg-source --after-build .
+dpkg-source: info: using options from structure/debian/source/options: --compression=gzip --compression-level=9
+dpkg-buildpackage: info: binary-only upload (no source included)
