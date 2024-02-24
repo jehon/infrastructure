@@ -52,7 +52,7 @@ root_or_sudo apt install --quiet --yes \
 echo "* Installing packages done"
 
 echo "* Installing shellcheck..."
-root_or_sudo /usr/sbin/jh-install-shellcheck
+root_or_sudo "$PRJ_ROOT"/packages/jehon/usr/sbin/jh-install-shellcheck
 echo "* Installing shellcheck done"
 
 echo "* Enabling direnv..."
