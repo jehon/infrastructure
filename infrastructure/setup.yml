@@ -12,8 +12,6 @@
       when: "'grp_jehon' in group_names"
       ansible.builtin.include_role:
         name: jh_repositories
-      vars:
-        jh_repositories_deb_url: "{{ jehon_deb_url }}"
 
     - name: Setup Jehon Service Headless
       when: jehon_headless
