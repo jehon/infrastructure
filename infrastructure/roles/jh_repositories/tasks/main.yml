@@ -90,14 +90,36 @@
     #
     ############################################
 
-    - name: Install WSL package
+    - name: Install hardware package - jehon-hardware-wsl
       # https://stackoverflow.com/a/78046212/1954789
       when: ansible_facts['os_family'] == "Debian" and ansible_facts['system_vendor'] == "Microsoft Corporation"
       ansible.builtin.apt:
         pkg:
           - "jehon-hardware-wsl"
 
-    - name: Install jehon-hardware*.deb
+    # TODO: auto detect raspberrypi
+    # - name: Install hardware package - jehon-hardware-raspberrypi
+    #   when: jehon_hardware | length > 0
+    #   ansible.builtin.apt:
+    #     pkg:
+    #       - "jehon-hardware-raspberrypi"
+
+    # TODO: auto detect docker
+    # - name: Install hardware package - jehon-hardware-docker
+    #   when: jehon_hardware | length > 0
+    #   ansible.builtin.apt:
+    #     pkg:
+    #       - "jehon-hardware-docker"
+
+    # TODO: auto detect hyperv
+    # - name: Install hardware package - jehon-hardware-hyperv
+    #   when: jehon_hardware | length > 0
+    #   ansible.builtin.apt:
+    #     pkg:
+    #       - "jehon-hardware-hyperv"
+
+    # TODO: remove this...
+    - name: Install hardware package - jehon-hardware-raspberrypi
       when: jehon_hardware | length > 0
       block:
         - name: "Ensure jehon-hardware is present for hardware {{ jehon_hardware }}"
