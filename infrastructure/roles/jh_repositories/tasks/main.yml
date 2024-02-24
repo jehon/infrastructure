@@ -17,6 +17,7 @@
     - name: "Install jehon.deb from {{ jh_repositories_deb_url }}"
       when: "'jehon' not in ansible_facts.packages"
       ansible.builtin.apt:
+        # TODO: adapt url
         deb: "{{ jh_repositories_deb_url | default('https://jehon.github.io/infrastructure/repo/jehon.deb') }}"
       notify: jh_repositories.indexes
       register: jehon_basis_jehon_deb
@@ -27,6 +28,12 @@
           ('A later version is already installed' != jehon_basis_jehon_deb.msg)
           and (' dependency jehon (' not in jehon_basis_jehon_deb.msg)
         )
+
+    - name: "Remove online repositories because defined {{ jh_repositories_deb_url }}"
+      when: jh_repositories_deb_url is defined
+      ansible.builtin.file:
+        path: /etc/apt/sources.list.d/jehon-github.sources
+        state: absent
 
     ############################################
     #
