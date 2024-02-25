@@ -24,7 +24,7 @@ echo "*******************************************************"
 docker kill "${TAG}" &>/dev/null || true
 docker rm -f "${TAG}" &> /dev/null || true
 # Caution: will be pasted as-is
-export JH_ANSIBLE_TEST="--connection=local --extra-vars '{\"virtual\": true, \"jh_repositories_deb_url\": \"file:///setup/packages/jehon.deb\"}'"
+export JH_ANSIBLE_TEST="--connection=local --extra-vars '{\"virtual\": true, \"jh_repositories_deb_url\": \"/setup/packages/jehon.deb\"}'"
 
 # shellcheck disable=SC2120
 # shellcheck disable=SC2119
