@@ -78,13 +78,13 @@ infrastructure-lint: dependencies
 .PHONY: infrastructure-build
 infrastructure-build: dependencies \
 	tmp/.built \
-	tmp/dev-config.json
+	$(PUBLISH)/dev-config.json
 
 tmp/.built: $(PYTHON_DEPENDENCY_MARK)
 	mkdir -p "$(dir $@)"
 	touch "$@"
 
-tmp/dev-config.json: tmp/.built
+$(PUBLISH)/dev-config.json: tmp/.built
 	mkdir -p "$(dir $@)"
 	cd infrastructure/ && ansible-playbook \
 		--vault-password-file $(ROOT)/$(ENCRYPTION_MOCK) \
@@ -119,8 +119,3 @@ tmp/50-hosts.yml: infrastructure/inventory/50-hosts.yml \
 
 .PHONY: infrastructure-release
 infrastructure-release: $(PUBLISH)/dev-config.json
-
-$(PUBLISH)/dev-config.json: tmp/dev-config.json
-	mkdir -p "$(dir $@)"
-	cp -f tmp/dev-config.json "$@"
-	touch "$@"

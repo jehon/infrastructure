@@ -12,5 +12,5 @@
     - name: Generate dev-config.yml for github homepage
       ansible.builtin.template:
         src: "templates/setup-dev-config.json"
-        dest: "../tmp/dev-config.json"
+        dest: "../tmp/publish/dev-config.json"
         mode: "0644"
