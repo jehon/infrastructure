@@ -120,8 +120,6 @@ tmp/50-hosts.yml: infrastructure/inventory/50-hosts.yml \
 .PHONY: infrastructure-release
 infrastructure-release: $(PUBLISH)/dev-config.json
 
-	/usr/bin/jh-github-publish-pages "$(PUBLISH)" "push"
-
 $(PUBLISH)/dev-config.json: tmp/dev-config.json
 	mkdir -p "$(dir $@)"
 	cp -f tmp/dev-config.json "$@"
