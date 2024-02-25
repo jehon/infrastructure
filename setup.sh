@@ -46,7 +46,7 @@ root_or_sudo apt install --quiet --yes \
     git-restore-mtime \
     shellcheck \
     gnupg2 \
-	python3-full python3-autopep8 python3-netaddr python3-passlib python3-apt \
+	python3-full python3-pip python3-autopep8 python3-netaddr python3-passlib python3-apt \
     git sshpass \
     default-libmysqlclient-dev
 echo "* Installing packages done"
