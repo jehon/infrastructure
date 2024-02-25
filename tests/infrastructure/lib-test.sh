@@ -12,7 +12,7 @@ set -o pipefail
 # shellcheck source-path=SCRIPTDIR/../
 TEST_NAME="$(basename "${BASH_SOURCE[1]}")"
 TAG="test-ansible-${TEST_NAME}"
-exec &> >( /usr/bin/jh-tag-stdin "$TEST_NAME" )
+exec &> >( jh-tag-stdin "$TEST_NAME" )
 
 echo "*******************************************************"
 echo "***"
