@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# shellcheck source=/usr/bin/jh-lib
+# shellcheck source-path=SCRIPTDIR/../packages/jehon/usr/bin
 . jh-lib
 
 HOST=${1:?Need the target host [1]}

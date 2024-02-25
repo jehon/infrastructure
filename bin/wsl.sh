@@ -2,7 +2,7 @@
 
 set -o errexit
 
-# shellcheck source=/usr/bin/jh-lib
+# shellcheck source-path=SCRIPTDIR/../packages/jehon/usr/bin
 . jh-lib
 
 if ! jh-fs not-empty pCloudDrive ; then

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# shellcheck source=/usr/bin/jh-lib
+# shellcheck source-path=SCRIPTDIR/../packages/jehon/usr/bin
 . jh-lib
 
 CONF="$( dirname "$JH_SWD" )/conf/locations"

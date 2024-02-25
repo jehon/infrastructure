@@ -3,7 +3,7 @@
 set -o errexit
 set -o pipefail
 
-# shellcheck source=/usr/bin/jh-lib
+# shellcheck source-path=SCRIPTDIR/../packages/jehon/usr/bin
 . jh-lib
 
 SUB_URL="$1"
