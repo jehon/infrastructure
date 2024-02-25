@@ -28,15 +28,6 @@ root_or_sudo apt install --quiet --yes \
     curl
 echo "* Installing strict minimum packages done"
 
-# echo "* Installing jehon.deb..."
-# mkdir --mode=0777 -p tmp
-# # TODO: jehon.deb might not be necessary OR might be taken locally (see infra tests)
-# curl -fsSL https://jehon.github.io/packages/jehon.deb -o tmp/jehon.deb
-# root_or_sudo apt install --quiet --yes \
-#     ./tmp/jehon.deb
-# root_or_sudo apt update
-# echo "* Installing jehon.deb done"
-
 echo "* Installing packages..."
 # git-restore-mtime: https://stackoverflow.com/a/64147402/1954789
 root_or_sudo apt install --quiet --yes \
