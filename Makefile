@@ -16,9 +16,10 @@ LANG=C.UTF-8
 .SECONDEXPANSION:
 
 ROOT = $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
-TMP_ROOT = $(ROOT)/tmp
+TMP = tmp/
+TMP_ROOT = $(ROOT)/$(TMP)
 GITHUB_STEP_SUMMARY ?= "$(ROOT)/tmp/GITHUB_STEP_SUMMARY.log"
-PUBLISH = tmp/publish
+PUBLISH = $(TMP)/publish
 
 VERSION_FILE = $(PUBLISH)/version.txt
 
