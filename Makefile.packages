@@ -114,7 +114,7 @@ $(PACKAGES_REPO)/Release.gpg: $(PACKAGES_REPO)/Release
 packages-release: $(PACKAGES_TMP)/.built \
 		$(PACKAGES_REPO)/Release.gpg
 
-	rsync -a "$(PACKAGES_REPO)" "$(PUBLISH)/repo"
+	rsync -a "$(PACKAGES_REPO)/" "$(PUBLISH)/repo"
 
 .PHONY:
 packages-release-validate:
