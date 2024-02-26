@@ -11,6 +11,8 @@
 
 ENCRYPTION_MOCK=infrastructure/.config/ansible-encryption-mock
 
+INFRASTRUCTURE_TMP=$(TMP)/infrastructure
+
 clean: infrastructure-clean
 dump: infrastructure-dump
 dump-runtimes: infrastructure-dump-runtimes
@@ -24,7 +26,7 @@ release: infrastructure-release
 infrastructure-clean:
 	rm -f "$(PUBLISH)/dev-config.json"
 	rm -fr infrastructure/built
-	rm -fr tmp
+	rm -fr $(INFRASTRUCTURE_TMP)
 	docker ps | ( grep test-ansible || true ) | awk '{print $$1}' | xargs --no-run-if-empty -- docker kill
 	docker image list --filter 'reference=test-ansible/*' --format '{{.Repository}}:{{.Tag}}' | xargs --no-run-if-empty -- docker image rm -f
 	docker volume list --quiet | ( grep 'test-ansible' || true ) | xargs --no-run-if-empty -- docker rm -f
@@ -77,14 +79,14 @@ infrastructure-lint: dependencies
 
 .PHONY: infrastructure-build
 infrastructure-build: dependencies \
-	tmp/.built \
+	$(INFRASTRUCTURE_TMP)/test.built \
 	$(PUBLISH)/dev-config.json
 
-tmp/.built: $(PYTHON_DEPENDENCY_MARK)
+$(INFRASTRUCTURE_TMP)/test.built: $(PYTHON_DEPENDENCY_MARK)
 	mkdir -p "$(dir $@)"
 	touch "$@"
 
-$(PUBLISH)/dev-config.json: tmp/.built
+$(PUBLISH)/dev-config.json: $(INFRASTRUCTURE_TMP)/test.built
 	mkdir -p "$(dir $@)"
 	cd infrastructure/ && ansible-playbook \
 		--vault-password-file $(ROOT)/$(ENCRYPTION_MOCK) \
@@ -92,12 +94,12 @@ $(PUBLISH)/dev-config.json: tmp/.built
 	touch "$@"
 
 .PHONY: infrastructure-test
-infrastructure-test: tmp/tests/.built \
-		tmp/50-hosts.yml
+infrastructure-test: $(INFRASTRUCTURE_TMP)/test.built \
+		$(INFRASTRUCTURE_TMP)/50-hosts.yml
 
 	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/infrastructure
 
-tmp/tests/.built: \
+$(INFRASTRUCTURE_TMP)/test.built: \
 		$(PACKAGES_REPO_MARK) \
 		setup.sh
 
@@ -110,7 +112,7 @@ tmp/tests/.built: \
 		.
 	touch "$@"
 
-tmp/50-hosts.yml: infrastructure/inventory/50-hosts.yml \
+$(INFRASTRUCTURE_TMP)/50-hosts.yml: infrastructure/inventory/50-hosts.yml \
 		bin/ansible-no-secrets
 
 	mkdir -p "$(dir $@)"
