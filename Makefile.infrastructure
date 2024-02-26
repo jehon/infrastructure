@@ -38,7 +38,7 @@ infrastructure-dump:
 	$(call dump_info, PUBLISH)
 
 .PHONY: infrastructure-dependencies
-infrastructure-dependencies: $(PYTHON_DEPENDENCY_MARK) \
+infrastructure-dependencies: $(PYTHON_DEPENDENCY_COMMON_MARK) \
 	$(INFRASTRUCTURE_TMP)/encryption-key \
 	$(INFRASTRUCTURE_TMP)/ssh-key
 
@@ -93,7 +93,7 @@ infrastructure-test: $(INFRASTRUCTURE_TMP)/test.built \
 	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/infrastructure
 
 $(INFRASTRUCTURE_TMP)/test.built: \
-		$(PYTHON_DEPENDENCY_MARK) \
+		$(PYTHON_DEPENDENCY_COMMON_MARK) \
 		$(PACKAGES_REPO_MARK) \
 		setup.sh
 

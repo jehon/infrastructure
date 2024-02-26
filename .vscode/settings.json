@@ -19,7 +19,8 @@
     ],
     "python.analysis.typeCheckingMode": "basic",
     "python.autoComplete.extraPaths": [
-      "tmp/var/lib/python/jehon"
+      "tmp/python/common",
+      "tmp/python/jehon"
     ],
     "terminal.integrated.scrollback": 100000,
     "workbench.colorCustomizations": {

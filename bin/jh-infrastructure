@@ -49,9 +49,9 @@ args=parser.parse_args()
 
 def run_ansible(title: str, playbooks: list[str], ansibleArgs: list[str]):
     res = run(
-            [ os.path.join(prjRoot, "tmp/python/bin/ansible-playbook") ] + ansibleArgs + playbooks,
+            [ os.path.join(prjRoot, "tmp/python/common/bin/ansible-playbook") ] + ansibleArgs + playbooks,
             cwd=os.path.join(prjRoot, "infrastructure"),
-            env={ "PYTHONPATH": os.path.join(prjRoot, "tmp/python") }
+            env={ "PYTHONPATH": os.path.join(prjRoot, "tmp/python/common") }
         )
     if res > 0:
         sys.exit(res)
