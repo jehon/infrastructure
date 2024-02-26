@@ -4,6 +4,7 @@ python: clear python-dump python-test python-lint ok
 
 dump: python-dump
 clean: python-clean
+dependencies: python-dependencies
 test: python-test
 lint: python-lint
 
@@ -32,7 +33,7 @@ python-clean:
 .PHONY: python-dependencies
 python-dependencies: \
 		$(PYTHON_DEPENDENCY_COMMON_MARK) \
-		$(PYTHON_DEPENDENCY_JEHON_MARK)/requirements.txt
+		$(PYTHON_DEPENDENCY_JEHON_MARK)
 
 $(PYTHON_DEPENDENCY_COMMON_MARK): requirements.txt
 	python3 -m pip install -r "$<" --target "$(dir $@)" --upgrade
