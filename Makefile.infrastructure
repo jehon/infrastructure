@@ -48,7 +48,7 @@ $(INFRASTRUCTURE_TMP)/encryption-key:
 	if [ -r ~/restricted/ansible-encryption-key ]; then \
 		ln -fs ~/restricted/ansible-encryption-key "$(INFRASTRUCTURE_TMP)/encryption-key"; \
 	else \
-		cat infrastructure/.config/ansible-encryption-mock > "$(INFRASTRUCTURE_TMP)/encryption-key"; \
+		cp -f infrastructure/.config/ansible-encryption-mock "$(INFRASTRUCTURE_TMP)/encryption-key"; \
 	fi
 
 $(INFRASTRUCTURE_TMP)/ssh-key:
