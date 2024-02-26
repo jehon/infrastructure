@@ -27,7 +27,7 @@ jobs:
       # https://github.com/actions/upload-pages-artifact?tab=readme-ov-file
       uses: actions/upload-artifact@v4
       with:
-        name: build-tmp
+        name: build
         path: tmp
 
   ga-test:
@@ -49,6 +49,11 @@ jobs:
     steps:
     - uses: actions/checkout@main
 
+    - uses: actions/download-artifact@v4
+      with:
+        name: build
+        path: tmp
+
     - run: ./setup.sh
     - run: make "${{ matrix.target }}"
 
@@ -65,6 +70,11 @@ jobs:
       - uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: tmp
 
       - run: ./setup.sh
       - run: make release
