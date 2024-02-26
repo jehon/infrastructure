@@ -7,6 +7,8 @@ import subprocess
 import sys
 from typing import Optional
 
+# TODO: rewrite en Bash
+
 # https://pypi.org/project/termcolor/ <= see list of colors
 # python -m termcolor
 from termcolor import colored
