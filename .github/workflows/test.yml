@@ -76,6 +76,9 @@ jobs:
           name: build
           path: tmp
 
+      - run: |
+          chmod -v +x tmp/python/*/bin/*
+
       - run: ./setup.sh
       - run: make release
 
