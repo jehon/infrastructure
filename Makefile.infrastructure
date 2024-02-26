@@ -43,21 +43,19 @@ infrastructure-dependencies: $(PYTHON_DEPENDENCY_MARK) \
 	$(INFRASTRUCTURE_TMP)/ssh-key
 
 $(INFRASTRUCTURE_TMP)/encryption-key:
-	mkdir -p "$(dir $@)"
-	if [ ! -r "$@" ]; then \
-		if [ -r ~/restricted/ansible-encryption-key ]; then \
-			ln -fs ~/restricted/ansible-encryption-key "$(INFRASTRUCTURE_TMP)/encryption-key"; \
-		else \
-			cat infrastructure/.config/ansible-encryption-mock > "$(INFRASTRUCTURE_TMP)/encryption-key"; \
-		fi \
+	$(call mkdir,$@)
+	rm -f "$@"
+	if [ -r ~/restricted/ansible-encryption-key ]; then \
+		ln -fs ~/restricted/ansible-encryption-key "$(INFRASTRUCTURE_TMP)/encryption-key"; \
+	else \
+		cat infrastructure/.config/ansible-encryption-mock > "$(INFRASTRUCTURE_TMP)/encryption-key"; \
 	fi
 
 $(INFRASTRUCTURE_TMP)/ssh-key:
-	mkdir -p "$(dir $@)"
-	if [ ! -r "$@" ]; then \
-		if [ -r $(HOME)/.ssh/id_rsa ]; then \
-			ln -fs $(HOME)/.ssh/id_rsa "$@"; \
-		fi \
+	$(call mkdir,$@)
+	rm -f "$@"
+	if [ -r $(HOME)/.ssh/id_rsa ]; then \
+		ln -fs $(HOME)/.ssh/id_rsa "$@"; \
 	fi
 
 .PHONY: infrastructure-dump-runtimes
@@ -82,11 +80,11 @@ infrastructure-build: dependencies \
 	$(PUBLISH)/dev-config.json
 
 $(PUBLISH)/dev-config.json: $(INFRASTRUCTURE_TMP)/test.built
-	mkdir -p "$(dir $@)"
+	$(call mkdir,$@)
 	cd infrastructure/ && ansible-playbook \
 		--vault-password-file $(ROOT)/$(ENCRYPTION_MOCK) \
 		build-artifacts.yml
-	touch "$@"
+	$(call touch,$@)
 
 .PHONY: infrastructure-test
 infrastructure-test: $(INFRASTRUCTURE_TMP)/test.built \
@@ -99,21 +97,21 @@ $(INFRASTRUCTURE_TMP)/test.built: \
 		$(PACKAGES_REPO_MARK) \
 		setup.sh
 
-	mkdir -p "$(dir $@)"
+	$(call mkdir,$@)
 	docker build \
 		--tag "test-ansible/ansible:local" \
 		--build-context "root=$(ROOT)/tests/packages/root" \
 		--build-context "publish=$(ROOT)/tmp/publish" \
 		--file "$(ROOT)"/tests/infrastructure/Dockerfile \
 		.
-	touch "$@"
+	$(call touch,$@)
 
 $(INFRASTRUCTURE_TMP)/50-hosts.yml: infrastructure/inventory/50-hosts.yml \
 		bin/ansible-no-secrets
 
-	mkdir -p "$(dir $@)"
+	$(call mkdir,$@)
 	bin/ansible-no-secrets "infrastructure/inventory/50-hosts.yml" "$@"
-	touch "$@"
+	$(call touch,$@)
 
 .PHONY: infrastructure-release
 infrastructure-release: $(PUBLISH)/dev-config.json

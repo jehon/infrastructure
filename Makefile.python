@@ -34,12 +34,12 @@ python-dependencies: \
 $(PYTHON_DEPENDENCY_MARK): requirements.txt
 	python3 -m pip install -r "$<" --target "$(dir $@)" --upgrade
 	cp "$<" "$@"
-	touch "$@"
+	$(call touch,$@)
 
 tmp/var/lib/python/jehon/requirements.txt: packages/jehon/usr/lib/python3/dist-packages/jehon/requirements.txt
 	python3 -m pip install -r "$<" --target "$(dir $@)" --upgrade
 	cp "$<" "$@"
-	touch "$@"
+	$(call touch,$@)
 
 .PHONY: python-lint
 python-lint: python-pylint python-mypy

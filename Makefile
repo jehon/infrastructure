@@ -176,7 +176,7 @@ $(VERSION_FILE): \
 	@echo "#################################################"
 	@echo "# Version: $(VERSION_RUN)"
 	@echo "#################################################"
-	mkdir -p "$(dir $@)"
+	$(call mkdir,$@)
 	echo "$(VERSION_RUN)" > "$(VERSION_FILE)"
 
 .PHONY: global-test

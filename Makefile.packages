@@ -45,7 +45,7 @@ $(PACKAGES_TMP)/.built: $(PUBLISH)/latest-key.pub $(PACKAGES_REPO_MARK)
 	$(call touch,$@)
 
 $(PUBLISH)/latest-key.pub: packages/jehon/usr/share/jehon/etc/ssh/authorized_keys/root
-	mkdir -p "$(dir $@)"
+	$(call mkdir,$@)
 	cp -f "$<" "$@"
 	$(call touch,$@)
 
@@ -59,7 +59,7 @@ $(PACKAGES_REPO)/Release: $(PACKAGES_REPO)/Packages
 	# -o: APT::FTPArchive::Release::* => Origin, Label, Suite, Version, Codename, Date, NotAutomatic, ButAutomaticUpgrades, Acquire-By-Hash, Valid-Until, Signed-By, Architectures, Components and Description.
 	# See https://manpages.debian.org/testing/apt-utils/apt-ftparchive.1.en.html
 	cd $(PACKAGES_REPO) && apt-ftparchive -o "APT::FTPArchive::Release::Origin=jehon" release . >Release | jh-tag-stdin "index-release"
-	touch "$@"
+	$(call touch,$@)
 
 $(PACKAGES_REPO)/Packages: $(PACKAGES_TMP)/.structure.built
 
@@ -84,7 +84,7 @@ $(PACKAGES_REPO)/Packages: $(PACKAGES_TMP)/.structure.built
 
 # build the references
 	cd $(PACKAGES_REPO) && dpkg-scanpackages -m . | sed -e "s%./%%" >Packages | jh-tag-stdin "index-packages"
-	touch "$@"
+	$(call touch,$@)
 
 .PHONY: packages-structure
 packages-structure: $(PACKAGES_TMP)/.structure.built
@@ -108,7 +108,7 @@ packages-lint:
 $(PACKAGES_REPO)/Release.gpg: $(PACKAGES_REPO)/Release
 	rm -f "$@"
 	gpg --sign --detach-sign --armor --local-user BE92EC0B8D9AD0707EF597724E69AF0D0EC8EDA1 --output "$@" "$<"
-	touch "$@"
+	$(call touch,$@)
 
 .PHONY: packages-release
 packages-release: $(PACKAGES_TMP)/.built \
