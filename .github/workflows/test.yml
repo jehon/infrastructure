@@ -13,6 +13,23 @@ concurrency:
   # cancel-in-progress: true
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@main
+
+    - run: ./setup.sh
+    - run: make dump
+    - run: make build
+
+    - name: Upload Pages artifact
+      # https://github.com/actions/upload-pages-artifact?tab=readme-ov-file
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-tmp
+        path: tmp
+
   ga-test:
     runs-on: ubuntu-latest
     timeout-minutes: 120
