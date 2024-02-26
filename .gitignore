@@ -6,8 +6,5 @@
 *.tmp.*
 *.tmp
 *.log
-.built
-.*.built
 
-built
 tmp/

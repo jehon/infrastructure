@@ -9,9 +9,8 @@
 #     x
 #
 
-ENCRYPTION_MOCK=infrastructure/.config/ansible-encryption-mock
-
 INFRASTRUCTURE_TMP=$(TMP)/infrastructure
+ENCRYPTION_MOCK=infrastructure/.config/ansible-encryption-mock
 
 clean: infrastructure-clean
 dump: infrastructure-dump
@@ -25,7 +24,6 @@ release: infrastructure-release
 .PHONY: infrastructure-clean
 infrastructure-clean:
 	rm -f "$(PUBLISH)/dev-config.json"
-	rm -fr infrastructure/built
 	rm -fr "$(INFRASTRUCTURE_TMP)"
 	docker ps | ( grep test-ansible || true ) | awk '{print $$1}' | xargs --no-run-if-empty -- docker kill
 	docker image list --filter 'reference=test-ansible/*' --format '{{.Repository}}:{{.Tag}}' | xargs --no-run-if-empty -- docker image rm -f
@@ -35,25 +33,26 @@ infrastructure-clean:
 infrastructure-dump:
 	$(call dump_space)
 	$(call dump_title,INFRASTRUCTURE)
+	$(call dump_title,INFRASTRUCTURE_TMP)
 	$(call dump_info, ENCRYPTION_MOCK)
 	$(call dump_info, PUBLISH)
 
 .PHONY: infrastructure-dependencies
 infrastructure-dependencies: $(PYTHON_DEPENDENCY_MARK) \
-	infrastructure/built/encryption-key \
-	infrastructure/built/ssh-key
+	$(INFRASTRUCTURE_TMP)/encryption-key \
+	$(INFRASTRUCTURE_TMP)/ssh-key
 
-infrastructure/built/encryption-key:
+$(INFRASTRUCTURE_TMP)/encryption-key:
 	mkdir -p "$(dir $@)"
 	if [ ! -r "$@" ]; then \
 		if [ -r ~/restricted/ansible-encryption-key ]; then \
-			ln -fs ~/restricted/ansible-encryption-key "infrastructure/built/encryption-key"; \
+			ln -fs ~/restricted/ansible-encryption-key "$(INFRASTRUCTURE_TMP)/encryption-key"; \
 		else \
-			cat infrastructure/.config/ansible-encryption-mock > infrastructure/built/encryption-key; \
+			cat infrastructure/.config/ansible-encryption-mock > "$(INFRASTRUCTURE_TMP)/encryption-key"; \
 		fi \
 	fi
 
-infrastructure/built/ssh-key:
+$(INFRASTRUCTURE_TMP)/ssh-key:
 	mkdir -p "$(dir $@)"
 	if [ ! -r "$@" ]; then \
 		if [ -r $(HOME)/.ssh/id_rsa ]; then \
