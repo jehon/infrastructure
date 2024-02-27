@@ -55,6 +55,8 @@ jobs:
         path: tmp
 
     - run: ./setup.sh
+    - run: bin/rehydrate.sh
+
     - run: make "${{ matrix.target }}"
 
   build-pages:
