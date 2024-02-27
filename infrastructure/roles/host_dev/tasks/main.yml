@@ -23,6 +23,7 @@
     pkg:
       - copyq
       - digikam
+      - ffmpegthumbnailer          # Thumbnails for movies
       - git-flow
       - gnome-network-displays
       - gnome-shell-extensions
