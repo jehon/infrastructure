@@ -23,12 +23,17 @@ jobs:
     - run: make dump
     - run: make build
 
-    - name: Upload Pages artifact
-      # https://github.com/actions/upload-pages-artifact?tab=readme-ov-file
+    - name: Upload Build cache
       uses: actions/upload-artifact@v4
       with:
         name: build
         path: tmp
+
+    - name: Upload Apt cache
+      uses: actions/upload-artifact@v4
+      with:
+        name: /var/cache/apt/
+        path: apt
 
   ga-test:
     runs-on: ubuntu-latest
