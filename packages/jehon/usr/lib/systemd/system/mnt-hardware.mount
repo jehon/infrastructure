@@ -1,0 +1,13 @@
+[Unit]
+Description=JH Cloud mount Musiques
+Before=local-fs.target
+Before=home.mount
+
+[Mount]
+What=/dev/disk/by-label/hardware
+Where=/mnt/hardware
+Type=ext4
+Options=nofail
+
+[Install]
+WantedBy=multi-user.target
