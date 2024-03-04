@@ -13,6 +13,7 @@ fi
 cat <<EOS | ssh root@localhost
 
 systemctl daemon-reload
+systemctl enable mnt-hardware.mount
 systemctl restart mnt-hardware.mount
 sleep 1
 systemctl status mnt-hardware.mount
