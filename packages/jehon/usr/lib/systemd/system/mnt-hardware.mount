@@ -1,8 +1,6 @@
 [Unit]
 Description=JH Cloud mount Musiques
-After=local-fs.target
 After=dev-disk-by\\x2dlabel-hardware.device
-Before=cryptsetup-pre.target
 Before=systemd-cryptsetup@home.service
 Before=systemd-cryptsetup@swap.service
 
