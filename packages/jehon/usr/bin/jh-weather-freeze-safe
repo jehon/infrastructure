@@ -38,7 +38,7 @@ fi
 jh_value "W_MIN" "${W_MIN}"
 
 # IP received is Brussels...
-if [ "$( bc <<< "${W_MIN} < 4" )" == "1" ]; then
+if [ "$( bc <<< "${W_MIN} < 3" )" == "1" ]; then
     ko "There is a freezing risk"
     exit 1
 fi
