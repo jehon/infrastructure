@@ -6,7 +6,8 @@ on:
     - main
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    # At 01:15
+    - cron: '15 1 * * *'
 
 concurrency:
   group: release-${{ github.ref_name }}
