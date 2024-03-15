@@ -47,7 +47,8 @@ ffmpeg \
 	-c:v h264 \
 	-c:a aac\
 	-fflags +genpts \
-	-async 1 -strict experimental \
+	-async 1 \
+	-strict experimental \
 	"${DESTINATION_TMP}"
 header_end
 
