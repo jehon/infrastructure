@@ -10,11 +10,3 @@
 
 setopt AUTO_CD
 setopt CORRECT
-# setopt CORRECT_ALL
-# setopt histignoredups
-# setopt hist_ignore_all_dups
-# setopt SHARE_HISTORY
-# setopt APPEND_HISTORY
-
-# Will be overriden by omz!
-# PROMPT='\n%(?.%F{green}√.%F{red}?%?)%f %B%F{240}%1~%f%b %# '

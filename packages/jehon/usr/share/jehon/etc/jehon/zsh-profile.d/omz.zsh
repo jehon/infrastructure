@@ -42,3 +42,5 @@ if [ -r $ZSH/oh-my-zsh.sh ]; then
 else
     echo "Could not load oh-my-zsh in $ZSH/oh-my-zsh.sh" >&2
 fi
+
+unsetopt share_history
