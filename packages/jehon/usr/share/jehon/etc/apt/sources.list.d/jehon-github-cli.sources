@@ -1,0 +1,11 @@
+#
+# Jehon
+#
+
+X-Repolib-Name: Github Cli (jehon)
+Types: deb
+URIs: http://jehon.github.io/infrastructure/packages/
+Suites: stable
+Components:main
+Enabled: yes
+Signed-By: /usr/share/keyrings/jehon-github-cli.gpg
