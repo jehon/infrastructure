@@ -5,7 +5,7 @@
 X-Repolib-Name: Jehon (GitHub-infrastructure)
 Types: deb
 URIs: https://jehon.github.io/infrastructure/packages/
-Suites:
+Suites: /
 Components:
 Enabled: yes
 Signed-By: /usr/share/keyrings/jehon.gpg
