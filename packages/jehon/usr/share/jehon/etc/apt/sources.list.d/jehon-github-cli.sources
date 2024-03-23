@@ -4,7 +4,7 @@
 
 X-Repolib-Name: Github Cli (jehon)
 Types: deb
-URIs: http://jehon.github.io/infrastructure/packages/
+URIs: https://cli.github.com/packages/
 Suites: stable
 Components:main
 Enabled: yes
