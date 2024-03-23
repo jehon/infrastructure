@@ -4,7 +4,7 @@
 
 X-Repolib-Name: Jehon (GitHub-infrastructure)
 Types: deb
-URIs: http://jehon.github.io/infrastructure/packages/
+URIs: https://jehon.github.io/infrastructure/packages/
 Suites: /
 Components:
 Enabled: yes
