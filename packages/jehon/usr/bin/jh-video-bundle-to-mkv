@@ -172,13 +172,13 @@ for (( I=0; I< $( getCodec "v" | wc -l ) ; I++ )); do
 	CODEC=$( getCodec "v:${I}" )
 	TXT_CODEC="$(printf "%-8s" "$CODEC")"
 	case "${CODEC}" in
-		"" | "mpeg4" | "h264" )
+		"" | "mpeg4" | "h264" | "h265" )
 			ok "v:${I} ${TXT_CODEC}"
 			ARGS+=( "-c:v:${I}" "copy" )
 			;;
 		* )
 			ko "v:${I} ${TXT_CODEC} => need conversion"
-			ARGS+=(  "-c:v:${I}" mpeg4 -b:v 1000 )
+			ARGS+=(  "-c:v:${I}" h265 -b:v 1000 )
 			;;
 	esac
 	VIDEO_LANG="$( getTag "a:0" "language" )"
