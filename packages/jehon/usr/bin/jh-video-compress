@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]; then
+	echo "source(1)" "$1"
+	exit 255
+fi
+
+ffmpeg -i "$1" -vcodec libx265 -crf 20 "compressed-$1"
