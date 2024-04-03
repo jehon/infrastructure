@@ -1,5 +1,5 @@
 [Unit]
-Description=JH Cloud mount Musiques
+Description=JH Cloud mount Hardware
 After=dev-disk-by\\x2dlabel-hardware.device
 Before=systemd-cryptsetup@home.service
 Before=systemd-cryptsetup@swap.service
