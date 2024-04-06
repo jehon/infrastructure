@@ -1,0 +1,19 @@
+{
+    "name": "infrastructure",
+    "version": "1.0.0",
+    "private": true,
+    "author": "Jean Honlet",
+    "license": "MIT",
+    "repository": "https://github.com/jehon/infrastructure",
+    "devDependencies": {
+      "@commitlint/cli": "19.2.1",
+      "@commitlint/config-conventional": "19.1.0",
+      "eslint": "8.57.0",
+      "husky": "9.0.11",
+      "prettier": "3.2.5"
+    },
+    "scripts": {
+      "postinstall": "touch node_modules/.dependencies && husky install"
+    },
+    "type": "module"
+  }
