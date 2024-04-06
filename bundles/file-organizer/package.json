@@ -4,7 +4,7 @@
   "private": true,
   "author": "Jean Honlet",
   "license": "MIT",
-  "repository": "https://github.com/jehon/file-organizer",
+  "repository": "https://github.com/jehon/infrastructure",
   "dependencies": {
     "chalk": "5.3.0",
     "debug": "4.3.4",

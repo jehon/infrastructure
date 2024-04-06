@@ -188,6 +188,7 @@ clean-force: clean
 	git clean -dfX
 
 include Makefile.python
+include Makefile.node
 include Makefile.scripts
 include Makefile.packages
 include Makefile.infrastructure

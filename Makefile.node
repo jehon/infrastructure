@@ -1,0 +1,58 @@
+
+.PHONY: python
+python: clear node-dump node-test node-lint ok
+
+dump: node-dump
+clean: node-clean
+dependencies: node-dependencies
+test: node-test
+lint: node-lint
+
+export PATH := $(ROOT)/tmp/python/common/bin:$(PATH)
+NODE_TMP = "${TMP}/node"
+NODE_DEPENDENCY_MARK = node_modules/.dependencies
+
+.PHONY: node-dump
+node-dump:
+	$(call dump_space)
+	$(call dump_title,NODE)
+	$(call dump_version,node)
+	$(call dump_info,NODE_TMP)
+
+.PHONY: node-clean
+node-clean:
+	rm -fr "$(NODE_TMP)"
+
+.PHONY: node-dependencies
+node-dependencies: \
+		$(NODE_DEPENDENCY_MARK)
+
+$(NODE_DEPENDENCY_MARK): package.json
+	npm install
+	touch package-lock.json
+#Also done in package.json
+	touch node_modules/.dependencies
+
+.PHONY: node-lint
+node-lint: lint-node-typescript lint-node-eslint
+
+.PHONY: lint-node-typescript
+lint-node-typescript: dependencies
+	@true
+# node_modules/.bin/tsc --noEmit
+
+.PHONY: node-prettier
+node-prettier: node-dependencies
+	prettier --list-different .
+
+.PHONY: node-eslint
+node-eslint: node-dependencies
+	eslint --ext js,ts .
+
+.PHONY: eslint-fix
+node-eslint-fix: node-dependencies
+	eslint --ext js,mjs . --fix
+
+.PHONY: node-test
+node-test: $(PYTHON_DEPENDENCY_JEHON_MARK)
+	@true
