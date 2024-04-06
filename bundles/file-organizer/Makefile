@@ -1,5 +1,7 @@
 #!/usr/bin/env make
 
+TMP_FO = "tmp/"
+
 #
 #
 # Default target
@@ -103,11 +105,11 @@ clean-docker:
 
 .PHONY: build
 # For docker:
-build: tmp/.dockerbuild
+build: $(TMP_FO)/.dockerbuild
 # For the rest...
 build: dependencies
 
-tmp/.dockerbuild: dependencies \
+$(TMP_FO)/.dockerbuild: dependencies \
 	$(shell find src -type d)
 
 	make clean-docker
@@ -132,8 +134,8 @@ test: test-unit test-sources test-cmd test-system
 
 .PHONY: test-unit
 test-unit: dependencies
-	rm -fr tmp/unit
-	mkdir -p tmp/unit
+	rm -fr "$(TMP_FO)"/unit
+	mkdir -p "$(TMP_FO)"/unit
 # Check reporters: https://nodejs.org/api/test.html#test-reporters
 # --experimental-test-coverage
 	node --import tsx/esm --harmony-temporal $(ARGS) --test test/unit/*-test.ts
@@ -148,8 +150,8 @@ test-unit-watch:
 
 .PHONY: test-sources
 test-sources: dependencies
-	rm -fr tmp/sources
-	mkdir -p tmp/sources
+	rm -fr "$(TMP_FO)"/sources
+	mkdir -p "$(TMP_FO)"/sources
 	node --import tsx/esm --harmony-temporal $(ARGS) --test test/sources/*-test.ts
 
 .PHONY: test-cmd
@@ -170,14 +172,14 @@ test-cmd-info-ts: build
 
 test-cmd-fix-one: build
 	@echo "************** fix one "
-	@rm -fr tmp/cmd
-	@mkdir -p tmp/cmd
-	rsync -a test/commands/data/canon.JPG tmp/cmd/canon.JPG
-	./bin/fo normalize tmp/cmd/canon.JPG
+	@rm -fr "$(TMP_FO)"/cmd
+	@mkdir -p "$(TMP_FO)"/cmd
+	rsync -a test/commands/data/canon.JPG "$(TMP_FO)"/cmd/canon.JPG
+	./bin/fo normalize "$(TMP_FO)"/cmd/canon.JPG
 
 .PHONY: test-system
 test-system: build
-	rm -fr tmp/system
+	rm -fr "$(TMP_FO)"/system
 	jh-test-runner test/system/
 
 .PHONY: eslint
