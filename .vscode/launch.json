@@ -5,12 +5,31 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
-            "type": "python",
+            "name": "UT (current file)",
+            "type": "node",
             "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "justMyCode": true
-        }
-    ]
+            // "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/tsx",
+            "runtimeArgs": [
+              // Options to node js
+              "--import",
+              "tsx/esm",
+              "--harmony-temporal"
+            ],
+            "program": "${relativeFile}",
+            "skipFiles": [
+              "**/node_modules/**"
+            ],
+            // "console": "integratedTerminal",
+            // "internalConsoleOptions": "neverOpen",
+            "preLaunchTask": "clean_tmp"
+          },
+          {
+            "name": "make test-cmd-fix-one",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "make test-cmd-fix-one",
+            "env": { "FO_NATIVE": "yes" },
+            "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
+          }
+          ]
 }
