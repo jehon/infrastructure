@@ -27,6 +27,7 @@
       - git-flow
       - gnome-network-displays
       - gnome-shell-extensions
+      - gthumb                     # Print multiple images on one page
       - libfuse2                   # pcloud
       - php                        # linting php in vscode
       - php-xml                    # linting php in vscode
