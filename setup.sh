@@ -40,6 +40,8 @@ PKGS=(
 	python3-full python3-pip python3-autopep8 python3-netaddr python3-passlib python3-apt
     git make sshpass
     default-libmysqlclient-dev
+    # For linting with prettier
+    nodejs npm
     # File-Organizer
     libimage-exiftool-perl ffmpeg exiftran rsync
 )
@@ -49,6 +51,14 @@ echo "* Installing packages done"
 echo "* Installing shellcheck..."
 root_or_sudo "$PRJ_ROOT"/packages/jehon/usr/sbin/jh-install-shellcheck
 echo "* Installing shellcheck done"
+
+if ! type node >& /dev/null ; then
+    echo "* Installing node (current)..."
+    root_or_sudo "$PRJ_ROOT"/packages/jehon/usr/sbin/jh-install-node current
+    echo "* Installing node (current) done"
+else
+    echo "* Installing node (current): already installed"
+fi
 
 echo "* Enabling direnv..."
 direnv allow "$PRJ_ROOT"/
