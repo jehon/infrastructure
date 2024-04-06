@@ -32,8 +32,7 @@
   },
   "main": "main.ts",
   "scripts": {
-    "start": "main.ts",
-    "postinstall": "touch node_modules/.dependencies && husky install"
+    "start": "main.ts"
   },
   "type": "module"
 }
