@@ -38,8 +38,10 @@ root_or_sudo apt install --quiet --yes \
     shellcheck \
     gnupg2 \
 	python3-full python3-pip python3-autopep8 python3-netaddr python3-passlib python3-apt \
-    git sshpass \
-    default-libmysqlclient-dev
+    git make sshpass \
+    default-libmysqlclient-dev \
+    # For File-Organizer: \
+    libimage-exiftool-perl ffmpeg exiftran rsync
 echo "* Installing packages done"
 
 echo "* Installing shellcheck..."

@@ -1,26 +1,14 @@
 #!/usr/bin/env bash
 
+# TODO: Already in main setup.sh,
+#       but we need jehon.deb on the CI
+
 export DEBIAN_FRONTEND=noninteractive
 
 SWD="$(realpath --physical "$(dirname "${BASH_SOURCE[0]}")")"
 ROOT="$(dirname "$SWD")"
 
-export PATH="$ROOT:$PATH"
-
-root_or_sudo() {
-    if [ $( id -u ) == 0 ]; then
-        # In Docker
-        "$@"
-    else
-        # On system
-        sudo "$@"
-    fi  
-}
-
-root_or_sudo apt update
-
-root_or_sudo apt install --yes \
-    git make libimage-exiftool-perl ffmpeg exiftran rsync
+. "${SWD}"/../../setup.sh
 
 if [ -z "$PROD" ]; then
     # In the prod container, no need to have this
