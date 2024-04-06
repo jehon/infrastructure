@@ -29,19 +29,21 @@ root_or_sudo apt install --quiet --yes \
 echo "* Installing strict minimum packages done"
 
 echo "* Installing packages..."
-# git-restore-mtime: https://stackoverflow.com/a/64147402/1954789
-root_or_sudo apt install --quiet --yes \
-    direnv \
-    exiftool \
-    debhelper binutils-arm-linux-gnueabihf dirmngr apt-utils desktop-file-utils rsync devscripts \
-    git-restore-mtime \
-    shellcheck \
-    gnupg2 \
-	python3-full python3-pip python3-autopep8 python3-netaddr python3-passlib python3-apt \
-    git make sshpass \
-    default-libmysqlclient-dev \
-    # For File-Organizer: \
+PKGS=(
+    direnv
+    exiftool
+    debhelper binutils-arm-linux-gnueabihf dirmngr apt-utils desktop-file-utils rsync devscripts
+    # git-restore-mtime: https://stackoverflow.com/a/64147402/1954789
+    git-restore-mtime
+    shellcheck
+    gnupg2
+	python3-full python3-pip python3-autopep8 python3-netaddr python3-passlib python3-apt
+    git make sshpass
+    default-libmysqlclient-dev
+    # File-Organizer
     libimage-exiftool-perl ffmpeg exiftran rsync
+)
+root_or_sudo apt install --quiet --yes "${PKGS[@]}"
 echo "* Installing packages done"
 
 echo "* Installing shellcheck..."
