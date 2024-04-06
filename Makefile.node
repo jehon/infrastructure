@@ -34,19 +34,19 @@ $(NODE_DEPENDENCY_MARK): package.json
 	touch node_modules/.dependencies
 
 .PHONY: node-lint
-node-lint: lint-node-typescript lint-node-eslint
+node-lint: node-lint-typescript node-lint-eslint
 
-.PHONY: lint-node-typescript
-lint-node-typescript: dependencies
+.PHONY: node-lint-typescript
+node-lint-typescript: dependencies
 	@true
 # node_modules/.bin/tsc --noEmit
 
-.PHONY: node-prettier
-node-prettier: node-dependencies
+.PHONY: node-lint-prettier
+node-lint-prettier: node-dependencies
 	prettier --list-different .
 
-.PHONY: node-eslint
-node-eslint: node-dependencies
+.PHONY: node-lint-eslint
+node-lint-eslint: node-dependencies
 	eslint --ext js,ts .
 
 .PHONY: eslint-fix
