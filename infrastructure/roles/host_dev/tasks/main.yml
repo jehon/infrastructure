@@ -53,7 +53,6 @@
   when: not virtual
   with_items:
     - code
-    - node
   community.general.snap:
     name: "{{ item }}"
     state: present
@@ -73,4 +72,10 @@
   when: "'google-chrome-stable' not in ansible_facts.packages"
   ansible.builtin.command:
     cmd: "/usr/sbin/jh-install-google-chrome"
+  changed_when: true
+
+- name: Setup node repository and packages
+  when: "'nodejs' not in ansible_facts.packages"
+  ansible.builtin.command:
+    cmd: "/usr/sbin/jh-install-node"
   changed_when: true
