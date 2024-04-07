@@ -9,10 +9,6 @@ on:
     # At 01:15
     - cron: '15 1 * * *'
 
-concurrency:
-  group: release-${{ github.ref_name }}
-  # cancel-in-progress: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -90,8 +86,11 @@ jobs:
           path: tmp/publish
 
   deploy:
-    # https://github.com/actions/deploy-pages
     needs: build-pages
+    concurrency:
+      group: release-${{ github.ref_name }}
+      # cancel-in-progress: true
+        # https://github.com/actions/deploy-pages
     if: ${{ github.ref_name == 'main' && github.ref_type == 'branch' }}
 
     permissions:
