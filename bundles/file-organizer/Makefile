@@ -50,7 +50,6 @@ dump:
 	$(info PATH:          $(PATH))
 	$(info id:            $(shell id))
 	$(info pwd:           $(shell pwd))
-	$(info in_docker:     $(shell [ -f /.dockerenv ] && echo "in" || echo "native"))
 	$(info node:          $(shell node --version) ($(shell type node)))
 	$(info npm:           $(shell npm --version) ($(shell type npm)))
 	$(info exiftool:      $(shell exiftool -ver) ($(shell type exiftool)))
@@ -95,28 +94,12 @@ endef
 ######################
 
 .PHONY: clean
-clean: clean-docker
+clean:
 	rm -fr node_modules
 	rm -fr tmp
 
-.PHONY: clean-docker
-clean-docker:
-	docker image rm -f jh-file-organizer
-
 .PHONY: build
-# For docker:
-build: $(TMP_FO)/.dockerbuild
-# For the rest...
 build: dependencies
-
-$(TMP_FO)/.dockerbuild: dependencies \
-	$(shell find src -type d)
-
-	make clean-docker
-	docker build --tag jh-file-organizer .
-	docker builder prune --filter until=48h --force
-	mkdir -p "$(dir $@)"
-	touch "$@"
 
 .PHONY: dependencies
 dependencies: node_modules/.dependencies
