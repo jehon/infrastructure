@@ -11,7 +11,7 @@
 
 packages: packages-dump packages-build packages-test
 
-PACKAGES_TMP=tmp/packages
+PACKAGES_TMP=$(TMP)/packages
 PACKAGES_TMP_STRUCTURE=$(PACKAGES_TMP)/structure
 PACKAGES_REPO=$(PUBLISH)/packages
 PACKAGES_REPO_MARK=$(PACKAGES_REPO)/.buit
@@ -115,14 +115,3 @@ packages-release: $(PACKAGES_TMP)/.built \
 		$(PACKAGES_REPO)/Release.gpg
 
 	rsync -a "$(PACKAGES_REPO)/" "$(PUBLISH)/repo"
-
-.PHONY:
-packages-release-validate:
-	@mkdir -p tmp/github
-	curl -fsSL https://jehon.github.io/packages/Packages > tmp/github/Packages
-	@echo "*** Check content ***"
-	@grep "Source: jehon-debs" tmp/github/Packages > /dev/null
-	@grep "Package: " tmp/github/Packages
-	@grep "Version: " tmp/github/Packages | head -n 1
-	curl -fsSL https://jehon.github.io/packages/index.html > tmp/github/index.html
-	cat tmp/github/index.html

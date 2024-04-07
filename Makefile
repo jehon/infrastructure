@@ -16,9 +16,9 @@ LANG=C.UTF-8
 .SECONDEXPANSION:
 
 ROOT = $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
-TMP = tmp/
-TMP_ROOT = $(ROOT)/$(TMP)
-GITHUB_STEP_SUMMARY ?= "$(ROOT)/tmp/GITHUB_STEP_SUMMARY.log"
+TMP = tmp
+ROOT_TMP = $(ROOT)/$(TMP)
+GITHUB_STEP_SUMMARY ?= "$(ROOT_TMP)/GITHUB_STEP_SUMMARY.log"
 PUBLISH = $(TMP)/publish
 
 VERSION_FILE = $(PUBLISH)/version.txt
@@ -88,7 +88,7 @@ dump:
 	$(call dump_title,GLOBAL)
 	$(call dump_info,PWD,$(shell pwd))
 	$(call dump_info,ROOT)
-	$(call dump_info,TMP_ROOT)
+	$(call dump_info,ROOT_TMP)
 	$(call dump_info,REPO)
 	$(call dump_info,VERSION)
 	$(call dump_space)
@@ -109,7 +109,7 @@ dump-runtimes:
 
 .PHONY: clean
 clean:
-	rm -fr tmp
+	rm -fr "$(TMP)"
 
 .PHONY: build
 build:

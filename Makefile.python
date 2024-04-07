@@ -8,12 +8,12 @@ dependencies: python-dependencies
 test: python-test
 lint: python-lint
 
-PYTHON_DEPENDENCY_COMMON_MARK=tmp/python/common/requirements.txt
-PYTHON_DEPENDENCY_JEHON_MARK=tmp/python/jehon/requirements.txt
 PYTHON_TMP=$(TMP)/python
+PYTHON_DEPENDENCY_COMMON_MARK=$(PYTHON_TMP)/common/requirements.txt
+PYTHON_DEPENDENCY_JEHON_MARK=$(PYTHON_TMP)/jehon/requirements.txt
 
-export PYTHONPATH := $(ROOT)/packages/jehon/usr/lib/python3/dist-packages:$(ROOT)/tmp/python/common:$(ROOT)/tmp/python/jehon/:$(PYTHONPATH)
-export PATH := $(ROOT)/tmp/python/common/bin:$(PATH)
+export PYTHONPATH := $(ROOT)/packages/jehon/usr/lib/python3/dist-packages:$(ROOT_TMP)/python/common:$(ROOT_TMP)/python/jehon/:$(PYTHONPATH)
+export PATH := $(ROOT_TMP)/python/common/bin:$(PATH)
 # https://docs.python.org/3/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
 export PYTHONDONTWRITEBYTECODE = "do-not-write"
 
@@ -26,8 +26,8 @@ python-dump:
 
 .PHONY: python-clean
 python-clean:
-	rm -fr tmp/python/common
-	rm -fr tmp/var/lib/python
+	rm -fr $(PYTHON_TMP)/common
+	rm -fr $(TMP)/var/lib/python
 	find . -name __pycache__ -exec rm -fr "{}" ";" -prune || true
 
 .PHONY: python-dependencies

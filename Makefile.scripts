@@ -14,7 +14,7 @@ build: scripts-build
 test: scripts-test
 lint: scripts-lint
 
-SCRIPTS_TMP=tmp/scripts
+SCRIPTS_TMP=$(TMP)/scripts
 
 .PHONY: scripts-dump
 scripts-dump:

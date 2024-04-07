@@ -9,7 +9,7 @@ test: node-test
 lint: node-lint
 
 export PATH := $(ROOT)/node_modules/.bin:$(PATH)
-NODE_TMP = "${TMP}/node"
+NODE_TMP = $(TMP)/node
 NODE_DEPENDENCY_MARK = node_modules/.dependencies
 
 .PHONY: node-dump
@@ -18,14 +18,14 @@ node-dump:
 	$(call dump_title,NODE)
 	$(call dump_version,node)
 	$(call dump_info,NODE_TMP)
+	$(call dump_info,NODE_DEPENDENCY_MARK)
 
 .PHONY: node-clean
 node-clean:
 	rm -fr "$(NODE_TMP)"
 
 .PHONY: node-dependencies
-node-dependencies: \
-		$(NODE_DEPENDENCY_MARK)
+node-dependencies: $(NODE_DEPENDENCY_MARK)
 
 $(NODE_DEPENDENCY_MARK): package-lock.json
 	npm ci
@@ -41,21 +41,21 @@ package-lock.json: package.json
 node-lint: node-lint-typescript node-lint-eslint
 
 .PHONY: node-lint-typescript
-node-lint-typescript: node-dependencies
+node-lint-typescript: $(NODE_DEPENDENCY_MARK)
 	node_modules/.bin/tsc --noEmit
 
 .PHONY: node-lint-prettier
-node-lint-prettier: node-dependencies
+node-lint-prettier: $(NODE_DEPENDENCY_MARK)
 	prettier --list-different .
 
 .PHONY: node-lint-eslint
-node-lint-eslint: node-dependencies
+node-lint-eslint: $(NODE_DEPENDENCY_MARK)
 	eslint --ext js,ts .
 
 .PHONY: eslint-fix
-node-eslint-fix: node-dependencies
+node-eslint-fix: $(NODE_DEPENDENCY_MARK)
 	eslint --ext js,mjs . --fix
 
 .PHONY: node-test
-node-test: $(PYTHON_DEPENDENCY_JEHON_MARK)
+node-test: $(NODE_DEPENDENCY_MARK)
 	@true

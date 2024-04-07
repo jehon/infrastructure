@@ -101,7 +101,7 @@ $(INFRASTRUCTURE_TMP)/test.built: \
 	docker build \
 		--tag "test-ansible/ansible:local" \
 		--build-context "root=$(ROOT)/tests/packages/root" \
-		--build-context "publish=$(ROOT)/tmp/publish" \
+		--build-context "publish=$(ROOT_TMP)/publish" \
 		--file "$(ROOT)"/tests/infrastructure/Dockerfile \
 		.
 	$(call touch,$@)
