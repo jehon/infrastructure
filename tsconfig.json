@@ -11,5 +11,6 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true
   },
-  "exclude": ["node_modules"]
+  // *.mts is otherwise parsed...
+  "exclude": ["**/node_modules/**", "**/data/**"]
 }

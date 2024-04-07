@@ -41,9 +41,8 @@ package-lock.json: package.json
 node-lint: node-lint-typescript node-lint-eslint
 
 .PHONY: node-lint-typescript
-node-lint-typescript: dependencies
-	@true
-# node_modules/.bin/tsc --noEmit
+node-lint-typescript: node-dependencies
+	node_modules/.bin/tsc --noEmit
 
 .PHONY: node-lint-prettier
 node-lint-prettier: node-dependencies
