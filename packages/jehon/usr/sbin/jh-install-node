@@ -15,5 +15,12 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 
 VERSION="${1:-current}"
-VERSION=18
 curl -fsSL "https://deb.nodesource.com/setup_$VERSION.x" | bash - >/dev/null
+
+if ! type nodejs >& /dev/null ; then
+apt update
+apt install --yes --quiet nodejs
+else
+    echo "** Skipping installation of nodejs since it is already present"
+    node --version
+fi
