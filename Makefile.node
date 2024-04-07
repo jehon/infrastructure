@@ -8,7 +8,7 @@ dependencies: node-dependencies
 test: node-test
 lint: node-lint
 
-export PATH := $(ROOT)/tmp/python/common/bin:$(PATH)
+export PATH := $(ROOT)/node_modules/.bin:$(PATH)
 NODE_TMP = "${TMP}/node"
 NODE_DEPENDENCY_MARK = node_modules/.dependencies
 
@@ -27,11 +27,15 @@ node-clean:
 node-dependencies: \
 		$(NODE_DEPENDENCY_MARK)
 
-$(NODE_DEPENDENCY_MARK): package.json
-	npm install
+$(NODE_DEPENDENCY_MARK): package-lock.json
+	npm ci
 	touch package-lock.json
 #Also done in package.json
 	touch node_modules/.dependencies
+
+package-lock.json: package.json
+	npm install --package-lock-only
+	@touch "$@"
 
 .PHONY: node-lint
 node-lint: node-lint-typescript node-lint-eslint
