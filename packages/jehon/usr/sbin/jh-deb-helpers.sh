@@ -138,7 +138,7 @@ jh_deb_helper_git_repo() {
 			echo "Initializing $REPO_FOLDER"
 			git clone --quiet --depth=1 --recurse-submodules "$REPO_URL" "$REPO_FOLDER"
 		fi
-		/usr/bin/jh-repository-update "$REPO_FOLDER" >/dev/null
+		cd "$REPO_FOLDER" && git pull
 		;;
 	"remove")
 		rm -fr "$REPO_FOLDER" 2>/dev/null || true
