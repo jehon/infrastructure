@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
+
 GITLAB_TOKEN_CACHE="$HOME/restricted/gitlab.key"
 
 gitlabCall() {

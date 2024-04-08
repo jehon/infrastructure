@@ -19,8 +19,8 @@
 set -o errexit
 set -o pipefail
 
-# shellcheck source-path=SCRIPTDIR
-. "$( dirname "${BASH_SOURCE[0]}")"/lib.sh
+# shellcheck source-path=SCRIPTDIR/
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
 # shellcheck source=/dev/null
 . focus.sh

@@ -9,6 +9,9 @@ export PATH="$PRJ_ROOT/tmp/python/common/bin/:$PATH"
 export PYTHONPATH="$PRJ_ROOT/tmp/python/common"
 export PRJ_TMP="$PRJ_ROOT/tmp"
 
+# shellcheck source-path=SCRIPTDIR/../
+. "${PRJ_ROOT}/packages/jehon/usr/bin/jh-lib"
+
 mkdir -p "$PRJ_ROOT/tmp"
 
 mkdir -p "$PRJ_TMP"

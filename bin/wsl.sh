@@ -2,8 +2,8 @@
 
 set -o errexit
 
-# shellcheck source-path=SCRIPTDIR/../packages/jehon/usr/bin
-. jh-lib
+# shellcheck source-path=SCRIPTDIR/
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
 if ! jh-fs not-empty pCloudDrive ; then
     if [ -x ~/pcloud ]; then

@@ -3,6 +3,9 @@
 set -o errexit
 set -o pipefail
 
+# shellcheck source-path=SCRIPTDIR/
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
+
 I=1
 while true ; do
     (

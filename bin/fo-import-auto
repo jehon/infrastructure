@@ -2,10 +2,8 @@
 
 set -o errexit
 
-# shellcheck source=/usr/bin/jh-lib
-. jh-lib
-
-SRC_ROOT="$(dirname "$(dirname "$(realpath -P "${BASH_SOURCE[0]}")")")"
+# shellcheck source-path=SCRIPTDIR/
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
 PCLOUD="${HOME}/pCloudDrive"
 TARGET="${PCLOUD}/Workspaces/Famille/A ranger/"
@@ -26,7 +24,7 @@ import() {
     if [ ! -d "${SOURCE}" ]; then
         jh_fatal "Could not read source ${SOURCE}"
     fi
-    "${SRC_ROOT}"/bin/fo "import" "$@" --to "${TARGET}" "${SOURCE}"
+    "${PRJ_ROOT}"/bin/fo "import" "$@" --to "${TARGET}" "${SOURCE}"
 }
 
 import "Workspaces/Jean/Automatic Upload J/" "$@"

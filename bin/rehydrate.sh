@@ -2,10 +2,10 @@
 
 set -o errexit
 
-SWD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+set -o errexit
 
 # shellcheck source-path=SCRIPTDIR/
-. "$SWD/lib.sh"
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
 echo "chmod bin..."
 find tmp -type f -path "*/bin/*" -exec "chmod" "-v" "+x" "{}" ";"
