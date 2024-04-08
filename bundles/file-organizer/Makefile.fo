@@ -1,7 +1,6 @@
 #!/usr/bin/env make
 
 dump: fo-dump
-clean: fo-clean
 
 #
 #
@@ -43,11 +42,6 @@ fo-dump:
 # Runtime
 #
 #
-
-.PHONY: fo-clean
-fo-clean:
-	rm -fr $(FO_TMP)
-
 .PHONY: fo-test
 fo-test: fo-test-cmd fo-test-system
 
@@ -78,7 +72,3 @@ fo-test-cmd-fix-one: node-dependencies
 fo-test-system: node-dependencies
 	rm -fr "$(FO_TMP)"/system
 	jh-test-runner test/system/
-
-.PHONY: depcheck
-depcheck: dependencies
-	depcheck
