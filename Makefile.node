@@ -59,8 +59,8 @@ node-eslint-fix: $(NODE_DEPENDENCY_MARK)
 
 .PHONY: node-test
 node-test: $(NODE_DEPENDENCY_MARK)
-	rm -fr "$(FO_TMP)"/unit
-	mkdir -p "$(FO_TMP)"/unit
+	rm -fr "$(FO_TMP)"
+	mkdir -p "$(FO_TMP)"
 # Check reporters: https://nodejs.org/api/test.html#test-reporters
 # --experimental-test-coverage
 	node --import tsx/esm --harmony-temporal $(ARGS) --test "$(NODE_ROOT)"/**/*.spec.ts

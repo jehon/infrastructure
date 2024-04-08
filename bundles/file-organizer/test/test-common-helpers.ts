@@ -8,11 +8,11 @@ export function iFilename(meta: ImportMeta): string {
   return meta.filename.split("/").pop()!;
 }
 
-export const fromCWD = (...args: string[]) => path.join(process.cwd(), ...args);
-export const rootPath = (...args: string[]) =>
-  path.join(path.dirname(import.meta.dirname), ...args);
+export const rootPath = (...args: string[]): string =>
+	path.join(path.dirname(import.meta.dirname), ...args);
 
-export const tempPathCommon = (...args: string[]) => rootPath("tmp", ...args);
+export const tempPathCommon = (...args: string[]) =>
+	rootPath("..", "..", "tmp", "node", ...args);
 
 export function filenameIsA(
   originalString: string,

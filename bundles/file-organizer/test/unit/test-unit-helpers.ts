@@ -8,12 +8,7 @@ import {
   tempPathCommon
 } from "../test-common-helpers";
 
-export {
-  assertIsEqual,
-  filenameIsA,
-  fromCWD,
-  iFilename
-} from "../test-common-helpers";
+export { assertIsEqual, filenameIsA, iFilename } from "../test-common-helpers";
 
 export const dataPathUnit = (...args: string[]) =>
   rootPath("test", "unit", "data", ...args);
