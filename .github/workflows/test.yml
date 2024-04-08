@@ -16,6 +16,12 @@ jobs:
     steps:
     - uses: actions/checkout@main
 
+    - uses: actions/setup-node@v4
+      with:
+        node-version: current
+        check-latest: true
+        cache: npm
+
     - run: ./setup.sh
     - run: make dump
     - run: make build
@@ -49,6 +55,12 @@ jobs:
       with:
         name: build
         path: tmp
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: current
+        check-latest: true
+        cache: npm
 
     - run: ./setup.sh
     - run: bin/rehydrate.sh
