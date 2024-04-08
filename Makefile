@@ -123,6 +123,10 @@ test:
 lint:
 	@true
 
+.PHONY: lint-prettier
+lint-prettier: $(NODE_DEPENDENCY_MARK)
+	prettier --list-different bundles
+
 .PHONY: release
 release:
 	jh-html-generate-index "$(PUBLISH)"

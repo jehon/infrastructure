@@ -45,10 +45,6 @@ node-lint: node-lint-typescript node-lint-eslint
 node-lint-typescript: $(NODE_DEPENDENCY_MARK)
 	node_modules/.bin/tsc --noEmit
 
-.PHONY: node-lint-prettier
-node-lint-prettier: $(NODE_DEPENDENCY_MARK)
-	prettier --list-different .
-
 .PHONY: node-lint-eslint
 node-lint-eslint: $(NODE_DEPENDENCY_MARK)
 	eslint --ext js,ts .
