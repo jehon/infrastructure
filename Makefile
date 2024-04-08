@@ -125,7 +125,7 @@ lint:
 
 .PHONY: lint-prettier
 lint-prettier: $(NODE_DEPENDENCY_MARK)
-	prettier --list-different bundles
+	prettier --list-different .
 
 .PHONY: release
 release:

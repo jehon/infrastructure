@@ -1,8 +1,11 @@
-node_modules/
-test/data
-tmp/
+# Folders
+.mypy_cache
+.vscode
+data
+node_modules
+tmp
+🔒_unused
 
-test/*/data
-
+# Some files
 package.json
 package-lock.json
