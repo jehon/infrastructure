@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
+
+jh_log_or_tty /var/log/jh-location.log
+
+CONF="$PRJ_ROOT/conf/locations"
+
+run_folder() {
+    LOCATION="$1"
+    FOLDER="$CONF/$LOCATION"
+    header_begin "Location $LOCATION"
+
+    if jh-fs is-empty "$FOLDER"; then
+        jh_fatal "Folder is empty/not found: $FOLDER"
+    fi
+
+    for F in "$FOLDER"/* ; do
+        FN="$( basename "$F" )"
+        header_begin "$LOCATION - $FN: Running"
+        if ! "$F" ; then
+            jh_error "$FN"
+        fi
+        header_end
+    done
+    header_end
+}
+
+in_location() {
+    LOCATION="$1"
+    run_folder "$LOCATION"
+    run_folder "always"
+}
+
+if [ -n "$1" ]; then
+    in_location "$1"
+else
+    WIFI="$( iwgetid -r || true )"
+    echo "** Detected WIFI: $WIFI"
+
+    case "${WIFI}" in
+        "" )
+            # No wifi
+            ;;
+        "chez_honlet" )
+            in_location "home"
+            exit 0
+            ;;
+        * )
+            in_location "external"
+            exit 0
+            ;;
+    esac
+
+    echo "** No location detected, going manual"
+    # TODO: detect network when no wifi detected
+fi
