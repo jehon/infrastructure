@@ -31,7 +31,7 @@
         "typescript": "5.4.3"
     },
     "scripts": {
-        "postinstall": "touch node_modules/.dependencies && husky install"
+        "postinstall": "touch node_modules/.dependencies && husky"
     },
     "type": "module"
 }
