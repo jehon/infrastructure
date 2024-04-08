@@ -32,7 +32,7 @@ $(NODE_DEPENDENCY_MARK): package-lock.json
 	npm ci
 	touch package-lock.json
 #Also done in package.json
-	touch node_modules/.dependencies
+	touch "$@"
 
 package-lock.json: package.json
 	npm install --package-lock-only
