@@ -1,7 +1,7 @@
 import assert from "node:assert";
 import test from "node:test";
-import { GenericTime } from "../../src/lib/generic-time";
-import { assertIsEqual } from "./test-unit-helpers";
+import { assertIsEqual } from "../../test/unit/test-unit-helpers";
+import { GenericTime } from "./generic-time";
 
 await test("factories", async function (t) {
   await t.test("empty", () => {

@@ -1,7 +1,7 @@
 import assert from "node:assert";
 import test from "node:test";
 
-import Item, { NullItem } from "../../src/lib/item";
+import Item, { NullItem } from "./item";
 
 await test("should handle properties", () => {
   const i = new Item("my title");

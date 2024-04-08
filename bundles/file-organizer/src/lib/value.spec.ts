@@ -1,8 +1,8 @@
 import assert from "node:assert";
 import test from "node:test";
 
-import { GenericTime } from "../../src/lib/generic-time";
-import Value, { currentCalculatedValueFactory } from "../../src/lib/value";
+import { GenericTime } from "./generic-time";
+import Value, { currentCalculatedValueFactory } from "./value";
 
 await test("should have properties and methods", function () {
   const v = new Value("test");

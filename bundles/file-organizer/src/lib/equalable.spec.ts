@@ -1,7 +1,7 @@
 import assert from "assert";
 import test from "node:test";
-import { Equalable, isEqual } from "../../src/lib/equalable";
-import { GenericTime } from "../../src/lib/generic-time";
+import { Equalable, isEqual } from "./equalable";
+import { GenericTime } from "./generic-time";
 
 class EqualableTest extends Equalable {
   id: number;

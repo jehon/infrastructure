@@ -1,8 +1,8 @@
 import assert from "node:assert";
 import test from "node:test";
-import { regexps } from "../../src/lib/timestamp";
+import { regexps } from "./timestamp";
 
-import { filenameIsA } from "./test-unit-helpers";
+import { filenameIsA } from "../../test/unit/test-unit-helpers";
 
 await test("parsing human readable", async function (t) {
   //

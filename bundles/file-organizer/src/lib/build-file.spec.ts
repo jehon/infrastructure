@@ -1,9 +1,9 @@
 import assert from "node:assert";
 import test from "node:test";
-import FileFolder, { getFolderByName } from "../../src/file-types/file-folder";
-import FileHidden from "../../src/file-types/file-hidden";
-import buildFile from "../../src/lib/buildFile";
-import { createEmptyUnitFile } from "./test-unit-helpers";
+import { createEmptyUnitFile } from "../../test/unit/test-unit-helpers";
+import FileFolder, { getFolderByName } from "../file-types/file-folder";
+import FileHidden from "../file-types/file-hidden";
+import buildFile from "./buildFile";
 
 await test("should handle folders", () => {
   const etc = getFolderByName("/etc");
