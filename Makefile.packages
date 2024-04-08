@@ -115,3 +115,12 @@ packages-release: $(PACKAGES_TMP)/.built \
 		$(PACKAGES_REPO)/Release.gpg
 
 	rsync -a "$(PACKAGES_REPO)/" "$(PUBLISH)/repo"
+
+packages-deploy-local: packages-build
+	apt list --quiet --installed 2>/dev/null \
+		| grep "^jehon-" \
+		| cut -d "/" -f 1 \
+		| awk '{print "$(ROOT)/$(PACKAGES_REPO)/"$$1"*.deb"}' \
+		| xargs \
+			ssh root@localhost dpkg -i \
+			"$(ROOT)/$(PACKAGES_REPO)"/jehon.deb
