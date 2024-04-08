@@ -49,24 +49,7 @@ fo-clean:
 	rm -fr $(FO_TMP)
 
 .PHONY: fo-test
-fo-test: fo-test-unit fo-test-sources fo-test-cmd fo-test-system
-
-.PHONY: fo-test-unit
-fo-test-unit: node-dependencies
-	rm -fr "$(FO_TMP)"/unit
-	mkdir -p "$(FO_TMP)"/unit
-# Check reporters: https://nodejs.org/api/test.html#test-reporters
-# --experimental-test-coverage
-	node --import tsx/esm --harmony-temporal $(ARGS) --test test/unit/*-test.ts
-
-fo-test-unit-watch:
-	ARGS="--watch" make fo-test-unit
-
-.PHONY: fo-test-sources
-fo-test-sources: node-dependencies
-	rm -fr "$(FO_TMP)"/sources
-	mkdir -p "$(FO_TMP)"/sources
-	node --import tsx/esm --harmony-temporal $(ARGS) --test test/sources/*-test.ts
+fo-test: fo-test-cmd fo-test-system
 
 .PHONY: fo-test-cmd node-dependencies
 fo-test-cmd: fo-test-cmd-dump fo-test-cmd-info-all fo-test-cmd-info-ts fo-test-cmd-fix-one

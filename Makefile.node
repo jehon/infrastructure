@@ -1,6 +1,6 @@
 
-.PHONY: python
-python: clear node-dump node-test node-lint ok
+.PHONY: node
+node: clear node-dump node-test node-lint ok
 
 dump: node-dump
 clean: node-clean
@@ -9,6 +9,7 @@ test: node-test
 lint: node-lint
 
 export PATH := $(ROOT)/node_modules/.bin:$(PATH)
+NODE_ROOT = bundles/file-organizer
 NODE_TMP = $(TMP)/node
 NODE_DEPENDENCY_MARK = node_modules/.dependencies
 
@@ -58,4 +59,12 @@ node-eslint-fix: $(NODE_DEPENDENCY_MARK)
 
 .PHONY: node-test
 node-test: $(NODE_DEPENDENCY_MARK)
-	@true
+	rm -fr "$(FO_TMP)"/unit
+	mkdir -p "$(FO_TMP)"/unit
+# Check reporters: https://nodejs.org/api/test.html#test-reporters
+# --experimental-test-coverage
+	node --import tsx/esm --harmony-temporal $(ARGS) --test "$(NODE_ROOT)"/**/*.spec.ts
+
+.PHONY: node-test-watch
+node-test-watch:
+	ARGS="--watch" make node-test
