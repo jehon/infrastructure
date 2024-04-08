@@ -9,6 +9,9 @@ on:
     # At 01:15
     - cron: '15 1 * * *'
 
+env:
+  TZ: Europe/Brussels
+
 jobs:
   build:
     runs-on: ubuntu-latest
