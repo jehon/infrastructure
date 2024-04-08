@@ -1,0 +1,101 @@
+#!/usr/bin/env make
+
+dump: fo-dump
+clean: fo-clean
+
+#
+#
+# Generic configuration
+#
+#
+
+# https://ftp.gnu.org/old-gnu/Manuals/make-3.79.1/html_chapter/make_7.html
+# https://stackoverflow.com/a/26936855/1954789
+SHELL := /bin/bash
+.SECONDEXPANSION:
+
+#
+#
+# System variables
+#
+#
+FO_TMP   = $(ROOT_TMP)/bundles/file-organizer
+FO_ROOT ?= $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
+
+.PHONY: fo-dump
+fo-dump:
+	$(info FO_ROOT:       $(FO_ROOT))
+	$(info FO_TMP:        $(FO_TMP))
+	$(info node:          $(shell node --version) ($(shell type node)))
+	$(info npm:           $(shell npm --version) ($(shell type npm)))
+	$(info exiftool:      $(shell exiftool -ver) ($(shell type exiftool)))
+	$(info exiftran:      ($(shell type exiftran)))
+	$(info TZ:            $(TZ))
+	$(info /etc/timezone  $(shell cat /etc/timezone))
+# We need to run them for them to fail...
+	node --version
+	npm --version
+	exiftool -ver
+	type exiftran
+
+#
+#
+# Runtime
+#
+#
+
+.PHONY: fo-clean
+fo-clean:
+	rm -fr $(FO_TMP)
+
+.PHONY: fo-test
+fo-test: fo-test-unit fo-test-sources fo-test-cmd fo-test-system
+
+.PHONY: fo-test-unit
+fo-test-unit: node-dependencies
+	rm -fr "$(FO_TMP)"/unit
+	mkdir -p "$(FO_TMP)"/unit
+# Check reporters: https://nodejs.org/api/test.html#test-reporters
+# --experimental-test-coverage
+	node --import tsx/esm --harmony-temporal $(ARGS) --test test/unit/*-test.ts
+
+fo-test-unit-watch:
+	ARGS="--watch" make fo-test-unit
+
+.PHONY: fo-test-sources
+fo-test-sources: node-dependencies
+	rm -fr "$(FO_TMP)"/sources
+	mkdir -p "$(FO_TMP)"/sources
+	node --import tsx/esm --harmony-temporal $(ARGS) --test test/sources/*-test.ts
+
+.PHONY: fo-test-cmd node-dependencies
+fo-test-cmd: fo-test-cmd-dump fo-test-cmd-info-all fo-test-cmd-info-ts fo-test-cmd-fix-one
+	@echo "************** running test commands done ***************************"
+
+fo-test-cmd-dump: node-dependencies
+	@echo "************** dump "
+	./bin/fo dump test/commands/data/
+
+fo-test-cmd-info-all: node-dependencies
+	@echo "************** info all "
+	./bin/fo info test/commands/data/canon.JPG
+
+fo-test-cmd-info-ts: node-dependencies
+	@echo "************** info timestamp "
+	./bin/fo info -k FileTimed_time test/commands/data/canon.JPG
+
+fo-test-cmd-fix-one: node-dependencies
+	@echo "************** fix one "
+	@rm -fr "$(FO_TMP)"/cmd
+	@mkdir -p "$(FO_TMP)"/cmd
+	rsync -a test/commands/data/canon.JPG "$(FO_TMP)"/cmd/canon.JPG
+	./bin/fo normalize "$(FO_TMP)"/cmd/canon.JPG
+
+.PHONY: fo-test-system
+fo-test-system: node-dependencies
+	rm -fr "$(FO_TMP)"/system
+	jh-test-runner test/system/
+
+.PHONY: depcheck
+depcheck: dependencies
+	depcheck

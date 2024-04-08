@@ -191,5 +191,11 @@ include Makefile.python
 include Makefile.node
 include Makefile.scripts
 include Makefile.packages
+
+# Bundles
+include bundles/file-organizer/Makefile.fo
+
+# Latest file must be in top folder
+# for ROOT to be ok
 include Makefile.infrastructure
 include Makefile.devstack
