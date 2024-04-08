@@ -51,6 +51,9 @@ jobs:
           - infrastructure-test
           - node-test
 
+# TODO: fo-test-system
+# TODO: fo-test-cmd
+
     steps:
     - uses: actions/checkout@main
 
