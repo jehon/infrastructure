@@ -35,4 +35,10 @@ for F in "${FOLDER}"/*-test.sh ; do
 
 done
 
+for F in "${FOLDER}"/* ; do
+    if [ -d "${F}" ]; then
+        $0 "$F" | jh-tag-stdin "$( basename "$F" )"
+    fi
+done
+
 ok "All test passed with success"
