@@ -2,8 +2,8 @@
 
 set -o errexit
 
-# shellcheck source-path=SCRIPTDIR/
-. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
+# shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin
+. jh-lib
 
 #
 # [1]: whished location or detect it

@@ -2,7 +2,7 @@
 
 set -o errexit
 
-# shellcheck source-path=SCRIPTDIR/
+# shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin
 . jh-lib
 
 in_location() {
