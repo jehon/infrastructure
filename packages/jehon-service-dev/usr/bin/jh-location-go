@@ -47,3 +47,5 @@ fi
 jh_info "Going to location ${LOCATION}"
 run_folder "$LOCATION"
 run_folder "always"
+
+echo "${LOCATION}" > "${CACHE}"
