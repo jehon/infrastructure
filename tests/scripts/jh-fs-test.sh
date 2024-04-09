@@ -3,7 +3,7 @@
 # shellcheck source-path=SCRIPTDIR
 . "$(dirname "${BASH_SOURCE[0]}")/lib-scripts-helpers.sh"
 
-SCRIPT="$JH_ROOT"/packages/jehon/usr/bin/jh-fs
+SCRIPT="$JH_PKG_FOLDER"/packages/jehon/usr/bin/jh-fs
 
 assert_equals "name" "name"    "$($SCRIPT "name" "/etc/name.conf")"
 assert_equals "name" "another" "$($SCRIPT "name" "/etc/another")"

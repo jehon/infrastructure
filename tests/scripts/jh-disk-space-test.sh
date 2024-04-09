@@ -5,7 +5,7 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR
 . "$(dirname "${BASH_SOURCE[0]}")/lib-scripts-helpers.sh"
 
-SCRIPT="$JH_ROOT/packages/jehon/usr/bin/jh-disk-space-test.sh"
+SCRIPT="$JH_PKG_FOLDER/packages/jehon/usr/bin/jh-disk-space-test.sh"
 
 test_capture run "$SCRIPT" / 1
 assert_captured_success "should be successfull"

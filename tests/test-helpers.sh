@@ -7,7 +7,7 @@ JH_ROOT="$(dirname "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)")"
 export JH_ROOT
 
 # for jh-lib-test
-export JH_TEST_ROOT="${JH_ROOT}"
+export JH_TEST_ROOT="${JH_PKG_FOLDER}"
 
 # shellcheck source-path=SCRIPTDIR/../
 . "$JH_ROOT/packages/jehon/usr/bin/jh-lib-test"
