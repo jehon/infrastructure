@@ -7,16 +7,12 @@ shopt -s nullglob
 JH_TEST_NAME="system/fo/$( basename "$0" )"
 
 # shellcheck source-path=SCRIPTDIR
-. "$(dirname "${BASH_SOURCE[0]}")/../../../../tests/scripts/lib-scripts-helpers.sh"
+. "$(dirname "${BASH_SOURCE[0]}")/../../../../tests/test-helpers.sh"
 
-FO="${JH_ROOT}/bin/fo"
+FO="${JH_PKG_FOLDER}/bin/fo"
 # "${FO}" -h
 
-# shellcheck source-dir=SCRIPTDIR
-SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}" )" )"
-TEST_TMP="${JH_TEST_TMP}"
-
-ORIGINAL_DATA="${SWD}/data"
+ORIGINAL_DATA="${JH_SWD}/data"
 
 #######################################
 #
@@ -79,25 +75,19 @@ fo_run() {
 
 build_run_env() {
     SOURCE_PATH="${ORIGINAL_DATA}"
-    # JH_TEST_NAME: jh-lib-test
-
-    # Exposed. For test import, no final slash!
-    TEST_TMP_PATH="${TEST_TMP}/${JH_TEST_NAME}"
-    export TEST_TMP_PATH
-
     if [ -n "$1" ]; then
-        SOURCE_PATH="${TEST_TMP}/${1}"
+        SOURCE_PATH="${JH_TEST_TMP}/../$1"
     fi
 
-    jh_info "From: ${SOURCE_PATH} To: ${TEST_TMP_PATH}"
-    mkdir -p "${TEST_TMP_PATH}"
+    jh_info "From: ${SOURCE_PATH} To: ${JH_TEST_TMP}"
+    mkdir -p "${JH_TEST_TMP}"
     rsync \
         -a --no-perms \
         --delete \
         "${SOURCE_PATH}/" \
-        "${TEST_TMP_PATH}"
+        "${JH_TEST_TMP}"
 
-    cd "${TEST_TMP_PATH}"
+    cd "${JH_TEST_TMP}"
 }
 
 ###################################
