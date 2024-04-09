@@ -9,7 +9,7 @@ if [ ! -d "${PRJ_ROOT}/node_modules" ]; then
     (
         echo "** Need to get dependencies"
         cd "$PRJ_ROOT"
-        make dependencies
+        make node-dependencies
     )
 fi
 

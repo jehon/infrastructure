@@ -18,7 +18,7 @@ fi
 
 JH_TEST_NAME="${JH_TEST_NAME:-$(basename "$0")}"
 
-JH_TEST_TMP="$JH_TEST_ROOT/tmp/$JH_TEST_NAME"
+JH_TEST_TMP="${JH_TEST_ROOT}/tmp/${JH_TEST_NAME}"
 
 #
 # Resolve a path according to the JH_ROOT of this git repository
