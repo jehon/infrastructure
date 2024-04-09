@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 
 #
+# Configuration:
+#
+#    DEBUG (empty/content): Enable/disable debug
+#
+#
+#
+
+#
 # Configs
 #
 #
@@ -36,19 +44,6 @@ export JH_CLOUD_USER=~/pCloudDrive
 # This allow us to test_capture stdout and stderr everywhere,
 # while still letting passing through the messages "Success / failure / ..."
 exec 3>&1
-
-#
-# Loglevel can be:
-#   0 - normal
-#  10 - debug
-#
-if [ "$JH_LOGLEVEL" = "" ]; then
-    JH_LOGLEVEL=0
-fi
-
-if [ -n "$DEBUG" ]; then
-    JH_LOGLEVEL=10
-fi
 
 #
 # JH_SWD (Script Working Directory)
@@ -123,12 +118,14 @@ header_end() {
 }
 
 jh_debug() {
-    if ((JH_LOGLEVEL > 0)); then
-        jh_color 33
-        echo -n "[DEBUG] $*"
-        jh_color
-        echo
+    if [ -z "$DEBUG" ]; then
+        return
     fi
+
+    jh_color 33
+    echo -n "[DEBUG] $*"
+    jh_color
+    echo
 }
 
 jh_error() {

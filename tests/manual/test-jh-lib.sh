@@ -17,7 +17,7 @@ jh_info "one information"
 jh_error "one error"
 jh_debug "one invisible debug"
 jh_value "data" "has value"
-JH_LOGLEVEL=10 jh_debug "one visible debug"
+DEBUG=1 jh_debug "one visible debug"
 
 echo ": $JH_MSG_OK ok"
 echo ": $JH_MSG_KO ko"
