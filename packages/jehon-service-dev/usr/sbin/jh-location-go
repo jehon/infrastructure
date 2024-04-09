@@ -5,8 +5,12 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/
 . "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
-# CONF="/etc/jehon/locations"
-CONF="${JH_PKG_FOLDER}/conf/locations"
+#
+# [1]: whished location or detect it
+#
+LOCATION="${LOCATION:-$( jh-location-detect )}"
+
+CONF="/etc/jehon/locations"
 
 run_folder() {
     LOCATION="$1"
@@ -32,11 +36,14 @@ CACHE="/var/cache/jehon/location"
 if [ -r "${CACHE}" ]; then
     PREV_LOCATION="$( cat "${CACHE}" )"
 fi
-LOCATION="${1:-$( jh-location-detect )}"
 
 jh_debug "PREV_LOCATION: ${PREV_LOCATION}"
-jh_info "Using location" "${LOCATION}"
+jh_debug "LOCATION:      ${LOCATION}"
 
+if [ "${PREV_LOCATION}" == "${LOCATION}" ]; then
+    jh_info "Already at location ${LOCATION}"
+fi
 
+jh_info "Going to location ${LOCATION}"
 run_folder "$LOCATION"
 run_folder "always"
