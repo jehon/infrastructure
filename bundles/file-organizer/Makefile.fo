@@ -43,7 +43,7 @@ fo-dump:
 #
 #
 .PHONY: fo-test
-fo-test: fo-test-cmd fo-test-system
+fo-test: fo-test-cmd
 
 .PHONY: fo-test-cmd node-dependencies
 fo-test-cmd: fo-test-cmd-dump fo-test-cmd-info-all fo-test-cmd-info-ts fo-test-cmd-fix-one
@@ -67,8 +67,3 @@ fo-test-cmd-fix-one: node-dependencies
 	@mkdir -p "$(FO_TMP)"/cmd
 	rsync -a test/commands/data/canon.JPG "$(FO_TMP)"/cmd/canon.JPG
 	./bin/fo normalize "$(FO_TMP)"/cmd/canon.JPG
-
-.PHONY: fo-test-system
-fo-test-system: node-dependencies
-	rm -fr "$(FO_TMP)"/system
-	jh-test-runner test/system/

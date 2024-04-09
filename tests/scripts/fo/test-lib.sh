@@ -7,7 +7,7 @@ shopt -s nullglob
 JH_TEST_NAME="system/fo/$( basename "$0" )"
 
 # shellcheck source-path=SCRIPTDIR
-. "$(dirname "${BASH_SOURCE[0]}")/../../../../tests/test-helpers.sh"
+. "$(dirname "${BASH_SOURCE[0]}")/../../test-helpers.sh"
 
 FO="${JH_PKG_FOLDER}/bin/fo"
 # "${FO}" -h
