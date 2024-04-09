@@ -7,8 +7,6 @@ set -o errexit
 
 SCRIPT="$JH_PKG_FOLDER/packages/jehon/usr/bin/jh-disk-space-test.sh"
 
-test_capture run "$SCRIPT" / 1
-assert_captured_success "should be successfull"
+assert_success run "$SCRIPT" / 1
 
-test_capture run "$SCRIPT" / 100000
-assert_captured_failure "should be failing"
+assert_failure run "$SCRIPT" / 100000

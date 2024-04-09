@@ -25,8 +25,7 @@ cat <<-EOF >"$PATCH"
 	Hello world
 EOF
 
-test_capture "jh-patch-file-patch" "$JH_PKG_FOLDER"/packages/jehon/usr/bin/jh-patch-file "$PATCH"
-assert_captured_success "should be successfull"
+assert_success "jh-patch-file-patch" "$JH_PKG_FOLDER"/packages/jehon/usr/bin/jh-patch-file "$PATCH"
 
 test_capture "jh-patch-file-patch read" cat "$TARGET"
 assert_captured_output_contains "Tag:[[:space:]]+test"
@@ -39,8 +38,7 @@ assert_captured_output_contains "This is the file"
 assert_captured_output_contains "Hello world"
 test_capture_empty
 
-test_capture "jh-patch-file-patch" "$JH_PKG_FOLDER"/packages/jehon/usr/bin/jh-patch-file "uninstall" "$TARGET" "test"
-assert_captured_success "should be successfull"
+assert_success "jh-patch-file-patch" "$JH_PKG_FOLDER"/packages/jehon/usr/bin/jh-patch-file "uninstall" "$TARGET" "test"
 
 test_capture_file "read the generated file" "$TARGET"
 assert_captured_output_contains "This is the file"

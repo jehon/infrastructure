@@ -75,12 +75,18 @@ assert_file_exists() {
 
 assert_success() {
     test_capture "$@"
-    assert_captured_success ""
+    if [[ $JH_TEST_CAPTURED_EXITCODE -gt 0 ]]; then
+        log_failure "$CAPTURED_HEADER" "command return $JH_TEST_CAPTURED_EXITCODE"
+    fi
+    log_success "$CAPTURED_HEADER"
 }
 
 assert_failure() {
     test_capture "$@"
-    assert_captured_failure ""
+    if [[ $JH_TEST_CAPTURED_EXITCODE -eq 0 ]]; then
+        log_failure "$CAPTURED_HEADER" "command return $JH_TEST_CAPTURED_EXITCODE (success)"
+    fi
+    log_success "$CAPTURED_HEADER"
 }
 
 test_capture() {
@@ -145,47 +151,6 @@ assert_captured_output_contains() {
         log_failure "$CAPTURED_HEADER: $MSG" "$TEST not found in output"
     fi
     log_success "$CAPTURED_HEADER: $MSG"
-}
-
-assert_captured_output_md5() {
-    local MSG="$1"
-    local MD5="$2"
-
-    if [ -z "$MSG" ]; then
-        echo "Usage: assert_captured_output_md5 [header] <expected-md5>"
-        exit 255
-    fi
-
-    if [ -z "$TEST" ]; then
-        MD5="$MSG"
-    fi
-
-    CALC="$(echo -e "$JH_TEST_CAPTURED_OUTPUT" | md5sum | cut -d " " -f 1)"
-
-    if [ "$CALC" != "$MD5" ]; then
-        (
-            echo "$CAPTURED_HEADER: md5 '$CALC' does not match expected '$MD5'"
-            echo "************************ see tmp/$MD5.dump"
-            capture_dump | tee "tmp/$MD5.dump"
-            echo "************************"
-        ) >&2
-        return 1
-    fi
-    log_success "$CAPTURED_HEADER: md5 is ok $MD5"
-}
-
-assert_captured_success() {
-    if [[ $JH_TEST_CAPTURED_EXITCODE -gt 0 ]]; then
-        log_failure "$CAPTURED_HEADER: $1" "command return $JH_TEST_CAPTURED_EXITCODE"
-    fi
-    log_success "$CAPTURED_HEADER: $1"
-}
-
-assert_captured_failure() {
-    if [[ $JH_TEST_CAPTURED_EXITCODE -eq 0 ]]; then
-        log_failure "$CAPTURED_HEADER: $1" "command return $JH_TEST_CAPTURED_EXITCODE (success)"
-    fi
-    log_success "$CAPTURED_HEADER: $1"
 }
 
 capture_dump() {
