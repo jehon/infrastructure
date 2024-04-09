@@ -23,7 +23,7 @@ echo "*******************************************************"
 
 docker build \
 	-f "$SWD/$TEST_NAME.docker" \
-	--build-context "publish=${JH_ROOT}/tmp/publish" \
+	--build-context "publish=${JH_PKG_FOLDER}/tmp/publish" \
 	--tag "$TAG" \
 	"$SWD" | jh-tag-stdin "building"
 
