@@ -40,6 +40,7 @@ scripts-chmod:
 
 .PHONY: scripts-test
 scripts-test: \
+	dependencies \
 	scripts-test-shell
 
 .PHONY: scripts-test-shell

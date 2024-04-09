@@ -10,7 +10,7 @@ if [ ! -d "${PRJ_ROOT}/node_modules" ]; then
         echo "** Need to get dependencies"
         cd "$PRJ_ROOT"
         make node-dependencies
-    )
+    ) >&2
 fi
 
 exec node --import tsx/esm --harmony-temporal "${PRJ_ROOT}/bundles/file-organizer/src/main.ts" "$@"
