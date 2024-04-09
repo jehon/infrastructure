@@ -6,27 +6,9 @@ set -o errexit
 . jh-lib
 
 JH_TEST_NAME="${JH_TEST_NAME:-$(basename "$0")}"
-JH_TEST_TMP="${JH_PKG_FOLDER}/tmp/${JH_TEST_NAME}"
-
-#
-# Resolve a path according to the JH_PKG_FOLDER of this git repository
-#
-relative_to_root() {
-    local JH_ROOT_RP
-    local ARG_RP
-
-    JH_ROOT_RP="$(realpath "$JH_PKG_FOLDER")"
-    ARG_RP="$(realpath "$1")"
-
-    echo "${ARG_RP#"${JH_ROOT_RP}"/}"
-}
-
-#
-# Log something for message (on >3)
-#
-log_message() {
-    jh_pipe_message "$@"
-}
+JH_TEST_TMP="${JH_PKG_FOLDER}/tmp/$( realpath --relative-base "${JH_PKG_FOLDER}/tests" "$0" )"
+mkdir -p "$JH_TEST_TMP"
+export JH_TEST_DATA="$JH_PKG_ROOT/tests/data"
 
 #
 # Log something for debug purpose (on >3)
@@ -209,14 +191,3 @@ assert_captured_failure() {
 capture_dump() {
     echo -e "$JH_TEST_CAPTURED_OUTPUT"
 }
-
-#
-#
-# Main debug
-#
-#
-log_debug "JH_ROOT_RP: $JH_ROOT_RP"
-log_debug "JH_TEST_TMP: $JH_TEST_TMP"
-
-JH_TEST_DATA="$JH_ROOT/tests/data"
-export JH_TEST_DATA

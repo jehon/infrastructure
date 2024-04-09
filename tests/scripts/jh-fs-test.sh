@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # shellcheck source-path=SCRIPTDIR
-. "$(dirname "${BASH_SOURCE[0]}")/lib-scripts-helpers.sh"
+. "$(dirname "${BASH_SOURCE[0]}")/../test-helpers.sh"
 
 SCRIPT="$JH_PKG_FOLDER"/packages/jehon/usr/bin/jh-fs
 

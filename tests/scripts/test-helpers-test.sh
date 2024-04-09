@@ -3,7 +3,7 @@
 set -o errexit
 
 # shellcheck source-path=SCRIPTDIR
-. "$(dirname "${BASH_SOURCE[0]}")/lib-scripts-helpers.sh"
+. "$(dirname "${BASH_SOURCE[0]}")/../test-helpers.sh"
 
 test_capture "ls /" ls /
 assert_captured_success "should be successfull"
