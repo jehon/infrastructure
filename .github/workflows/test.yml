@@ -51,9 +51,6 @@ jobs:
           - infrastructure-test
           - node-test
 
-# TODO: fo-test-system
-# TODO: fo-test-cmd
-
     steps:
     - uses: actions/checkout@main
 
@@ -72,6 +69,14 @@ jobs:
     - run: bin/rehydrate.sh
 
     - run: make "${{ matrix.target }}"
+
+  valid:
+    # placeholder for validation of PR
+    needs:
+      - ga-test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "ok"
 
   build-pages:
     runs-on: ubuntu-latest
