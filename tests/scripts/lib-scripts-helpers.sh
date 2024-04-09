@@ -2,7 +2,7 @@
 
 set -o errexit
 
-TEST_SELF="$( realpath "${BASH_SOURCE[1]}" )"
+TEST_SELF="$( realpath "$0" )"
 
 JH_TEST_NAME="$( basename "$( dirname "${TEST_SELF}" )" )/$( basename "${TEST_SELF}" )"
 export JH_TEST_NAME
