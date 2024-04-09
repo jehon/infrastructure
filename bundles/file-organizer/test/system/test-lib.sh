@@ -14,9 +14,8 @@ FO="${JH_ROOT}/bin/fo"
 
 # shellcheck source-dir=SCRIPTDIR
 SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}" )" )"
-TEST_TMP="${JH_TEST_SCRIPTS_TMP}"
+TEST_TMP="${JH_TEST_TMP}"
 
-JH_TEST_ROOT="${SWD}"
 ORIGINAL_DATA="${SWD}/data"
 
 #######################################
