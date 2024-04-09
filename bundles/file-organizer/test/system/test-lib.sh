@@ -4,19 +4,20 @@ set -o errexit
 set -o pipefail
 shopt -s nullglob
 
-# shellcheck source=/dev/null
-. jh-lib
+JH_TEST_NAME="system/fo/$( basename "$0" )"
+
+# shellcheck source-path=SCRIPTDIR
+. "$(dirname "${BASH_SOURCE[0]}")/../../../../tests/scripts/lib-scripts-helpers.sh"
+
+FO="${JH_ROOT}/bin/fo"
+# "${FO}" -h
 
 # shellcheck source-dir=SCRIPTDIR
 SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}" )" )"
-PRJ_ROOT="$(dirname "$( dirname "${SWD}" )" )"
-TEST_TMP="${PRJ_ROOT}/tmp/system"
+TEST_TMP="${JH_TEST_SCRIPTS_TMP}"
 
-JH_TEST_ROOT="$PRJ_ROOT/test/system"
-ORIGINAL_DATA="$PRJ_ROOT/test/system/data"
-
-# shellcheck source=/dev/null
-. jh-lib-test
+JH_TEST_ROOT="${SWD}"
+ORIGINAL_DATA="${SWD}/data"
 
 #######################################
 #
@@ -68,12 +69,12 @@ file_handled() {
 #
 #
 fo_run_raw() {
-    "${PRJ_ROOT}/bin/fo" "$@"
+    "${FO}" "$@"
 }
 
 fo_run() {
     (
-        fo_run_raw "$@"  
+        fo_run_raw "$@"
     ) |& jh-tag-stdin "run"
 }
 
@@ -115,7 +116,7 @@ assert_exif_field() {
     assert_equals "${1} # ${FIELD}" "${REF}" "${VAL}"
 }
 
-assert_exists() { 
+assert_exists() {
     assert_file_exists "$1"
 }
 
