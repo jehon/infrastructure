@@ -4,10 +4,10 @@ set -o errexit
 set -o pipefail
 shopt -s nullglob
 
-# shellcheck source-dir=SCRIPTDIR
+# shellcheck source-path=SCRIPTDIR
 . "$(dirname "$( realpath "${BASH_SOURCE[0]}")")"/test-lib.sh
 
-build_run_env
+build_run_env ""
 
 # We will force the TS and the Title based on the filename, to create an artificial clash
 # with the IMG_20190324_121437.jpg file

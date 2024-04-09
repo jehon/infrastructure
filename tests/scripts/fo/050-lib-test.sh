@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 shopt -s nullglob
 
-# shellcheck source-dir=SCRIPTDIR
+# shellcheck source-path=SCRIPTDIR
 . "$(dirname "$( realpath "${BASH_SOURCE[0]}")")"/test-lib.sh
 
 cd "${ORIGINAL_DATA}"
@@ -20,8 +20,8 @@ assert_untouched "${REF}"
 
 assert_others_untouched
 
-build_run_env
+build_run_env ""
 
-ok "It did change folder" test $( basename "$( pwd )" ) == "$( basename "$0" )"]
+ok "It did change folder" test "$( basename "$( pwd )" )" == "$( basename "$0" )"]
 
 assert_others_untouched

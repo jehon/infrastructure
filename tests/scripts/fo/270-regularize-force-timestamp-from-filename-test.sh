@@ -4,10 +4,10 @@ set -o errexit
 set -o pipefail
 shopt -s nullglob
 
-# shellcheck source-dir=SCRIPTDIR
+# shellcheck source-path=SCRIPTDIR
 . "$(dirname "$( realpath "${BASH_SOURCE[0]}")")"/test-lib.sh
 
-build_run_env
+build_run_env ""
 
 mv "basic/DSC_2506.MOV" "basic/2017-01-02 01-02-03 [DSC_2506].mov"
 mv "basic/2018-01-02 03-04-05 my title [my original name].jpg" "basic/2017-01-02 03-04-09 my title [my original name].jpg"

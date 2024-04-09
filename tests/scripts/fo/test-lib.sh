@@ -101,7 +101,8 @@ assert_exif_field() {
     local FIELD="$2"
     local REF="$3"
 
-    local VAL="$(fo_run_raw info -k "${FIELD}" "${FILE}" )"
+    local VAL
+    VAL="$(fo_run_raw info -k "${FIELD}" "${FILE}" )"
     assert_equals "${1} # ${FIELD}" "${REF}" "${VAL}"
 }
 
