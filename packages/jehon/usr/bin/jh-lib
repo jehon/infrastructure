@@ -59,12 +59,13 @@ fi
 #
 #  !! this depend on [1] <= the caller script
 #
-JH_SWF="${BASH_SOURCE[1]}"
-if [[ -z "${JH_SWF}" && -n "${ZSH_VERSION}" ]]; then
-    # ZSH way
-    # shellcheck disable=SC2296
-    JH_SWF="${(%):-%N}"
-fi
+JH_SWF="$( realpath "$0" )"
+# JH_SWF="${BASH_SOURCE[1]}"
+# if [[ -z "${JH_SWF}" && -n "${ZSH_VERSION}" ]]; then
+#     # ZSH way
+#     # shellcheck disable=SC2296
+#     JH_SWF="${(%):-%N}"
+# fi
 JH_SWD="$(dirname "$(realpath --physical "${JH_SWF}")")"
 
 #
