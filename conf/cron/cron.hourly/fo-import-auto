@@ -5,6 +5,16 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/
 . "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
+location="$( jh-location-detect )"
+case "${location}" in
+    "home" )
+        # ok
+        ;;
+    * )
+        jh_info "Not in acceptable location: ${location}"
+        exit 0;
+esac
+
 PCLOUD="${HOME}/pCloudDrive"
 TARGET="${PCLOUD}/Workspaces/Famille/A ranger/"
 
