@@ -30,6 +30,7 @@ Depends: ${misc:Depends},
 	netcat-openbsd,
 	ntp | systemd-timesyncd,
 	openssh-server,
+# TODO(python): remove python
 	python3-full, python3-pip, python3-termcolor,
 	rclone,
 	rsync,

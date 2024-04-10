@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# TODO(python): remove python
+
 # Requirements.txt:
 #
 # # https://pyyaml.org/wiki/PyYAMLDocumentation

@@ -44,6 +44,7 @@ jh_deb_helper_patch "/etc/adduser.conf" "jehon" "/usr/share/jehon/etc_adduser.co
 jh_deb_helper_patch "/etc/fuse.conf" "jehon" "/usr/share/jehon/etc_fuse.conf.patch"
 jh_deb_helper_patch "/etc/inputrc" "jehon" "/usr/share/jehon/etc_inputrc.patch"
 
+# TODO(python): remove python
 jh_deb_helper_python "/usr/lib/python3/dist-packages/jehon/requirements.txt" "/var/lib/python/jehon"
 
 case "$1" in

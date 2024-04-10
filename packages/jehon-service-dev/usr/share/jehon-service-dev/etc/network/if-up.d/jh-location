@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/../../../../../../../jehon/usr/bin
+. jh-lib
+
+exec >& >(tee -a /var/log/location.log )
+
+date
+
+export DEBUG=1
+
+jh_debug "PRJ: ${PRJ_ROOT}"

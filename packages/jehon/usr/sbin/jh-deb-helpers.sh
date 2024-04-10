@@ -146,6 +146,7 @@ jh_deb_helper_git_repo() {
 	esac
 }
 
+# TODO(python): remove python
 jh_deb_helper_python() {
 	# /usr/lib/python3/dist-packages/jehon/requirements.txt
 	REQUIREMENTS="$1"

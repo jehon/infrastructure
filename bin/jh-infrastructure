@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# TODO(python): remove python
+
 import argparse
 import datetime
 import os
