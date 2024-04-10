@@ -3,7 +3,6 @@
 import argparse
 
 import jehon.display as jdi
-import jehon.shell as jshell
 
 parser = argparse.ArgumentParser(description='Test')
 parser.add_argument('folder', nargs='?', default='/')
@@ -32,9 +31,3 @@ with jdi.block("test_with_headers"):
         with jdi.header("subsection_2"):
             jdi.info("We are inside test 2")
         jdi.info("We are inside test 1")
-
-with jdi.header("subprocess"):
-    with jdi.header("cwd"):
-        jshell.run(["ls"], shell=True)
-    with jdi.header(f"folder '{args.folder}'"):
-        jshell.run([f"ls '{args.folder}'"], shell=True)
