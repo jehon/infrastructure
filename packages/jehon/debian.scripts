@@ -90,10 +90,6 @@ configure)
 
 	/usr/sbin/locale-gen --keep-existing
 
-	if [ -x /usr/sbin/jh-system-apply-special ]; then
-		/usr/sbin/jh-system-apply-special | jh-tag-stdin "triggered"
-	fi
-
 	if jh-is-full-machine ; then
 		for F in /etc/sysctl.conf /etc/sysctl.d/*.conf ; do
 			echo "* Sysctl: Reload $F"
@@ -113,16 +109,10 @@ configure)
 	mkdir -p /mnt/docker
 	chmod --changes --recursive "u=rwX,g=rX,o=" /mnt/docker
 	chown --changes --recursive "root:jehon_secrets" /mnt/docker
-
-	# We are not triggered by usself, so we need to run this manually
-	echo "Self-trigger /usr/sbin/jh-system-apply-special..."
-	/usr/sbin/jh-system-apply-special
-	echo "Self-trigger /usr/sbin/jh-system-apply-special done"
 	;;
 
 triggered)
 	echo "******************* TRIGGERED ******************"
-	# /usr/sbin/jh-system-apply-special
 	;;
 
 remove) ;;
@@ -133,5 +123,7 @@ esac
 # Legacy
 #
 jh_deb_helper_legacy jh_deb_helper_service "jehon-tty@tty8.service"
+rm -fr /var/cache/jehon/patched/
+rm -fr /var/cache/jehon/jh-system-apply-special*
 
 exit 0
