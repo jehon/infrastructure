@@ -68,7 +68,7 @@ configure)
 	chmod a+rX /mnt/cloud
 
 	mkdir -p /var/cache/rclone
-    mkdir -p /car/cache/jehon
+    mkdir -p /var/cache/jehon
 
 	if id pi >/dev/null 2>&1; then
 		echo "* Disabling user pi"
