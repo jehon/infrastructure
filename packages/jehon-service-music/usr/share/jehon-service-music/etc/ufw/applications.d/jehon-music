@@ -1,4 +1,4 @@
 [jehon-music]
-title=Local mopidy server
-description=Allow access to the mopidy server
+title=Local mpd server
+description=Allow access to the mpd server
 ports=6600/tcp

@@ -48,14 +48,6 @@
     #
     ############################################
 
-    - name: Setup mopidy repository
-      when: jehon_repo_mopidy
-      ansible.builtin.command:
-        cmd: "/usr/sbin/jh-install-mopidy-repository"
-      notify: jh_repositories.indexes
-      register: result
-      changed_when: "'[modified]' in result.stdout"
-
     - name: Setup Debian
       when: ansible_distribution == "Debian"
       block:

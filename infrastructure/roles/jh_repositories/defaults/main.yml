@@ -2,5 +2,4 @@
 
 jehon_hardware: ""
 jehon_repo_docker: false
-jehon_repo_mopidy: false
 jehon_testing: 0

@@ -6,8 +6,6 @@ argument_specs:
         type: string
       jehon_repo_docker:
         type: boolean
-      jehon_repo_mopidy:
-        type: boolean
       jehon_testing:
         type: int
       jh_repositories_deb_url:
