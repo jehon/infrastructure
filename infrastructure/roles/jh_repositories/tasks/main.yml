@@ -17,7 +17,6 @@
     - name: "Install jehon.deb from {{ jh_repositories_deb_url }}"
       when: "'jehon' not in ansible_facts.packages"
       ansible.builtin.apt:
-        # TODO: adapt url
         deb: "{{ jh_repositories_deb_url | default('https://jehon.github.io/infrastructure/repo/jehon.deb') }}"
       notify: jh_repositories.indexes
       register: jehon_basis_jehon_deb
@@ -118,7 +117,7 @@
     #       - "jehon-hardware-hyperv"
 
     # TODO: remove this...
-    - name: Install hardware package - jehon-hardware-raspberrypi
+    - name: Install hardware package - jehon-hardware-*
       when: jehon_hardware | length > 0
       block:
         - name: "Ensure jehon-hardware is present for hardware {{ jehon_hardware }}"
