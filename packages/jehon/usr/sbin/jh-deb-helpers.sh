@@ -192,11 +192,6 @@ jh_deb_helper_service() {
 	fi
 }
 
-jh_deb_helper_cloud_mount() {
-	MOUNT="$1"
-	jh_deb_helper_service "${MOUNT}.mount"
-}
-
 jh_deb_helper_ufw() {
 	TYPE="$1" # port / app
 	SERVICE="$2"
@@ -232,54 +227,6 @@ jh_deb_helper_ufw() {
 			;;
 		esac
 	fi
-}
-
-jh_deb_helper_snap() {
-	NAME="$1"
-
-	if jh-is-full-machine >/dev/null; then
-		case "$DEB_CMD" in
-		"configure")
-			/usr/bin/jh-snap-ensure-installed "$@"
-			;;
-		"remove")
-			snap remove "$NAME" 2>/dev/null || true
-			;;
-		esac
-	fi
-}
-
-jh_deb_helper_snap_config() {
-	SNAP="$1"
-	KEY="$2"
-	EXPECTED="$3"
-
-	if jh-is-full-machine >/dev/null; then
-		case "$DEB_CMD" in
-		"configure")
-			CURRENT="$(snap get "$SNAP" "$KEY" 2>/dev/null)"
-			if [ "$CURRENT" != "$EXPECTED" ]; then
-				snap set "$SNAP" "$KEY=$EXPECTED"
-				sleep 3s
-			fi
-			;;
-		"remove")
-			# Nothing to do
-			true
-			;;
-		esac
-	fi
-}
-
-jh_deb_helper_invert() {
-	case "$DEB_CMD" in
-		"configure")
-			DEB_CMD="remove" "$@"
-			;;
-		"remove")
-			DEB_CMD="configure" "$@"
-			;;
-	esac
 }
 
 jh_deb_helper_legacy() {
