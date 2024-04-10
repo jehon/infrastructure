@@ -176,7 +176,7 @@ export default class Value<T> extends AbstractValue {
 
   equals(a: T, b: T): boolean {
     if (a instanceof Equalable && b instanceof Equalable) {
-      return a.equals(b) as boolean;
+      return a.equals(b);
     }
 
     return a == b;
