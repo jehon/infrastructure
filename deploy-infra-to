@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# shellcheck source=SCRIPTDIR/packages/jehon/usr/bin/jh-lib
+. jh-lib
+
+if [ -z "$2" ]; then
+    jh_fatal "Need [playbook] [host]"
+fi
+
+PLAYBOOK="$1"
+shift
+
+export PYTHONPATH="${JH_PKG_FOLDER}/tmp/python/common:$PYTHONPATH"
+cd infrastructure
+
+while [ -n "$1" ]; do
+    HOST="$1"
+    shift
+    "${JH_PKG_FOLDER}"/tmp/python/common/bin/ansible-playbook --limit "${HOST}" "${PLAYBOOK}" | jh-tag-stdin "${HOST}"
+done
