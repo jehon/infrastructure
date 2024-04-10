@@ -1,17 +1,17 @@
-
 # What where?
 
-| Objective             | Types                             | Script (1) | Packages | Ansible | Application | Not managed | Comment                                                        |
-| :-------------------- | --------------------------------- | :--------: | :------: | :-----: | ----------- | :---------: | -------------------------------------------------------------- |
-| /                     | anything                          |            |    X     |         |             |             |                                                                |
-| /etc/                 | fixed config (link to /usr/share) |            |    X     |         |             |             |                                                                |
-| /etc/                 | host related                      |            |          |    X    |             |             |                                                                |
-| ~/restricted | secrets                           |            |          |    X    |             |             |                                                                |
-| /etc/apt/*            | repositories for other sources    |     X      |          |         |             |             | Bundled as package, it is difficult to update and depend on it |
-| Default users         | ml, silouane, rosalie...          |            |          |         |             |      X      | Desktop are moving too quickly                                 |
-| Users secrets         | For rclone in self install?       |            |          |         |             |      X      | Required by script when necessary                              |
-| Application folders   |                                   |            |          |         | X           |             |                                                                |
-|                       |                                   |            |          |         |             |             |                                                                |
+| Objective           | Types                             | Script | Packages | Ansible | Application | Not managed | Comment                                                        |
+| :------------------ | --------------------------------- | :----: | :------: | :-----: | :---------: | :---------: | -------------------------------------------------------------- |
+| /                   | anything                          |        |    X     |         |             |             |                                                                |
+| /etc/               | fixed config (link to /usr/share) |        |    X     |         |             |             |                                                                |
+| /etc/               | host related                      |        |          |    X    |             |             |                                                                |
+| ~/restricted        | secrets                           |        |          |    X    |             |             |                                                                |
+| /etc/apt/\*         | repositories for other sources    |   X    |          |         |             |             | Bundled as package, it is difficult to update and depend on it |
+| Default users       | ml, silouane, rosalie...          |        |          |         |             |      X      | Desktop are moving too quickly                                 |
+| Users secrets       | For rclone in self install?       |        |          |         |             |      X      | Required by script when necessary                              |
+| User configuration  | user crontab etc...               |        |          |    X    |             |             | Always depend of the user login name                           |
+| Application folders |                                   |        |          |         |      X      |             | ?? C'est quoi ??                                               |
+|                     |                                   |        |          |         |             |             |                                                                |
 
 (1) Scripts are bundled into jehon.deb
 
@@ -23,20 +23,20 @@
 |                 |           |                   |         |                                             |
 
 ## Questions:
-- *2 Do we have a default users install?
-- *3 Where to store users secrets (rclone)?
+
+-   \*2 Do we have a default users install?
 
 # Desktop install
 
-- 200 Gb root drive
-- 200 Gb home
-- 50 Gb swap
+-   200 Gb root drive
+-   200 Gb home
+-   50 Gb swap
 
 # Ansible
 
 ansible-inventory --list
 ansible-vault encrypt_string "$SECRET" --name "$KEY"
-    See https://docs.ansible.com/ansible/latest/user_guide/vault.html#encrypting-individual-variables-with-ansible-vault
+See https://docs.ansible.com/ansible/latest/user_guide/vault.html#encrypting-individual-variables-with-ansible-vault
 
 ## Key order
 
@@ -47,4 +47,3 @@ ansible-vault encrypt_string "$SECRET" --name "$KEY"
     register
     failed_when
     changed_when
-
