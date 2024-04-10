@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-# shellcheck source=/usr/bin/jh-lib
+# shellcheck source=SCRIPTDIR/packages/jehon/usr/bin/jh-lib
 . jh-lib
 
 if [ -z "$2" ]; then
