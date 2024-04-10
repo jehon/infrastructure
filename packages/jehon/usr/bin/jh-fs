@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# TODO(python): remove python
+# This use basic python without dependencies
+# so this is acceptable
 
 set -o errexit
 
@@ -31,11 +32,27 @@ get_size() {
     fi
 }
 
+# FILENAME="$(basename "${FILE}")"
+# FILENAME_NO_EXTENSION="${FILENAME%.*}"
+# if [[ "$FILENAME" == *.* ]]; then
+#     EXT="${FILENAME##*.}"
+#     EXT="${EXT#.}"
+# else
+#     EXT=""
+# fi
+
+# jh_debug "FILE:                  $FILE"
+# jh_debug "FILENAME:              $FILENAME"
+# jh_debug "FILENAME_NO_EXTENSION: $FILENAME_NO_EXTENSION"
+# jh_debug "EXT:                   $EXT"
+
 case "${ACTION}" in
     "name" )
+#        echo "${FILENAME_NO_EXTENSION}"
         python3 -c "import pathlib; print(pathlib.Path('${FILE}').stem)"
         ;;
     "extension" )
+#        echo "${EXT}"
         python3 -c "import pathlib; print(pathlib.Path('${FILE}').suffix.lstrip('.'))"
         ;;
     "not-empty" )
@@ -52,8 +69,9 @@ case "${ACTION}" in
         ;;
 
     "to-extension" )
-        EXT="${3:?Need new extension [3]}"
-        python3 -c "import pathlib; print(pathlib.Path('${FILE}').with_suffix('${EXT}'))"
+        NEW_EXT="${3:?Need new extension [3]}"
+        # echo "${FILE/\.${EXT}/}...${NEW_EXT#.}"
+        python3 -c "import pathlib; print(pathlib.Path('${FILE}').with_suffix('${NEW_EXT}'))"
         ;;
     * )
         jh_fatal "Unknow action: $ACTION"
