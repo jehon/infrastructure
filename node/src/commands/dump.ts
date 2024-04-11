@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import path from "path";
+import path from "node:path";
 import File from "../file-types/file";
 import FileExif from "../file-types/file-exif";
 import {
