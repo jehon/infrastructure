@@ -23,7 +23,10 @@ const config = {
 	resolve: {
 		extensions: [".tsx", ".ts", ".js"]
 	},
-	plugins: [new ShebangPlugin()]
+	plugins: [
+		/* eslint-disable @typescript-eslint/no-unsafe-call */
+		new ShebangPlugin()
+	]
 };
 
 export default config;
