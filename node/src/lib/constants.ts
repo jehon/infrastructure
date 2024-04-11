@@ -4,28 +4,28 @@ export const CONVERTED_SUFFIX: string = "_converted";
 export const ARCHIVE_FOLDERNAME = "archives";
 
 export const EXCLUDED_FILENAMES: Array<string | RegExp> = [
-  // StartWith
-  /^\..*/,
-  /^_.*/
+	// StartWith
+	/^\..*/,
+	/^_.*/
 ];
 
 export const AUTO_TITLES: string[] = [
-  // multi-lines
+	// multi-lines
 
-  // Legacy
-  "Vie de famille",
-  "Vie famille",
-  "Photos en vrac",
+	// Legacy
+	"Vie de famille",
+	"Vie famille",
+	"Photos en vrac",
 
-  // Actuals
-  "a trier",
-  "a_trier",
-  "Avec la tribu Honlet",
-  "Avec la tribu Targé",
-  "Avec les amis",
-  "En famille",
-  "En activité",
+	// Actuals
+	"a trier",
+	"a_trier",
+	"Avec la tribu Honlet",
+	"Avec la tribu Targé",
+	"Avec les amis",
+	"En famille",
+	"En activité",
 
-  // Other
-  "_HDR"
+	// Other
+	"_HDR"
 ].map((str) => str.toLowerCase());

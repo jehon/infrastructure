@@ -4,8 +4,8 @@ import path from "node:path";
 import test from "node:test";
 import File from "../../src/file-types/file";
 import FileFolder, {
-  _resetFolderCache,
-  getParentOf
+	_resetFolderCache,
+	getParentOf
 } from "../../src/file-types/file-folder";
 import { fsFileExists } from "../../src/helpers/fs-helpers";
 import { buildFileAs } from "../../src/lib/buildFile";

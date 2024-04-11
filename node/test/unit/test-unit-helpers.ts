@@ -3,54 +3,54 @@ import path from "node:path";
 import { getParentOf } from "../../src/file-types/file-folder";
 import { fsFileExists } from "../../src/helpers/fs-helpers";
 import {
-  createFileFromTo,
-  rootPath,
-  tempPathCommon
+	createFileFromTo,
+	rootPath,
+	tempPathCommon
 } from "../test-common-helpers";
 
 export { assertIsEqual, filenameIsA, iFilename } from "../test-common-helpers";
 
 export const dataPathUnit = (...args: string[]) =>
-  rootPath("test", "unit", "data", ...args);
+	rootPath("test", "unit", "data", ...args);
 
 export const tempPathUnit = (...args: string[]) =>
-  tempPathCommon("unit", ...args);
+	tempPathCommon("unit", ...args);
 
 export function createFileFromDataUnit(
-  subPath: string,
-  inFolderWithinTmp: string = ""
+	subPath: string,
+	inFolderWithinTmp: string = ""
 ): string {
-  const folderpath = tempPathUnit(inFolderWithinTmp);
-  createFolderRecursively(folderpath);
+	const folderpath = tempPathUnit(inFolderWithinTmp);
+	createFolderRecursively(folderpath);
 
-  const filepath = createFileFromTo(folderpath, dataPathUnit(subPath));
-  getParentOf(filepath)._addNewlyCreateFile(path.basename(filepath));
+	const filepath = createFileFromTo(folderpath, dataPathUnit(subPath));
+	getParentOf(filepath)._addNewlyCreateFile(path.basename(filepath));
 
-  return filepath;
+	return filepath;
 }
 
 export function createEmptyUnitFile(...filepaths: string[]): string {
-  const filepath = tempPathUnit(...filepaths);
-  const folderpath = path.dirname(filepath);
+	const filepath = tempPathUnit(...filepaths);
+	const folderpath = path.dirname(filepath);
 
-  // Create parent folder:
-  createFolderRecursively(folderpath);
-  // Touch:
-  fs.closeSync(fs.openSync(filepath, "w"));
+	// Create parent folder:
+	createFolderRecursively(folderpath);
+	// Touch:
+	fs.closeSync(fs.openSync(filepath, "w"));
 
-  getParentOf(filepath)._addNewlyCreateFile(path.basename(filepath));
+	getParentOf(filepath)._addNewlyCreateFile(path.basename(filepath));
 
-  return filepath;
+	return filepath;
 }
 
 export function createFolderRecursively(folderpath: string): void {
-  if (fsFileExists(folderpath)) {
-    return;
-  }
+	if (fsFileExists(folderpath)) {
+		return;
+	}
 
-  createFolderRecursively(path.dirname(folderpath));
+	createFolderRecursively(path.dirname(folderpath));
 
-  const parent = getParentOf(folderpath);
-  parent._addNewlyCreateFile(path.basename(folderpath));
-  fs.mkdirSync(folderpath);
+	const parent = getParentOf(folderpath);
+	parent._addNewlyCreateFile(path.basename(folderpath));
+	fs.mkdirSync(folderpath);
 }

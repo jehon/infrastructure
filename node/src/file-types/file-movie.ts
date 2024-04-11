@@ -13,7 +13,7 @@
 import FileExif from "./file-exif";
 
 export default class FileMovie extends FileExif {
-  get EXIF_TS() {
-    return "CreateDate";
-  }
+	get EXIF_TS() {
+		return "CreateDate";
+	}
 }
