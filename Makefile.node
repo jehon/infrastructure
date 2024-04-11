@@ -38,6 +38,12 @@ package-lock.json: package.json
 	npm install --package-lock-only
 	@touch "$@"
 
+node-build: tmp/fo.cjs
+
+tmp/fo.cjs: node/** \
+		node-dependencies
+	./node_modules/.bin/webpack
+
 .PHONY: node-lint
 node-lint: node-lint-typescript node-lint-eslint
 
