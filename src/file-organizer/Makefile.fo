@@ -18,7 +18,7 @@ SHELL := /bin/bash
 # System variables
 #
 #
-FO_TMP   = $(ROOT_TMP)/bundles/file-organizer
+FO_TMP   = $(ROOT_TMP)/src/file-organizer
 FO_ROOT ?= $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 
 .PHONY: fo-dump

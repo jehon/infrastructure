@@ -197,7 +197,7 @@ include Makefile.scripts
 include Makefile.packages
 
 # Bundles
-include bundles/file-organizer/Makefile.fo
+include src/file-organizer/Makefile.fo
 
 # Latest file must be in top folder
 # for ROOT to be ok

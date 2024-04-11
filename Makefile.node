@@ -9,7 +9,7 @@ test: node-test
 lint: node-lint
 
 export PATH := $(ROOT)/node_modules/.bin:$(PATH)
-NODE_ROOT = bundles/file-organizer
+NODE_ROOT = src/file-organizer
 NODE_TMP = $(TMP)/node
 NODE_DEPENDENCY_MARK = node_modules/.dependencies
 
