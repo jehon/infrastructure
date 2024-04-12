@@ -14,13 +14,21 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
+BEFORE="$( node --version || true)"
 VERSION="${1:-current}"
 curl -fsSL "https://deb.nodesource.com/setup_$VERSION.x" | bash - >/dev/null
 
 if ! type nodejs >& /dev/null ; then
-apt update
-apt install --yes --quiet nodejs
+    echo "[modified] Installing nodejs"
+    apt update
+    apt install --yes --quiet nodejs
 else
     echo "** Skipping installation of nodejs since it is already present"
-    node --version
+fi
+AFTER="$( node --version || true)"
+
+if [ "$BEFORE" != "$AFTER" ]; then
+    echo "[modified] Version has changed: ${BEFORE} => ${AFTER}"
+else
+    echo "Vesrion was installed: ${BEFORE}"
 fi
