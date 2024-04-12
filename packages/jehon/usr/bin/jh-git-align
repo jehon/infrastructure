@@ -70,7 +70,6 @@ FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --force --prune-empty --env-fi
     replaceCommiters "jehon@wsl.nsicorp.local"
     replaceCommiters "jean.honlet@nsi-sa.be"
     replaceCommiters "1582670+jehon@users.noreply.github.com"
-    replaceCommiters "jehon@jhn-hyperv.mshome.net"
     replaceCommiters "jehon@localhost.net"
     replaceCommiters "jeanhonlet@gmail.com"
     replaceCommiters "marielineetjean@gmail.com"

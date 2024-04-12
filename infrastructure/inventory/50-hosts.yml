@@ -78,9 +78,6 @@ all:
         # 192.168.1.62  ???             # 34:EA:E7:AD:4B:96 # hf-lpt230
         # 192.168.1.51  latitude-wifi   #
 
-      networks:
-        hyperv: fe80::0/64
-
       url:
         synology_external: "https://jehon.synology.me:4001"
 

@@ -1,9 +1,0 @@
-Provides:
-	jehon-hardware (= JH_VERSION)
-Replaces:
-	jehon-hardware
-Conflicts:
-	jehon-hardware
-Depends: ${misc:Depends},
-	jehon (<= JH_VERSION),
-	cloud-utils
