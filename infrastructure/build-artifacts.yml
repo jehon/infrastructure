@@ -1,5 +1,4 @@
 ---
-
 - name: Build artifacts
   # Specifying stuff here do not define them in the inventory
   # and so this particular host is not taken into account

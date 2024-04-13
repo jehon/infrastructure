@@ -1,5 +1,4 @@
 ---
-
 - name: Reboot systems
   hosts: grp_jehon
   tasks:

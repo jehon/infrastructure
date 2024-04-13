@@ -1,5 +1,4 @@
 ---
-
 - name: Copy script files
   block:
     # script_folder: /volume1/scripts/scripts
@@ -30,7 +29,7 @@
         mode: "0755"
 
     - name: Remove extraneous files
-     # https://stackoverflow.com/a/18016700/1954789
+      # https://stackoverflow.com/a/18016700/1954789
       block:
         - name: List files at destination
           # Will be expanded through shell

@@ -1,5 +1,4 @@
 ---
-
 - name: Update indexes
   listen: jh_repositories.indexes
   ansible.builtin.apt:

@@ -3,98 +3,98 @@ import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import {
-	createEmptyUnitFile,
-	tempPathUnit
+  createEmptyUnitFile,
+  tempPathUnit
 } from "../../test/unit/test-unit-helpers";
 import {
-	fsFileExists,
-	fsFileRename,
-	fsFolderListing,
-	fsFolderListingRecursively,
-	fsIsFolder,
-	waitForFileToExists
+  fsFileExists,
+  fsFileRename,
+  fsFolderListing,
+  fsFolderListingRecursively,
+  fsIsFolder,
+  waitForFileToExists
 } from "./fs-helpers";
 
 await test("should fsFileExists a file", function () {
-	const fn = createEmptyUnitFile("fs-helpers-test-exists.txt");
-	assert.ok(fsFileExists(fn));
-	assert.ok(!fsFileExists(fn + ".does_not_exists"));
+  const fn = createEmptyUnitFile("fs-helpers-test-exists.txt");
+  assert.ok(fsFileExists(fn));
+  assert.ok(!fsFileExists(fn + ".does_not_exists"));
 });
 
 await test("should fsIsFolder", () => {
-	const fn = createEmptyUnitFile("fs-helpers-test-exists.txt");
-	assert.ok(!fsIsFolder(fn));
-	assert.ok(fsIsFolder(path.dirname(fn)));
+  const fn = createEmptyUnitFile("fs-helpers-test-exists.txt");
+  assert.ok(!fsIsFolder(fn));
+  assert.ok(fsIsFolder(path.dirname(fn)));
 });
 
 await test("should fsFileRename", function () {
-	const fp = createEmptyUnitFile("fs-file-rename-test.txt");
-	const fpn = fp + ".new";
+  const fp = createEmptyUnitFile("fs-file-rename-test.txt");
+  const fpn = fp + ".new";
 
-	fsFileRename(fp, fpn);
+  fsFileRename(fp, fpn);
 
-	assert.ok(!fsFileExists(fp));
-	assert.ok(fsFileExists(fpn));
-	fs.unlinkSync(fpn);
+  assert.ok(!fsFileExists(fp));
+  assert.ok(fsFileExists(fpn));
+  fs.unlinkSync(fpn);
 });
 
 await test("should fsFolderListing", function () {
-	const subFolder = "fs-helpers-test-fsFolderListing";
-	createEmptyUnitFile(path.join(subFolder, "test1.txt"));
-	createEmptyUnitFile(path.join(subFolder, "test2.txt"));
-	createEmptyUnitFile(path.join(subFolder, "test3.txt"));
-	createEmptyUnitFile(path.join(subFolder, "test4.txt"));
-	createEmptyUnitFile(path.join(subFolder, "test9", "test91.txt"));
+  const subFolder = "fs-helpers-test-fsFolderListing";
+  createEmptyUnitFile(path.join(subFolder, "test1.txt"));
+  createEmptyUnitFile(path.join(subFolder, "test2.txt"));
+  createEmptyUnitFile(path.join(subFolder, "test3.txt"));
+  createEmptyUnitFile(path.join(subFolder, "test4.txt"));
+  createEmptyUnitFile(path.join(subFolder, "test9", "test91.txt"));
 
-	const folderpath = tempPathUnit(subFolder);
-	const list = fsFolderListing(folderpath).map((fn) =>
-		path.join(folderpath, fn)
-	);
+  const folderpath = tempPathUnit(subFolder);
+  const list = fsFolderListing(folderpath).map((fn) =>
+    path.join(folderpath, fn)
+  );
 
-	for (const fp of list) {
-		assert.ok(fsFileExists(fp));
-		assert.notEqual(fp, ".");
-		assert.notEqual(fp, "..");
-		assert.notEqual(fp, null);
-	}
-	assert.equal(list.length, 5, "list of files");
+  for (const fp of list) {
+    assert.ok(fsFileExists(fp));
+    assert.notEqual(fp, ".");
+    assert.notEqual(fp, "..");
+    assert.notEqual(fp, null);
+  }
+  assert.equal(list.length, 5, "list of files");
 });
 
 await test("should fsFolderListingRecursively", function () {
-	const subFolder = "fs-helpers-test-fsFolderListingRecursively";
-	createEmptyUnitFile(path.join(subFolder, "test1.txt"));
-	createEmptyUnitFile(path.join(subFolder, "test2.txt"));
-	createEmptyUnitFile(path.join(subFolder, "test3.txt"));
-	createEmptyUnitFile(path.join(subFolder, "test4.txt"));
-	createEmptyUnitFile(path.join(subFolder, "test9", "test91.txt"));
+  const subFolder = "fs-helpers-test-fsFolderListingRecursively";
+  createEmptyUnitFile(path.join(subFolder, "test1.txt"));
+  createEmptyUnitFile(path.join(subFolder, "test2.txt"));
+  createEmptyUnitFile(path.join(subFolder, "test3.txt"));
+  createEmptyUnitFile(path.join(subFolder, "test4.txt"));
+  createEmptyUnitFile(path.join(subFolder, "test9", "test91.txt"));
 
-	const folderpath = tempPathUnit(subFolder);
-	const list = fsFolderListingRecursively(folderpath);
+  const folderpath = tempPathUnit(subFolder);
+  const list = fsFolderListingRecursively(folderpath);
 
-	for (const fp of list) {
-		assert.ok(fsFileExists(fp));
-		assert.notEqual(fp, ".");
-		assert.notEqual(fp, "..");
-		assert.notEqual(fp, null);
-	}
-	assert.ok(list.includes(folderpath));
-	assert.ok(list.includes(path.join(folderpath, "test1.txt")));
-	assert.ok(list.includes(path.join(folderpath, "test2.txt")));
-	assert.ok(list.includes(path.join(folderpath, "test9", "test91.txt")));
+  for (const fp of list) {
+    assert.ok(fsFileExists(fp));
+    assert.notEqual(fp, ".");
+    assert.notEqual(fp, "..");
+    assert.notEqual(fp, null);
+  }
+  assert.ok(list.includes(folderpath));
+  assert.ok(list.includes(path.join(folderpath, "test1.txt")));
+  assert.ok(list.includes(path.join(folderpath, "test2.txt")));
+  assert.ok(list.includes(path.join(folderpath, "test9", "test91.txt")));
 });
 
 await test("should waitForFileToExists", async function (t: TestContext) {
-	const filename = "watched";
-	const fileWatched = tempPathUnit(filename);
+  const filename = "watched";
+  const fileWatched = tempPathUnit(filename);
 
-	await t.test("without file", function () {
-		assert.equal(waitForFileToExists(fileWatched, 1), false);
-	});
+  await t.test("without file", function () {
+    assert.equal(waitForFileToExists(fileWatched, 1), false);
+  });
 
-	await t.test("with file at start", function () {
-		createEmptyUnitFile(filename);
-		assert.equal(waitForFileToExists(fileWatched, 1), true);
-	});
+  await t.test("with file at start", function () {
+    createEmptyUnitFile(filename);
+    assert.equal(waitForFileToExists(fileWatched, 1), true);
+  });
 
-	// Impossible to test waitForFileToExists in an sync world
+  // Impossible to test waitForFileToExists in an sync world
 });

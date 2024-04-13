@@ -1,5 +1,4 @@
 ---
-
 - name: Setup systems
   hosts: grp_jehon
   tasks:

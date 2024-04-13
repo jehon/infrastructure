@@ -1,5 +1,4 @@
 ---
-
 #
 # User side
 #
@@ -23,16 +22,16 @@
     pkg:
       - copyq
       - digikam
-      - ffmpegthumbnailer          # Thumbnails for movies
+      - ffmpegthumbnailer # Thumbnails for movies
       - git-flow
       - gnome-network-displays
       - gnome-shell-extensions
-      - gthumb                     # Print multiple images on one page
-      - libfuse2                   # pcloud
-      - php                        # linting php in vscode
-      - php-xml                    # linting php in vscode
+      - gthumb # Print multiple images on one page
+      - libfuse2 # pcloud
+      - php # linting php in vscode
+      - php-xml # linting php in vscode
       - solaar
-      - sshfs                      # cryptomedic deploy
+      - sshfs # cryptomedic deploy
 
 - name: "Ensure installed snap"
   when: not virtual
@@ -42,7 +41,7 @@
     - ksnip
     - mkvtoolnix-jz
     - spotify
-    - whatsapp-for-linux           # Personnal (conf call)
+    - whatsapp-for-linux # Personnal (conf call)
     - vlc
     - youtube-dl-pro
   community.general.snap:

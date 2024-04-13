@@ -16,15 +16,18 @@ dtoverlay=disable-wifi
 dtoverlay=disable-bt
 
 [pi4]
+
 # Disable the PWR LED
+
 dtparam=pwr_led_trigger=none
 dtparam=pwr_led_activelow=off
+
 # Disable the Activity LED
+
 dtparam=act_led_trigger=none
 dtparam=act_led_activelow=off
+
 # Disable ethernet port LEDs
+
 dtparam=eth_led0=4
 dtparam=eth_led1=4
-
-
-

@@ -1,6 +1,7 @@
 # XMing
 
 ## Callout text size:
+
 C:\Program Files (x86)\XMind\plugins\org.xmind.ui.resources_3.7.6.201801311814\styles (default Styles.xml)
 C:\Users\jhn\AppData\Roaming\XMind\workspace-cathy\styles\userThemes (styles.xml)
 From Classic Professional, adapt:

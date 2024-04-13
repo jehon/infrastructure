@@ -1,5 +1,4 @@
 ---
-
 ############################################
 #
 # User config
@@ -58,7 +57,7 @@
 - name: Set git user for {{ "'" + user + "-" + display_name + "'" }}
   community.general.ini_file:
     path: /home/{{ user }}/.gitconfig
-    mode: '0666'
+    mode: "0666"
     owner: "{{ user }}"
     section: user
     option: name
@@ -67,7 +66,7 @@
 - name: Include github config in general config
   community.general.ini_file:
     path: /home/{{ user }}/.gitconfig
-    mode: '0666'
+    mode: "0666"
     owner: "{{ user }}"
     section: includeIf "gitdir:~/src/"
     option: path
@@ -76,7 +75,7 @@
 - name: Set github config for {{ "'" + user + " - " + github_login + "'" }}
   community.general.ini_file:
     path: /home/{{ user }}/.gitconfig-github
-    mode: '0666'
+    mode: "0666"
     owner: "{{ user }}"
     section: user
     option: email
@@ -98,7 +97,6 @@
     cmd: /usr/bin/jh-setup-user-profile
   register: result
   changed_when: "'[modified]' in result.stdout"
-
 ############################################
 #
 # User services

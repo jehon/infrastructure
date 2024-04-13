@@ -1,5 +1,4 @@
 ---
-
 - name: Restart Grafana Agent
   listen: jehon_service_grafana.changed
   when: not virtual

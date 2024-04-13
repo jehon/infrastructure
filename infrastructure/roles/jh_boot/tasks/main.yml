@@ -20,9 +20,9 @@
       become: true
       ansible.builtin.copy:
         content: '{{ jh_boot_file.content
-            | b64decode
-            | regex_replace(regex_existing, key_value_pair)
-            | regex_replace(regex_add_missing, key_value_pair + " \1")
+          | b64decode
+          | regex_replace(regex_existing, key_value_pair)
+          | regex_replace(regex_add_missing, key_value_pair + " \1")
           }}'
         dest: "{{ file }}.new"
         mode: "0644"

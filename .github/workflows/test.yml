@@ -1,13 +1,12 @@
-
 on:
   push:
   pull_request:
     branches:
-    - main
+      - main
   workflow_dispatch:
   schedule:
     # At 01:15
-    - cron: '15 1 * * *'
+    - cron: "15 1 * * *"
 
 env:
   TZ: Europe/Brussels
@@ -21,22 +20,22 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-    - uses: actions/checkout@main
+      - uses: actions/checkout@main
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: current
-        check-latest: true
-        cache: npm
+      - uses: actions/setup-node@v4
+        with:
+          node-version: current
+          check-latest: true
+          cache: npm
 
-    - run: ./setup.sh
-    - run: make dump
-    - run: make build
+      - run: ./setup.sh
+      - run: make dump
+      - run: make build
 
-    - uses: actions/upload-artifact@v4
-      with:
-        name: build
-        path: tmp
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: tmp
 
   ga-test:
     runs-on: ubuntu-latest
@@ -56,23 +55,23 @@ jobs:
           - node-test
 
     steps:
-    - uses: actions/checkout@main
+      - uses: actions/checkout@main
 
-    - uses: actions/download-artifact@v4
-      with:
-        name: build
-        path: tmp
+      - uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: tmp
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: current
-        check-latest: true
-        cache: npm
+      - uses: actions/setup-node@v4
+        with:
+          node-version: current
+          check-latest: true
+          cache: npm
 
-    - run: ./setup.sh
-    - run: bin/rehydrate.sh
+      - run: ./setup.sh
+      - run: bin/rehydrate.sh
 
-    - run: make "${{ matrix.target }}"
+      - run: make "${{ matrix.target }}"
 
   valid:
     # placeholder for validation of PR
@@ -118,7 +117,7 @@ jobs:
     concurrency:
       group: release-${{ github.ref_name }}
       # cancel-in-progress: true
-        # https://github.com/actions/deploy-pages
+      # https://github.com/actions/deploy-pages
     if: ${{ github.ref_name == 'main' && github.ref_type == 'branch' }}
 
     permissions:

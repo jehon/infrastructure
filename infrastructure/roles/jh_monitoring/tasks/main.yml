@@ -1,5 +1,4 @@
 ---
-
 # - name: Grafana - Install api key
 #   ansible.builtin.template:
 #     src: "{{ role_path }}/templates/grafana-api-key.txt"

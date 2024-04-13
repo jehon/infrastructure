@@ -1,5 +1,4 @@
 ---
-
 - name: Configure cloud
   when: cloud_type | length > 0
   block:

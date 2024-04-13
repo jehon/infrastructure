@@ -1,21 +1,26 @@
-
 # All my packages
 
 This repository is for personal use only.
 It contains helper scripts tailored for my usage.
 
 Launch the start script (need sudo to be ok first: sudo ls):
+
 ```
 wget -O- https://raw.githubusercontent.com/jehon/packages/master/start | sudo bash -E -
 ```
+
 or
+
 ```
 curl -fsSL https://raw.githubusercontent.com/jehon/packages/master/start | sudo bash -E -
 ```
+
 or
+
 ```
 curl -fsSL https://raw.githubusercontent.com/jehon/packages/master/start > start && chmod +x start && sudo ./start
 ```
+
 May add "-k" if ca-certificates is not installed
 
 ## Recovery
@@ -52,4 +57,3 @@ dconf write /org/gnome/shell/app-switcher/current-workspace-only 'true'
 == Documentation:
 
 https://www.debian.org/doc/manuals/maint-guide/dother.en.html
-

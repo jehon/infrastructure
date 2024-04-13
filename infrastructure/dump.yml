@@ -1,8 +1,7 @@
 ---
-
 - name: Dump variables
   hosts: all
-#  gather_facts: false
+  #  gather_facts: false
 
   tasks:
     - name: Debug jehon

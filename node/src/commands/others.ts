@@ -1,8 +1,8 @@
 import File from "../file-types/file";
 import { FileFallback } from "../file-types/file-fallback";
 import {
-	OptionsHandleAllFiles,
-	handleAllFiles
+  OptionsHandleAllFiles,
+  handleAllFiles
 } from "../helpers/command-helper";
 import { writeLine } from "../helpers/tui-helpers";
 
@@ -19,21 +19,21 @@ const extensionsMap: Record<string, number> = {};
  * @returns {Promise<void>} when finished!
  */
 export function handler(globalOptions: OptionsHandleAllFiles) {
-	return handleAllFiles(globalOptions, (f: File) => {
-		if (!(f instanceof FileFallback)) {
-			return true;
-		}
+  return handleAllFiles(globalOptions, (f: File) => {
+    if (!(f instanceof FileFallback)) {
+      return true;
+    }
 
-		writeLine(f.currentFilepath);
+    writeLine(f.currentFilepath);
 
-		const ext = f.i_f_extension.current;
-		if (!(ext in extensionsMap)) {
-			extensionsMap[ext] = 0;
-		}
-		extensionsMap[ext]++;
+    const ext = f.i_f_extension.current;
+    if (!(ext in extensionsMap)) {
+      extensionsMap[ext] = 0;
+    }
+    extensionsMap[ext]++;
 
-		return true;
-	}).then(() => {
-		process.stdout.write(JSON.stringify(extensionsMap, null, 2));
-	});
+    return true;
+  }).then(() => {
+    process.stdout.write(JSON.stringify(extensionsMap, null, 2));
+  });
 }

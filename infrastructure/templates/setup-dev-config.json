@@ -1,8 +1,8 @@
 {
-    "http": {
-        "nas":          "{{ jehon.ip.synology  | ansible.utils.ipwrap }}",
-        "kiosk":        "{{ jehon.ip.kiosk     | ansible.utils.ipwrap }}",
-        "dev":          "{{ jehon.ip['dev']    | ansible.utils.ipwrap }}",
-        "nas_external": "{{ jehon.url.synology_external }}"
-    }
+  "http": {
+    "nas": "{{ jehon.ip.synology  | ansible.utils.ipwrap }}",
+    "kiosk": "{{ jehon.ip.kiosk     | ansible.utils.ipwrap }}",
+    "dev": "{{ jehon.ip['dev']    | ansible.utils.ipwrap }}",
+    "nas_external": "{{ jehon.url.synology_external }}"
+  }
 }

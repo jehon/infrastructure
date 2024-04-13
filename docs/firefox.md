@@ -1,4 +1,3 @@
-
 ## Certificates
 
 https://github.com/mozilla/policy-templates/blob/master/README.md#Certificates

@@ -8,4 +8,3 @@ ufw status numbered
 
 ufw logging on
 tail -f /var/log/ufw.log
-

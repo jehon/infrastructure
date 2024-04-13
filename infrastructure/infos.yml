@@ -1,5 +1,4 @@
 ---
-
 - name: Dump infos
   hosts: all
   gather_facts: false

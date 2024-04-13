@@ -1,5 +1,4 @@
 ---
-
 - name: Do reload daemon
   listen: jh_cloud.systemctl_reload
   when: not virtual

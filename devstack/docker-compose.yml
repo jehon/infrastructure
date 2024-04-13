@@ -7,45 +7,45 @@
 # sonar_extensions:
 
 services:
-#   proxy:
-#     image: "traefik"
-#     restart: always
-#     command:
-#       - "--api.insecure=true"
-#       - "--providers.docker=true"
-#       - "--entrypoints.web.address=:80"
-#     ports:
-#       - "8080:80"
-#       #- "81:8080"
-#     volumes:
-#       - type: bind
-#         read_only: true
-#         source: /run/user/1000/docker.sock
-#         target: /var/run/docker.sock
-#     labels:
-#       - traefik.protocol=http
-#       - traefik.http.middlewares.jhstriproot.stripprefixregex.regex=/[a-zA-Z0-9_-]+/
+  #   proxy:
+  #     image: "traefik"
+  #     restart: always
+  #     command:
+  #       - "--api.insecure=true"
+  #       - "--providers.docker=true"
+  #       - "--entrypoints.web.address=:80"
+  #     ports:
+  #       - "8080:80"
+  #       #- "81:8080"
+  #     volumes:
+  #       - type: bind
+  #         read_only: true
+  #         source: /run/user/1000/docker.sock
+  #         target: /var/run/docker.sock
+  #     labels:
+  #       - traefik.protocol=http
+  #       - traefik.http.middlewares.jhstriproot.stripprefixregex.regex=/[a-zA-Z0-9_-]+/
 
-#       - traefik.http.routers.api.rule=PathPrefix(`/api`)
-#       - traefik.http.routers.api.service=api@internal
+  #       - traefik.http.routers.api.rule=PathPrefix(`/api`)
+  #       - traefik.http.routers.api.service=api@internal
 
-#       - traefik.http.routers.dashboard.rule=PathPrefix(`/dashboard`)
-#       - traefik.http.routers.dashboard.service=dashboard@internal
-#       - traefik.http.routers.dashboard.middlewares=jhstriproot@docker
+  #       - traefik.http.routers.dashboard.rule=PathPrefix(`/dashboard`)
+  #       - traefik.http.routers.dashboard.service=dashboard@internal
+  #       - traefik.http.routers.dashboard.middlewares=jhstriproot@docker
 
-#   static:
-#     image: httpd:alpine
-#     restart: always
-#     expose:
-#       - 80
-#     volumes:
-#       - type: bind
-#         read_only: true
-#         source: ./httpd
-#         target: /usr/local/apache2/htdocs/
-#     # labels:
-#     #   - traefik.http.routers.static.rule=PathPrefix(`/static`)
-#     #   - traefik.http.services.static.loadbalancer.server.port=80
+  #   static:
+  #     image: httpd:alpine
+  #     restart: always
+  #     expose:
+  #       - 80
+  #     volumes:
+  #       - type: bind
+  #         read_only: true
+  #         source: ./httpd
+  #         target: /usr/local/apache2/htdocs/
+  #     # labels:
+  #     #   - traefik.http.routers.static.rule=PathPrefix(`/static`)
+  #     #   - traefik.http.services.static.loadbalancer.server.port=80
 
   docker:
     # image: portainer/portainer-ce:2.11.1
@@ -127,8 +127,7 @@ services:
   #     #     - /var/run/docker.sock:/var/run/docker.sock
   #     labels:
   #         - traefik.enable=false
-
 # volumes:
-  # jenkins_home:
-  # jenkins_agent_cache:
-  # jenkins_agent_workdir:
+# jenkins_home:
+# jenkins_agent_cache:
+# jenkins_agent_workdir:

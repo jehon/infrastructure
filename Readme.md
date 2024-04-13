@@ -24,13 +24,13 @@
 
 ## Questions:
 
--   \*2 Do we have a default users install?
+- \*2 Do we have a default users install?
 
 # Desktop install
 
--   200 Gb root drive
--   200 Gb home
--   50 Gb swap
+- 200 Gb root drive
+- 200 Gb home
+- 50 Gb swap
 
 # Ansible
 
