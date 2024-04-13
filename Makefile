@@ -123,10 +123,6 @@ test:
 lint:
 	@true
 
-.PHONY: lint-prettier
-lint-prettier: $(NODE_DEPENDENCY_MARK)
-	prettier --list-different .
-
 .PHONY: release
 release:
 	jh-html-generate-index "$(PUBLISH)"
@@ -150,14 +146,14 @@ ok:
 
 #
 #
-# Externals makefiles
+# Global
 #
 #
-
 global: global-clean global-build global-test
 
 clean: global-clean
 build: global-build
+lint: global-lint
 test: global-test
 
 .PHONY: global-clean
@@ -183,6 +179,13 @@ $(VERSION_FILE): \
 	$(call mkdir,$@)
 	echo "$(VERSION_RUN)" > "$(VERSION_FILE)"
 
+.PHONY: global-lint
+# global-lint: global-lint-prettier
+
+.PHONY: global-lint-prettier
+global-lint-prettier: $(NODE_DEPENDENCY_MARK)
+	prettier --list-different .
+
 .PHONY: global-test
 global-test:
 	@true
@@ -190,6 +193,12 @@ global-test:
 clean-force: clean
 # Thanks to https://stackoverflow.com/a/46273201/1954789
 	git clean -dfX
+
+#
+#
+# Externals makefiles
+#
+#
 
 include Makefile.python
 include Makefile.node
