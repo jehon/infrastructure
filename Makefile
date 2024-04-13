@@ -180,7 +180,7 @@ $(VERSION_FILE): \
 	echo "$(VERSION_RUN)" > "$(VERSION_FILE)"
 
 .PHONY: global-lint
-# global-lint: global-lint-prettier
+global-lint: global-lint-prettier
 
 .PHONY: global-lint-prettier
 global-lint-prettier: $(NODE_DEPENDENCY_MARK)
