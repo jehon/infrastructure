@@ -82,11 +82,12 @@
         cmd: "/usr/sbin/jh-install-grafana-agent"
       changed_when: true
 
-    # - name: Setup nodejs repository and package
-    #   when: nodejs is defined
-    #   ansible.builtin.command:
-    #     cmd: "/usr/sbin/jh-install-node"
-    #   changed_when: '[modified]' in result.stdout
+    - name: Setup nodejs repository and package
+      when: nodejs is defined
+      ansible.builtin.command:
+        cmd: "/usr/sbin/jh-install-node"
+      register: result
+      changed_when: "'[modified]' in result.stdout"
 
     ############################################
     #
