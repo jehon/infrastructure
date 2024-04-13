@@ -3,12 +3,11 @@
 # shellcheck source=SCRIPTDIR/packages/jehon/usr/bin/jh-lib
 . jh-lib
 
-if [ -z "$2" ]; then
-    jh_fatal "Need [playbook] [host]"
+if [ -z "$1" ]; then
+    jh_fatal "Need [host...]"
 fi
 
-PLAYBOOK="$1"
-shift
+PLAYBOOK="setup.yml"
 
 export PYTHONPATH="${JH_PKG_FOLDER}/tmp/python/common:$PYTHONPATH"
 cd infrastructure
