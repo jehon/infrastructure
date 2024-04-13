@@ -186,6 +186,10 @@ $(VERSION_FILE): \
 global-lint-prettier: $(NODE_DEPENDENCY_MARK)
 	prettier --list-different .
 
+.PHONY: global-lint-prettier
+global-lint-prettier-fix: $(NODE_DEPENDENCY_MARK)
+	prettier --write .
+
 .PHONY: global-test
 global-test:
 	@true
