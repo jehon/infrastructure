@@ -146,6 +146,22 @@ ok:
 
 #
 #
+# Externals makefiles
+#
+#
+
+include Makefile.python
+include Makefile.node
+include Makefile.scripts
+include Makefile.packages
+
+# Latest file must be in top folder
+# for ROOT to be ok
+include Makefile.infrastructure
+include Makefile.devstack
+
+#
+#
 # Global
 #
 #
@@ -198,18 +214,3 @@ clean-force: clean
 # Thanks to https://stackoverflow.com/a/46273201/1954789
 	git clean -dfX
 
-#
-#
-# Externals makefiles
-#
-#
-
-include Makefile.python
-include Makefile.node
-include Makefile.scripts
-include Makefile.packages
-
-# Latest file must be in top folder
-# for ROOT to be ok
-include Makefile.infrastructure
-include Makefile.devstack
