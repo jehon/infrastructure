@@ -64,34 +64,38 @@ start() {
 
 		sleep 1s
 
-		if ! check_mounted_folder "${CRYPTED_MOUNTED}"; then
-			echo "Exiting..."
-			exit 1
-		fi
+		check_mounted_folder "${CRYPTED_MOUNTED}" || jh_fatal "Mounting failure"
 	fi
 	header_end
 
-	# (
-	#   read -r -s PWD
-	# 	PWD_CRYTED="$( echo "$PWD" | rclone obscure - )"
+	header_begin "Mounting ${CRYPTED_SOURCE}.new to ${CRYPTED_MOUNTED}.new"
+	if ! check_mounted_folder "${CRYPTED_MOUNTED}.new"; then
+		# (
+		#   read -r -s PWD
+		# 	PWD_CRYTED="$( echo "$PWD" | rclone obscure - )"
 
-	# 	#
-	# 	# Thanks to https://forum.rclone.org/t/rclone-one-liner-to-connect-a-webdav-mount-without-rclone-conf/20444
-	# 	#
-	# 	#  @see connection-strings: https://rclone.org/docs/#connection-strings
-	# 	#  @see log-level: https://rclone.org/docs/#log-level-level
-	# 	#  @see vfs caching: https://rclone.org/commands/rclone_mount/#vfs-file-caching
-	# 	#     !! caching is done outside of folder, so uncrypted data is available to all
-	# 	#  @see other options: https://rclone.org/crypt/#standard-options
-	# 	#
-	# 	rclone mount \
-	# 		--log-level=ERROR \
-	# 		--vfs-cache-mode=off \
-	# 		":crypt,remote=${CRYPTED_SOURCE},filename_encryption=standard,directory_name_encryption,password='$PWD_CRYTED',password2='$PWD_CRYTED'":/ \
-	# 		"${CRYPTED_MOUNTED}" \
-	# 		2>&1 >/dev/null | jh-tag-stdin "rclone"
-	# ) &
+		# 	#
+		# 	# Thanks to https://forum.rclone.org/t/rclone-one-liner-to-connect-a-webdav-mount-without-rclone-conf/20444
+		# 	#
+		# 	#  @see connection-strings: https://rclone.org/docs/#connection-strings
+		# 	#  @see log-level: https://rclone.org/docs/#log-level-level
+		# 	#  @see vfs caching: https://rclone.org/commands/rclone_mount/#vfs-file-caching
+		# 	#     !! caching is done outside of folder, so uncrypted data is available to all
+		# 	#  @see other options: https://rclone.org/crypt/#standard-options
+		# 	#
+		# 	rclone mount \
+		# 		--log-level=ERROR \
+		# 		--vfs-cache-mode=off \
+		# 		":crypt,remote=${CRYPTED_SOURCE},filename_encryption=standard,directory_name_encryption,password='$PWD_CRYTED',password2='$PWD_CRYTED'":/ \
+		# 		"${CRYPTED_MOUNTED}" \
+		# 		2>&1 >/dev/null | jh-tag-stdin "rclone"
+		# ) &
 
+		sleep 1s
+
+		# check_mounted_folder "${CRYPTED_MOUNTED}.new" || jh_fatal "Mounting failure"
+	fi
+	header_end
 
 	do_move_to_be_encrypted_files
 
@@ -105,6 +109,7 @@ stop() {
 	mount | grep "${HOME}"
 
 	umount_folder "${CRYPTED_MOUNTED}"
+	umount_folder "${CRYPTED_MOUNTED}.new"
 
 	header_begin "Cleaning data"
 	if [ -r ~/.local/share/Trash/metadata ]; then
