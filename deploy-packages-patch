@@ -1,7 +1,9 @@
 #!/usr/bin/bash
 
-# shellcheck source=SCRIPTDIR/packages/jehon/usr/bin/jh-lib
-. jh-lib
+SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}")")"
+
+# shellcheck source=SCRIPTDIR/../bin
+. "${SWD}/bin/lib.sh"
 
 if [ -z "$2" ]; then
     jh_fatal "Need [host] [source]"
