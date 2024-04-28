@@ -15,22 +15,6 @@ chmod "0700" "${TO_BE_ENCRYPTED}"
 
 declare -a MOUNTED
 
-unmount_folder() {
-	DST="$1"
-	jh_info "Trying to unmount ${DST}"
-
-	if mount | grep "${DST}" >/dev/null; then
-		header_begin "Unmouning ${DST}"
-		fusermount -u -z "${DST}/"
-		if [ -d "${DST}" ]; then
-			rmdir "${DST}"
-		fi
-		header_end
-	else
-		echo "Folder was already unmounted: ${DST}"
-	fi
-}
-
 check_mounted_folder() {
 	DST="$1"
 
@@ -136,8 +120,19 @@ start() {
 stop() {
 	header_begin "Stopping..."
 
-	for F in "${MOUNTED[@]}"; do
-		unmount_folder "$F"
+	for DST in "${MOUNTED[@]}"; do
+		jh_info "Trying to unmount ${DST}"
+
+		if mount | grep "${DST}" >/dev/null; then
+			header_begin "Unmouning ${DST}"
+			fusermount -u -z "${DST}/"
+			if [ -d "${DST}" ]; then
+				rmdir "${DST}"
+			fi
+			header_end
+		else
+			echo "Folder was already unmounted: ${DST}"
+		fi
 	done
 
 	jh_info "List of mounted drives in home folder:"
