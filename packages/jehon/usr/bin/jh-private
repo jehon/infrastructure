@@ -104,13 +104,9 @@ mount_rclone() {
 }
 
 start() {
-	mount_gocryptfs \
-		"${JH_CLOUD_USER}/Workspaces/Jean/.encrypted_2023b" \
-		"${CRYPTED_MOUNTED}"
-
 	mount_rclone \
 		"${JH_CLOUD_USER}/Workspaces/Jean/.encrypted_2024" \
-		"${CRYPTED_MOUNTED}.new"
+		"${CRYPTED_MOUNTED}"
 
 	do_move_to_be_encrypted_files
 

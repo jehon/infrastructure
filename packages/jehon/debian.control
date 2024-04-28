@@ -15,8 +15,6 @@ Depends: ${misc:Depends},
 # envsubst:
 	gettext-base,
 	git, git-restore-mtime,
-# Folder encryption (jh-private):
-	gocryptfs,
 	gnupg2,
 	htop,
 	iproute2,
