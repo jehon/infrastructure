@@ -37,7 +37,8 @@ check_mounted_folder() {
 	header_begin "Check that ${FOLDER} is correctly mounted"
 	if [ ! -r "${FOLDER}"/.mounted ]; then
 		echo "Folder incorrectly mounted (exists)" >&2
-		exit 1
+		header_end
+		return 1
 	fi
 
 	if echo "13cb24c5065f9da4df9a93cb77de4292  ${FOLDER}/.mounted" | md5sum -c - > /dev/null ; then
