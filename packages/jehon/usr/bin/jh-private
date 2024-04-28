@@ -41,12 +41,13 @@ check_mounted_folder() {
 	fi
 
 	if echo "13cb24c5065f9da4df9a93cb77de4292  ${FOLDER}/.mounted" | md5sum -c - > /dev/null ; then
+		header_end
 		return 0
 	else
 		echo "Folder incorrectly mounted (md5sum)" >&2
-		exit 1
+		header_end
+		return 1
 	fi
-	header_end
 }
 
 start() {
@@ -88,7 +89,10 @@ start() {
 
 		sleep 1s
 
-		check_mounted_folder "${CRYPTED_MOUNTED}"
+		if ! check_mounted_folder "${CRYPTED_MOUNTED}"; then
+			echo "Exiting..."
+			exit 1
+		fi
 	fi
 	header_end
 
