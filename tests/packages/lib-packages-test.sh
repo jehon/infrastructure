@@ -25,7 +25,7 @@ docker build \
 	-f "$SWD/$TEST_NAME.docker" \
 	--build-context "publish=${JH_PKG_FOLDER}/tmp/publish" \
 	--tag "$TAG" \
-	"$SWD" | jh-tag-stdin "building"
+	"$SWD" |& jh-tag-stdin "building"
 
 # shellcheck disable=SC2120
 # shellcheck disable=SC2119
