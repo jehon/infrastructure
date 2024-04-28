@@ -11,9 +11,7 @@ NEWLY_ENCRYPTED="${CRYPTED_MOUNTED}/divers"
 NEWLY_ENCRYPTED_OTHER="${CRYPTED_MOUNTED}/divers-others"
 CRYPTED_SOURCE="${JH_CLOUD_USER}/Workspaces/Jean/.encrypted_2023b"
 
-if [ ! -r "${TO_BE_ENCRYPTED}" ]; then
-	mkdir "${TO_BE_ENCRYPTED}"
-fi
+mkdir -p "${TO_BE_ENCRYPTED}"
 chmod "0700" "${TO_BE_ENCRYPTED}"
 
 umount_folder() {
