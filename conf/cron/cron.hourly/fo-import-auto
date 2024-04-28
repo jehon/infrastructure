@@ -2,8 +2,8 @@
 
 set -o errexit
 
-# shellcheck source-path=SCRIPTDIR/
-. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
+# shellcheck source-path=SCRIPTDIR/../../../packages/jehon/usr/bin/
+. jh-lib
 
 location="$( jh-location-detect )"
 case "${location}" in
@@ -34,7 +34,7 @@ import() {
     if [ ! -d "${SOURCE}" ]; then
         jh_fatal "Could not read source ${SOURCE}"
     fi
-    "${PRJ_ROOT}"/bin/fo "import" "$@" --to "${TARGET}" "${SOURCE}"
+    "${JH_PKG_FOLDER}"/bin/fo "import" "$@" --to "${TARGET}" "${SOURCE}"
 }
 
 import "Workspaces/Jean/Automatic Upload J/" "$@"
