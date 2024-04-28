@@ -56,7 +56,7 @@ start() {
 	fi
 
 	mkdir -p "${CRYPTED_MOUNTED}" || true
-	if ! check_mounted_folder "${CRYPTED_MOUNTED}"; then
+	if ! check_mounted_folder "${CRYPTED_MOUNTED}" 2>/dev/null; then
 		echo "Encore un secret:"
 		jh_info "Mounting folder"
 
@@ -69,7 +69,7 @@ start() {
 	header_end
 
 	header_begin "Mounting ${CRYPTED_SOURCE}.new to ${CRYPTED_MOUNTED}.new"
-	if ! check_mounted_folder "${CRYPTED_MOUNTED}.new"; then
+	if ! check_mounted_folder "${CRYPTED_MOUNTED}.new" 2>/dev/null; then
 		# (
 		#   read -r -s PWD
 		# 	PWD_CRYTED="$( echo "$PWD" | rclone obscure - )"
