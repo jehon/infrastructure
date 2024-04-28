@@ -9,71 +9,89 @@ CRYPTED_MOUNTED="${HOME}/Private"
 TO_BE_ENCRYPTED="${HOME}/to-be-encrypted"
 NEWLY_ENCRYPTED="${CRYPTED_MOUNTED}/divers"
 NEWLY_ENCRYPTED_OTHER="${CRYPTED_MOUNTED}/divers-others"
-CRYPTED_SOURCE="${JH_CLOUD_USER}/Workspaces/Jean/.encrypted_2023b"
 
 mkdir -p "${TO_BE_ENCRYPTED}"
 chmod "0700" "${TO_BE_ENCRYPTED}"
 
-umount_folder() {
-	MOUNTED="$1"
+declare -a MOUNTED
 
-	if mount | grep "${MOUNTED}" >/dev/null; then
-		header_begin "Unmouning ${MOUNTED}"
-		fusermount -u -z "${MOUNTED}/"
-		if [ -d "${MOUNTED}" ]; then
-			rmdir "${MOUNTED}"
+unmount_folder() {
+	DST="$1"
+	jh_info "Trying to unmount ${DST}"
+
+	if mount | grep "${DST}" >/dev/null; then
+		header_begin "Unmouning ${DST}"
+		fusermount -u -z "${DST}/"
+		if [ -d "${DST}" ]; then
+			rmdir "${DST}"
 		fi
 		header_end
 	else
-		echo "Folder was already unmounted: ${MOUNTED}"
+		echo "Folder was already unmounted: ${DST}"
 	fi
 }
 
 check_mounted_folder() {
-	FOLDER="$1"
+	DST="$1"
 
-	if [ ! -r "${FOLDER}"/.mounted ]; then
-		echo "Folder incorrectly mounted (exists)" >&2
+	if [ ! -r "${DST}"/.mounted ]; then
+		echo "Folder ${DST} incorrectly mounted (exists)" >&2
 		return 1
 	fi
 
-	if echo "13cb24c5065f9da4df9a93cb77de4292  ${FOLDER}/.mounted" | md5sum -c - > /dev/null ; then
+	if echo "13cb24c5065f9da4df9a93cb77de4292  ${DST}/.mounted" | md5sum -c - > /dev/null ; then
 		return 0
 	else
-		echo "Folder incorrectly mounted (md5sum)" >&2
+		echo "Folder ${DST} incorrectly mounted (md5sum)" >&2
 		return 1
 	fi
 }
 
-start() {
-	header_begin "Mounting ${CRYPTED_SOURCE} to ${CRYPTED_MOUNTED}"
+mount_gocryptfs() {
+	SRC="${1}"
+	DST="${2}"
 
-	if [ ! -d "${CRYPTED_SOURCE}" ]; then
-		echo "Encrypted source dir not found" >&2
-		exit 255
-	fi
+	header_begin "Mounting ${SRC} to ${DST}"
+	MOUNTED+=( "${DST}")
 
-	mkdir -p "${CRYPTED_MOUNTED}" || true
-	if ! check_mounted_folder "${CRYPTED_MOUNTED}" 2>/dev/null; then
+	[ -d "${SRC}" ] || jh_fatal "Encrypted source dir (${SRC}) not found"
+	mkdir -p "${DST}" || true
+
+	if ! check_mounted_folder "${DST}" 2>/dev/null; then
 		echo "Encore un secret:"
 		jh_info "Mounting folder"
 
-		gocryptfs "${CRYPTED_SOURCE}" "${CRYPTED_MOUNTED}"
+		gocryptfs "${SRC}" "${DST}"
 
 		sleep 1s
 
-		check_mounted_folder "${CRYPTED_MOUNTED}" || jh_fatal "Mounting failure"
+		check_mounted_folder "${DST}" || jh_fatal "Mounting failure"
 	fi
-	header_end
 
-	header_begin "Mounting ${CRYPTED_SOURCE}.new to ${CRYPTED_MOUNTED}.new"
-	if ! check_mounted_folder "${CRYPTED_MOUNTED}.new" 2>/dev/null; then
+	# jh-cloud-prefetch "${SRC}"
+	header_end
+}
+
+mount_rclone() {
+	SRC="${1}"
+	DST="${2}"
+
+	header_begin "Mounting ${SRC} to ${DST}"
+	MOUNTED+=( "${DST}" )
+
+	[ -d "${SRC}" ] || jh_fatal "Encrypted source dir (${SRC}) not found"
+	mkdir -p "${DST}" || true
+
+	if ! check_mounted_folder "${DST}" 2>/dev/null; then
 		# -r: allow backslash
 		# -s: silent
 		echo -n "Enter password for rclone mount: "
 		read -r -s PWD
+		echo ""
+		echo "unmounting..."
 		(
-			CRYPTED_SOURCE="${JH_CLOUD_USER}"/Workspaces/Jean/.encrypted_2024
+			mkdir -p "${DST}.new" || true
+
 			#
 			# Thanks to https://forum.rclone.org/t/rclone-one-liner-to-connect-a-webdav-mount-without-rclone-conf/20444
 			#
@@ -87,16 +105,28 @@ start() {
 			rclone mount \
 				--log-level=ERROR \
 				--vfs-cache-mode=off \
-				":crypt,remote=${CRYPTED_SOURCE},filename_encryption=standard,directory_name_encryption,password='$PWD_CRYTED',password2='$PWD_CRYTED'":/ \
-				"${CRYPTED_MOUNTED}.new" \
+				":crypt,remote=${SRC},filename_encryption=standard,directory_name_encryption,password='$PWD_CRYTED',password2='$PWD_CRYTED'":/ \
+				"${DST}" \
 				2>&1 | jh-tag-stdin "rclone"
 		) &
 
 		sleep 1s
 
-		# check_mounted_folder "${CRYPTED_MOUNTED}.new" || jh_fatal "Mounting failure"
+		check_mounted_folder "${DST}" || jh_fatal "Mounting failure"
 	fi
+
+	# jh-cloud-prefetch "${SRC}"
 	header_end
+}
+
+start() {
+	mount_gocryptfs \
+		"${JH_CLOUD_USER}/Workspaces/Jean/.encrypted_2023b" \
+		"${CRYPTED_MOUNTED}"
+
+	mount_rclone \
+		"${JH_CLOUD_USER}/Workspaces/Jean/.encrypted_2024" \
+		"${CRYPTED_MOUNTED}.new"
 
 	do_move_to_be_encrypted_files
 
@@ -106,11 +136,12 @@ start() {
 stop() {
 	header_begin "Stopping..."
 
+	for F in "${MOUNTED[@]}"; do
+		unmount_folder "$F"
+	done
+
 	jh_info "List of mounted drives in home folder:"
 	mount | grep "${HOME}"
-
-	umount_folder "${CRYPTED_MOUNTED}"
-	umount_folder "${CRYPTED_MOUNTED}.new"
 
 	header_begin "Cleaning data"
 	if [ -r ~/.local/share/Trash/metadata ]; then
@@ -185,13 +216,12 @@ function do_move_to_be_encrypted_files() {
 	header_end
 }
 
+start
+
 function treatAction() {
 	case "$1" in
-	"start" )
-		start
-		;;
-	"s" | "stop")
-		jh_info "Force unmounting"
+	"s" | "stop" | "q" )
+		jh_info "Quitting..."
 		# stop? We use the 'trap EXIT'
 		exit 0
 		;;
@@ -210,9 +240,6 @@ function treatAction() {
 		jh_info "Launching nautilus"
 		nautilus "${CRYPTED_MOUNTED}"/ &
 		;;
-	"p" | "prefetch" )
-		jh-cloud-prefetch "${CRYPTED_SOURCE}"
-		;;
 	*)
 		return 1
 		;;
@@ -220,14 +247,8 @@ function treatAction() {
 	return 0
 }
 
-if [ -n "$1" ]; then
-	treatAction "$1"
-else
-	treatAction "start"
-fi
-
 while echo -n "?" && read -r A; do
-	echo "Action (s/n/d/i/y): $A"
+	echo "Action (q/s/n/d/i/y): $A"
 	if ! treatAction "$A"; then
 		echo "Unknown action: $A"
 	fi
