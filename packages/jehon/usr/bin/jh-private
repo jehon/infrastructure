@@ -34,25 +34,20 @@ umount_folder() {
 check_mounted_folder() {
 	FOLDER="$1"
 
-	header_begin "Check that ${FOLDER} is correctly mounted"
 	if [ ! -r "${FOLDER}"/.mounted ]; then
 		echo "Folder incorrectly mounted (exists)" >&2
-		header_end
 		return 1
 	fi
 
 	if echo "13cb24c5065f9da4df9a93cb77de4292  ${FOLDER}/.mounted" | md5sum -c - > /dev/null ; then
-		header_end
 		return 0
 	else
 		echo "Folder incorrectly mounted (md5sum)" >&2
-		header_end
 		return 1
 	fi
 }
 
 start() {
-
 	header_begin "Mounting ${CRYPTED_SOURCE} to ${CRYPTED_MOUNTED}"
 
 	if [ ! -d "${CRYPTED_SOURCE}" ]; then
