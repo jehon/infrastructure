@@ -70,6 +70,9 @@ start() {
 
 	header_begin "Mounting ${CRYPTED_SOURCE}.new to ${CRYPTED_MOUNTED}.new"
 	if ! check_mounted_folder "${CRYPTED_MOUNTED}.new" 2>/dev/null; then
+		# -r: allow backslash
+		# -s: silent
+		echo -n "Enter password for rclone mount: "
 		read -r -s PWD
 		(
 			CRYPTED_SOURCE="${JH_CLOUD_USER}"/Workspaces/Jean/.encrypted_2024
