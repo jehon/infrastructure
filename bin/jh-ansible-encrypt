@@ -5,8 +5,8 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/
 . "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
-# shellcheck source-path=SCRIPTDIR/..
-. "$PRJ_ROOT"/bin/jh-ansible-setup
+echo "Installing dependencies"
+make --directory "$JH_PKG_FOLDER" python-dependencies
 
 echo ""
 

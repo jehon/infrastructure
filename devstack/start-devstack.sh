@@ -8,7 +8,7 @@ SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/bin/
 . "$SWD/bin/lib.sh"
 
-cd "$PRJ_ROOT"
+cd "$JH_PKG_FOLDER"
 
 # if [ $(sysctl --value vm.max_map_count) -lt 262144 ]; then
 #     echo "Adapting max_map_count"

@@ -5,12 +5,12 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/
 . "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
-if [ ! -d "${PRJ_ROOT}/node_modules" ]; then
+if [ ! -d "${JH_PKG_FOLDER}/node_modules" ]; then
     (
         echo "** Need to get dependencies"
-        cd "$PRJ_ROOT"
+        cd "$JH_PKG_FOLDER"
         make node-dependencies
     ) >&2
 fi
 
-exec node --import tsx/esm --harmony-temporal "${PRJ_ROOT}/node/src/fo.ts" "$@"
+exec node --import tsx/esm --harmony-temporal "${JH_PKG_FOLDER}/node/src/fo.ts" "$@"

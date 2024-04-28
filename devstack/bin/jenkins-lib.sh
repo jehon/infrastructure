@@ -3,7 +3,7 @@
 # shellcheck source-path=SCRIPTDIR
 . "$( dirname "$( realpath "${BASH_SOURCE[0]}")")"/lib.sh
 
-export JENKINS_ROOT="$PRJ_ROOT/jenkins"
+export JENKINS_ROOT="$JH_PKG_FOLDER/jenkins"
 export JENKINS_TMP="$PRJ_TMP/jenkins"
 export JENKINS_JAR="$TMP/jenkins-cli.jar"
 export JENKINS_DOCKER_NAME="jenkins"

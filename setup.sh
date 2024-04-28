@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 
 SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}")")"
-PRJ_ROOT="$SWD"
+JH_PKG_FOLDER="$SWD"
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -47,17 +47,17 @@ root_or_sudo apt install --quiet --yes "${PKGS[@]}"
 echo "* Installing packages done"
 
 echo "* Installing shellcheck..."
-root_or_sudo "$PRJ_ROOT"/packages/jehon/usr/sbin/jh-install-shellcheck
+root_or_sudo "$JH_PKG_FOLDER"/packages/jehon/usr/sbin/jh-install-shellcheck
 echo "* Installing shellcheck done"
 
 if ! type node >& /dev/null ; then
     echo "* Installing node (current)..."
-    root_or_sudo "$PRJ_ROOT"/packages/jehon/usr/sbin/jh-install-node current
+    root_or_sudo "$JH_PKG_FOLDER"/packages/jehon/usr/sbin/jh-install-node current
     echo "* Installing node (current) done"
 else
     echo "* Installing node (current): already installed"
 fi
 
 echo "* Enabling direnv..."
-direnv allow "$PRJ_ROOT"/
+direnv allow "$JH_PKG_FOLDER"/
 echo "* Enabling direnv done"

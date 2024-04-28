@@ -11,4 +11,4 @@ date
 
 export DEBUG=1
 
-jh_debug "PRJ: ${PRJ_ROOT}"
+jh_debug "PRJ: ${JH_PKG_FOLDER}"

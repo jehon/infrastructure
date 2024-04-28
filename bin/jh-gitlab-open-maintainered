@@ -15,4 +15,4 @@ SUB_URL="$1"
 # https://docs.gitlab.com/ee/api/members.html#roles 40 = Maintainer
 #
 # shellcheck source-path=SCRIPTDIR/../
-"${PRJ_ROOT}"/bin/jh-gitlab "/projects?membership=true&min_access_level=40" | jq -r "((.[].web_url) + \"${SUB_URL}\")" | xargs google-chrome
+"${JH_PKG_FOLDER}"/bin/jh-gitlab "/projects?membership=true&min_access_level=40" | jq -r "((.[].web_url) + \"${SUB_URL}\")" | xargs google-chrome
