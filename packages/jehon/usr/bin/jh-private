@@ -72,7 +72,7 @@ mount_rclone() {
 		echo -n "Enter password for rclone mount: "
 		read -r -s PWD
 		echo ""
-		echo "unmounting..."
+		echo "Mounting in background..."
 		(
 			mkdir -p "${DST}.new" || true
 
