@@ -3,6 +3,7 @@
 # Desktop side
 #
 - name: Setup Desktop env
+  # TODO: detect desktop is enabled....
   when: false
   block:
     - name: Install desktop packages
