@@ -93,27 +93,27 @@
     # Packages
     #
     ############################################
-    - name: Install hardware package - jehon-hardware-wsl
+    - name: Set default value for jehon_hardware
+      when: jehon_hardware is not defined
       ansible.builtin.set_fact:
-        jehon_hardware:
+        jehon_hardware: ""
 
-    - name: Install hardware package - jehon-hardware-wsl
+    - name: Set jehon_hardware to wsl
       # https://stackoverflow.com/a/78046212/1954789
       when: '"microsoft" in ansible_facts["kernel"]'
       ansible.builtin.set_fact:
         jehon_hardware: wsl
 
     # TODO: auto detect raspberrypi
-    # - name: Install hardware package - jehon-hardware-raspberrypi
-    #   when: jehon_hardware | length > 0
-    #     ansible.builtin.set_fact:
+    # - name: Set jehon_hardware to raspberrypi
+    #   when: ??
+    #   ansible.builtin.set_fact:
     #     jehon_hardware: raspberrypi
 
     # TODO: auto detect docker
-    # - name: Install hardware package - jehon-hardware-docker
-    #   when: jehon_hardware | length > 0
-    #   ansible.builtin.apt:
-    #     ansible.builtin.set_fact:
+    # - name: Set jehon_hardware to docker
+    #   when: ??
+    #   ansible.builtin.set_fact:
     #     jehon_hardware: docker
 
     - name: Install hardware package - jehon-hardware-*
