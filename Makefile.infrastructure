@@ -88,9 +88,14 @@ $(PUBLISH)/dev-config.json: $(INFRASTRUCTURE_TMP)/test.built
 
 .PHONY: infrastructure-test
 infrastructure-test: $(INFRASTRUCTURE_TMP)/test.built \
-		$(INFRASTRUCTURE_TMP)/50-hosts.yml
+		$(INFRASTRUCTURE_TMP)/50-hosts.yml \
+		$(HOME)/.ssh/id_rsa.pub
 
 	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/infrastructure
+
+# For github actions, we need a ssh key
+$(HOME)/.ssh/id_rsa.pub:
+	ssh-keygen -t rsa -q -f "$(HOME)/.ssh/id_rsa" -N ""
 
 $(INFRASTRUCTURE_TMP)/test.built: \
 		$(PYTHON_DEPENDENCY_COMMON_MARK) \
