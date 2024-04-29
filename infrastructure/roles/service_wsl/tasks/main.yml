@@ -3,7 +3,7 @@
 # Desktop side
 #
 - name: Setup WSL env
-  when: jh_hardware == 'wsl'
+  when: jehon_hardware == 'wsl'
   block:
     - name: Setup google-chrome repository and packages
       when: "'google-chrome-stable' not in ansible_facts.packages"
