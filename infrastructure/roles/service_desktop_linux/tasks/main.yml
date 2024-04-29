@@ -56,3 +56,12 @@
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-google-chrome"
       changed_when: true
+
+    - name: Setup Gnome and other customizations
+      when: not virtual
+      become: true
+      become_user: "{{ user }}"
+      ansible.builtin.command:
+        cmd: /usr/bin/jh-setup-user-profile
+      register: result
+      changed_when: "'[modified]' in result.stdout"
