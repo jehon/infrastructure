@@ -100,7 +100,6 @@
       ansible.builtin.set_fact:
         jehon_hardware: wsl
 
-
     # TODO: auto detect raspberrypi
     # - name: Install hardware package - jehon-hardware-raspberrypi
     #   when: jehon_hardware | length > 0
@@ -131,4 +130,4 @@
       ansible.builtin.copy:
         src: "../../../.ssh/id_rsa.pub"
         dest: /etc/ssh/authorized_keys/latest
-        mode: '0644'
+        mode: "0644"

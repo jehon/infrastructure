@@ -10,7 +10,6 @@
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-google-chrome"
       changed_when: true
-
 # winget install Microsoft.VisualStudioCode
 # winget install pCloudAG.pCloudDrive
 # winget install VideoLAN.VLC

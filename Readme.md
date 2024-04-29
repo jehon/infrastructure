@@ -51,13 +51,14 @@ See https://docs.ansible.com/ansible/latest/user_guide/vault.html#encrypting-ind
 - Add ssh key to github
 - Add ssh key to infra ssh packages ???
 
-``` lang=shell
+```lang=shell
 wsl --install debian
 cd && mkdir -p src && git clone git@github.com:jehon/infrastructure
 ```
 
 In WSL
-``` lang=shell
+
+```lang=shell
 cd
 ssh-keygen
 mkdir -p src
@@ -65,11 +66,12 @@ git clone git@github.com:jehon/infrastructure
 sudo ./deploy-infra-to init
 ```
 
-``` lang=shell
+```lang=shell
 wsl --shutdown
 ```
 
 In WSL
-``` lang=shell
+
+```lang=shell
 src/infrastructure/deploy-infra-to init
 ```
