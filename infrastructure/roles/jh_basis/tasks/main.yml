@@ -120,14 +120,3 @@
           ansible.builtin.apt:
             pkg:
               - "jehon-hardware-{{ jehon_hardware }}"
-
-    ############################################
-    #
-    # Configuration
-    #
-    ############################################
-    - name: Add current ssh key as default
-      ansible.builtin.copy:
-        src: "../../../.ssh/id_rsa.pub"
-        dest: /etc/ssh/authorized_keys/latest
-        mode: "0644"

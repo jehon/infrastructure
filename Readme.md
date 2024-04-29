@@ -74,4 +74,5 @@ In WSL
 
 ```lang=shell
 src/infrastructure/deploy-infra-to init
+cp .ssh/id_rsa.pub
 ```
