@@ -37,7 +37,7 @@
         "webpack-shebang-plugin": "1.1.8"
     },
     "scripts": {
-        "postinstall": "touch node_modules/.dependencies && husky"
+        "postinstall": "install -D /dev/null node_modules/.dependencies && husky || true"
     },
     "type": "module"
 }
