@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+# shellcheck source-path=SCRIPTDIR/
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
+
+pushd "$JH_PKG_FOLDER/../tmp/repo" >/dev/null
+
+dpkg -l | grep jehon- | grep ii |
+    awk '{print $2}' |
+    xargs -I "{}" find . -name "{}*.deb" |
+    xargs -d '\n' apt install --yes ./jehon.deb
