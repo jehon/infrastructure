@@ -93,6 +93,9 @@
     # Packages
     #
     ############################################
+    - name: Install hardware package - jehon-hardware-wsl
+      ansible.builtin.set_fact:
+        jehon_hardware:
 
     - name: Install hardware package - jehon-hardware-wsl
       # https://stackoverflow.com/a/78046212/1954789
