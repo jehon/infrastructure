@@ -96,7 +96,7 @@
 
     - name: Install hardware package - jehon-hardware-wsl
       # https://stackoverflow.com/a/78046212/1954789
-      when: ansible_facts['os_family'] == "Debian" and ansible_facts['system_vendor'] == "Microsoft Corporation"
+      when: '"microsoft" in ansible_facts["kernel"]'
       ansible.builtin.apt:
         pkg:
           - "jehon-hardware-wsl"

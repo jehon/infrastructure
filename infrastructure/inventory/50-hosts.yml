@@ -314,6 +314,10 @@ all:
             626563613938386234353535366335333561
 
   hosts:
+    init:
+      # To be used as sudo
+      ansible_host: localhost
+      ansible_connection: local
     dev:
       ansible_host: localhost
       # ansible_connection: local
@@ -393,6 +397,7 @@ all:
     grp_jehon:
       # All system that get jehon.deb and the follow-up
       hosts:
+        init:
         dev:
         kiosk:
     grp_servers:

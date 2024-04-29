@@ -6,10 +6,21 @@ SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}")")"
 . "${SWD}/bin/lib.sh"
 
 if [ -z "$1" ]; then
+    echo "You need to setup a host"
+    echo "For initial setup, use 'init'"
+
     jh_fatal "Need [host...]"
 fi
 
+if [ "$1" == "init" ]; then
+    if [ "$(id -u)" != "0" ]; then
+        jh_fatal "You need to use sudo to run 'init' target"
+    fi
+fi
+
 PLAYBOOK="setup.yml"
+
+make dependencies
 
 export PYTHONPATH="${JH_PKG_FOLDER}/tmp/python/common:$PYTHONPATH"
 cd infrastructure
@@ -17,5 +28,5 @@ cd infrastructure
 while [ -n "$1" ]; do
     HOST="$1"
     shift
-    "${JH_PKG_FOLDER}"/tmp/python/common/bin/ansible-playbook --limit "${HOST}" "${PLAYBOOK}" | jh-tag-stdin "${HOST}"
+    "${JH_PKG_FOLDER}"/tmp/python/common/bin/ansible-playbook --limit "${HOST}" "${PLAYBOOK}" | "${JH_PKG_FOLDER}"/packages/jehon/usr/bin/jh-tag-stdin "${HOST}"
 done
