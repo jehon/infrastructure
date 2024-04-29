@@ -22,10 +22,6 @@
 | Dev computers   |     Y     | jehon-service-dev |    Y    | Localhost                                   |
 |                 |           |                   |         |                                             |
 
-## Questions:
-
-- \*2 Do we have a default users install?
-
 # Desktop install
 
 - 200 Gb root drive
@@ -47,3 +43,33 @@ See https://docs.ansible.com/ansible/latest/user_guide/vault.html#encrypting-ind
     register
     failed_when
     changed_when
+
+# Install
+
+## WSL
+
+- Add ssh key to github
+- Add ssh key to infra ssh packages ???
+
+``` lang=shell
+wsl --install debian
+cd && mkdir -p src && git clone git@github.com:jehon/infrastructure
+```
+
+In WSL
+``` lang=shell
+cd
+ssh-keygen
+mkdir -p src
+git clone git@github.com:jehon/infrastructure
+sudo ./deploy-infra-to init
+```
+
+``` lang=shell
+wsl --shutdown
+```
+
+In WSL
+``` lang=shell
+src/infrastructure/deploy-infra-to init
+```
