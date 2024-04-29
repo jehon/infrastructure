@@ -133,3 +133,4 @@
       ansible.builtin.copy:
         src: "../../../.ssh/id_rsa.pub"
         dest: /etc/ssh/authorized_keys/latest
+        mode: 0644
