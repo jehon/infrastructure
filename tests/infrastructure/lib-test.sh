@@ -12,7 +12,7 @@ set -o pipefail
 # shellcheck source-path=SCRIPTDIR/../
 TEST_NAME="$(basename "${BASH_SOURCE[1]}")"
 TAG="test-ansible-${TEST_NAME}"
-exec &> >( jh-tag-stdin "$TEST_NAME" )
+exec &> >(jh-tag-stdin "$TEST_NAME")
 
 echo "*******************************************************"
 echo "***"
@@ -22,9 +22,9 @@ echo "***"
 echo "*******************************************************"
 
 docker kill "${TAG}" &>/dev/null || true
-docker rm -f "${TAG}" &> /dev/null || true
+docker rm -f "${TAG}" &>/dev/null || true
 # Caution: will be pasted as-is
-export JH_ANSIBLE_TEST="--connection=local --extra-vars '{\"virtual\": true, \"jh_repositories_deb_url\": \"/setup/packages/jehon.deb\"}'"
+export JH_ANSIBLE_TEST="--connection=local --extra-vars '{\"virtual\": true, \"jh_basis_deb_url\": \"/setup/packages/jehon.deb\"}'"
 
 # shellcheck disable=SC2120
 # shellcheck disable=SC2119
@@ -52,14 +52,14 @@ test_in_docker() {
 			set +x
 			echo
 		EOS
-	) | docker run --rm --name "$TAG" --interactive  \
-			-v "$JH_PKG_FOLDER:$REMOTE_PRJ" \
-			-v "$JH_PKG_FOLDER/tmp/infrastructure/50-hosts.yml:$REMOTE_PRJ/infrastructure/inventory/50-hosts.yml" \
-			-v "test-ansible-python-cache:$REMOTE_PRJ/tmp/python/common" \
-			--tmpfs "$REMOTE_PRJ/infrastructure/built" \
-			"$IMG" "bash" \
-		|& jh-tag-stdin "inside" \
-		|| jh_fatal "!! Test failed: $TEST_NAME ($?) !!"
+	) | docker run --rm --name "$TAG" --interactive \
+		-v "$JH_PKG_FOLDER:$REMOTE_PRJ" \
+		-v "$JH_PKG_FOLDER/tmp/infrastructure/50-hosts.yml:$REMOTE_PRJ/infrastructure/inventory/50-hosts.yml" \
+		-v "test-ansible-python-cache:$REMOTE_PRJ/tmp/python/common" \
+		--tmpfs "$REMOTE_PRJ/infrastructure/built" \
+		"$IMG" "bash" |&
+		jh-tag-stdin "inside" ||
+		jh_fatal "!! Test failed: $TEST_NAME ($?) !!"
 
 	echo "**************************************"
 	echo "***                                ***"

@@ -14,11 +14,11 @@
     ############################################
 
     # We need this one to be installed first, because next line will depend on it
-    - name: "Install jehon.deb from {{ jh_repositories_deb_url }}"
+    - name: "Install jehon.deb from {{ jh_basis_deb_url }}"
       when: "'jehon' not in ansible_facts.packages"
       ansible.builtin.apt:
-        deb: "{{ jh_repositories_deb_url | default('https://jehon.github.io/infrastructure/repo/jehon.deb') }}"
-      notify: jh_repositories.indexes
+        deb: "{{ jh_basis_deb_url | default('https://jehon.github.io/infrastructure/repo/jehon.deb') }}"
+      notify: jh_basis.indexes
       register: jehon_basis_jehon_deb
       # Example: [run]   msg: Breaks existing package 'jehon-hardware-wsl' dependency jehon (<= 2023.06.28.14.53.03)
       failed_when: >
@@ -28,8 +28,8 @@
           and (' dependency jehon (' not in jehon_basis_jehon_deb.msg)
         )
 
-    - name: "Remove online repositories because defined {{ jh_repositories_deb_url }}"
-      when: jh_repositories_deb_url is defined
+    - name: "Remove online repositories because defined {{ jh_basis_deb_url }}"
+      when: jh_basis_deb_url is defined
       ansible.builtin.file:
         path: /etc/apt/sources.list.d/jehon-github.sources
         state: absent
@@ -54,7 +54,7 @@
           ansible.builtin.command:
             cmd: "/usr/sbin/jh-install-debian-testing {{ jehon_testing }}"
           register: result
-          notify: jh_repositories.indexes
+          notify: jh_basis.indexes
           changed_when: "'[modified]' in result.stdout"
 
     - name: Refresh indexes for jehon

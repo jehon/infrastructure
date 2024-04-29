@@ -35,8 +35,11 @@
 
     - name: Setup host dev
       when: inventory_hostname == "dev"
+      with_items:
+        - host_dev
+        - service_desktop_linux
       ansible.builtin.include_role:
-        name: host_dev
+        name: "{{ item }}"
 
     - name: Setup host kiosk
       when: inventory_hostname == "kiosk"

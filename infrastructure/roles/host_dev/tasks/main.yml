@@ -20,52 +20,10 @@
 - name: Install desktop packages
   ansible.builtin.apt:
     pkg:
-      - copyq
-      - digikam
-      - ffmpegthumbnailer # Thumbnails for movies
-      - git-flow
-      - gnome-network-displays
-      - gnome-shell-extensions
-      - gthumb # Print multiple images on one page
-      - libfuse2 # pcloud
       - php # linting php in vscode
       - php-xml # linting php in vscode
-      - solaar
       - sshfs # cryptomedic deploy
-
-- name: "Ensure installed snap"
-  when: not virtual
-  with_items:
-    - firefox
-    - gimp
-    - ksnip
-    - mkvtoolnix-jz
-    - spotify
-    - whatsapp-for-linux # Personnal (conf call)
-    - vlc
-    - youtube-dl-pro
-  community.general.snap:
-    name: "{{ item }}"
-    state: present
-
-- name: "Ensure installed snap (classic)"
-  when: not virtual
-  with_items:
-    - code
-  community.general.snap:
-    name: "{{ item }}"
-    state: present
-    classic: true
 # node in snap? could not access pCloudDrive... but still the best option
-
-- name: "Ensure installed snap (special) "
-  when: not virtual
-  with_items:
-    - subtitle-edit
-  community.general.snap:
-    name: "{{ item }}"
-    state: present
-    channel: edge
 
 - name: Setup google-chrome repository and packages
   when: "'google-chrome-stable' not in ansible_facts.packages"
