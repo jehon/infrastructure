@@ -97,25 +97,23 @@
     - name: Install hardware package - jehon-hardware-wsl
       # https://stackoverflow.com/a/78046212/1954789
       when: '"microsoft" in ansible_facts["kernel"]'
-      ansible.builtin.apt:
-        pkg:
-          - "jehon-hardware-wsl"
+      ansible.builtin.set_fact:
+        jehon_hardware: wsl
+
 
     # TODO: auto detect raspberrypi
     # - name: Install hardware package - jehon-hardware-raspberrypi
     #   when: jehon_hardware | length > 0
-    #   ansible.builtin.apt:
-    #     pkg:
-    #       - "jehon-hardware-raspberrypi"
+    #     ansible.builtin.set_fact:
+    #     jehon_hardware: raspberrypi
 
     # TODO: auto detect docker
     # - name: Install hardware package - jehon-hardware-docker
     #   when: jehon_hardware | length > 0
     #   ansible.builtin.apt:
-    #     pkg:
-    #       - "jehon-hardware-docker"
+    #     ansible.builtin.set_fact:
+    #     jehon_hardware: docker
 
-    # TODO: remove this...
     - name: Install hardware package - jehon-hardware-*
       when: jehon_hardware | length > 0
       block:
@@ -133,4 +131,4 @@
       ansible.builtin.copy:
         src: "../../../.ssh/id_rsa.pub"
         dest: /etc/ssh/authorized_keys/latest
-        mode: 0644
+        mode: '0644'

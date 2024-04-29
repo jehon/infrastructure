@@ -38,6 +38,7 @@
       with_items:
         - host_dev
         - service_desktop_linux
+        - service_wsl
       ansible.builtin.include_role:
         name: "{{ item }}"
 
