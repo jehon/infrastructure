@@ -39,8 +39,10 @@
         - host_dev
         - service_desktop_linux
         - service_wsl
+      loop_control:
+        loop_var: role
       ansible.builtin.include_role:
-        name: "{{ item }}"
+        name: "{{ role }}"
 
     - name: Setup host kiosk
       when: inventory_hostname == "kiosk"
