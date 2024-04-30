@@ -53,11 +53,11 @@ node-lint-typescript: $(NODE_DEPENDENCY_MARK)
 
 .PHONY: node-lint-eslint
 node-lint-eslint: $(NODE_DEPENDENCY_MARK)
-	eslint --ext js,ts .
+	node_modules/.bin/eslint .
 
 .PHONY: eslint-fix
 node-eslint-fix: $(NODE_DEPENDENCY_MARK)
-	eslint --ext js,mjs . --fix
+	node_modules/.bin/eslint . --fix
 
 .PHONY: node-test
 node-test: $(NODE_DEPENDENCY_MARK)
