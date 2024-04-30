@@ -22,6 +22,28 @@
 | Dev computers   |     Y     | jehon-service-dev |    Y    | Localhost                                   |
 |                 |           |                   |         |                                             |
 
+# Items
+
+## Ansible > jehon_basis
+
+++ Install Repositories
+++ Install jehon.deb
+++ Install jehon-hardware-\*.deb
+++ Configure global secrets
+++ Configure monitoring
+
+## Packages > jehon.deb
+
+++ Install max scripts
+++ Start basic daemons
+++ Configure generic security
+-- No secrets (no dependency neither)
+
+## Packages > jehon-hardware-\*.deb
+
+++ Tweak according to hardware
+-- Nothing more
+
 # Desktop install
 
 - 200 Gb root drive

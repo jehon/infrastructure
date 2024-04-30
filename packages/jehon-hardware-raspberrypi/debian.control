@@ -5,7 +5,4 @@ Replaces:
 Conflicts:
 	jehon-hardware
 Depends: ${misc:Depends},
-	jehon (<= JH_VERSION),
-# for fbgrab (frame buffer screenshot)
-	fbcat
-
+	jehon (<= JH_VERSION)
