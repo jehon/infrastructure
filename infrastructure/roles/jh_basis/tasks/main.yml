@@ -67,6 +67,7 @@
     ############################################
 
     - name: Setup docker repository and packages
+      # TODO: docker / node should be installed by jehon.deb
       when: jehon_repo_docker
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-docker"
@@ -82,7 +83,7 @@
       changed_when: "'[modified]' in result.stdout"
 
     - name: Setup nodejs repository and package
-      when: nodejs is defined
+      # TODO: docker / node should be installed by jehon.deb
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-node"
       register: result
