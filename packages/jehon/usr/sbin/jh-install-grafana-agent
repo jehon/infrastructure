@@ -7,14 +7,14 @@ set -o errexit
 
 export DEBIAN_FRONTEND=noninteractive
 
-if dpkg-query -w grafana-agent > /dev/null ; then
+if dpkg-query -w grafana-agent >/dev/null; then
     echo "Already installed"
 fi
 
 echo "[modified] Adding repository"
 
 # jh-install-file: will report if file is modified
-cat  <<EOS | jh-install-file "/etc/apt/sources.list.d/jehon-docker-$DIST.sources"
+cat <<EOS | jh-install-file "/etc/apt/sources.list.d/jehon-docker-$DIST.sources"
 #
 # Installed through $0
 #
@@ -30,5 +30,7 @@ EOS
 
 apt update
 
-echo "[modified] Adding pacakge grafana-agent"
-apt install -y grafana-agent
+if ! type grafana-agent >&/dev/null; then
+    echo "[modified] Adding pacakge grafana-agent"
+    apt install -y grafana-agent
+fi

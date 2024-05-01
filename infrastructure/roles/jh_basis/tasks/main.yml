@@ -76,10 +76,10 @@
         or 'Preparing to unpack' in result.stdout
 
     - name: Setup Grafana agent repository and package
-      when: grafana_api_key is defined and 'grafana-agent' not in ansible_facts.packages
+      when: grafana_api_key is defined
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-grafana-agent"
-      changed_when: true
+      changed_when: "'[modified]' in result.stdout"
 
     - name: Setup nodejs repository and package
       when: nodejs is defined
