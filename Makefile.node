@@ -4,6 +4,7 @@ node: clear node-dump node-test node-lint ok
 
 dump: node-dump
 clean: node-clean
+build: node-build
 dependencies: node-dependencies
 test: node-test
 lint: node-lint
@@ -38,6 +39,7 @@ package-lock.json: package.json
 	npm install --package-lock-only
 	@touch "$@"
 
+.PHONY: node-build
 node-build: tmp/fo.cjs
 
 tmp/fo.cjs: node/** \
