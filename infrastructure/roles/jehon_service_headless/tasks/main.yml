@@ -30,17 +30,6 @@
     and inventory_hostname is match("[a-zA-Z][a-zA-Z0-9_-]+")
     and inventory_hostname != "localhost"
 
-- name: Firewall - allow ssh
-  when: not virtual
-  community.general.ufw:
-    rule: allow
-    name: ssh
-
-- name: Firewall - enable
-  when: not virtual
-  community.general.ufw:
-    state: enabled
-
 - name: Set default tty
   when: >
     not virtual

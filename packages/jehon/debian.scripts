@@ -68,7 +68,7 @@ configure)
 	chmod a+rX /mnt/cloud
 
 	mkdir -p /var/cache/rclone
-    mkdir -p /var/cache/jehon
+	mkdir -p /var/cache/jehon
 
 	jh_enable_locale() {
 		L="$1"
@@ -105,6 +105,12 @@ configure)
 	mkdir -p /mnt/docker
 	chmod --changes --recursive "u=rwX,g=rX,o=" /mnt/docker
 	chown --changes --recursive "root:jehon_secrets" /mnt/docker
+
+	if ! ufw status | grep "Status: active" >&/dev/null; then
+		eho "* Enabling ufw"
+		ufw enable
+	fi
+
 	;;
 
 triggered)
