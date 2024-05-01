@@ -4,18 +4,102 @@
     pkg:
       - jehon-service-dev
 
-- name: Setup profile
-  block:
-    - name: Add user jehon
-      ansible.builtin.include_role:
-        name: user_jehon
-      vars:
-        user: jehon
-        display_name: Jean Honlet
-        github_login: jehon
-
 - name: Setup google-chrome repository and packages
   when: "'google-chrome-stable' not in ansible_facts.packages"
   ansible.builtin.command:
     cmd: "/usr/sbin/jh-install-google-chrome"
   changed_when: true
+
+- name: Setup profile
+  vars:
+    # TODO: Store this in inventory
+    user: jehon
+    display_name: Jean Honlet
+    github_login: jehon
+    password: ""
+  block:
+    ############################################
+    #
+    # User config
+    #
+    ############################################
+    - name: Create restricted folder
+      ansible.builtin.file:
+        state: directory
+        dest: /home/{{ user }}/restricted/
+        owner: "{{ user }}"
+        group: jehon_secrets
+        mode: "0750"
+
+    - name: Setup restricted files for {{ user }}
+      block:
+        - name: Install secrets files
+          with_items:
+            - cryptomedic.php
+            - cryptomedic.sh
+            - dev.sh
+            - jenkins.env
+            - jenkins-master.key
+            - koalty.sh
+            - tmdb.key
+          ansible.builtin.template:
+            src: "{{ item }}"
+            dest: "/home/{{ user }}/restricted/{{ item }}"
+            owner: "{{ user }}"
+            group: jehon_secrets
+            mode: "0700"
+
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/getent_module.html
+    - name: Get users
+      ansible.builtin.getent:
+        database: passwd
+
+    - name: Add to system groups user {{ user }}
+      ansible.builtin.user:
+        name: "{{ user }}"
+        comment: "{{ display_name }}"
+        groups: sudo,docker,fuse,jehon_secrets
+        append: true
+        generate_ssh_key: true
+
+    - name: Set password
+      when: password | length > 0
+      ansible.builtin.user:
+        name: "{{ user }}"
+        # See https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
+        password: "{{ password | password_hash('sha512', 'salt') }}"
+
+    - name: Set git user for {{ "'" + user + "-" + display_name + "'" }}
+      community.general.ini_file:
+        path: /home/{{ user }}/.gitconfig
+        mode: "0666"
+        owner: "{{ user }}"
+        section: user
+        option: name
+        value: "{{ display_name }}"
+
+    - name: Include github config in general config
+      community.general.ini_file:
+        path: /home/{{ user }}/.gitconfig
+        mode: "0666"
+        owner: "{{ user }}"
+        section: includeIf "gitdir:~/src/"
+        option: path
+        value: ".gitconfig-github"
+
+    - name: Set github config for {{ "'" + user + " - " + github_login + "'" }}
+      community.general.ini_file:
+        path: /home/{{ user }}/.gitconfig-github
+        mode: "0666"
+        owner: "{{ user }}"
+        section: user
+        option: email
+        value: "{{ github_login }}@users.noreply.github.com"
+
+    - name: Local SSH Config
+      ansible.builtin.template:
+        src: "{{ role_path }}/templates/ssh_config"
+        dest: /home/{{ user }}/.ssh/config
+        owner: "{{ user }}"
+        group: "jehon_secrets"
+        mode: "0640"

@@ -330,7 +330,7 @@ all:
         Videos: rw
       jehon_repo_docker: true
       ## Depend also on the OS
-      jehon_debian_testing: 900
+      jehon_debian_testing: 75
       # Key generated here: https://grafana.com/orgs/jehon/access-policies
       grafana_api_key: !vault |
         $ANSIBLE_VAULT;1.1;AES256
