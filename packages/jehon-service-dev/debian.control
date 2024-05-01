@@ -39,8 +39,11 @@ Depends: ${misc:Depends},
 	openssh-client,
 	p7zip-full,
 	parted,
+# Linting in vscode
+	php, php-xml,
 	samba,
-	sshpass,
+# cryptomedic deploy
+	sshfs, sshpass,
 	terminator,
 	traceroute,
 	xvfb, xauth, libnss3, libatk1.0-0, libatk-bridge2.0-0, libgtk-3-0, libgbm1, libasound2,

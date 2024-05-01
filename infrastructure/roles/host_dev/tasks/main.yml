@@ -1,7 +1,9 @@
 ---
-#
-# User side
-#
+- name: Install package jehon-service-dev
+  ansible.builtin.apt:
+    pkg:
+      - jehon-service-dev
+
 - name: Setup profile
   block:
     - name: Add user jehon
@@ -12,27 +14,8 @@
         display_name: Jean Honlet
         github_login: jehon
 
-- name: Install package jehon-service-dev
-  ansible.builtin.apt:
-    pkg:
-      - jehon-service-dev
-
-- name: Install desktop packages
-  ansible.builtin.apt:
-    pkg:
-      - php # linting php in vscode
-      - php-xml # linting php in vscode
-      - sshfs # cryptomedic deploy
-# node in snap? could not access pCloudDrive... but still the best option
-
 - name: Setup google-chrome repository and packages
   when: "'google-chrome-stable' not in ansible_facts.packages"
   ansible.builtin.command:
     cmd: "/usr/sbin/jh-install-google-chrome"
-  changed_when: true
-
-- name: Setup node repository and packages
-  when: "'nodejs' not in ansible_facts.packages"
-  ansible.builtin.command:
-    cmd: "/usr/sbin/jh-install-node"
   changed_when: true

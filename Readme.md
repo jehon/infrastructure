@@ -16,18 +16,17 @@
 
 - ++ Install Repositories
 - ++ Install Secrets
-- ++ Install basic utilities: docker / grapfana / node that depend on repositories (TODO: docker / node should be installed by jehon.deb)
-- ++ Install jehon packages
 - ++ files: /etc (host related)
 - -- Do not install packages dependencies
-
-- -- Scripts
+- -- Do not install Scripts
 - !! run as root
+- !! may install stuff as user only on offline
 - ==> servers + laptop dev
 
 ### Ansible > jehon_basis
 
 - ++ Install Repositories -> files: /etc/apt/sources.list.d/\*
+- ++ Install basic utilities: docker / grapfana / node that depend on repositories (TODO: docker / node should be installed by jehon.deb)
 - ++ Install jehon.deb
 - ++ Install jehon-hardware-\*.deb
 - ++ Configure global secrets
