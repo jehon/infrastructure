@@ -12,6 +12,47 @@
 
 # Items
 
+First, put everything possible in packages.
+Secrets, host related stuff in Ansible.
+Bin script for anything that move too frenquently.
+
+## Packages
+
+- ++ Install Dependencies
+- ++ Install Scripts
+- ++ Install, configure and start daemons
+- ++ files: /etc (global - by link to /usr/share/...)
+- ++ files: /usr/
+- -- No secrets
+- !! run as root
+- => servers + laptops
+
+### Packages > jehon.deb
+
+To be installed on any computer to have a basic setup.
+
+- ++ Install max scripts
+- ++ Start basic daemons
+- ++ Configure generic security
+- ++ Configure jh-% users
+
+### Packages > jehon-hardware-\*.deb
+
+++ Tweak according to hardware
+-- Nothing more (minimal tweaks)
+
+### Packages > jehon-service-...
+
+- ++ packages for this particuliar role
+- ++ Configure daemons (configs) generic
+- -- No secrets (see Ansible)
+
+### Packages > jehon-service-headless
+
+### Packages > jehon-service-kiosk
+
+### Packages > jehon-service-music
+
 ## Ansible
 
 - ++ Install Repositories
@@ -44,43 +85,6 @@
 
 - ++ Configure user
 - ++ files: ~/restricted
-
-## Packages
-
-- ++ Install Dependencies
-- ++ Install Scripts
-- ++ Install daemon
-- ++ Configure generic daemon
-- ++ Start basic daemon
-- ++ files: /etc (global - by link to /usr/share/...)
-- ++ files: /usr/
-- -- No secrets
-- !! run as root
-- => servers + laptops
-
-### Packages > jehon.deb
-
-- ++ Install max scripts
-- ++ Start basic daemons
-- ++ Configure generic security
-- ++ Configure jh-% users
-
-### Packages > jehon-hardware-\*.deb
-
-++ Tweak according to hardware
--- Nothing more (minimal tweaks)
-
-### Packages > jehon-service-...
-
-- ++ packages for this particuliar role
-- ++ Configure daemons (configs) generic
-- -- No secrets (see Ansible)
-
-### Packages > jehon-service-headless
-
-### Packages > jehon-service-kiosk
-
-### Packages > jehon-service-music
 
 ## Scripts
 
