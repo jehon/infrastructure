@@ -89,6 +89,7 @@
     owner: "{{ user }}"
     group: "jehon_secrets"
     mode: "0640"
+#
 ############################################
 #
 # User services

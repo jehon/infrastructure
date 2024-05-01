@@ -1,4 +1,4 @@
 ---
 jehon_hardware: ""
 jehon_repo_docker: false
-jehon_testing: 0
+jehon_debian_testing: 0

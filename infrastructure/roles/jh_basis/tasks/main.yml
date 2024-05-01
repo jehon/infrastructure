@@ -50,9 +50,9 @@
       when: ansible_distribution == "Debian"
       block:
         - name: Setup debian repositories
-          when: jehon_testing > 0
+          when: jehon_debian_testing > 0
           ansible.builtin.command:
-            cmd: "/usr/sbin/jh-install-debian-testing {{ jehon_testing }}"
+            cmd: "/usr/sbin/jh-install-debian-testing {{ jehon_debian_testing }}"
           register: result
           notify: jh_basis.indexes
           changed_when: "'[modified]' in result.stdout"
