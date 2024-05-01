@@ -1,0 +1,28 @@
+#!/usr/bin/sh
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
+. /usr/sbin/jh-deb-helpers.sh
+
+case "$1" in
+configure)
+	if id pi >/dev/null 2>&1; then
+		echo "* Disabling user pi"
+		passwd -l pi || true
+	fi
+	;;
+
+triggered)
+	echo "******************* TRIGGERED ******************"
+	;;
+
+remove) ;;
+
+esac
+
+#
+# Legacy
+#
+
+exit 0

@@ -70,11 +70,6 @@ configure)
 	mkdir -p /var/cache/rclone
     mkdir -p /var/cache/jehon
 
-	if id pi >/dev/null 2>&1; then
-		echo "* Disabling user pi"
-		passwd -l pi || true
-	fi
-
 	jh_enable_locale() {
 		L="$1"
 
@@ -91,13 +86,13 @@ configure)
 
 	/usr/sbin/locale-gen --keep-existing
 
-	if jh-is-full-machine ; then
-		for F in /etc/sysctl.conf /etc/sysctl.d/*.conf ; do
+	if jh-is-full-machine; then
+		for F in /etc/sysctl.conf /etc/sysctl.d/*.conf; do
 			echo "* Sysctl: Reload $F"
 			sysctl -p "$F"
 		done
 
-		if systemctl is-active --quiet ssh ; then
+		if systemctl is-active --quiet ssh; then
 			echo "* Reload ssh config"
 			systemctl reload ssh
 		fi
