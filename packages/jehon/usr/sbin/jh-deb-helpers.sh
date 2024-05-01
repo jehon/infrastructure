@@ -2,6 +2,9 @@
 
 DEB_CMD="$1"
 
+export LANG=C.UTF-8
+export LC_ALL=C.UTF-8
+
 #
 # See https://www.debian.org/doc/debian-policy/ch-maintainerscripts
 #
@@ -156,13 +159,13 @@ jh_deb_helper_python() {
 
 	case "$DEB_CMD" in
 	"configure")
-		if ! cmp --silent "$REQUIREMENTS" "$TARGET"/requirements.txt 2>/dev/null \
-			|| [ "$( cat "$TARGET"/python-version )" != "$( python3 --version )" ]; then
+		if ! cmp --silent "$REQUIREMENTS" "$TARGET"/requirements.txt 2>/dev/null ||
+			[ "$(cat "$TARGET"/python-version)" != "$(python3 --version)" ]; then
 			rm -fr "$TARGET"
 			mkdir -p "$TARGET"
-    		python3 -m pip install -r "$REQUIREMENTS" --target "$TARGET" --upgrade
+			python3 -m pip install -r "$REQUIREMENTS" --target "$TARGET" --upgrade
 			cp "$REQUIREMENTS" "$TARGET"/requirements.txt
-			python3 --version > "$TARGET"/python-version
+			python3 --version >"$TARGET"/python-version
 		fi
 		;;
 	"remove")
