@@ -2,5 +2,4 @@ Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
 	mpd,
 	alsa-utils,
-	ncmpcpp,
 	mpc
