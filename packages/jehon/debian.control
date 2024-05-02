@@ -10,7 +10,9 @@ Depends: ${misc:Depends},
 	curl,
 # gparted fat32
 	dosfstools, mtools,
-	exiftool,
+#	exiftool,
+# ffmpeg and companies
+	ffmpeg, gstreamer1.0-plugins-bad, gstreamer1.0-plugins-ugly,
 	file,
 # envsubst:
 	gettext-base,
