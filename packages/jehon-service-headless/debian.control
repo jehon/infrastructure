@@ -2,7 +2,7 @@ Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
 	console-setup, kbd,
 # for fbgrab (frame buffer screenshot)
-	fbcat
+	fbcat,
 	netplan.io,
 	rsyslog,
 	screen
