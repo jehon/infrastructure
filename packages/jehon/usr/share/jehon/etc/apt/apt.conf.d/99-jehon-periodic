@@ -7,10 +7,16 @@ Unattended-Upgrade::Automatic-Reboot "true";
 Unattended-Upgrade::Automatic-Reboot-Time "02:00";
 
 // See /var/lib/apt/lists
+//   ${distro_id}            Installed origin.
+//   ${distro_codename}      Installed codename (eg, "buster")
 Unattended-Upgrade::Allowed-Origins {
 	// Allowed-Origins is a simple list of patterns of the form "origin:archive".
-	// Take it from:  apt-cache policy <pkg>
-	// Origin: jehon (taken from Packages & Release)
-	// Suite: * (taken from Release)
-    "jehon:*";
+	// Take it from:  apt-cache policy ==> release field
+	//
+	// 500 https://jehon.github.io/infrastructure/packages  Packages
+	//     release o=jehon,c=
+	//     origin jehon.github.io
+	//
+
+    "o=jehon";
 }

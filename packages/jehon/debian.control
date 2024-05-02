@@ -40,5 +40,6 @@ Depends: ${misc:Depends},
 	sox, libsox-fmt-mp3,
 	sudo,
 	ufw,
+	unattended-upgrades,
 	virt-what,
 	wget
