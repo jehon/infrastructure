@@ -106,7 +106,7 @@ configure)
 	chmod --changes --recursive "u=rwX,g=rX,o=" /mnt/docker
 	chown --changes --recursive "root:jehon_secrets" /mnt/docker
 
-	if ! ufw status | grep "Status: active" >&/dev/null; then
+	if ! ufw status | grep "Status: active" >/dev/null 2>/dev/null; then
 		eho "* Enabling ufw"
 		ufw enable
 	fi
