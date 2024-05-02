@@ -23,7 +23,8 @@ Bin script for anything that move too frenquently.
 - ++ Install, configure and start daemons
 - ++ files: /etc (global - by link to /usr/share/...)
 - ++ files: /usr/
-- -- No secrets
+- -- No secrets (don't know anything about it ; delivered scripts may use secrets)
+- -- No user config (what is the user?)
 - !! run as root
 - => servers + laptops
 
@@ -61,7 +62,7 @@ To be installed on any computer to have a basic setup.
 - -- Do not install packages dependencies
 - -- Do not install Scripts
 - !! run as root
-- !! may install stuff as user only on offline
+- !! configure user if can be done by files only
 - ==> servers + laptop dev
 
 ### Ansible > jehon_basis
@@ -88,11 +89,14 @@ To be installed on any computer to have a basic setup.
 
 ## Scripts
 
+- ++ Everything that change too often
 - ++ Can run as user
 
 ## Not managed
 
 -- End users (ml, silouane, rosalie...)
+-- <repo>/setup.sh -> configuration that run as root
+-- <repo>/setup-profile.sh -> configuration that run as user
 
 # HDD Desktop setup
 
