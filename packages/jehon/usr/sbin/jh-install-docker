@@ -8,8 +8,8 @@ set -o errexit
 export DEBIAN_FRONTEND=noninteractive
 
 ARCH="$(dpkg --print-architecture)"
-DIST="$( lsb_release --id --short | tr '[:upper:]' '[:lower:]')"
-VERSION="$(lsb_release --codename --short )"
+DIST="$(lsb_release --id --short | tr '[:upper:]' '[:lower:]')"
+VERSION="$(lsb_release --codename --short)"
 
 # The channel to install from:
 #   * stable
@@ -20,16 +20,20 @@ if [ -z "$CHANNEL" ]; then
 	CHANNEL="stable"
 fi
 
-if [ "$( lsb_release --id --short )" == "Debian" ]; then
+if [ "$(lsb_release --id --short)" == "Debian" ]; then
 	VERSION="bookworm"
 fi
 
-jh_value "ARCH"    "$ARCH"
+jh_value "ARCH" "$ARCH"
 jh_value "CHANNEL" "$CHANNEL"
-jh_value "DIST"    "$DIST"
+jh_value "DIST" "$DIST"
 jh_value "VERSION" "$VERSION"
 
-cat  <<EOS | jh-install-file "/etc/apt/sources.list.d/jehon-docker-$DIST.sources"
+if [ -z "${DIST}" ]; then
+	jh_fatal "Dist is empty"
+fi
+
+cat <<EOS | jh-install-file "/etc/apt/sources.list.d/jehon-docker-$DIST.sources"
 Types: deb
 URIs: https://download.docker.com/linux/$DIST
 Suites: $VERSION
@@ -56,7 +60,7 @@ header_begin "Rootless"
 # jehon:100000:65536
 # EOF
 
-if jh-is-full-machine ; then
+if jh-is-full-machine; then
 	systemctl stop docker.service docker.socket
 	systemctl disable docker.service docker.socket
 fi
