@@ -4,12 +4,6 @@
     pkg:
       - jehon-service-dev
 
-- name: Setup google-chrome repository and packages
-  when: "'google-chrome-stable' not in ansible_facts.packages"
-  ansible.builtin.command:
-    cmd: "/usr/sbin/jh-install-google-chrome"
-  changed_when: true
-
 - name: Setup profile
   vars:
     # TODO: Store this in inventory
