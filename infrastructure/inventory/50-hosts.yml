@@ -32,16 +32,19 @@ all:
   vars:
     ansible_python_interpreter: auto_silent # https://docs.ansible.com/ansible-core/2.13/reference_appendices/interpreter_discovery.html
     ansible_user: root
-    jehon_always_connected: false
-    jehon_headless: false
-    virtual: false # Avoid undefined in playbook
     # Check connection here:
     #    - https://grafana.com/orgs/jehon/access-policies
     #    - https://jehon.grafana.net/d/integration-agent/grafana-agent-overview?orgId=1&refresh=30s
     grafana_prom_id: 1353997 # See ?
-    grafana_logs_id: 776025 # See https://grafana.com/orgs/jehon/hosted-logs/776025?src=hg_home
     grafana_prom_url: https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push # See ?
+    grafana_logs_id: 776025 # See https://grafana.com/orgs/jehon/hosted-logs/776025?src=hg_home
     grafana_logs_url: https://logs-prod-012.grafana.net/loki/api/v1/push # See https://grafana.com/orgs/jehon/hosted-logs/776025?src=hg_home
+    jehon_always_connected: false
+    jehon_headless: false
+    virtual: false # Avoid undefined in playbook
+    #
+    # Those variables can not be overriden!
+    #
     jehon:
       ip:
         #
