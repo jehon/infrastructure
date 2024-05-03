@@ -50,13 +50,3 @@
         name: "{{ item }}"
         state: present
         channel: edge
-
-    # TODO: what to do with this?
-    # - name: Setup Gnome and other customizations
-    #   when: not virtual
-    #   become: true
-    #   become_user: "{{ user }}"
-    #   ansible.builtin.command:
-    #     cmd: /usr/bin/jh-setup-user-profile
-    #   register: result
-    #   changed_when: "'[modified]' in result.stdout"

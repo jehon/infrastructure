@@ -3,15 +3,15 @@
 set -o errexit
 set -o pipefail
 
-# shellcheck source-path=SCRIPTDIR/
+# shellcheck source-path=SCRIPTDIR/../packages/jehon/usr/bin
 . jh-lib
 
 gsettings_set() {
     NEW_VAL="$3"
 
-    CUR_VAL="$( gsettings get "$1" "$2" )"
+    CUR_VAL="$(gsettings get "$1" "$2")"
     if [ "$CUR_VAL" != "$NEW_VAL" ]; then
-        if type gsettings >& /dev/null; then
+        if type gsettings >&/dev/null; then
             gsettings set "$1" "$2" "$3"
         else
             echo "!! gsettings not installed"
@@ -56,11 +56,11 @@ else
     jh_info "Oh My ZSH already installed"
 fi
 
-if grep -E "^JH_OMZ=1" ~/.zshrc >& /dev/null; then
+if grep -E "^JH_OMZ=1" ~/.zshrc >&/dev/null; then
     jh_info "zshrc already patched"
 else
     header_begin "Hook my scripts into .zshrc"
-    cat <<EOS > .zshrc
+    cat <<EOS >.zshrc
 #
 # Generated throudgh $0
 #
