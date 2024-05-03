@@ -8,8 +8,6 @@
   vars:
     # TODO: Store this in inventory
     user: jehon
-    display_name: Jean Honlet
-    github_login: jehon
     password: ""
   block:
     ############################################
@@ -51,7 +49,7 @@
     - name: Add to system groups user {{ user }}
       ansible.builtin.user:
         name: "{{ user }}"
-        comment: "{{ display_name }}"
+        comment: "{{ jehon.github.display_name }}"
         groups: sudo,docker,fuse,jehon_secrets
         append: true
         generate_ssh_key: true
@@ -63,14 +61,14 @@
         # See https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
         password: "{{ password | password_hash('sha512', 'salt') }}"
 
-    - name: Set git user for {{ "'" + user + "-" + display_name + "'" }}
+    - name: Set git user for {{ "'" + user + "-" + jehon.github.display_name + "'" }}
       community.general.ini_file:
         path: /home/{{ user }}/.gitconfig
         mode: "0666"
         owner: "{{ user }}"
         section: user
         option: name
-        value: "{{ display_name }}"
+        value: "{{ jehon.github.display_name }}"
 
     - name: Include github config in general config
       community.general.ini_file:
@@ -81,14 +79,14 @@
         option: path
         value: ".gitconfig-github"
 
-    - name: Set github config for {{ "'" + user + " - " + github_login + "'" }}
+    - name: Set github config for {{ "'" + user + " - " + jehon.github.login + "'" }}
       community.general.ini_file:
         path: /home/{{ user }}/.gitconfig-github
         mode: "0666"
         owner: "{{ user }}"
         section: user
         option: email
-        value: "{{ github_login }}@users.noreply.github.com"
+        value: "{{ jehon.github.login }}@users.noreply.github.com"
 
     - name: Local SSH Config
       ansible.builtin.template:
