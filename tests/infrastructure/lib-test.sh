@@ -50,6 +50,7 @@ test_in_docker() {
 		cat -
 		cat <<-EOS
 			set +x
+			rm -f /etc/apt/sources.list.d/jehon-github.*
 			echo
 		EOS
 	) | docker run --rm --name "$TAG" --interactive \
