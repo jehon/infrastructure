@@ -8,6 +8,8 @@ Depends: ${misc:Depends},
 # luks volumes:
 	cryptsetup, cryptsetup-initramfs,
 	curl,
+# docker rootless
+	docker-ce-rootless-extras, dbus-user-session, fuse-overlayfs,
 # gparted fat32
 	dosfstools, mtools,
 #	exiftool,
