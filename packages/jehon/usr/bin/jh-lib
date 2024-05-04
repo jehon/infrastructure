@@ -54,7 +54,7 @@ exec 3>&1
 #
 #  !! this depend on [1] <= the caller script
 #
-JH_SWF="$( realpath "$0" )"
+JH_SWF="$(realpath "$0")"
 # JH_SWF="${BASH_SOURCE[1]}"
 # if [[ -z "${JH_SWF}" && -n "${ZSH_VERSION}" ]]; then
 #     # ZSH way
@@ -100,8 +100,8 @@ jh_color() {
 JH_HEADER_MSGS=()
 
 header_begin() {
-	JH_HEADER_MSGS+=( "$1" )
-	printf '*%.0s' $(seq ${#JH_HEADER_MSGS[@]})
+    JH_HEADER_MSGS+=("$1")
+    printf '*%.0s' $(seq ${#JH_HEADER_MSGS[@]})
     jh_color 93
     echo -n " ${JH_HEADER_MSGS[-1]}..."
     jh_color
@@ -109,12 +109,12 @@ header_begin() {
 }
 
 header_end() {
-	printf '*%.0s' $(seq ${#JH_HEADER_MSGS[@]})
+    printf '*%.0s' $(seq ${#JH_HEADER_MSGS[@]})
     jh_color 93
     echo -n " ${JH_HEADER_MSGS[-1]} done"
     jh_color
     echo
-	unset 'JH_HEADER_MSGS[${#arr[@]}-1]'
+    unset 'JH_HEADER_MSGS[${#arr[@]}-1]'
 }
 
 jh_debug() {
@@ -169,19 +169,6 @@ jh_pipe_message() {
     (echo "$@") >&3
 }
 
-ok_ko() {
-    msg="$1"
-    shift
-
-    if bash -c "$*"; then
-        ok "$msg"
-        return 0
-    else
-        ko "$msg"
-        return 1
-    fi
-}
-
 JH_MSG_OK="$(jh_color "01;32")✓$(jh_color)"
 JH_MSG_KO="$(jh_color "01;31")✗$(jh_color)"
 
@@ -195,18 +182,6 @@ ok() {
 
 ko() {
     echo -e "$JH_MSG_KO $*"
-}
-
-parse_ok_ko() {
-    while read -r L; do
-        if [[ "$L" =~ ^ok\ * ]]; then
-            echo "$JH_MSG_OK ${L/ok /}"
-        elif [[ "$L" =~ ^ko\ * ]]; then
-            echo "$JH_MSG_KO ${L/ko /}"
-        else
-            echo "$L"
-        fi
-    done
 }
 
 jh_time_taken() {
