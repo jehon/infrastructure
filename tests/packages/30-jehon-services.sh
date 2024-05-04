@@ -15,4 +15,4 @@ SWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 		# github is not yet configured anyway...
 		apt install --yes jehon jehon-services-*
 	EOS
-) | test_in_docker
+) | run_in_docker "debian:stable"

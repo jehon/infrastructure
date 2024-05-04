@@ -25,4 +25,4 @@ SWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 		apt-cache policy dpkg
 		apt-cache policy jehon
 	EOS
-) | run_in_docker "debian:stable" "$0"
+) | run_in_docker "debian:stable"
