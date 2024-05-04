@@ -3,26 +3,15 @@
 set -o errexit
 set -o pipefail
 
+# Script Working Directory
+_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+# shellcheck source-path=SCRIPTDIR/
+. "${_SD}/../test-helpers.sh"
+
 # shellcheck source-path=SCRIPTDIR
-. "$(dirname "${BASH_SOURCE[0]}")/../../bin/lib.sh"
+. "${_SD}/../../bin/lib.sh"
 
-# shellcheck source=/dev/null
-. jh-lib
-
-# shellcheck source-path=SCRIPTDIR/../
-TEST_NAME="$(basename "${BASH_SOURCE[1]}")"
-TAG="test-ansible-${TEST_NAME}"
-exec &> >(jh-tag-stdin "$TEST_NAME")
-
-echo "*******************************************************"
-echo "***"
-echo "*** Test in docker: ${TEST_NAME}"
-echo "*** Tag:            ${TAG}"
-echo "***"
-echo "*******************************************************"
-
-docker kill "${TAG}" &>/dev/null || true
-docker rm -f "${TAG}" &>/dev/null || true
 # Caution: will be pasted as-is
 export JH_ANSIBLE_TEST="--connection=local --extra-vars '{\"virtual\": true, \"jh_basis_deb_url\": \"/setup/packages/jehon.deb\"}'"
 

@@ -7,4 +7,4 @@ set -o pipefail
 _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 # shellcheck source-path=SCRIPTDIR/
-. "$_SD/../test-helpers.sh"
+. "${_SD}/../test-helpers.sh"
