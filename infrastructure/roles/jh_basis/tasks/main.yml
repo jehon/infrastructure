@@ -20,9 +20,9 @@
           when: jehon_debian_testing > 0
           ansible.builtin.command:
             cmd: /usr/sbin/jh-install-debian-testing {{ jehon_debian_testing }}
-          register: result
+          register: _
           notify: jh_basis.indexes
-          changed_when: "'[modified]' in result.stdout"
+          changed_when: "'[modified]' in _.stdout"
 
     - name: Refresh indexes for jehon
       ansible.builtin.meta: flush_handlers
@@ -37,33 +37,38 @@
       when: jehon_repo_docker
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-docker"
-      register: result
+      register: _
       changed_when: >
-        '[modified]' in result.stdout
-        or 'Preparing to unpack' in result.stdout
+        '[modified]' in _.stdout
+        or 'Preparing to unpack' in _.stdout
 
     - name: Setup Grafana agent repository and package
       when: grafana_api_key is defined
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-grafana-agent"
-      changed_when: "'[modified]' in result.stdout"
+      register: _
+      changed_when: "'[modified]' in _.stdout"
 
     - name: Setup nodejs repository and package
       # node in snap? could not access pCloudDrive... but still the best option
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-node"
-      register: result
-      changed_when: "'[modified]' in result.stdout"
+      register: _
+      changed_when: "'[modified]' in _.stdout"
 
     ############################################
     #
     # Packages
     #
     ############################################
-    - name: "Install jehon.deb from {{ jh_basis_deb_url }}"
+    - name: "Install jehon.deb"
       block:
+        - name: "dump jh_basis_deb_url"
+          ansible.builtin.debug:
+            var: jh_basis_deb_url
+
         # We need this one to be installed first, because next line will depend on it
-        - name: "Install jehon.deb from {{ jh_basis_deb_url }}"
+        - name: "Install jehon.deb"
           when: "'jehon' not in ansible_facts.packages"
           ansible.builtin.apt:
             deb: "{{ jh_basis_deb_url | default('https://jehon.github.io/infrastructure/repo/jehon.deb') }}"
@@ -110,7 +115,11 @@
             #   ansible.builtin.set_fact:
             #     jehon_hardware: docker
 
-        - name: Install hardware package {{ jehon_hardware }}
+        - name: "dump jehon_hardware"
+          ansible.builtin.debug:
+            var: jehon_hardware
+
+        - name: Install hardware package
           when: jehon_hardware | length > 0
           block:
             - name: "Ensure jehon-hardware is present for hardware {{ jehon_hardware }}"

@@ -11,9 +11,9 @@
     # Set: <hostname>.honlet and <hostname> alias
     line: "{{ jehon.ip[item] }} {{ item }}.honlet {{ item }} # ansible"
     state: present
-  register: result
+  register: _
   # On docker, the /etc/hosts is not writable
   # complete message: [Errno 16] Device or resource busy
   failed_when: >
-    result.failed
-    and "[Errno 16]" not in result.msg
+    _.failed
+    and "[Errno 16]" not in _.msg

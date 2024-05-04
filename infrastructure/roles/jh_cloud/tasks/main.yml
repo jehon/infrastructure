@@ -12,11 +12,11 @@
     - name: Upgrade rclone to latest
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-rclone-latest"
-      register: result
-      changed_when: "'[modified]' in result.stdout"
+      register: _
+      changed_when: "'[modified]' in _.stdout"
       notify: jh_cloud.remount
 
-    - name: "Install config (type: {{ cloud_type }})"
+    - name: "Install config"
       ansible.builtin.template:
         src: "{{ cloud_type }}.conf"
         dest: /etc/jehon/rclone.conf
