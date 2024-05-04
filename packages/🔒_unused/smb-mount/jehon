@@ -1,8 +1,0 @@
-
-#
-# Allow anybody to mount/umount its own samba mounts (see jh-mount-smb)
-#
-%sudo ALL = (root) NOPASSWD: /usr/sbin/jh-smb-mount *
-%sudo ALL = (root) NOPASSWD: /usr/sbin/jh-smb-umount *
-
-%sudo ALL = (root) NOPASSWD: /usr/bin/apt

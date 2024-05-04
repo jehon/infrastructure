@@ -1,4 +1,0 @@
-Depends: ${misc:Depends},
-	jehon (<= JH_VERSION),
-	transmission-daemon,
-	transmission-cli
