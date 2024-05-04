@@ -4,8 +4,10 @@ set -o errexit
 
 _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-# shellcheck source=SCRIPTDIR
+# shellcheck source-path=SCRIPTDIR/
 . "${_SD}/../packages/jehon/usr/bin/jh-lib"
+
+# shellcheck source-path=SCRIPTDIR/
 . "${_SD}/data/docker/run.sh"
 
 JH_TEST_NAME="${JH_TEST_NAME:-$(jh-fs "name" "${BASH_SOURCE[1]}")}"
