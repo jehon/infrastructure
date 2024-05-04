@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 
 # shellcheck source-path=SCRIPTDIR
-. "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/lib-test.sh"
+. "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/lib-infrastructure-test.sh"
 
 (
 	cat <<-EOS

@@ -3,14 +3,14 @@
 set -o errexit
 set -o pipefail
 
-# Script Working Directory
-_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
-
 # shellcheck source-path=SCRIPTDIR/
-. "${_SD}/../test-helpers.sh"
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/../test-helpers.sh"
 
 # shellcheck source-path=SCRIPTDIR
-. "${_SD}/../../bin/lib.sh"
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/../../bin/lib.sh"
+
+# Redefine after override
+_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 # Caution: will be pasted as-is
 export JH_ANSIBLE_TEST="--connection=local --extra-vars '{\"virtual\": true, \"jh_basis_deb_url\": \"/setup/packages/jehon.deb\"}'"
