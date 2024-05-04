@@ -15,16 +15,6 @@ JH_TEST_TMP="${JH_PKG_FOLDER}/tmp/$(dirname "$(realpath --relative-base "${JH_PK
 mkdir -p "$JH_TEST_TMP"
 
 #
-# Log something for debug purpose (on >3)
-#
-log_debug() {
-    if [ -z "$DEBUG" ]; then
-        return
-    fi
-    jh_pipe_message "$@"
-}
-
-#
 # Log the success (with a green ✓)
 #
 log_success() {
@@ -109,7 +99,6 @@ test_capture() {
     JH_TEST_CAPTURED_EXITCODE="$?"
     set -o errexit
 
-    log_debug ""
     return 0
 }
 
@@ -142,21 +131,12 @@ assert_captured_output_contains() {
     while read -r R; do
         if [[ "$R" =~ $TEST ]]; then
             FOUND=1
-            LINE="[=>] $R" >&3
-        else
-            LINE="[  ] $R" >&3
         fi
-        log_debug "$LINE"
     done < <(echo -e "$JH_TEST_CAPTURED_OUTPUT")
     IFS="$BACKUP_IFS"
-    log_debug ""
 
     if [ $FOUND != 1 ]; then
         log_failure "$CAPTURED_HEADER: $MSG" "$TEST not found in output"
     fi
     log_success "$CAPTURED_HEADER: $MSG"
-}
-
-capture_dump() {
-    echo -e "$JH_TEST_CAPTURED_OUTPUT"
 }
