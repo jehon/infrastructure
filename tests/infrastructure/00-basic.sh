@@ -8,6 +8,9 @@ set -o pipefail
 
 (
 	cat <<-'EOS'
+		echo "************* Setup *******************"
+		./setup.sh
+
 		echo "************* Dump *******************"
 		make dump
 
@@ -29,4 +32,4 @@ set -o pipefail
 		cat ../tmp/infrastructure/encryption-key
 		cat ../tmp/infrastructure/encryption-key | grep "encryption-key-mock"
 	EOS
-) | test_in_docker
+) | run_in_docker "debian:stable"
