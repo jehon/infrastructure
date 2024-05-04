@@ -10,3 +10,5 @@ COPY root/ /
 COPY --from=publish . /setup
 
 RUN apt --quiet update
+
+RUN git config --global --add safe.directory /workspace
