@@ -3,11 +3,8 @@
 set -o errexit
 set -o pipefail
 
-# Script Working Directory
-SWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
-
 # shellcheck source-path=SCRIPTDIR
-. "$SWD/lib-packages-test.sh"
+. "$(realpath "$(dirname "${BASH_SOURCE[0]}")")/lib-packages-test.sh"
 
 (
 	cat <<-'EOS'
