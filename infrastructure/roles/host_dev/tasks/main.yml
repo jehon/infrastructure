@@ -19,7 +19,7 @@
         shell: /bin/bash
         groups: sudo,docker,fuse,jehon_secrets
         generate_ssh_key: true
-        append: yes
+        append: true
 
     - name: Set password
       when: dev_password | length > 0
