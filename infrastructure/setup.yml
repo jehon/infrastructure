@@ -37,8 +37,8 @@
       when: inventory_hostname == "dev"
       with_items:
         - host_dev
-        - service_desktop_linux
-        - service_wsl
+        - jh_desktop_linux
+        - jh_hardware_wsl
       loop_control:
         loop_var: role
       ansible.builtin.include_role:
