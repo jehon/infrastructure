@@ -21,7 +21,7 @@ run_in_docker() {
     TEST_SUITE="$(basename "$(dirname "${TEST_FILE}")")"
     DOCKER_TAG="test-infrastructure-${TEST_SUITE}:${TEST_NAME}"
 
-    (
+    {
         echo "*******************************************************"
         echo "* Docker Tag:     ${DOCKER_TAG}"
 
@@ -35,7 +35,7 @@ run_in_docker() {
             --tag "${DOCKER_TAG}" \
             "${_SD}" |& jh-tag-stdin "building"
 
-        (
+        {
             cat <<-'EOS'
 			set -o errexit
 			set -o pipefail
@@ -52,12 +52,12 @@ run_in_docker() {
 			    -exec systemd-analyze verify "{}" "+"
             echo "----------- done ---------------------------"
 		EOS
-        ) | docker run --label temp \
+        } | docker run --label temp \
             -v "${JH_PKG_FOLDER}:/workspace" \
             --rm -i --privileged "${DOCKER_TAG}" |&
             jh-tag-stdin "inside" || jh_fatal "!! Test failed: ${TEST_SUITE}/${TEST_NAME} ($?) !!"
 
         echo "ok"
         docker rm -f "${DOCKER_TAG}" &>/dev/null || true
-    ) | jh-tag-stdin "${TEST_SUITE}/${TEST_NAME}"
+    } | jh-tag-stdin "${TEST_SUITE}/${TEST_NAME}"
 }
