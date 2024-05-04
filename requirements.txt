@@ -14,3 +14,8 @@ pytest
 
 pylint
 mypy
+
+
+#  problem about rdbps.rdps not found
+jsonschema==4.17.3
+
