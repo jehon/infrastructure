@@ -8,17 +8,11 @@ set -o pipefail
 
 (
 	cat <<-EOS
+		echo "************* Setup *******************"
+		./setup.sh
+
+		echo "************* Run setup kiosk *******************"
 		cd infrastructure
-
-		cat inventory/*
-
 		ansible-playbook setup.yml ${JH_ANSIBLE_TEST} --limit kiosk
-
-		set -x
-		type jh-lib
-
-		dpkg -l | grep "jehon-hardware-raspberrypi"
-
-		jh-checks | jh-tag-stdin "checks" || true
 	EOS
 ) | test_in_docker
