@@ -13,6 +13,6 @@ SWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 	cat <<-'EOS'
 		echo "************* installing packages *******************"
 		# github is not yet configured anyway...
-		apt install --yes jehon jehon-services-*
+		apt install --yes jehon jehon-service-*
 	EOS
 ) | run_in_docker "debian:stable"
