@@ -32,6 +32,14 @@ all:
   vars:
     ansible_python_interpreter: auto_silent # https://docs.ansible.com/ansible-core/2.13/reference_appendices/interpreter_discovery.html
     ansible_user: root
+    default_user: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      65313262616635656164376432343831663034356666623838613964633732633363376336653832
+      6534396265656563656131613630383963383266613237620a656635373130336632356365616537
+      35323265626531626538363536633361323262306139393161613735343534303061366565313562
+      3831343433306239650a306137366634303533656338623336633235386439303232353763343737
+      6637
+    default_password:
     # Check connection here:
     #    - https://grafana.com/orgs/jehon/access-policies
     #    - https://jehon.grafana.net/d/integration-agent/grafana-agent-overview?orgId=1&refresh=30s

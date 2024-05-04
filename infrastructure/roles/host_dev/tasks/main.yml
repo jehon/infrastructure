@@ -5,10 +5,7 @@
       - jehon-service-dev
 
 - name: Setup profile
-  vars:
-    # TODO: Store this in inventory
-    user: jehon
-    password: ""
+  when: default_user | length > 0
   block:
     ############################################
     #
@@ -18,72 +15,70 @@
     - name: Create restricted folder
       ansible.builtin.file:
         state: directory
-        dest: /home/{{ user }}/restricted/
-        owner: "{{ user }}"
+        dest: /home/{{ default_user }}/restricted/
+        owner: "{{ default_user }}"
         group: jehon_secrets
         mode: "0750"
 
-    - name: Setup restricted files for {{ user }}
-      block:
-        - name: Install secrets files
-          with_items:
-            - cryptomedic.php
-            - cryptomedic.sh
-            - dev.sh
-            - jenkins.env
-            - jenkins-master.key
-            - koalty.sh
-            - tmdb.key
-          ansible.builtin.template:
-            src: "{{ item }}"
-            dest: "/home/{{ user }}/restricted/{{ item }}"
-            owner: "{{ user }}"
-            group: jehon_secrets
-            mode: "0700"
+    - name: Install secrets files for {{ default_user }}
+      with_items:
+        - cryptomedic.php
+        - cryptomedic.sh
+        - dev.sh
+        - jenkins.env
+        - jenkins-master.key
+        - koalty.sh
+        - tmdb.key
+      ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "/home/{{ default_user }}/restricted/{{ item }}"
+        owner: "{{ default_user }}"
+        group: jehon_secrets
+        mode: "0700"
 
     # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/getent_module.html
     - name: Get users
       ansible.builtin.getent:
         database: passwd
 
-    - name: Add to system groups user {{ user }}
+    - name: Add to system groups user {{ default_user }}
       ansible.builtin.user:
-        name: "{{ user }}"
+        name: "{{ default_user }}"
         comment: "{{ jehon.github.display_name }}"
         groups: sudo,docker,fuse,jehon_secrets
         append: true
         generate_ssh_key: true
 
     - name: Set password
-      when: password | length > 0
+      when: default_password | length > 0
       ansible.builtin.user:
-        name: "{{ user }}"
+        name: "{{ default_user }}"
         # See https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
-        password: "{{ password | password_hash('sha512', 'salt') }}"
+        password: "{{ default_password | password_hash('sha512', 'salt') }}"
 
-    - name: Set git user for {{ "'" + user + "-" + jehon.github.display_name + "'" }}
+    - name: Set git user for {{ "'" + default_user + "-" + jehon.github.display_name + "'" }}
       community.general.ini_file:
-        path: /home/{{ user }}/.gitconfig
+        path: /home/{{ default_user }}/.gitconfig
         mode: "0666"
-        owner: "{{ user }}"
+        owner: "{{ default_user }}"
         section: user
         option: name
         value: "{{ jehon.github.display_name }}"
 
     - name: Include github config in general config
       community.general.ini_file:
-        path: /home/{{ user }}/.gitconfig
+        path: /home/{{ default_user }}/.gitconfig
         mode: "0666"
         owner: "{{ user }}"
         section: includeIf "gitdir:~/src/"
         option: path
         value: ".gitconfig-github"
 
-    - name: Set github config for {{ "'" + user + " - " + jehon.github.login + "'" }}
+    - name: Set github config for {{ "'" + default_user + " - " + jehon.github.login + "'" }}
       community.general.ini_file:
-        path: /home/{{ user }}/.gitconfig-github
+        path: /home/{{ default_user }}/.gitconfig-github
         mode: "0666"
-        owner: "{{ user }}"
+        owner: "{{ default_user }}"
         section: user
         option: email
         value: "{{ jehon.github.login }}@users.noreply.github.com"
@@ -91,7 +86,7 @@
     - name: Local SSH Config
       ansible.builtin.template:
         src: "{{ role_path }}/templates/ssh_config"
-        dest: /home/{{ user }}/.ssh/config
-        owner: "{{ user }}"
+        dest: /home/{{ default_user }}/.ssh/config
+        owner: "{{ default_user }}"
         group: "jehon_secrets"
         mode: "0640"
