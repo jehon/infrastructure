@@ -43,8 +43,14 @@ Arch: $ARCH
 EOS
 
 apt update --yes --quiet
-# uidmap: rootless docker
-apt install --yes --quiet docker-ce docker-ce-cli docker-ce-rootless-extras containerd.io docker-buildx-plugin docker-compose-plugin uidmap
+#
+# rootless docker (https://docs.docker.com/engine/security/rootless/):
+#   uidmap
+# 	dbus-user-session
+# 	fuse-overlayfs
+#
+apt install --yes --quiet docker-ce docker-ce-cli docker-ce-rootless-extras containerd.io docker-buildx-plugin docker-compose-plugin uidmap \
+	dbus-user-session fuse-overlayfs
 
 if [ -x /usr/sbin/dockerd ] && [ ! -x /usr/bin/dockerd ]; then
 	jh-ln /usr/bin/dockerd /usr/sbin/dockerd
