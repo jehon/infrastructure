@@ -90,3 +90,13 @@
         owner: "{{ dev_user }}"
         group: "jehon_secrets"
         mode: "0640"
+
+    - name: Run as user
+      become: true
+      become_user: "{{ dev_user }}"
+      block:
+        - name: Docker rootless
+          ansible.builtin.command:
+            cmd: /usr/bin/dockerd-rootless-setuptool.sh install
+          register: _
+          changed_when: '"File already exists" not in _.stdout'
