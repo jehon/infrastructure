@@ -11,6 +11,8 @@ SWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
 (
 	cat <<-'EOS'
-		ok_ko "lib can test something positive" "[ 1 == 1 ]"
+		echo "************* installing packages *******************"
+		# github is not yet configured anyway...
+		apt install --yes jehon jehon-services-*
 	EOS
 ) | test_in_docker

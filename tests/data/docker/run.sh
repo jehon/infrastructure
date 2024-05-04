@@ -39,6 +39,8 @@ run_in_docker() {
             cat <<-'EOS'
 			set -o errexit
 			set -o pipefail
+
+            echo "----------- script -------------------------"
 		EOS
             cat -
             cat <<-'EOS'
@@ -50,7 +52,9 @@ run_in_docker() {
 			    -exec systemd-analyze verify "{}" "+"
             echo "----------- done ---------------------------"
 		EOS
-        ) | docker run --label temp --rm -i --privileged "${DOCKER_TAG}" |&
+        ) | docker run --label temp \
+            -v "${JH_PKG_FOLDER}:/workspace" \
+            --rm -i --privileged "${DOCKER_TAG}" |&
             jh-tag-stdin "inside" || jh_fatal "!! Test failed: ${TEST_SUITE}/${TEST_NAME} ($?) !!"
 
         echo "ok"

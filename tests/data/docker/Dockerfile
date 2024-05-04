@@ -4,7 +4,7 @@ ARG SOURCE
 FROM ${SOURCE}
 
 ENV DEBIAN_FRONTEND=noninteractive
-WORKDIR /app
+WORKDIR /workspace
 
 COPY root/ /
 COPY --from=publish . /setup

@@ -11,6 +11,12 @@ SWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
 (
 	cat <<-'EOS'
+		echo "Testing Release is present"
+		test -r /setup/packages/Release
+
+		echo "************* defined sources *******************"
+		ls -l /etc/apt/sources.list.d/
+
 		echo "************* all jehon packages available *******************"
 		apt-cache search jehon
 
@@ -18,9 +24,5 @@ SWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 		apt-cache policy
 		apt-cache policy dpkg
 		apt-cache policy jehon
-
-		echo "************* installing packages *******************"
-		# github is not yet configured anyway...
-		apt install --yes jehon jehon-services-*
 	EOS
-) | test_in_docker
+) | run_in_docker "debian:stable" "$0"

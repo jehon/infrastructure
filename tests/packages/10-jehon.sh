@@ -11,8 +11,9 @@ SWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
 (
 	cat <<-'EOS'
-		ok_ko "lib can test something positive" "[ 1 == 1 ]"
-		ok_ko "Testing Release is present" "[ -r /setup/packages/Release ]"
+		echo "************* installing packages *******************"
+		# github is not yet configured anyway...
+		apt install --yes jehon
 
 		echo "************* defined sources *******************"
 		ls -l /etc/apt/sources.list.d/
@@ -24,12 +25,5 @@ SWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 		apt-cache policy
 		apt-cache policy dpkg
 		apt-cache policy jehon
-
-		echo "************* python setup *******************"
-		test -e /var/lib/python/jehon/requirements.txt
-		source /etc/profile.d/jehon-commons.sh
-
-		find /usr/lib/python3/dist-packages/jehon -type f
-		/usr/bin/jh-python-test
 	EOS
-) | test_in_docker
+) | run_in_docker "debian:stable" "$0"
