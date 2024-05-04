@@ -5,7 +5,7 @@
       - jehon-service-dev
 
 - name: Setup profile
-  when: default_user | length > 0
+  when: dev_user | length > 0
   block:
     ############################################
     #
@@ -15,12 +15,12 @@
     - name: Create restricted folder
       ansible.builtin.file:
         state: directory
-        dest: /home/{{ default_user }}/restricted/
-        owner: "{{ default_user }}"
+        dest: /home/{{ dev_user }}/restricted/
+        owner: "{{ dev_user }}"
         group: jehon_secrets
         mode: "0750"
 
-    - name: Install secrets files for {{ default_user }}
+    - name: Install secrets files for {{ dev_user }}
       with_items:
         - cryptomedic.php
         - cryptomedic.sh
@@ -31,8 +31,8 @@
         - tmdb.key
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/home/{{ default_user }}/restricted/{{ item }}"
-        owner: "{{ default_user }}"
+        dest: "/home/{{ dev_user }}/restricted/{{ item }}"
+        owner: "{{ dev_user }}"
         group: jehon_secrets
         mode: "0700"
 
@@ -41,44 +41,44 @@
       ansible.builtin.getent:
         database: passwd
 
-    - name: Add to system groups user {{ default_user }}
+    - name: Add to system groups user {{ dev_user }}
       ansible.builtin.user:
-        name: "{{ default_user }}"
+        name: "{{ dev_user }}"
         comment: "{{ jehon.github.display_name }}"
         groups: sudo,docker,fuse,jehon_secrets
         append: true
         generate_ssh_key: true
 
     - name: Set password
-      when: default_password | length > 0
+      when: dev_password | length > 0
       ansible.builtin.user:
-        name: "{{ default_user }}"
+        name: "{{ dev_user }}"
         # See https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
-        password: "{{ default_password | password_hash('sha512', 'salt') }}"
+        password: "{{ dev_password | password_hash('sha512', 'salt') }}"
 
-    - name: Set git user for {{ "'" + default_user + "-" + jehon.github.display_name + "'" }}
+    - name: Set git user for {{ "'" + dev_user + "-" + jehon.github.display_name + "'" }}
       community.general.ini_file:
-        path: /home/{{ default_user }}/.gitconfig
+        path: /home/{{ dev_user }}/.gitconfig
         mode: "0666"
-        owner: "{{ default_user }}"
+        owner: "{{ dev_user }}"
         section: user
         option: name
         value: "{{ jehon.github.display_name }}"
 
     - name: Include github config in general config
       community.general.ini_file:
-        path: /home/{{ default_user }}/.gitconfig
+        path: /home/{{ dev_user }}/.gitconfig
         mode: "0666"
         owner: "{{ user }}"
         section: includeIf "gitdir:~/src/"
         option: path
         value: ".gitconfig-github"
 
-    - name: Set github config for {{ "'" + default_user + " - " + jehon.github.login + "'" }}
+    - name: Set github config for {{ "'" + dev_user + " - " + jehon.github.login + "'" }}
       community.general.ini_file:
-        path: /home/{{ default_user }}/.gitconfig-github
+        path: /home/{{ dev_user }}/.gitconfig-github
         mode: "0666"
-        owner: "{{ default_user }}"
+        owner: "{{ dev_user }}"
         section: user
         option: email
         value: "{{ jehon.github.login }}@users.noreply.github.com"
@@ -86,7 +86,7 @@
     - name: Local SSH Config
       ansible.builtin.template:
         src: "{{ role_path }}/templates/ssh_config"
-        dest: /home/{{ default_user }}/.ssh/config
-        owner: "{{ default_user }}"
+        dest: /home/{{ dev_user }}/.ssh/config
+        owner: "{{ dev_user }}"
         group: "jehon_secrets"
         mode: "0640"
