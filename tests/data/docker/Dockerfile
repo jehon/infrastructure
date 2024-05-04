@@ -11,4 +11,7 @@ COPY --from=publish . /setup
 
 RUN apt --quiet update
 
+RUN apt install --yes git
+
+# To avoid security warning about untrusted folder from git
 RUN git config --global --add safe.directory /workspace
