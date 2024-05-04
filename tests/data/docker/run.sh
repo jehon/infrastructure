@@ -15,7 +15,7 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 run_in_docker() {
     DOCKER_IMAGE="${1:?Need image as [1]}"
     # TODO: Fix this
-    TEST_FILE="${2:?Specify test name}"
+    TEST_FILE="${0}"
 
     TEST_NAME="$(basename "${TEST_FILE}")"
     TEST_SUITE="$(basename "$(dirname "${TEST_FILE}")")"
