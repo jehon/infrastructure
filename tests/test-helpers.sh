@@ -2,11 +2,14 @@
 
 set -o errexit
 
-# shellcheck source=SCRIPTDIR/../packages/jehon/usr/bin/jh-lib
-. jh-lib
+_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+# shellcheck source=SCRIPTDIR
+. "${_SD}/../packages/jehon/usr/bin/jh-lib"
+. "${_SD}/data/docker/run.sh"
 
 JH_TEST_NAME="${JH_TEST_NAME:-$(jh-fs "name" "${BASH_SOURCE[1]}")}"
-JH_TEST_TMP="${JH_PKG_FOLDER}/tmp/$( dirname "$( realpath --relative-base "${JH_PKG_FOLDER}/tests" "$0" )" )/$JH_TEST_NAME"
+JH_TEST_TMP="${JH_PKG_FOLDER}/tmp/$(dirname "$(realpath --relative-base "${JH_PKG_FOLDER}/tests" "$0")")/$JH_TEST_NAME"
 mkdir -p "$JH_TEST_TMP"
 
 #
