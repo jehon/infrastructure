@@ -5,7 +5,7 @@
       - jehon-service-dev
 
 - name: Setup profile
-  when: dev_user | length > 0
+  when: dev_user is defined and dev_user
   block:
     ############################################
     #
@@ -22,7 +22,7 @@
         append: true
 
     - name: Set password
-      when: dev_password | default("") | length > 0
+      when: dev_password is defined and dev_password
       ansible.builtin.user:
         name: "{{ dev_user }}"
         # See https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
@@ -53,32 +53,35 @@
         group: jehon_secrets
         mode: "0700"
 
-    - name: Set git user for {{ "'" + dev_user + "-" + jehon.github.display_name + "'" }}
-      community.general.ini_file:
-        path: /home/{{ dev_user }}/.gitconfig
-        mode: "0666"
-        owner: "{{ dev_user }}"
-        section: user
-        option: name
-        value: "{{ jehon.github.display_name }}"
+    - name: Set git user for dev user
+      when: jehon.crendential.github.display_name is defined and jehon.crendential.github.display_name
+      block:
+        - name: Set git user
+          community.general.ini_file:
+            path: /home/{{ dev_user }}/.gitconfig
+            mode: "0666"
+            owner: "{{ dev_user }}"
+            section: user
+            option: name
+            value: "{{ jehon.credentials.github.display_name }}"
 
-    - name: Include github config in general config
-      community.general.ini_file:
-        path: /home/{{ dev_user }}/.gitconfig
-        mode: "0666"
-        owner: "{{ user }}"
-        section: includeIf "gitdir:~/src/"
-        option: path
-        value: ".gitconfig-github"
+        - name: Include github config in general config
+          community.general.ini_file:
+            path: /home/{{ dev_user }}/.gitconfig
+            mode: "0666"
+            owner: "{{ user }}"
+            section: includeIf "gitdir:~/src/"
+            option: path
+            value: ".gitconfig-github"
 
-    - name: Set github config for {{ "'" + dev_user + " - " + jehon.github.login + "'" }}
-      community.general.ini_file:
-        path: /home/{{ dev_user }}/.gitconfig-github
-        mode: "0666"
-        owner: "{{ dev_user }}"
-        section: user
-        option: email
-        value: "{{ jehon.github.login }}@users.noreply.github.com"
+        - name: Set github config for dev user
+          community.general.ini_file:
+            path: /home/{{ dev_user }}/.gitconfig-github
+            mode: "0666"
+            owner: "{{ dev_user }}"
+            section: user
+            option: email
+            value: "{{ jehon.credentials.github.login }}@users.noreply.github.com"
 
     - name: Local SSH Config
       ansible.builtin.template:

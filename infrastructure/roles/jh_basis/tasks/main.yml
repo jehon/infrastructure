@@ -34,8 +34,8 @@
               and (' dependency jehon (' not in jehon_basis_jehon_deb.msg)
             )
 
-        - name: "Remove online repositories because defined {{ jh_basis_deb_url }}"
-          when: jh_basis_deb_url | default("") | length > 0
+        - name: Remove online repositories because defined jh_basis_deb_url
+          when: jh_basis_deb_url is defined and jh_basis_deb_url
           ansible.builtin.file:
             path: /etc/apt/sources.list.d/jehon-github.sources
             state: absent
@@ -76,7 +76,7 @@
         or 'Preparing to unpack' in _.stdout
 
     - name: Setup Grafana agent repository and package
-      when: grafana_api_key | default("") | length > 0
+      when: grafana_api_key is defined and grafana_api_key
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-grafana-agent"
       register: _
@@ -99,7 +99,7 @@
         - name: Calculate jehon_hardware
           block:
             - name: Set default value for jehon_hardware
-              when: jehon_hardware  | default("") | length == 0
+              when: jehon_hardware is not defined
               ansible.builtin.set_fact:
                 jehon_hardware: ""
 
