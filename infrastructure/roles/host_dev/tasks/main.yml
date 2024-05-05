@@ -22,7 +22,7 @@
         append: true
 
     - name: Set password
-      when: dev_password | length > 0
+      when: dev_password | default("") | length > 0
       ansible.builtin.user:
         name: "{{ dev_user }}"
         # See https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
