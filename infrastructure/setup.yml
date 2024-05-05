@@ -25,7 +25,7 @@
         name: jh_network
 
     - name: Setup monitoring
-      when: grafana_api_key is defined
+      when: grafana_api_key | default("") | length > 0
       ansible.builtin.include_role:
         name: jh_monitoring
 
