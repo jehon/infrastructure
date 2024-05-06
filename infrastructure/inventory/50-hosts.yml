@@ -49,7 +49,6 @@ all:
     grafana_logs_url: https://logs-prod-012.grafana.net/loki/api/v1/push # See https://grafana.com/orgs/jehon/hosted-logs/776025?src=hg_home
     jehon_always_connected: false
     jehon_headless: false
-    virtual: false # Avoid undefined in playbook
     #
     # Those variables can not be overriden!
     #
