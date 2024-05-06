@@ -12,6 +12,8 @@
 INFRASTRUCTURE_TMP=$(TMP)/infrastructure
 ENCRYPTION_MOCK=infrastructure/.config/ansible-encryption-mock
 
+export ANSIBLE_CONFIG=infrastructure/ansible.cfg
+
 clean: infrastructure-clean
 dump: infrastructure-dump
 dump-runtimes: infrastructure-dump-runtimes
@@ -39,8 +41,26 @@ infrastructure-dump:
 
 .PHONY: infrastructure-dependencies
 infrastructure-dependencies: $(PYTHON_DEPENDENCY_COMMON_MARK) \
+	$(INFRASTRUCTURE_TMP)/.galaxy \
 	$(INFRASTRUCTURE_TMP)/encryption-key \
 	$(INFRASTRUCTURE_TMP)/ssh-key
+
+$(INFRASTRUCTURE_TMP)/.galaxy: infrastructure/.config/ansible-galaxy.yml \
+		$(PYTHON_DEPENDENCY_COMMON_MARK)
+
+# https://docs.ansible.com/ansible/latest/cli/ansible-galaxy.html#collection-install
+	$(call mkdir,$@)
+
+	$(PYTHON_TMP)/common/bin/ansible-galaxy collection install \
+		--upgrade \
+		--collections-path tmp/infrastructure/collections \
+		--requirements-file "$<"
+
+	$(PYTHON_TMP)/common/bin/ansible-galaxy role install \
+		--roles-path tmp/infrastructure/roles \
+		--role-file "$<"
+
+	cp "$<" "$@"
 
 $(INFRASTRUCTURE_TMP)/encryption-key:
 	$(call mkdir,$@)
