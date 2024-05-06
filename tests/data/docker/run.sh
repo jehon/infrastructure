@@ -13,8 +13,9 @@ run_in_docker() {
     _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
     DOCKER_IMAGE="${1:?Need image as [1]}"
-    # TODO: Fix this
-    TEST_FILE="${0}"
+    # Test name is taken from the initial run file
+    # So we must run it as is (not sourced)
+    TEST_FILE="$0"
 
     TEST_NAME="$(basename "${TEST_FILE}")"
     TEST_SUITE="$(basename "$(dirname "${TEST_FILE}")")"
@@ -31,7 +32,7 @@ run_in_docker() {
         docker build \
             --build-arg "SOURCE=${DOCKER_IMAGE}" \
             --build-context "publish=${JH_PKG_FOLDER}/tmp/publish" \
-            --tag "${DOCKER_TAG}" \
+            --tag "test-docker" \
             "${_SD}" |& jh-tag-stdin "building"
 
         {
@@ -51,9 +52,9 @@ run_in_docker() {
 			    -exec systemd-analyze verify "{}" "+"
             echo "----------- done ---------------------------"
 		EOS
-        } | docker run --label temp \
+        } | docker run --label "${DOCKER_TAG}" \
             -v "${JH_PKG_FOLDER}:/workspace" \
-            --rm -i --privileged "${DOCKER_TAG}" |&
+            --rm -i --privileged "test-docker" |&
             jh-tag-stdin "inside" || jh_fatal "!! Test failed: ${TEST_SUITE}/${TEST_NAME} ($?) !!"
 
         echo "ok"
