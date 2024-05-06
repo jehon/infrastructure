@@ -1,4 +1,7 @@
 ---
+- name: Get facts on current container
+  community.docker.current_container_facts:
+
 - name: Install packages
   when: ansible_pkg_mgr == "apt"
   block:
@@ -115,11 +118,11 @@
             #   ansible.builtin.set_fact:
             #     jehon_hardware: raspberrypi
 
-            # TODO: auto detect docker
-            # - name: Set jehon_hardware to docker
-            #   when: ??
-            #   ansible.builtin.set_fact:
-            #     jehon_hardware: docker
+            - name: Set jehon_hardware to docker
+              # https://docs.ansible.com/ansible/latest/collections/community/docker/current_container_facts_module.html
+              when: ansible_module_running_in_container
+              ansible.builtin.set_fact:
+                jehon_hardware: docker
 
         - name: Dump jehon_hardware
           ansible.builtin.debug:
