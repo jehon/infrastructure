@@ -21,7 +21,7 @@
         "@types/callsite": "1.0.34",
         "@types/debug": "4.1.12",
         "@types/eslint__js": "8.42.3",
-        "@types/node": "20.12.7",
+        "@types/node": "20.12.8",
         "@types/tz-lookup": "6.1.2",
         "@types/webpack": "5.28.5",
         "@types/yargs": "17.0.32",
