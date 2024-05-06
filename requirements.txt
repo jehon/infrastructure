@@ -15,7 +15,11 @@ pytest
 pylint
 mypy
 
-
 #  problem about rdbps.rdps not found
 jsonschema==4.17.3
 
+#
+# For jh-jira-deliver:
+#
+# https://jira.readthedocs.io/examples.html
+jira==3.8.0

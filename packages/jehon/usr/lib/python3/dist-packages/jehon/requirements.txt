@@ -21,6 +21,3 @@ termcolor==2.4.0
 
 # https://textual.textualize.io/
 textual==0.58.1
-
-# https://jira.readthedocs.io/examples.html
-jira==3.8.0
