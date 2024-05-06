@@ -76,12 +76,4 @@ EOS
     header_end
 fi
 
-if [ ! -r "$HOME/.fonts/Hack" ]; then
-    header_begin "Setup fonts"
-    jh-install-hack-fonts
-    header_end
-else
-    jh_info "Fonts already installed"
-fi
-
 header_end
