@@ -1,5 +1,4 @@
 import path from "node:path";
-import File from "../file-types/file";
 import FileFolder, { getFolderByName } from "../file-types/file-folder";
 import { arrayShuffle, arrayShuffleWeighted } from "../helpers/array-helpers";
 import { fsIsFolder } from "../helpers/fs-helpers";
@@ -27,11 +26,10 @@ interface Config {
   priority: number;
 }
 
-function takeFiles(inside: FileFolder, n: number): File[] {
-  inside.buildAllFiles();
-  const list = Array.from(inside.listOfFiles.current.values()).filter(
-    (f) => !f.i_f_is_folder.current
-  );
+function takeFiles(inside: FileFolder, n: number): string[] {
+  const list = Array.from(inside.getAllCurrentFilenames())
+    .map((f) => path.join(inside.currentFilepath, f))
+    .filter((f) => !fsIsFolder(f));
   return arrayShuffle(list).slice(0, n);
 }
 
@@ -50,8 +48,8 @@ function getRandomizedFolders(inside: FileFolder): (FileFolder | null)[] {
   return [...list];
 }
 
-function takeInFolder(inside: FileFolder, n: number): File[] {
-  const list: File[] = [];
+function takeInFolder(inside: FileFolder, n: number): string[] {
+  const list: string[] = [];
   for (const f of getRandomizedFolders(inside)) {
     if (list.length >= n) {
       break;
@@ -74,7 +72,7 @@ export function handler(globalOptions: {
   const list = takeInFolder(root, globalOptions.amount);
 
   // Process with ... | xargs -d "\n" ...
-  process.stdout.write(list.map((f) => f.currentFilepath).join("\n") + "\n");
+  process.stdout.write(list.join("\n") + "\n");
 
   return Promise.resolve();
 }
