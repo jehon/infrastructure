@@ -13,11 +13,6 @@ export const builder = {
     describe: "Number of files",
     type: "number",
     default: 20
-  },
-  to: {
-    describe: "Destination",
-    type: "string",
-    default: "."
   }
 };
 
@@ -63,11 +58,7 @@ function takeInFolder(inside: FileFolder, n: number): string[] {
   return list;
 }
 
-export function handler(globalOptions: {
-  source: string;
-  to: string;
-  amount: number;
-}) {
+export function handler(globalOptions: { source: string; amount: number }) {
   const root = getFolderByName(globalOptions.source);
   const list = takeInFolder(root, globalOptions.amount);
 
