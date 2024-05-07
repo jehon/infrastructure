@@ -1,4 +1,12 @@
-export function weightedRandom<T>(weightedList: Map<T, number>): T[] {
+export function arrayShuffle<T>(array: T[]): T[] {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+export function arrayShuffleWeighted<T>(weightedList: Map<T, number>): T[] {
   const res: T[] = [];
 
   while (weightedList.size > 0) {
