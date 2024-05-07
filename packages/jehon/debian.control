@@ -42,4 +42,6 @@ Depends: ${misc:Depends},
 	ufw,
 	unattended-upgrades,
 	virt-what,
-	wget
+	wget,
+# zsh profile
+	zsh
