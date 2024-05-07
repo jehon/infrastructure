@@ -5,6 +5,8 @@ SWD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${SWD}/bin/lib.sh"
 
+PLAYBOOK="${PLAYBOOK:-"setup.yml"}"
+
 if [ -z "$1" ]; then
     echo "You need to setup a host"
     echo "For initial setup, use 'init'"
@@ -22,8 +24,6 @@ if [ ! -r ~/restricted/ansible-encryption-key ]; then
     jh_fatal "Key is not defined at ~/restricted/ansible-encryption-key"
 fi
 
-PLAYBOOK="setup.yml"
-
 make dependencies
 
 export PYTHONPATH="${JH_PKG_FOLDER}/tmp/python/common:$PYTHONPATH"
@@ -32,5 +32,6 @@ cd infrastructure || exit
 while [ -n "$1" ]; do
     HOST="$1"
     shift
-    "${JH_PKG_FOLDER}"/tmp/python/common/bin/ansible-playbook --limit "${HOST}" "${PLAYBOOK}" | "${JH_PKG_FOLDER}"/packages/jehon/usr/bin/jh-tag-stdin "${HOST}"
+    "${JH_PKG_FOLDER}"/tmp/python/common/bin/ansible-playbook --limit "${HOST}" "${PLAYBOOK}" |
+        "${JH_PKG_FOLDER}"/packages/jehon/usr/bin/jh-tag-stdin "${HOST}"
 done
