@@ -1,14 +1,3 @@
-// Typescript does not support this 2023-12
-// FIXME(waiting): use official TestContext definition
-// See https://github.com/DefinitelyTyped/DefinitelyTyped/discussions/67127
-// See https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/node/test.d.ts#L391
-type TestContext = {
-  test: (
-    title: string,
-    testFn?: (t: TestContext) => void | Promise<void>
-  ) => Promise<void>;
-};
-
 // See https://github.com/js-temporal/temporal-polyfill/blob/main/index.d.ts
 // FIXME(waiting): use official Temporal definition
 declare const Temporal: {

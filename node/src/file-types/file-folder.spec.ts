@@ -1,7 +1,7 @@
 import assert from "node:assert";
 import fs from "node:fs";
 import path from "node:path";
-import test, { beforeEach } from "node:test";
+import test, { TestContext, beforeEach } from "node:test";
 import FileFolder, {
   getFolderByName,
   getParentOf

@@ -1,7 +1,7 @@
 import assert from "node:assert";
 import fs from "node:fs";
 import path from "node:path";
-import test from "node:test";
+import test, { TestContext } from "node:test";
 import {
   createEmptyUnitFile,
   tempPathUnit

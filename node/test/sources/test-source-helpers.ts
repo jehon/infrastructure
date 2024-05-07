@@ -1,6 +1,7 @@
 import assert from "node:assert";
 import fs from "node:fs";
 import path from "node:path";
+import { TestContext } from "node:test";
 import File from "../../src/file-types/file";
 import { getParentOf } from "../../src/file-types/file-folder";
 import buildFile from "../../src/lib/buildFile";
