@@ -2,8 +2,6 @@
 argument_specs:
   main:
     options:
-      jehon_hardware:
-        type: string
       jehon_repo_docker:
         type: boolean
       jehon_debian_testing:
