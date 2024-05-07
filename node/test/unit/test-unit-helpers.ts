@@ -52,5 +52,6 @@ export function createFolderRecursively(folderpath: string): void {
 
   const parent = getParentOf(folderpath);
   parent._addNewlyCreateFile(path.basename(folderpath));
-  fs.mkdirSync(folderpath);
+  // In case another test would have created it in parallel
+  fs.mkdirSync(folderpath, { recursive: true });
 }

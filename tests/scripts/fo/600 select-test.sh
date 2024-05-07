@@ -10,18 +10,8 @@ shopt -s nullglob
 build_run_env ""
 
 # pwd does not end with / :-)
-TO="$(pwd)"
-FROM="${TO}-from"
+FROM="$(pwd)"
 
-rm -fr "${FROM}"
-mv -v "${TO}" "${FROM}"
-mkdir "${TO}"
+fo_run select --amount 2 "${FROM}"
 
-fo_run select --to "${TO}" --amount 2 "${FROM}"
-
-# cd "${TO}"
-# assert_equals "Number of files" "7" "$( find "." -type f | wc -l )"
-
-# assert_exists "2019-01-02 03-04-05 1 [ts-guessed].jpg"
-# assert_exists "2019-09-19 07-48-25 [DSC_2506].mov"
-# assert_exists "2018-01-02 03-04-05 My title [my original name].jpg"
+assert_others_untouched
