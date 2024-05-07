@@ -36,9 +36,7 @@ function takeFiles(inside: FileFolder, n: number): File[] {
 }
 
 function getRandomizedFolders(inside: FileFolder): (FileFolder | null)[] {
-  inside.buildAllFiles();
-
-  const subFolders = Array.from(inside.listOfFiles.current.keys())
+  const subFolders = Array.from(inside.getAllCurrentFilenames())
     .map((filename) => path.join(inside.currentFilepath, filename))
     .filter((folderpath) => fsIsFolder(folderpath))
     .map((folderpath) => buildFile(folderpath) as FileFolder);

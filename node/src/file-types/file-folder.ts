@@ -27,6 +27,15 @@ export default class FileFolder extends File {
     );
   }
 
+  getAllCurrentFilenames(): string[] {
+    return [
+      ...this.unmappedListing.values(),
+      ...Array.from(this.listOfFiles.current.values()).map(
+        (f) => f.i_f_filename.current
+      )
+    ];
+  }
+
   reset() {
     this.listOfFiles = {
       [Flavor.current]: new Map(),
