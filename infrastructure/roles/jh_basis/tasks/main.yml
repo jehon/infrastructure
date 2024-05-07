@@ -133,6 +133,8 @@
               ansible.builtin.set_fact:
                 jehon_hardware: docker
 
+            # TODO: jehon_hardware = desktop ???
+
         - name: Dump jehon_hardware
           ansible.builtin.debug:
             var: jehon_hardware
