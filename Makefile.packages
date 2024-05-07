@@ -41,7 +41,11 @@ packages-clean:
 .PHONY: packages-build
 packages-build:  $(PACKAGES_TMP)/.built
 
-$(PACKAGES_TMP)/.built: $(PUBLISH)/latest-key.pub $(PACKAGES_REPO_MARK)
+$(PACKAGES_TMP)/.built: \
+		$(PUBLISH)/latest-key.pub \
+		$(PACKAGES_REPO_MARK) \
+		packages/jehon/usr/bin
+
 	$(call touch,$@)
 
 $(PUBLISH)/latest-key.pub: packages/jehon/usr/share/jehon/etc/ssh/authorized_keys/root

@@ -40,10 +40,11 @@ package-lock.json: package.json
 	@touch "$@"
 
 .PHONY: node-build
-node-build: tmp/fo.cjs
+node-build: packages/jehon/usr/bin
 
-tmp/fo.cjs: node/** \
+packages/jehon/usr/bin: node/** \
 		node-dependencies
+
 	./node_modules/.bin/webpack
 
 .PHONY: node-lint

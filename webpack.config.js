@@ -6,8 +6,8 @@ const __dirname = import.meta.dirname;
 const config = {
   entry: "./node/src/fo.ts",
   output: {
-    path: path.join(__dirname, "tmp"),
-    filename: "fo.cjs"
+    path: path.join(__dirname, "packages/jehon/usr/bin"),
+    filename: "jh-fo"
   },
   mode: "development",
   target: "node",
