@@ -84,14 +84,15 @@ await test("should fsFolderListingRecursively", function () {
 });
 
 await test("should waitForFileToExists", async function (t: TestContext) {
-  const filename = "watched";
-  const fileWatched = tempPathUnit(filename);
-
   await t.test("without file", function () {
+    const filename = "watched-not-exist";
+    const fileWatched = tempPathUnit(filename);
     assert.equal(waitForFileToExists(fileWatched, 1), false);
   });
 
   await t.test("with file at start", function () {
+    const filename = "watched-exist";
+    const fileWatched = tempPathUnit(filename);
     createEmptyUnitFile(filename);
     assert.equal(waitForFileToExists(fileWatched, 1), true);
   });

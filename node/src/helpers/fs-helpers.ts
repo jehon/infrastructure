@@ -117,7 +117,7 @@ export const waitForFileToExists = (
     if (fs.existsSync(filepath)) {
       return true;
     }
-    myExecFileSync("sleep", ["1s"]);
+    myExecFileSync("/usr/bin/sleep", ["1s"]);
     passes++;
   } while (passes < timeOutSecs);
 
