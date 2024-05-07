@@ -11,6 +11,7 @@ import {
   fsFileRename,
   fsFolderListing,
   fsFolderListingRecursively,
+  fsFolderListingWithData,
   fsIsFolder,
   waitForFileToExists
 } from "./fs-helpers";
@@ -98,4 +99,28 @@ await test("should waitForFileToExists", async function (t: TestContext) {
   });
 
   // Impossible to test waitForFileToExists in an sync world
+});
+
+await test("should fsFolderListingWithData", async function () {
+  const subFolder = "fs-helpers-test-fsFolderListingWithData";
+  createEmptyUnitFile(path.join(subFolder, "test1.txt"));
+  createEmptyUnitFile(path.join(subFolder, "test2", "test21.txt"));
+  const data3 = createEmptyUnitFile(path.join(subFolder, "test3", "data.json"));
+
+  fs.writeFileSync(data3, JSON.stringify({ data: "blablabla" }));
+
+  const folderpath = tempPathUnit(subFolder);
+  const list = await fsFolderListingWithData(folderpath, "data.json", {
+    test: 1
+  });
+
+  assert.equal(Object.keys(list).length, 3);
+  assert.equal(list["test1.txt"].test, 1);
+  assert.equal((list["test1.txt"] as any).data, undefined);
+
+  assert.equal(list["test2"].test, 1);
+  assert.equal((list["test2"] as any).data, undefined);
+
+  assert.equal(list["test3"].test, 1);
+  assert.equal((list["test3"] as any).data, "blablabla");
 });

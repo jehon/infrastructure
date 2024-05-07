@@ -123,3 +123,23 @@ export const waitForFileToExists = (
 
   return false;
 };
+
+export function fsFolderListingWithData<T extends Object>(
+  filepath: string,
+  dataFilename: string,
+  defValue: T
+): Record<string, T> {
+  return Object.fromEntries(
+    fsFolderListing(filepath).map((fn) => {
+      const dfn = path.join(filepath, fn, dataFilename);
+      let data = { ...defValue };
+      if (fsFileExists(dfn)) {
+        Object.assign(
+          data,
+          JSON.parse(fs.readFileSync(dfn, { encoding: "utf-8" }))
+        );
+      }
+      return [fn, data];
+    })
+  );
+}
