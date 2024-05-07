@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fsFileExists } from "../helpers/fs-helpers";
+import buildFile from "../lib/buildFile";
 import Item, { NullItem } from "../lib/item";
 import { Flavor } from "../lib/value";
 import File, { buildFilename } from "./file";
@@ -18,6 +19,12 @@ export default class FileFolder extends File {
   constructor(filename: string, parent: Item) {
     super(filename, parent);
     this.reset();
+  }
+
+  buildAllFiles() {
+    Array.from(this.unmappedListing.values()).map((f) =>
+      buildFile(path.join(this.currentFilepath, f))
+    );
   }
 
   reset() {
