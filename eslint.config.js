@@ -29,7 +29,8 @@ const config = [
         {
           argsIgnorePattern: "^_"
         }
-      ]
+      ],
+      "@typescript-eslint/no-explicit-any": "off"
     }
   },
   // https://github.com/eslint/eslint/issues/17400#issuecomment-1646873272

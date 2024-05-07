@@ -1,8 +1,18 @@
 import assert from "node:assert";
+import fs from "node:fs";
+import path from "node:path";
 import test, { beforeEach } from "node:test";
-import { getFolderByName, getParentOf } from "../../src/file-types/file-folder";
-import buildFile from "../../src/lib/buildFile";
-import { createEmptyUnitFile } from "./test-unit-helpers";
+import FileFolder, {
+  getFolderByName,
+  getParentOf
+} from "../../src/file-types/file-folder";
+import {
+  createEmptyUnitFile,
+  createFolderRecursively,
+  tempPathUnit
+} from "../../test/unit/test-unit-helpers";
+import { fsFileExists } from "../helpers/fs-helpers";
+import buildFile from "../lib/buildFile";
 
 await test("normal folder", () => {
   assert.equal(
@@ -60,5 +70,26 @@ await test("reservations by qualif", async function (t: TestContext) {
     ft.i_f_qualif.expect("");
     // // We should receive a numerical index (empty, 1, 2, 3 are taken)
     // assert.equal(getAvailableIndex(ft), "4");
+  });
+
+  await t.test("should load config", function () {
+    const subFolderPath = tempPathUnit(
+      "fs-helpers-test-fsFolderListingWithData"
+    );
+    const configFile = "config.json";
+    const cfgPath = path.join(subFolderPath, configFile);
+
+    createFolderRecursively(subFolderPath);
+    const subFolderF = buildFile(subFolderPath) as FileFolder;
+
+    // Without config
+    if (fsFileExists(cfgPath)) {
+      fs.unlinkSync(cfgPath);
+    }
+    assert.equal(subFolderF.loadConfig(configFile), undefined);
+
+    // With config
+    fs.writeFileSync(cfgPath, JSON.stringify({ data: "blablabla" }));
+    assert.equal(subFolderF.loadConfig<any>(configFile).data, "blablabla");
   });
 });

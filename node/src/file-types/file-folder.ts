@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { fsFileExists } from "../helpers/fs-helpers";
 import Item, { NullItem } from "../lib/item";
 import { Flavor } from "../lib/value";
 import File, { buildFilename } from "./file";
@@ -127,6 +128,14 @@ export default class FileFolder extends File {
     U[${Array.from(this.unmappedListing).join(",")}]
     C[${Array.from(this.listOfFiles.current.keys()).join(",")}]
     E[${Array.from(this.listOfFiles.expected.keys()).join(",")}]`;
+  }
+
+  loadConfig<T>(configName: string): T | undefined {
+    const cfg = path.join(this.currentFilepath, configName);
+    if (!fsFileExists(cfg)) {
+      return;
+    }
+    return JSON.parse(fs.readFileSync(cfg, { encoding: "utf-8" })) as T;
   }
 }
 
