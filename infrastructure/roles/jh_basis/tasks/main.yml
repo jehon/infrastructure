@@ -122,11 +122,10 @@
               ansible.builtin.set_fact:
                 jehon_hardware: wsl
 
-            # TODO: auto detect raspberrypi
-            # - name: Set jehon_hardware to raspberrypi
-            #   when: ??
-            #   ansible.builtin.set_fact:
-            #     jehon_hardware: raspberrypi
+            - name: Set jehon_hardware to raspberrypi
+              when: ansible_architecture == "aarch64" # vs. amd64 for laptop and armv5tel for synology
+              ansible.builtin.set_fact:
+                jehon_hardware: raspberrypi
 
             - name: Set jehon_hardware to docker
               # https://docs.ansible.com/ansible/latest/collections/community/docker/current_container_facts_module.html

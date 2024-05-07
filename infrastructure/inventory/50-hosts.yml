@@ -381,7 +381,6 @@ all:
       ansible_host: "{{ jehon.ip.kiosk }}"
       jehon_always_connected: true
       jehon_ip: "{{ jehon.ip.kiosk }}"
-      jehon_hardware: raspberrypi
       jehon_tty: 2 # Fire
       # Key generated here: https://grafana.com/orgs/jehon/access-policies
       grafana_api_key: !vault |
