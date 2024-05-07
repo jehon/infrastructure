@@ -40,7 +40,7 @@ zstyle ':omz:update' frequency 13
 if [ -r $ZSH/oh-my-zsh.sh ]; then
     source $ZSH/oh-my-zsh.sh
 else
-    echo "Could not load oh-my-zsh in $ZSH/oh-my-zsh.sh" >&2
+    echo "Could not load oh-my-zsh in $ZSH/oh-my-zsh.sh. Continuing..." >&2
 fi
 
 unsetopt share_history
