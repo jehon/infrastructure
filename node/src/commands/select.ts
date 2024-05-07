@@ -55,10 +55,13 @@ function getRandomizedFolders(inside: FileFolder): (FileFolder | null)[] {
 function takeInFolder(inside: FileFolder, n: number): File[] {
   const list: File[] = [];
   for (const f of getRandomizedFolders(inside)) {
+    if (list.length >= n) {
+      break;
+    }
     if (f) {
       list.push(...takeInFolder(f, n - list.length));
     } else {
-      list.push(...takeFiles(inside, n));
+      list.push(...takeFiles(inside, n - list.length));
     }
   }
   return list;
