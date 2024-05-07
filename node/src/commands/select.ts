@@ -75,7 +75,7 @@ export function handler(globalOptions: {
   const root = getFolderByName(globalOptions.source);
   const list = takeInFolder(root, globalOptions.amount);
 
-  console.info(list.map((f) => f.currentFilepath));
+  process.stdout.write(list.map((f) => f.currentFilepath).join("\n") + "\n");
 
   return Promise.resolve();
 }
