@@ -3,17 +3,29 @@
 set -o errexit
 set -o pipefail
 
-LOG="$HOME/log"
+LOG="$HOME/tty2.log"
+echo "Logging to $LOG"
 
-exec &> >( tee "$LOG" )
+# Required by jh-fo...
+export TZ=UTC
 
-if [ "$( id -u )" == "0" ]; then
+exec &> >(tee "$LOG")
+
+if [ "$(id -u)" == "0" ]; then
     echo "Switching to user jehon-tty"
     # User need access to /dev/fb0
     su jehon-tty "$0"
 fi
 
-/usr/bin/fbi --autozoom --timeout 15 "/var/cache/jehon/pictures"/*
+# /usr/bin/fbi --autozoom --timeout 15 "/var/cache/jehon/pictures"/*
+
+echo "Selecting pictures..."
+PICTURES_RAW="$(/usr/bin/jh-fo select --amount=30 /mnt/cloud/photos/)"
+readarray -t PICTURES_LIST <<<"${PICTURES_RAW}"
+
+echo "Launching display..."
+/usr/bin/fbi --autozoom --timeout 15 "${PICTURES_LIST[@]}"
 
 echo "TTY Photos Script has exited..."
+sleep 30s
 exit 1
