@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import mime from "mime-types";
 import fs, { Stats } from "node:fs";
 import path from "node:path";
 import { fsFileRename } from "../helpers/fs-helpers";
@@ -346,6 +347,10 @@ export default class File extends Item {
 
   get currentFilepath(): string {
     return this.i_f_path_full.current;
+  }
+
+  getMimeType(): string {
+    return (mime.lookup(this.currentFilepath) || "").split("/")[0];
   }
 
   // ------------------------------------------

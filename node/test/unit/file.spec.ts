@@ -262,3 +262,14 @@ await test("with values", async function (t) {
     });
   });
 });
+
+test("getMimeType", function () {
+  {
+    const fp = createEmptyUnitFile("mime-test.txt");
+    assert.equal(buildFileAs(fp, File).getMimeType(), "text");
+  }
+  {
+    const fp = createEmptyUnitFile("mime-test.jpg");
+    assert.equal(buildFileAs(fp, File).getMimeType(), "image");
+  }
+});
