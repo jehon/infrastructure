@@ -13,7 +13,7 @@ jh_deb_helper_service "jehon-kiosk-mode.timer"
 
 case "$1" in
 configure)
-    if jh-fs is-empty /var/cache/jehon/pictures ; then
+    if jh-fs is-empty /var/cache/jehon/pictures; then
         if jh-is-full-machine; then
             systemctl start "jehon-kiosk-select-pictures.service" || true
             systemctl start "jehon-kiosk-refresh-fire.service" || true
@@ -32,8 +32,7 @@ esac
 # Legacy
 #
 
-# 2024-01-25
-
-jh_deb_helper_legacy jh_deb_helper_service "jehon-tty@tty3.service"
+# 2024-05-09
+rm -fr /var/cache/jehon/pictures
 
 exit 0
