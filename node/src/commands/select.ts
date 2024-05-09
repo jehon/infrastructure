@@ -1,3 +1,4 @@
+import mimeTypes from "mime-types";
 import path from "node:path";
 import FileFolder, { getFolderByName } from "../file-types/file-folder";
 import { arrayShuffle, arrayShuffleWeighted } from "../helpers/array-helpers";
@@ -21,9 +22,10 @@ interface Config {
   priority: number;
 }
 
-function takeFiles(inside: FileFolder, n: number): string[] {
+function takeImages(inside: FileFolder, n: number): string[] {
   const list = Array.from(inside.getAllCurrentFilenames())
     .map((f) => path.join(inside.currentFilepath, f))
+    .filter((f) => (mimeTypes.lookup(f) || "").split("/")[0] == "image")
     .filter((f) => !fsIsFolder(f));
   return arrayShuffle(list).slice(0, n);
 }
@@ -52,7 +54,7 @@ function takeInFolder(inside: FileFolder, n: number): string[] {
     if (f) {
       list.push(...takeInFolder(f, n - list.length));
     } else {
-      list.push(...takeFiles(inside, n - list.length));
+      list.push(...takeImages(inside, n - list.length));
     }
   }
   return list;

@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import mime from "mime-types";
+import mimeTypes from "mime-types";
 import fs, { Stats } from "node:fs";
 import path from "node:path";
 import { fsFileRename } from "../helpers/fs-helpers";
@@ -350,7 +350,7 @@ export default class File extends Item {
   }
 
   getMimeType(): string {
-    return (mime.lookup(this.currentFilepath) || "").split("/")[0];
+    return (mimeTypes.lookup(this.currentFilepath) || "").split("/")[0];
   }
 
   // ------------------------------------------
