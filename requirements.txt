@@ -23,3 +23,31 @@ jsonschema==4.17.3
 #
 # https://jira.readthedocs.io/examples.html
 jira==3.8.0
+
+
+#
+#  From legacy python in jehon.deb
+#
+#
+# # https://pyyaml.org/wiki/PyYAMLDocumentation
+# pyaml==24.4.0
+# types-PyYAML
+#
+# # https://pypi.org/project/openpyxl/
+# openpyxl==3.1.2
+# openpyxl-stubs
+# # For getxmp
+# defusedxml==0.7.1
+#
+# # https://pillow.readthedocs.io/en/stable/
+# pillow==10.3.0
+# types-Pillow
+# #
+# https://pypi.org/project/PyExifTool/
+# PyExifTool==0.5.6
+#
+# # https://pypi.org/project/termcolor/
+# termcolor==2.4.0
+# #
+# # https://textual.textualize.io/
+# textual==0.58.1
