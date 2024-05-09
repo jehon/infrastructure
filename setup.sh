@@ -3,13 +3,13 @@
 set -o errexit
 set -o pipefail
 
-SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}")")"
+SWD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 JH_PKG_FOLDER="$SWD"
 
 export DEBIAN_FRONTEND=noninteractive
 
 root_or_sudo() {
-    if [ "$( id -u )" == "0" ]; then
+    if [ "$(id -u)" == "0" ]; then
         # In Docker
         "$@"
     else
@@ -37,7 +37,7 @@ PKGS=(
     git-restore-mtime
     shellcheck
     gnupg2
-	python3-full python3-pip python3-autopep8 python3-netaddr python3-passlib python3-apt
+    python3-full python3-pip python3-autopep8 python3-netaddr python3-passlib python3-apt python3-termcolor
     git make sshpass
     default-libmysqlclient-dev
     # File-Organizer
@@ -50,7 +50,7 @@ echo "* Installing shellcheck..."
 root_or_sudo "$JH_PKG_FOLDER"/packages/jehon/usr/sbin/jh-install-shellcheck
 echo "* Installing shellcheck done"
 
-if ! type node >& /dev/null ; then
+if ! type node >&/dev/null; then
     echo "* Installing node (current)..."
     root_or_sudo "$JH_PKG_FOLDER"/packages/jehon/usr/sbin/jh-install-node current
     echo "* Installing node (current) done"
