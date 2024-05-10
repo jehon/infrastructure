@@ -5,16 +5,16 @@ import { fsFileExists } from "../../src/helpers/fs-helpers";
 import {
   createFileFromTo,
   rootPath,
-  tempPathCommon
+  tempPathNode
 } from "../test-common-helpers";
 
 export { assertIsEqual, filenameIsA, iFilename } from "../test-common-helpers";
 
 export const dataPathUnit = (...args: string[]) =>
-  rootPath("test", "unit", "data", ...args);
+  rootPath("node", "test", "unit", "data", ...args);
 
 export const tempPathUnit = (...args: string[]) =>
-  tempPathCommon("unit", ...args);
+  tempPathNode("unit", ...args);
 
 export function createFileFromDataUnit(
   subPath: string,

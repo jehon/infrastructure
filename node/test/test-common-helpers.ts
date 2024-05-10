@@ -8,11 +8,14 @@ export function iFilename(meta: ImportMeta): string {
   return meta.filename.split("/").pop()!;
 }
 
+/**
+ * Point to the root of the repository
+ */
 export const rootPath = (...args: string[]): string =>
-  path.join(path.dirname(import.meta.dirname), ...args);
+  path.join(path.dirname(path.dirname(import.meta.dirname)), ...args);
 
-export const tempPathCommon = (...args: string[]) =>
-  rootPath("..", "..", "tmp", "node", ...args);
+export const tempPathNode = (...args: string[]) =>
+  rootPath("tmp", "node", ...args);
 
 export function filenameIsA(
   originalString: string,

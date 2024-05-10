@@ -11,7 +11,7 @@ import {
   assertIsEqual,
   createFileFromTo,
   rootPath,
-  tempPathCommon
+  tempPathNode
 } from "../test-common-helpers";
 
 export { filenameIsA } from "../test-common-helpers";
@@ -23,8 +23,7 @@ export const TestDefaultTitle = "Sources";
 // Use http://www.time.is to generate images
 //
 
-const tempSourcePath = (...args: string[]) =>
-  tempPathCommon("sources", ...args);
+const tempSourcePath = (...args: string[]) => tempPathNode("sources", ...args);
 
 function createFilepathFromDataSources(
   subPath: string, // Relative to data path
@@ -35,7 +34,7 @@ function createFilepathFromDataSources(
   const np = path.parse(subPath).name;
   const filepath = createFileFromTo(
     tempSourcePath(np, TestDefaultTitle.toLowerCase()),
-    rootPath("test", "sources", "data", subPath)
+    rootPath("node", "test", "sources", "data", subPath)
   );
   getParentOf(tempSourcePath())._addNewlyCreateFile(np);
   getParentOf(tempSourcePath(np)).reset();

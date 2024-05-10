@@ -35,7 +35,7 @@ await test("with attributes", async (t) => {
       assert.equal(
         buildFileAs(dataPathUnit("canon.JPG"), File).getParentValue().current
           .i_f_path_full.current,
-        rootPath("test/unit/data")
+        rootPath("node/test/unit/data")
       );
     });
   });
