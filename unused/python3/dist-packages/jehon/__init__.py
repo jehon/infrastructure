@@ -2,8 +2,6 @@
     This module is my system module
 """
 
-# TODO: remove python
-
 # https://docs.python.org/3/reference/import.html#submodules
 
 #

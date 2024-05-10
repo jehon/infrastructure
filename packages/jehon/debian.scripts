@@ -45,9 +45,6 @@ jh_deb_helper_patch "/etc/fuse.conf" "jehon" "/usr/share/jehon/etc_fuse.conf.pat
 jh_deb_helper_patch "/etc/inputrc" "jehon" "/usr/share/jehon/etc_inputrc.patch"
 jh_deb_helper_patch "/etc/zsh/zshrc" "jehon" "/usr/share/jehon/etc_zsh_zshrc.patch"
 
-# TODO(python): remove python
-jh_deb_helper_python "/usr/lib/python3/dist-packages/jehon/requirements.txt" "/var/lib/python/jehon"
-
 case "$1" in
 configure)
 	if [ ! -d /etc/jehon/restricted/ ]; then
@@ -124,6 +121,10 @@ esac
 #
 # Legacy
 #
+
+# 2024-05-09
+jh_deb_helper_legacy jh_deb_helper_python "/usr/lib/python3/dist-packages/jehon/requirements.txt" "/var/lib/python/jehon"
+
 jh_deb_helper_legacy jh_deb_helper_service "jehon-tty@tty8.service"
 rm -fr /var/cache/jehon/patched/
 rm -fr /var/cache/jehon/jh-system-apply-special*

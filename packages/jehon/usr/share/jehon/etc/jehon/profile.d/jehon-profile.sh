@@ -14,9 +14,6 @@
 # For pip (python) local install
 export PATH=~/.local/bin/:~/bin:"$PATH"
 
-# Production variables
-export PYTHONPATH="$PYTHONPATH:/usr/lib/python3/dist-packages:/var/lib/python/jehon"
-
 TZ="$(cat /etc/timezone)"
 export TZ
 
