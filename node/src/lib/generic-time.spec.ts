@@ -11,6 +11,7 @@ await test("factories", async function (t) {
     assert.equal(gt.isDateTimeFull(), false);
     assert.equal(gt.isRange(), false);
     assert.equal(gt.isEmpty(), true);
+    assert.deepEqual(gt._toDateRepresentationElements(), [0, 0, 0, 0, 0, 0]);
   });
 
   await t.test("fromDashedString", () => {
@@ -20,6 +21,7 @@ await test("factories", async function (t) {
     assert.equal(gt.isDateTimeFull(), true);
     assert.equal(gt.isRange(), false);
     assert.equal(gt.isEmpty(), false);
+    assert.deepEqual(gt._toDateRepresentationElements(), [2020, 1, 2, 3, 4, 5]);
   });
 
   await t.test("new Date(2010, 0, 2, 3, 4, 5)", () => {
@@ -29,6 +31,7 @@ await test("factories", async function (t) {
     assert.equal(gt.isDateTimeFull(), true);
     assert.equal(gt.isRange(), false);
     assert.equal(gt.isEmpty(), false);
+    assert.deepEqual(gt._toDateRepresentationElements(), [2010, 1, 2, 3, 4, 5]);
   });
 
   await t.test("fromParts", () => {
@@ -38,6 +41,7 @@ await test("factories", async function (t) {
     assert.equal(gt.isDateTimeFull(), true);
     assert.equal(gt.isRange(), false);
     assert.equal(gt.isEmpty(), false);
+    assert.deepEqual(gt._toDateRepresentationElements(), [2020, 1, 2, 3, 4, 5]);
   });
 
   await t.test("fromRange", () => {
@@ -47,6 +51,7 @@ await test("factories", async function (t) {
     assert.equal(gt.isDateTimeFull(), false);
     assert.equal(gt.isRange(), true);
     assert.equal(gt.isEmpty(), false);
+    assert.deepEqual(gt._toDateRepresentationElements(), [0, 0, 0, 0, 0, 0]);
   });
 
   await t.test("fromYear", () => {
@@ -56,6 +61,7 @@ await test("factories", async function (t) {
     assert.equal(gt.isDateTimeFull(), false);
     assert.equal(gt.isRange(), false);
     assert.equal(gt.isEmpty(), false);
+    assert.deepEqual(gt._toDateRepresentationElements(), [2020, 1, 1, 1, 1, 1]);
   });
 
   await t.test("fromYearMonth", () => {
@@ -65,6 +71,7 @@ await test("factories", async function (t) {
     assert.equal(gt.isDateTimeFull(), false);
     assert.equal(gt.isRange(), false);
     assert.equal(gt.isEmpty(), false);
+    assert.deepEqual(gt._toDateRepresentationElements(), [2020, 1, 2, 2, 2, 2]);
   });
 });
 
@@ -72,18 +79,22 @@ await test("special cases", function () {
   const dt1 = GenericTime.fromParts();
   assert.equal(dt1.to2x3StringForHuman(), "");
   assert.equal(dt1.to2x3String(), "0000-00-00 00-00-00");
+  assert.deepEqual(dt1._toDateRepresentationElements(), [0, 0, 0, 0, 0, 0]);
 
   const dt2 = GenericTime.fromParts(2020);
   assert.equal(dt2.to2x3StringForHuman(), "2020");
   assert.equal(dt2.to2x3String(), "2020-01-01 01-01-01");
+  assert.deepEqual(dt2._toDateRepresentationElements(), [2020, 1, 1, 1, 1, 1]);
 
   const dt3 = GenericTime.fromParts(2020, 10);
   assert.equal(dt3.to2x3StringForHuman(), "2020-10");
   assert.equal(dt3.to2x3String(), "2020-10-02 02-02-02");
+  assert.deepEqual(dt3._toDateRepresentationElements(), [2020, 10, 2, 2, 2, 2]);
 
   const dt4 = GenericTime.fromParts(2020, 10, 8);
   assert.equal(dt4.to2x3StringForHuman(), "2020-10-08");
   assert.equal(dt4.to2x3String(), "2020-10-08 00-00-00");
+  assert.deepEqual(dt4._toDateRepresentationElements(), [2020, 10, 8, 0, 0, 0]);
 });
 
 await test("equal", function () {

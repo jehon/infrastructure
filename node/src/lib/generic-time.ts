@@ -1,6 +1,8 @@
 import { pad } from "../helpers/string-helpers";
 import { Equalable } from "./equalable";
 
+type DateStructure = number[];
+
 export class GenericTime extends Equalable {
   static EMPTY_MESSAGE = "<empty-generic-time>";
   static TZ_DEFAULT = "Europe/Brussels";
@@ -192,6 +194,29 @@ export class GenericTime extends Equalable {
     return this;
   }
 
+  _toDateRepresentationElements(): DateStructure {
+    if (this.isEmpty() || this.#year == undefined) {
+      return [0, 0, 0, 0, 0, 0];
+    }
+
+    if (this.#month == undefined) {
+      return [this.#year, 1, 1, 1, 1, 1];
+    }
+
+    if (this.#day == undefined) {
+      return [this.#year, this.#month, 2, 2, 2, 2];
+    }
+
+    return [
+      this.#year,
+      this.#month,
+      this.#day,
+      this.#hour ?? 0,
+      this.#minute ?? 0,
+      this.#second ?? 0
+    ];
+  }
+
   toJSON() {
     return {
       isEmpty: this.isEmpty(),
@@ -213,43 +238,11 @@ export class GenericTime extends Equalable {
       return [this.#yearMin, this.#yearMax].join(separator);
     }
 
-    if (this.isEmpty()) {
-      return [
-        ["0000", "00", "00"].join(separator),
-        ["00", "00", "00"].join(separator)
-      ].join(" ");
-    }
-
-    if (this.#month == undefined) {
-      return [
-        [pad(this.#year, 4), "01", "01"].join(separator),
-        ["01", "01", "01"].join(separator)
-      ].join(" ");
-    }
-
-    if (this.#day == undefined) {
-      return [
-        [pad(this.#year, 4), pad(this.#month, 2), "02"].join(separator),
-        ["02", "02", "02"].join(separator)
-      ].join(" ");
-    }
-
-    if (this.#hour == undefined) {
-      return [
-        [pad(this.#year, 4), pad(this.#month, 2), pad(this.#day, 2)].join(
-          separator
-        ),
-        ["00", "00", "00"].join(separator)
-      ].join(" ");
-    }
+    const elems = this._toDateRepresentationElements();
 
     return [
-      [pad(this.#year, 4), pad(this.#month, 2), pad(this.#day, 2)].join(
-        separator
-      ),
-      [pad(this.#hour, 2), pad(this.#minute, 2), pad(this.#second, 2)].join(
-        separator
-      )
+      [pad(elems[0], 4), pad(elems[1], 2), pad(elems[2], 2)].join(separator),
+      [pad(elems[3], 2), pad(elems[4], 2), pad(elems[5], 2)].join(separator)
     ]
       .join(" ")
       .trim();
@@ -262,6 +255,22 @@ export class GenericTime extends Equalable {
       .replace("-02 02-02-02", "")
       .replace(" 00-00-00", "")
       .trim();
+  }
+
+  toDate() {
+    if (!this.isDateTime()) {
+      throw new Error("Could not toDate " + this.to2x3String());
+    }
+
+    const elems = this._toDateRepresentationElements();
+    return new Date(
+      elems[0],
+      elems[1] - 1,
+      elems[2],
+      elems[3],
+      elems[4],
+      elems[5]
+    );
   }
 
   toTemporalPlainYearMonth(large: boolean = false): PlainYearMonth {
