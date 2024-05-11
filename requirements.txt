@@ -15,8 +15,12 @@ pytest
 pylint
 mypy
 
-#  problem about rdbps.rdps not found
-jsonschema==4.22.0
+#
+# Fixed dependency:
+#  - problem: ModuleNotFoundError: No module named 'rpds.rpds'
+#  - See https://stackoverflow.com/q/77994097/1954789
+#
+jsonschema==4.18.0
 
 #
 # For jh-jira-deliver:
