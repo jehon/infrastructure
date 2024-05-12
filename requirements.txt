@@ -15,6 +15,10 @@ pytest
 pylint
 mypy
 
+# To get dependency tree
+# use: tmp/python/common/bin/pipdeptree -fl
+pipdeptree
+
 #
 # Fixed dependency:
 #  - problem: ModuleNotFoundError: No module named 'rpds.rpds'
