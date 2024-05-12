@@ -20,7 +20,7 @@ mypy
 #  - problem: ModuleNotFoundError: No module named 'rpds.rpds'
 #  - See https://stackoverflow.com/q/77994097/1954789
 #
-jsonschema==4.18.0
+jsonschema==4.17.3
 
 #
 # For jh-jira-deliver:
