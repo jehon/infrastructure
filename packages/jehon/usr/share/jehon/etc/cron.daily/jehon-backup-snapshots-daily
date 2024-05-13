@@ -3,7 +3,7 @@
 # shellcheck source=/dev/null
 . jh-lib
 
-if ! jh-fs "not-empty" "/var/backups/daily"; then
+if jh-fs "is-empty" "/var/backups/daily"; then
 	exit 0
 fi
 
