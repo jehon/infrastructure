@@ -6,6 +6,11 @@ ROOT="/var/backups"
 
 mkdir -p "$ROOT/$1"
 
+if ! jh-fs "is-empty" "/var/backups/live"; then
+    echo "No live data, exiting.."
+    exit 0
+fi
+
 dt=$(date +%Y-%m-%d-%H.%M.%S)
 for file in "$ROOT"/live/*; do
     # http://stackoverflow.com/a/965072/1954789
