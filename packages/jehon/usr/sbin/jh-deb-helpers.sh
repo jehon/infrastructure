@@ -176,7 +176,7 @@ jh_deb_helper_python() {
 jh_deb_helper_service() {
 	SERVICE="$1"
 
-	if jh-is-full-machine >/dev/null; then
+	if jh-is-full-machine; then
 		case "$DEB_CMD" in
 		"configure")
 			systemctl daemon-reload
@@ -219,7 +219,7 @@ jh_deb_helper_ufw() {
 		;;
 	esac
 
-	if jh-is-full-machine >/dev/null; then
+	if jh-is-full-machine; then
 		case "$DEB_CMD" in
 		"configure")
 			ufw allow from "$NETWORKS" to any "$TYPE" "$SERVICE"

@@ -7,8 +7,14 @@ set -o errexit
 
 PID1="$(ps --no-headers -o comm 1)"
 
-if [ "$PID1" != 'systemd' ]; then
-    jh_fatal "Ko, systemd is not pid 1"
+ECHO=true
+if [ "$1" == "-v" ]; then
+    ECHO="echo"
 fi
 
-echo "Ok, systemd is running"
+if [ "$PID1" != 'systemd' ]; then
+    $ECHO "Ko, systemd is not pid 1"
+    exit 1
+fi
+
+$ECHO "Ok, systemd is running"

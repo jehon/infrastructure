@@ -3,7 +3,7 @@
 # shellcheck source=SCRIPTDIR/jh-lib
 . jh-lib
 
-if jh-is-full-machine >/dev/null; then
+if jh-is-full-machine; then
     sudo echo "Unlocked sudo"
     jh_background_process sudo systemd-inhibit --no-pager sleep infinity
 fi
