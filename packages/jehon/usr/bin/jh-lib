@@ -184,12 +184,6 @@ ko() {
     echo -e "$JH_MSG_KO $*"
 }
 
-jh_time_taken() {
-    local F
-    F="$(date +%s.%N)"
-    jh_value "Time $1" "$(echo "scale=3;($F - $JH_START_TIME)/1" | bc) seconds"
-}
-
 jh_on_exit() {
     # Thanks to https://stackoverflow.com/a/7287873/1954789
     # for SIG_NAME in "EXIT"; do
