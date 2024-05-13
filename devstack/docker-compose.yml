@@ -63,22 +63,28 @@ services:
   #   #   - traefik.http.services.docker.loadbalancer.server.port=8000
 
   mail:
-      # https://github.com/maildev/maildev
-      image: maildev/maildev
-      restart: always
-      environment:
-          # Not working with healthcheck: - MAILDEV_BASE_PATHNAME=/maildev/
-          - MAILDEV_WEB_PORT=1080
-      expose:
-          - 1080
-          - 1025
-      ports:
-          - "2025:1080"
-      # labels:
-      #     # https://github.com/maildev/maildev/issues/402
-      #     - traefik.http.routers.mail.rule=PathPrefix(`/mail`)
-      #     - traefik.http.routers.mail.middlewares=jhstriproot@docker
-      #     - traefik.http.services.mail.loadbalancer.server.port=1080
+    # https://github.com/maildev/maildev
+    # Healthcheck exist, but does not work
+    image: maildev/maildev
+    restart: always
+    expose:
+      - 1080
+      - 1025
+    ports:
+      - "2025:1080"
+    healthcheck:
+      test: wget -O - http://127.0.0.1:1080/healthz
+      #        HEALTHCHECK &{["CMD-SHELL" "wget -O - http://localhost:1080${MAILDEV_BASE_PATHNAME}/healthz || exit 1"] "10s" "1s" "0s" '\x00'}
+#        HEALTHCHECK &{["CMD-SHELL" "wget -O - http://localhost:1080${MAILDEV_BASE_PATHNAME}/healthz || exit 1"] "10s" "1s" "0s" '\x00'}
+      interval: 2s
+      timeout: 1s
+      retries: 3
+      start_period: 3s
+    # labels:
+    #     # https://github.com/maildev/maildev/issues/402
+    #     - traefik.http.routers.mail.rule=PathPrefix(`/mail`)
+    #     - traefik.http.routers.mail.middlewares=jhstriproot@docker
+    #     - traefik.http.services.mail.loadbalancer.server.port=1080
 
   # jenkins:
   #     # Thanks to https://gist.github.com/pythoninthegrass/abb755a54ba908374e1c8bfd79d0c499
