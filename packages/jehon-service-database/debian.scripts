@@ -17,7 +17,4 @@ esac
 # Legacy
 #
 
-# As of 2024-05-13
-rm -fr "${CONF_FILE}"
-
 exit 0
