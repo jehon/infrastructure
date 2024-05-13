@@ -13,10 +13,6 @@ configure)
 	fi
 	;;
 
-# !! Does not work as expected
-triggered)
-		;;
-
 remove) ;;
 
 esac
@@ -24,8 +20,5 @@ esac
 #
 # Legacy
 #
-
-# 2024-04-07
-jh_deb_helper_legacy jh_deb_helper_service "jehon-dmesg.service"
 
 exit 0

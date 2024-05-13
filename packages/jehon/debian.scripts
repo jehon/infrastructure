@@ -110,10 +110,6 @@ configure)
 	chown --changes --recursive "root:jehon_secrets" /mnt/docker
 	;;
 
-triggered)
-	echo "******************* TRIGGERED ******************"
-	;;
-
 remove) ;;
 
 esac
@@ -121,12 +117,5 @@ esac
 #
 # Legacy
 #
-
-# 2024-05-09
-jh_deb_helper_legacy jh_deb_helper_python "/usr/lib/python3/dist-packages/jehon/requirements.txt" "/var/lib/python/jehon"
-
-jh_deb_helper_legacy jh_deb_helper_service "jehon-tty@tty8.service"
-rm -fr /var/cache/jehon/patched/
-rm -fr /var/cache/jehon/jh-system-apply-special*
 
 exit 0
