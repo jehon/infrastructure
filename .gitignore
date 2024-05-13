@@ -1,4 +1,3 @@
-
 #
 # Global
 #
@@ -9,3 +8,8 @@
 
 tmp/
 node_modules/
+
+#
+# Specific
+#
+/test.sh
