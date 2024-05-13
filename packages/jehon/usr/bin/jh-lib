@@ -13,7 +13,6 @@
 #
 #
 
-JH_START_TIME="$(date +%s.%N)"
 JH_TIMESTAMP="$(date "+%Y-%m-%d %H.%M.%S")"
 JH_DEFAULT_IDENT=10
 export JH_TIMESTAMP
