@@ -7,6 +7,5 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 "$_SD/jehon-backup-take-snapshot.sh" daily
 
-# Remove too old backups
-# Monthly backups are taken, so 40 days is ok
+# Remove too old backups: 40 days old
 find "/var/backups/daily" -mtime +40 -delete
