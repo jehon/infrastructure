@@ -7,37 +7,17 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
 . /usr/sbin/jh-deb-helpers.sh
 
-CONF_FILE="/etc/jehon/restricted/mariadb.conf"
-
 case "$1" in
-configure)
-    if [ ! -r "${CONF_FILE}" ]; then
-        PASS=$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 10)
-        echo "**** Create the user"
-        cat >"${CONF_FILE}" <<EOS
-BACKUP_USER="jh_backup"
-BACKUP_PASS="${PASS}"
-EOS
-
-        if jh-is-full-machine; then
-            echo "**** Granting access to the database"
-            cat <<EOS | mysql
-GRANT ALL PRIVILEGES ON *.* TO 'jh_backup'@'%' IDENTIFIED BY '${PASS}';
-FLUSH PRIVILEGES;
-EOS
-            echo "*** ok"
-
-        fi
-    fi
-    ;;
-remove)
-    rm -fr "${CONF_FILE}"
-    ;;
+configure) ;;
+remove) ;;
 
 esac
 
 #
 # Legacy
 #
+
+# As of 2024-05-13
+rm -fr "${CONF_FILE}"
 
 exit 0
