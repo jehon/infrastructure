@@ -43,7 +43,7 @@ package-lock.json: package.json
 node-build: $(NODE_TMP)/built/.built
 
 $(NODE_TMP)/built/.built: node/** \
-		node-dependencies
+		$(NODE_DEPENDENCY_MARK)
 
 	./node_modules/.bin/webpack
 	@touch "$@"
