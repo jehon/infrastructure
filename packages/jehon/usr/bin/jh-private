@@ -23,7 +23,7 @@ check_mounted_folder() {
 		return 1
 	fi
 
-	if echo "13cb24c5065f9da4df9a93cb77de4292  ${DST}/.mounted" | md5sum -c - > /dev/null ; then
+	if echo "13cb24c5065f9da4df9a93cb77de4292  ${DST}/.mounted" | md5sum -c - >/dev/null; then
 		return 0
 	else
 		echo "Folder ${DST} incorrectly mounted (md5sum)" >&2
@@ -31,37 +31,37 @@ check_mounted_folder() {
 	fi
 }
 
-mount_gocryptfs() {
-	SRC="${1}"
-	DST="${2}"
+# mount_gocryptfs() {
+# 	SRC="${1}"
+# 	DST="${2}"
 
-	header_begin "Mounting ${SRC} to ${DST}"
-	MOUNTED+=( "${DST}")
+# 	header_begin "Mounting ${SRC} to ${DST}"
+# 	MOUNTED+=( "${DST}")
 
-	[ -d "${SRC}" ] || jh_fatal "Encrypted source dir (${SRC}) not found"
-	mkdir -p "${DST}" || true
+# 	[ -d "${SRC}" ] || jh_fatal "Encrypted source dir (${SRC}) not found"
+# 	mkdir -p "${DST}" || true
 
-	if ! check_mounted_folder "${DST}" 2>/dev/null; then
-		echo "Encore un secret:"
-		jh_info "Mounting folder"
+# 	if ! check_mounted_folder "${DST}" 2>/dev/null; then
+# 		echo "Encore un secret:"
+# 		jh_info "Mounting folder"
 
-		gocryptfs "${SRC}" "${DST}"
+# 		gocryptfs "${SRC}" "${DST}"
 
-		sleep 1s
+# 		sleep 1s
 
-		check_mounted_folder "${DST}" || jh_fatal "Mounting failure"
-	fi
+# 		check_mounted_folder "${DST}" || jh_fatal "Mounting failure"
+# 	fi
 
-	# jh-cloud-prefetch "${SRC}"
-	header_end
-}
+# 	# jh-cloud-prefetch "${SRC}"
+# 	header_end
+# }
 
 mount_rclone() {
 	SRC="${1}"
 	DST="${2}"
 
 	header_begin "Mounting ${SRC} to ${DST}"
-	MOUNTED+=( "${DST}" )
+	MOUNTED+=("${DST}")
 
 	[ -d "${SRC}" ] || jh_fatal "Encrypted source dir (${SRC}) not found"
 	mkdir -p "${DST}" || true
@@ -85,7 +85,7 @@ mount_rclone() {
 			#     !! caching is done outside of folder, so uncrypted data is available to all
 			#  @see other options: https://rclone.org/crypt/#standard-options
 			#
-			PWD_CRYTED="$( echo "$PWD" | rclone obscure - )"
+			PWD_CRYTED="$(echo "$PWD" | rclone obscure -)"
 			rclone mount \
 				--log-level=ERROR \
 				--vfs-cache-mode=off \
@@ -146,7 +146,7 @@ stop() {
 }
 
 function do_move_to_be_encrypted_files() {
-	if [ ! -d "${NEWLY_ENCRYPTED}" ] ; then
+	if [ ! -d "${NEWLY_ENCRYPTED}" ]; then
 		echo "NEWLY_ENCRYPTED not found: ${NEWLY_ENCRYPTED}" >&2
 		return
 	fi
@@ -159,16 +159,16 @@ function do_move_to_be_encrypted_files() {
 	cd "${TO_BE_ENCRYPTED}"
 
 	header_begin "Calculating index"
-	LAST="$( find "${NEWLY_ENCRYPTED}" -regex '.*\/[0-9]*\..*' -print | sort | tail -n 1 )"
-	LAST_NAME="$( jh-fs name "${LAST}" )"
+	LAST="$(find "${NEWLY_ENCRYPTED}" -regex '.*\/[0-9]*\..*' -print | sort | tail -n 1)"
+	LAST_NAME="$(jh-fs name "${LAST}")"
 	# Force base 10 even with leading 00
-	(( I = 10#${LAST_NAME} + 1 ))
+	((I = 10#${LAST_NAME} + 1))
 	jh_value "Actual counter" "${I}"
 	header_end
 
-	for F in "${TO_BE_ENCRYPTED}"/* ; do
+	for F in "${TO_BE_ENCRYPTED}"/*; do
 		if [ ! -e "$F" ]; then
-			break;
+			break
 		fi
 
 		local EXT
@@ -176,28 +176,27 @@ function do_move_to_be_encrypted_files() {
 		local FN
 
 		header_begin "File ${F}"
-		EXT="$( jh-fs extension "${F}" )"
-		MIME="$( mimetype -b "${F}" )"
+		EXT="$(jh-fs extension "${F}")"
+		MIME="$(mimetype -b "${F}")"
 		jh_value "Mime" "${MIME}"
 
 		case $MIME in
-			image/* )
-				;;
-			# video/* )
-			# 	continue
-			# 	;;
-			* )
-				mkdir -p "${NEWLY_ENCRYPTED_OTHER}"
-				mv "${F}" "${NEWLY_ENCRYPTED_OTHER}/"
-				header_end
-				continue
-				;;
+		image/*) ;;
+		# video/* )
+		# 	continue
+		# 	;;
+		*)
+			mkdir -p "${NEWLY_ENCRYPTED_OTHER}"
+			mv "${F}" "${NEWLY_ENCRYPTED_OTHER}/"
+			header_end
+			continue
+			;;
 		esac
 
 		exiftool -overwrite_original "-UserComment<filename" "-TagsList+=_new" "${F}"
-		FN="${NEWLY_ENCRYPTED}/$( printf %08d ${I} ).${EXT}"
+		FN="${NEWLY_ENCRYPTED}/$(printf %08d ${I}).${EXT}"
 		mv -v "$F" "$FN"
-		(( ++I ))
+		((++I))
 		header_end
 	done
 
@@ -211,7 +210,7 @@ start
 
 function treatAction() {
 	case "$1" in
-	"s" | "stop" | "q" )
+	"s" | "stop" | "q")
 		jh_info "Quitting..."
 		# stop? We use the 'trap EXIT'
 		exit 0
@@ -224,7 +223,7 @@ function treatAction() {
 	"d")
 		start
 		jh_info "Launching digikam"
-	# 	digikam --database-directory "${CRYPTED_MOUNTED}"/.metadata/ &
+		# 	digikam --database-directory "${CRYPTED_MOUNTED}"/.metadata/ &
 		;;
 	"n" | "nautilus")
 		start
