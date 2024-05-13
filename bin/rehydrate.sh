@@ -8,10 +8,11 @@ set -o errexit
 . "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
 echo "chmod bin..."
-find tmp -type f -path "*/bin/*" -exec "chmod" "-v" "+x" "{}" ";"
+find tmp -type f -path "*/bin/*" -exec "chmod" "+x" "{}" ";"
 echo "chmod bin done"
 
 echo "touch built..."
 touch tmp/mark
-find tmp -type f -name "*built" -print -and -exec "touch" "-m" "--reference=tmp/mark" "{}" ";"
+touch --reference=tmp/mark node_modules/.*
+find tmp -exec "touch" "--reference=tmp/mark" "{}" ";"
 echo "touch built done"
