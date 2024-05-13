@@ -6,7 +6,7 @@ ROOT="/var/backups"
 
 mkdir -p "$ROOT/$1"
 
-if ! jh-fs "is-empty" "/var/backups/live"; then
+if jh-fs "is-empty" "/var/backups/live"; then
     echo "No live data, exiting.."
     exit 0
 fi
