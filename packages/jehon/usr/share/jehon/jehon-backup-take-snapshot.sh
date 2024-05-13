@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
+FLAVOR=${1:?Need a flavor as [1]}
+
 ROOT="/var/backups"
-if [ -z "$1" ]; then
-    echo "No namespace given. Abort" >&2
-    exit 255
-fi
 
 mkdir -p "$ROOT/$1"
 
@@ -12,9 +10,7 @@ dt=$(date +%Y-%m-%d-%H.%M.%S)
 for file in "$ROOT"/live/*; do
     # http://stackoverflow.com/a/965072/1954789
     filename="$(basename "$file")"
-    name=${filename%.*}
-    ext="${filename##*.}"
-    DEST=$1/${dt}-${name}.${ext}
+    DEST="$FLAVOR/${dt}-${filename}"
     echo "File: $file -> $DEST"
     cp "$file" "$ROOT/$DEST"
 done
@@ -22,4 +18,4 @@ done
 # Remove duplicates backups files
 #   Since too old files are removed before, we are sure
 #   to keep one individual backup at anytime
-fdupes "/var/backups/$1" -f -r | head -n 1 | xargs --no-run-if-empty -I{} rm -v "{}"
+fdupes "/var/backups/$FLAVOR" -f -r | head -n 1 | xargs --no-run-if-empty -I{} rm -v "{}"

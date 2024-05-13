@@ -5,13 +5,9 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin/
 . jh-lib
 
-if [ ! -t 1 ]; then
-	exec > >(systemd-cat -t "$(realpath "$0")" -p info) \
-	2> >(systemd-cat -t "$(realpath "$0")" -p err)
-fi
+BACKUP_FOLDER="/var/backups/live/mariadb"
 
-BACKUP_FOLDER="/var/backups/live/mariadb/$JH_TIMESTAMP"
-
+rm -fr "${BACKUP_FOLDER}"
 mkdir -p "${BACKUP_FOLDER}"
 
 # See https://mariadb.com/kb/en/full-backup-and-restore-with-mariabackup/
