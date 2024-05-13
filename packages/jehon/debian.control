@@ -6,6 +6,8 @@ Depends: ${misc:Depends},
 	bc,
 	ca-certificates,
 	curl,
+# jehon-backup-take-snapshots
+	fdupes,
 	file,
 # envsubst
 	gettext-base,
