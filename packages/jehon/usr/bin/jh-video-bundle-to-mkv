@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 shopt -s nullglob
 
-# shellcheck source=SCRIPTDIR/jh-lib
+# shellcheck source-path=SCRIPTDIR
 . jh-lib
 JH_DEFAULT_IDENT=30
 
@@ -18,35 +18,35 @@ getFromFilename() {
 	REGEX=$1
 	STR="$2"
 
-	if [[ "$STR" =~  $REGEX ]]; then
+	if [[ "$STR" =~ $REGEX ]]; then
 		echo "${BASH_REMATCH[1]}"
 	else
 		echo ""
 	fi
 }
 
-SOURCE_FOLDER="$( dirname "${SOURCE}" )"
-SOURCE_BASENAME="$( basename "${SOURCE}" )"
-SOURCE_FILENAME="$( jh-fs name "${SOURCE}" )"
-SOURCE_EXTENSION="$( jh-fs extension "${SOURCE}" )"
-SOURCE_LANG="$(  getFromFilename "$REGEX_LANG"  "${SOURCE_FILENAME}" )"
-SOURCE_TITLE="$( getFromFilename "$REGEX_TITLE" "${SOURCE_FILENAME}" )"
-SOURCE_YEAR="$(  getFromFilename "$REGEX_YEAR"  "${SOURCE_FILENAME}" )"
+SOURCE_FOLDER="$(dirname "${SOURCE}")"
+SOURCE_BASENAME="$(basename "${SOURCE}")"
+SOURCE_FILENAME="$(jh-fs name "${SOURCE}")"
+SOURCE_EXTENSION="$(jh-fs extension "${SOURCE}")"
+SOURCE_LANG="$(getFromFilename "$REGEX_LANG" "${SOURCE_FILENAME}")"
+SOURCE_TITLE="$(getFromFilename "$REGEX_TITLE" "${SOURCE_FILENAME}")"
+SOURCE_YEAR="$(getFromFilename "$REGEX_YEAR" "${SOURCE_FILENAME}")"
 DESTINATION="${SOURCE_FOLDER}/${SOURCE_FILENAME}.reworked.mkv"
 
-jh_value "SOURCE"           "${SOURCE}"
-jh_value "SOURCE_FOLDER"    "${SOURCE_FOLDER}"
-jh_value "SOURCE_BASENAME"  "${SOURCE_BASENAME}"
-jh_value "SOURCE_FILENAME"  "${SOURCE_FILENAME}"
+jh_value "SOURCE" "${SOURCE}"
+jh_value "SOURCE_FOLDER" "${SOURCE_FOLDER}"
+jh_value "SOURCE_BASENAME" "${SOURCE_BASENAME}"
+jh_value "SOURCE_FILENAME" "${SOURCE_FILENAME}"
 jh_value "SOURCE_EXTENSION" "${SOURCE_EXTENSION}"
 if [ -z "${SOURCE_LANG}" ]; then
 	echo "  Using default language: fr"
 	SOURCE_LANG="fr"
 fi
-jh_value "SOURCE_LANG"      "${SOURCE_LANG}"
-jh_value "SOURCE_TITLE"     "${SOURCE_TITLE}"
-jh_value "SOURCE_YEAR"      "${SOURCE_YEAR}"
-jh_value "DESTINATION"      "${DESTINATION}"
+jh_value "SOURCE_LANG" "${SOURCE_LANG}"
+jh_value "SOURCE_TITLE" "${SOURCE_TITLE}"
+jh_value "SOURCE_YEAR" "${SOURCE_YEAR}"
+jh_value "DESTINATION" "${DESTINATION}"
 
 if [ -r "${DESTINATION}" ]; then
 	jh_fatal "File already exists at destination: ${DESTINATION}"
@@ -74,27 +74,27 @@ getTag() {
 	TAG="$2"
 
 	# Thanks to https://stackoverflow.com/a/41930111/1954789
-	TAG="$( ffprobe "${SOURCE}" -v error -select_streams "${STREAM}" -show_entries "stream=index:stream_tags=${TAG}" -print_format json | jq -r ".streams[0].tags.${TAG}" )"
+	TAG="$(ffprobe "${SOURCE}" -v error -select_streams "${STREAM}" -show_entries "stream=index:stream_tags=${TAG}" -print_format json | jq -r ".streams[0].tags.${TAG}")"
 	case "$TAG" in
-		"null" | "und" )
-			echo ""
-			;;
-		"eng" )
-			echo "en"
-			;;
-		* )
-			echo "$TAG"
-			;;
+	"null" | "und")
+		echo ""
+		;;
+	"eng")
+		echo "en"
+		;;
+	*)
+		echo "$TAG"
+		;;
 	esac
 }
 
 ARGS=()
 
-ARGS+=( "-i" "${SOURCE}" )
+ARGS+=("-i" "${SOURCE}")
 
 # Already present:
-ANNEXE_SUBS_COUNT=$( getCodec "s" | wc -l )
-ANNEXE_ATTACHMENT_COUNT=$( getCodec "t" | wc -l )
+ANNEXE_SUBS_COUNT=$(getCodec "s" | wc -l)
+ANNEXE_ATTACHMENT_COUNT=$(getCodec "t" | wc -l)
 
 jh_value "ANNEXE_SUBS_COUNT" "${ANNEXE_SUBS_COUNT}"
 jh_value "ANNEXE_ATTACHMENT_COUNT" "${ANNEXE_ATTACHMENT_COUNT}"
@@ -103,20 +103,20 @@ jh_value "ANNEXE_ATTACHMENT_COUNT" "${ANNEXE_ATTACHMENT_COUNT}"
 # External files
 #
 ffprobe -v error -select_streams "${SELECTOR}" "${SOURCE}"
-ANNEXE_COUNT="$( ffprobe -v error -select_streams "${SELECTOR}" "${SOURCE}" )"
+ANNEXE_COUNT="$(ffprobe -v error -select_streams "${SELECTOR}" "${SOURCE}")"
 if [ -n "$ANNEXE_COUNT" ]; then
 	jh_value "ANNEXE_COUNT" "${ANNEXE_COUNT}"
 	jh_fatal "files with attachement are not implemented... yet"
 fi
 ANNEXE_COUNT=0
 MAPS=1
-while read -r -d $'\0' ANNEXE_FULLPATH ; do
-	ANNEXE_NAME=$( basename "$ANNEXE_FULLPATH" )
-	ANNEXE_BASENAME="$( basename "${ANNEXE_NAME}" )"
-	ANNEXE_FILENAME="$( jh-fs name "${ANNEXE_NAME}" )"
-	ANNEXE_EXT="$( jh-fs extension "${ANNEXE_NAME}" )"
-	ANNEXE_LANG="$( getFromFilename "$REGEX_LANG" "${ANNEXE_FILENAME}" )"
-  	if [ "${ANNEXE_BASENAME}" == "${SOURCE_BASENAME}" ]; then
+while read -r -d $'\0' ANNEXE_FULLPATH; do
+	ANNEXE_NAME=$(basename "$ANNEXE_FULLPATH")
+	ANNEXE_BASENAME="$(basename "${ANNEXE_NAME}")"
+	ANNEXE_FILENAME="$(jh-fs name "${ANNEXE_NAME}")"
+	ANNEXE_EXT="$(jh-fs extension "${ANNEXE_NAME}")"
+	ANNEXE_LANG="$(getFromFilename "$REGEX_LANG" "${ANNEXE_FILENAME}")"
+	if [ "${ANNEXE_BASENAME}" == "${SOURCE_BASENAME}" ]; then
 		continue
 	fi
 
@@ -131,93 +131,95 @@ while read -r -d $'\0' ANNEXE_FULLPATH ; do
 	jh_value "${ANNEXE_COUNT}.ANNEXE_EXT" "${ANNEXE_EXT}"
 
 	case "${ANNEXE_EXT}" in
-		"jpg" | "webp" )
-			jh_value "${ANNEXE_COUNT}.ANNEXE.ATTACHMENT.${ANNEXE_ATTACHMENT_COUNT} ✚ " "${ANNEXE_BASENAME}"
-			if [ "${ANNEXE_EXT}" != "jpg" ]; then
-				if [ ! -r "${ANNEXE_FULLPATH}.jpg" ]; then
-				 	convert "${ANNEXE_FULLPATH}" "${ANNEXE_FULLPATH}.jpg"
-				fi
-				ANNEXE_FULLPATH="${ANNEXE_FULLPATH}.jpg"
+	"jpg" | "webp")
+		jh_value "${ANNEXE_COUNT}.ANNEXE.ATTACHMENT.${ANNEXE_ATTACHMENT_COUNT} ✚ " "${ANNEXE_BASENAME}"
+		if [ "${ANNEXE_EXT}" != "jpg" ]; then
+			if [ ! -r "${ANNEXE_FULLPATH}.jpg" ]; then
+				convert "${ANNEXE_FULLPATH}" "${ANNEXE_FULLPATH}.jpg"
 			fi
+			ANNEXE_FULLPATH="${ANNEXE_FULLPATH}.jpg"
+		fi
 
-			# https://ffmpeg.org//pipermail/ffmpeg-user/2022-March/054398.html
-			# https://ffmpeg.org/ffmpeg.html#Stream-specifiers
-			# -metadata:s:t
-			#       s: stream_spec (select by stream)
-			#       t: attachment (see stream_type)
-			#
-			# order is -attach -....
-			# stream is created after all stream (from -map)
-			ARGS+=( -attach "${ANNEXE_FULLPATH}" "-metadata:s:t:${ANNEXE_ATTACHMENT_COUNT}" mimetype="image/jpg" "-metadata:s:t:${ANNEXE_ATTACHMENT_COUNT}" filename="cover.jpg" )
-			;;
-		"srt" )
-			jh_value "${ANNEXE_COUNT}.ANNEXE.SUBTITLES.${ANNEXE_SUBS_COUNT} ✚ " "${ANNEXE_BASENAME} (${ANNEXE_LANG})"
-		 	# https://superuser.com/a/521741/287025
-			# Set subtitle language
-			#    https://stackoverflow.com/a/21059838/1954789
-			ARGS+=( -i "${ANNEXE_FULLPATH}" "-metadata:s:s:$ANNEXE_SUBS_COUNT" "language=${ANNEXE_LANG}" )
-			(( ++ANNEXE_SUBS_COUNT ))
-			(( ++MAPS ))
-			;;
-		* )
-			jh_fatal "Unknown extension: $ANNEXE_EXT from ${ANNEXE_NAME}"
+		# https://ffmpeg.org//pipermail/ffmpeg-user/2022-March/054398.html
+		# https://ffmpeg.org/ffmpeg.html#Stream-specifiers
+		# -metadata:s:t
+		#       s: stream_spec (select by stream)
+		#       t: attachment (see stream_type)
+		#
+		# order is -attach -....
+		# stream is created after all stream (from -map)
+		ARGS+=(-attach "${ANNEXE_FULLPATH}" "-metadata:s:t:${ANNEXE_ATTACHMENT_COUNT}" mimetype="image/jpg" "-metadata:s:t:${ANNEXE_ATTACHMENT_COUNT}" filename="cover.jpg")
+		;;
+	"srt")
+		jh_value "${ANNEXE_COUNT}.ANNEXE.SUBTITLES.${ANNEXE_SUBS_COUNT} ✚ " "${ANNEXE_BASENAME} (${ANNEXE_LANG})"
+		# https://superuser.com/a/521741/287025
+		# Set subtitle language
+		#    https://stackoverflow.com/a/21059838/1954789
+		ARGS+=(-i "${ANNEXE_FULLPATH}" "-metadata:s:s:$ANNEXE_SUBS_COUNT" "language=${ANNEXE_LANG}")
+		((++ANNEXE_SUBS_COUNT))
+		((++MAPS))
+		;;
+	*)
+		jh_fatal "Unknown extension: $ANNEXE_EXT from ${ANNEXE_NAME}"
+		;;
 	esac
-	(( ++ANNEXE_COUNT))
-done < <( find "${SOURCE_FOLDER}/" -type f -name "${SOURCE_FILENAME}*" -print0 )
+	((++ANNEXE_COUNT))
+done < <(find "${SOURCE_FOLDER}/" -type f -name "${SOURCE_FILENAME}*" -print0)
 
 #
 # Video
 #
-for (( I=0; I< $( getCodec "v" | wc -l ) ; I++ )); do
-	CODEC=$( getCodec "v:${I}" )
+for ((I = 0; I < $(getCodec "v" | wc -l); I++)); do
+	CODEC=$(getCodec "v:${I}")
 	TXT_CODEC="$(printf "%-8s" "$CODEC")"
 	case "${CODEC}" in
-		"" | "mpeg4" | "h264" | "h265" )
-			ok "v:${I} ${TXT_CODEC}"
-			ARGS+=( "-c:v:${I}" "copy" )
-			;;
-		* )
-			ko "v:${I} ${TXT_CODEC} => need conversion"
-			ARGS+=(  "-c:v:${I}" h265 -b:v 1000 )
-			;;
+	"" | "mpeg4" | "h264" | "h265")
+		ok "v:${I} ${TXT_CODEC}"
+		ARGS+=("-c:v:${I}" "copy")
+		;;
+	*)
+		ko "v:${I} ${TXT_CODEC} => need conversion"
+		ARGS+=("-c:v:${I}" h265 -b:v 1000)
+		;;
 	esac
-	VIDEO_LANG="$( getTag "a:0" "language" )"
+	VIDEO_LANG="$(getTag "a:0" "language")"
 	if [ -z "$VIDEO_LANG" ]; then
 		echo "   Using movie language: ${SOURCE_LANG}"
 		VIDEO_LANG="${SOURCE_LANG}"
 	fi
 	jh_value "VIDEO.${I}.LANG" "${VIDEO_LANG}"
-	ARGS+=( "-metadata:s:v:$I" "language=${VIDEO_LANG}" )
+	ARGS+=("-metadata:s:v:$I" "language=${VIDEO_LANG}")
 done
 
 #
 # Audio
 #
-for (( I=0; I<$( getCodec "a" | wc -l ); I++ )); do
-	CODEC="$( getCodec "a:${I}" )"
+for ((I = 0; I < $(getCodec "a" | wc -l); I++)); do
+	CODEC="$(getCodec "a:${I}")"
 	TXT_CODEC="$(printf "%-8s" "$CODEC")"
 	case "${CODEC}" in
-		"ac3" | "aac" | "mp3" )
-			ok "a:${I} ${TXT_CODEC}"
-			ARGS+=( "-c:a:$I" "copy" )
-			;;
-		* )
-			ko "a:${I} ${TXT_CODEC} => need conversion"
-			ARGS+=( "-c:a:${I}" "ac3" )
+	"ac3" | "aac" | "mp3")
+		ok "a:${I} ${TXT_CODEC}"
+		ARGS+=("-c:a:$I" "copy")
+		;;
+	*)
+		ko "a:${I} ${TXT_CODEC} => need conversion"
+		ARGS+=("-c:a:${I}" "ac3")
+		;;
 	esac
-	AUDIO_LANG="$( getTag "a:0" "language" )"
+	AUDIO_LANG="$(getTag "a:0" "language")"
 	if [ -z "$AUDIO_LANG" ]; then
 		echo "   Using movie language: ${SOURCE_LANG}"
 		AUDIO_LANG="${SOURCE_LANG}"
 	fi
 	jh_value "AUDIO.${I}.LANG" "${AUDIO_LANG}"
-	ARGS+=( "-metadata:s:a:$I" "language=${AUDIO_LANG}" )
+	ARGS+=("-metadata:s:a:$I" "language=${AUDIO_LANG}")
 done
 
 #
 # Subtitles
 #
-ARGS+=( "-c:s" "copy" )
+ARGS+=("-c:s" "copy")
 
 #
 # Metadata
@@ -226,7 +228,7 @@ ARGS+=( "-c:s" "copy" )
 # Copy all metadata:
 #   Use -map_metadata 0 to copy over existing meta tags
 #   Thanks to https://video.stackexchange.com/a/24524
-ARGS+=( "-map_metadata" "0" "-movflags" "use_metadata_tags" )
+ARGS+=("-map_metadata" "0" "-movflags" "use_metadata_tags")
 
 #
 # FFMPEG supported fields for MKV:
@@ -235,7 +237,7 @@ ARGS+=( "-map_metadata" "0" "-movflags" "use_metadata_tags" )
 # @see https://wiki.multimedia.cx/index.php/FFmpeg_Metadata
 #
 if [ "${SOURCE_TITLE}" ]; then
-	ARGS+=( "-metadata" "title=${SOURCE_TITLE}" )
+	ARGS+=("-metadata" "title=${SOURCE_TITLE}")
 	ok "Title: ${SOURCE_TITLE}"
 fi
 
@@ -249,8 +251,8 @@ fi
 # Global Maps
 #
 
-for (( I=0; I<MAPS; I++ )); do
-	ARGS+=( "-map" "$I" )
+for ((I = 0; I < MAPS; I++)); do
+	ARGS+=("-map" "$I")
 done
 
 #

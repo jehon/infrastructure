@@ -2,12 +2,12 @@
 
 set -o errexit
 
-# shellcheck source=SCRIPTDIR/jh-lib
+# shellcheck source-path=SCRIPTDIR
 . jh-lib
 
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [ "$GIT_BRANCH" = "main" ]; then
-	git pull --all --prune
+    git pull --all --prune
 
     GIT_BRANCH_RAW="$(git branch --format='%(refname:short)' --all | grep -v 'main$' | grep -v 'HEAD$' | fzf)"
     GIT_BRANCH="${GIT_BRANCH_RAW#origin\/}"

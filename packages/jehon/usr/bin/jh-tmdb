@@ -2,7 +2,7 @@
 
 set -o errexit
 
-# shellcheck source=SCRIPTDIR/../../../jehon/usr/bin/jh-lib
+# shellcheck source-path=SCRIPTDIR
 . jh-lib
 
 ROOT="/opt/jehon/tmdb-to-movie"

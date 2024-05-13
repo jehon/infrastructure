@@ -6,7 +6,7 @@ set -o errexit
 # See https://git-scm.com/docs/git-filter-branch
 #
 
-# shellcheck source=SCRIPTDIR/jh-lib
+# shellcheck source-path=SCRIPTDIR
 . jh-lib
 
 SWD="$(pwd)"

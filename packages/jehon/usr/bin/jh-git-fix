@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 shopt -s nullglob
 
-# shellcheck source=SCRIPTDIR/jh-lib
+# shellcheck source-path=SCRIPTDIR
 . jh-lib
 
 #
@@ -13,7 +13,7 @@ shopt -s nullglob
 #
 #
 
-if ! git gc --prune --aggressive --auto ; then
+if ! git gc --prune --aggressive --auto; then
 	header_begin "Remove problematic objects"
 	rm -r .git/objects/* .git/refs/heads/* .git/refs/remotes/* .git/refs/stash .git/refs/tags/*
 	header_end

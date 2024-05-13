@@ -22,10 +22,7 @@ set -o pipefail
 # shellcheck source-path=SCRIPTDIR/
 . "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
-# shellcheck source=/dev/null
-. focus.sh
-
-RELEASE="$( date +%F.%H )"
+RELEASE="$(date +%F.%H)"
 RELEASE_BRANCH="release/${RELEASE}"
 DEV_BRANCH="develop"
 PROD_BRANCH="master"

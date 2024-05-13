@@ -8,8 +8,8 @@
 
 set -e
 
-# shellcheck source=SCRIPTDIR/jh-lib
-. "$( dirname "$( realpath "${BASH_SOURCE[0]}")")"/jh-lib
+# shellcheck source-path=SCRIPTDIR
+. jh-lib
 
 FILE=""
 APPEND=""
@@ -68,7 +68,7 @@ fi
 # exit 1
 
 header_begin "Removing $HOST ($IP)"
-IP="$(getent hosts "$HOST" | awk '{ print $1 }' )"
+IP="$(getent hosts "$HOST" | awk '{ print $1 }')"
 ssh-keygen -R "$HOST" 2>&1 || true >/dev/null
 ssh-keygen -R "$IP" 2>&1 || true >/dev/null
 header_end

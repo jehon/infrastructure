@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 shopt -s nullglob
 
-# shellcheck source=SCRIPTDIR/../bin/jh-lib
+# shellcheck source-path=SCRIPTDIR
 . jh-lib
 
 findFileAndExec() {
@@ -13,8 +13,8 @@ findFileAndExec() {
 
     find . \
         -name node_modules -prune \
-        -o -name "$FILE" -print \
-        | while read -r F ; do
+        -o -name "$FILE" -print |
+        while read -r F; do
             header_begin "$(pwd)"
             cd "$(dirname "$F")"
             bash -c "$CMD"

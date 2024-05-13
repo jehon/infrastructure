@@ -3,10 +3,10 @@
 set -o errexit
 set -o pipefail
 
-# shellcheck source=SCRIPTDIR/jh-lib
+# shellcheck source-path=SCRIPTDIR
 . jh-lib
 
-for F in * ; do
+for F in *; do
     if [ -r "$F/.git" ]; then
         (
             cd "$F"

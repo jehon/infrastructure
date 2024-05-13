@@ -3,8 +3,8 @@
 set -o errexit
 set -o pipefail
 
-# shellcheck source=SCRIPTDIR/jh-lib
-. /usr/bin/jh-lib
+# shellcheck source-path=SCRIPTDIR
+. jh-lib
 
 NAME="$1"
 [ -n "$1" ] || jh_fatal "Must specify slave name"
@@ -16,7 +16,7 @@ JAR="$WORKDIR.jar"
 mkdir -p "$WORKDIR"
 
 echo "Getting agent jar"
-while ! curl --silent --output "$JAR" "$JENKINS_URL"/jnlpJars/agent.jar ; do
+while ! curl --silent --output "$JAR" "$JENKINS_URL"/jnlpJars/agent.jar; do
     echo -n '.'
 done
 echo ""

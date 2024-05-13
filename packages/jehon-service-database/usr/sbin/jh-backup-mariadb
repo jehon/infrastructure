@@ -10,11 +10,6 @@ BACKUP_FOLDER="/var/backups/live"
 rm -fr "${BACKUP_FOLDER}"
 mkdir -p "${BACKUP_FOLDER}"
 
-# See https://mariadb.com/kb/en/full-backup-and-restore-with-mariabackup/
-
-# # shellcheck source=/dev/null
-# . /etc/jehon/restricted/mariadb.conf
-
 backupOne() {
 	db="$1"
 	echo "[$db] Start backup database"

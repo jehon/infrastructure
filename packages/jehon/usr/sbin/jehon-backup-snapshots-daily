@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# shellcheck source=/dev/null
+# shellcheck source-path=SCRIPTDIR/../bin/
 . jh-lib
 
 _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"

@@ -2,7 +2,7 @@
 
 set -o errexit
 
-# shellcheck source=SCRIPTDIR/jh-lib
+# shellcheck source-path=SCRIPTDIR
 . jh-lib
 
 PAD_HEADER=25

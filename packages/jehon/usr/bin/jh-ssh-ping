@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# shellcheck source=SCRIPTDIR/jh-lib
+# shellcheck source-path=SCRIPTDIR
 . jh-lib
 
 OPT_PORT=22

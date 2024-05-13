@@ -5,7 +5,6 @@ set -o errexit
 # shellcheck source=SCRIPTDIR/../jehon/usr/sbin/jh-deb-helpers.sh
 . /usr/sbin/jh-deb-helpers.sh
 
-
 case "$1" in
 configure)
 	chmod a+r /home/osmc/.kodi/userdata/sources.xml

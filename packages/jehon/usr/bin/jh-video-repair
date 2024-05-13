@@ -3,15 +3,15 @@
 set -o errexit
 set -o pipefail
 
-# shellcheck source=SCRIPTDIR/jh-lib
+# shellcheck source-path=SCRIPTDIR
 . jh-lib
 
 JH_DEFAULT_IDENT=20
 
 SOURCE="${1:?Need to specify movie as [1]}"
-SOURCE_FOLDER="$( dirname "${SOURCE}" )"
-SOURCE_FILENAME="$( jh-fs name "${SOURCE}" )"
-SOURCE_EXTENSION="$( jh-fs extension "${SOURCE}" )"
+SOURCE_FOLDER="$(dirname "${SOURCE}")"
+SOURCE_FILENAME="$(jh-fs name "${SOURCE}")"
+SOURCE_EXTENSION="$(jh-fs extension "${SOURCE}")"
 
 BACKUP="${SOURCE_FOLDER}/${SOURCE_FILENAME}.orig.${SOURCE_EXTENSION}"
 DESTINATION_TMP="${SOURCE}.fix.mkv"
@@ -45,8 +45,7 @@ ffmpeg \
 	-i "${SOURCE}" \
 	-map 0 \
 	-c:v h264 \
-	-c:a aac\
-	-fflags +genpts \
+	-c:a aac -fflags +genpts \
 	-async 1 \
 	-strict experimental \
 	"${DESTINATION_TMP}"
