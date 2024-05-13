@@ -1,13 +1,18 @@
 Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
+	anacron,
 	build-essential,
-#	chromium-browser | chromium,
 	cifs-utils,
+# luks volumes:
+	cryptsetup, cryptsetup-initramfs,
 	direnv,
-	entr,
-	exfat-fuse,
+# gparted fat32
+	dosfstools, exfat-fuse, mtools,
+# ffmpeg and companies
+	ffmpeg, gstreamer1.0-plugins-bad, gstreamer1.0-plugins-ugly,
 	gcc,
 	gh,
+	gnupg2,
 	gparted,
 	imagemagick-6.q16,
 	iputils-ping,
@@ -21,8 +26,8 @@ Depends: ${misc:Depends},
 # Linting in vscode
 	php, php-xml,
 	samba,
-# cryptomedic deploy
-	sshfs, sshpass,
+# jh-music-canonize:
+	sox, libsox-fmt-mp3,
 	terminator,
 	traceroute,
 	xvfb,

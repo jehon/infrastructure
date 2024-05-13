@@ -1,29 +1,21 @@
 Essential: yes
 Depends: ${misc:Depends},
-	anacron,
 	apt-utils, apt-transport-https,
 	bash, bash-completion,
+# Arbitrary precision - For weather freeze calculation
 	bc,
 	ca-certificates,
-# luks volumes:
-	cryptsetup, cryptsetup-initramfs,
 	curl,
-# gparted fat32
-	dosfstools, mtools,
-#	exiftool,
-# ffmpeg and companies
-	ffmpeg, gstreamer1.0-plugins-bad, gstreamer1.0-plugins-ugly,
 	file,
-# envsubst:
+# envsubst
 	gettext-base,
 	git, git-restore-mtime,
-	gnupg2,
 	htop,
 	iproute2,
-	isenkram-cli,
 	jq,
 	less,
 	locales,
+# list opened files - jh-kill-by-port
 	lsof,
 	lsb-release,
 	nano,
@@ -34,12 +26,9 @@ Depends: ${misc:Depends},
 	rsync,
 	screen,
 	sed,
-# jh-music-canonize:
-	sox, libsox-fmt-mp3,
 	sudo,
 	ufw,
 	unattended-upgrades,
-	virt-what,
 	wget,
 # zsh profile
 	zsh
