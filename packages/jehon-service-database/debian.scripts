@@ -19,12 +19,15 @@ BACKUP_USER="jh_backup"
 BACKUP_PASS="${PASS}"
 EOS
 
-        echo "**** Granting access to the database"
-        cat <<EOS | mysql
+        if jh-is-full-machine; then
+            echo "**** Granting access to the database"
+            cat <<EOS | mysql
 GRANT ALL PRIVILEGES ON *.* TO 'jh_backup'@'%' IDENTIFIED BY '${PASS}';
 FLUSH PRIVILEGES;
 EOS
-        echo "*** ok"
+            echo "*** ok"
+
+        fi
     fi
     ;;
 remove)
