@@ -2,12 +2,13 @@
 
 set -o errexit
 
+# shellcheck source-path=SCRIPTDIR
+. jh-lib
+
 PID1="$(ps --no-headers -o comm 1)"
 
-if [ "$PID1" = 'systemd' ]; then
-    echo "Ok, systemd is running"
-else
-    echo "Ko, systemd is not pid 1"
+if [ "$PID1" != 'systemd' ]; then
+    jh_fatal "Ko, systemd is not pid 1"
 fi
 
-echo "check ok"
+echo "Ok, systemd is running"
