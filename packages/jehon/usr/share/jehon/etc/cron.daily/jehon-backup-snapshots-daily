@@ -7,12 +7,12 @@ if jh-fs "is-empty" "/var/backups/daily"; then
 	exit 0
 fi
 
-if [ ! -t 1 ]; then
-	exec > >(systemd-cat -t "$(realpath "$0")" -p info) 2> >(systemd-cat -t "$(realpath "$0")" -p err)
-fi
+# if [ ! -t 1 ]; then
+# 	exec > >(systemd-cat -t "$(realpath "$0")" -p info) 2> >(systemd-cat -t "$(realpath "$0")" -p err)
+# fi
 
 # Remove too old backups
 # Monthly backups are taken, so 40 days is ok
 find "/var/backups/daily" -mtime +40 -delete
 
-"/usr/share/$JH_PKG_INITIAL/jehon-backup-take-snapshot.sh" daily
+"/usr/share/jehon/jehon-backup-take-snapshot.sh" daily
