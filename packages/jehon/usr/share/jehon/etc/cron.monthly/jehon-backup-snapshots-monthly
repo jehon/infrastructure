@@ -3,9 +3,11 @@
 # shellcheck source=SCRIPTDIR/../../../../bin/jh-lib
 . jh-lib
 
+_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
 if [ ! -t 1 ]; then
 	exec > >(systemd-cat -t "$(realpath "$0")" -p info) \
 	2> >(systemd-cat -t "$(realpath "$0")" -p err)
 fi
 
-"/usr/share/$JH_PKG_INITIAL/jehon-backup-take-snapshot.sh" monthly
+"$_SD/jehon-backup-take-snapshot.sh" monthly
