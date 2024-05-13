@@ -3,8 +3,6 @@ import ShebangPlugin from "webpack-shebang-plugin";
 
 const __dirname = import.meta.dirname;
 
-console.warn({ __dirname });
-
 const config = {
   entry: "./node/src/fo.ts",
   output: {
