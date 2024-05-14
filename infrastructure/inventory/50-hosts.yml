@@ -74,6 +74,10 @@ all:
         # fe80::211:32ff:fe1b:8f92
         synology: 192.168.1.9
 
+        # vps-c87b5de6.vps.ovh.net
+        vps: 135.125.106.114
+        # vps: 2001:41d0:404:200::2a3f
+
         # # B8:27:EB:88:6C:4B
         # # fe80::ba27:ebff:fe88:6c4b
         # tv: 192.168.1.188
@@ -423,13 +427,18 @@ all:
       ansible_ssh_transfer_method: piped
       data_volume: /volume1
       script_folder: /volume1/scripts/scripts
+    vps:
+      ansible_host: "{{ jehon.ip.vps }}"
+
   children:
     grp_jehon:
       # All system that get jehon.deb and the follow-up
       hosts:
         dev:
         kiosk:
+        vps:
     grp_servers:
+      # Define some variables
       hosts:
         kiosk:
       vars:

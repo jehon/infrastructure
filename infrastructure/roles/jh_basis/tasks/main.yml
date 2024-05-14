@@ -20,6 +20,19 @@
       ansible.builtin.package_facts:
         manager: auto
 
+    # ############################################
+    # #
+    # # Configure universe repository
+    # #
+    # ############################################
+
+    # - name: Add ubuntu universe
+    #   when: ansible_distribution == "Ubuntu"
+    #   ansible.builtin.apt_repository:
+    #     repo: "deb http://archive.ubuntu.com/ubuntu {{ ansible_distribution_release }} main universe restricted multiverse"
+    #     state: present
+    #     update_cache: true
+
     ############################################
     #
     # Install jehon.deb
