@@ -20,6 +20,11 @@
       ansible.builtin.package_facts:
         manager: auto
 
+    - name: Update cache if too old
+      # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html#parameter-cache_valid_time
+      ansible.builtin.apt:
+        cache_valid_time: 3600 # seconds -> 1 hour
+
     # ############################################
     # #
     # # Configure universe repository
