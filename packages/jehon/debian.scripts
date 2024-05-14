@@ -98,6 +98,7 @@ configure)
 		if ! ufw status | grep "Status: active" >/dev/null 2>/dev/null; then
 			echo "* Enabling ufw"
 			ufw enable
+			echo "* Enabling ufw done"
 		fi
 	fi
 
