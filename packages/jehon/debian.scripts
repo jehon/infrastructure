@@ -97,7 +97,9 @@ configure)
 
 		if ! ufw status | grep "Status: active" >/dev/null 2>/dev/null; then
 			echo "* Enabling ufw"
-			ufw enable
+			# UFW ask confirmation otherwise, but this confirmation is not handled by Ansible...
+			# so we force it!
+			ufw --force enable
 			echo "* Enabling ufw done"
 		fi
 	fi
