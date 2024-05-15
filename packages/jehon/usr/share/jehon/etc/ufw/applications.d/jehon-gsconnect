@@ -1,0 +1,4 @@
+
+[jehon-gsconnect]
+title=GSConnect
+ports=1716/tcp|1716/upd
