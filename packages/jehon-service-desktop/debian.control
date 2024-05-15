@@ -1,0 +1,2 @@
+Depends: ${misc:Depends},
+	jehon (<= JH_VERSION)

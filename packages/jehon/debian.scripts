@@ -21,10 +21,6 @@ jh_deb_helper_system_group "sudo"
 jh_deb_helper_system_group "jehon_secrets"
 
 jh_deb_helper_ufw "port" "ssh" "public"
-jh_deb_helper_ufw "app" "jehon-supertuxkart" "home"
-jh_deb_helper_ufw "app" "jehon-supertuxkart" "homeIPv4"
-jh_deb_helper_ufw "app" "jehon-gsconnect" "home"
-jh_deb_helper_ufw "app" "jehon-gsconnect" "homeIPv4"
 
 jh_deb_helper_system_user "jehon"
 jh_deb_helper_user_in_group "jehon" "docker"
@@ -122,5 +118,10 @@ esac
 #
 # Legacy
 #
+
+jh_deb_helper_legacy jh_deb_helper_ufw "app" "jehon-supertuxkart" "home"
+jh_deb_helper_legacy jh_deb_helper_ufw "app" "jehon-supertuxkart" "homeIPv4"
+jh_deb_helper_legacy jh_deb_helper_ufw "app" "jehon-gsconnect" "home"
+jh_deb_helper_legacy jh_deb_helper_ufw "app" "jehon-gsconnect" "homeIPv4"
 
 exit 0
