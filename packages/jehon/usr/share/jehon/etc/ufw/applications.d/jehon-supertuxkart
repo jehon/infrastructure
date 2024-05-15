@@ -1,6 +1,6 @@
 
 [jehon-supertuxkart]
-title=SuperTuxKart port
+title=SuperTuxKart
 description=Allow access to the supertuxkart server
 ports=2759/tcp|2757/tcp
 

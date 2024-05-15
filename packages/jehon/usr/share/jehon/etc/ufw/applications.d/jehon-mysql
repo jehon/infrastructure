@@ -1,4 +1,5 @@
 
 [jehon-mysql]
 title=Mysql server
+description=Jehon facility
 ports=3306/tcp
