@@ -6,7 +6,7 @@
 #     mode: "0640"
 #     owner: grafana-agent
 #     group: jehon_secrets
-#   notify: jehon_service_grafana.changed
+#   notify: Jh_service_grafana.changed
 
 # - name: Grafana - Install config River
 #   ansible.builtin.template:
@@ -15,7 +15,7 @@
 #     mode: "0640"
 #     owner: grafana-agent-flow
 #     group: jehon_secrets
-#   notify: jehon_service_grafana.changed
+#   notify: Jh_service_grafana.changed
 
 - name: Grafana - Install config Yaml
   ansible.builtin.template:
@@ -24,7 +24,7 @@
     mode: "0640"
     owner: grafana-agent
     group: jehon_secrets
-  notify: jehon_service_grafana.changed
+  notify: Jh_service_grafana.changed
 
 - name: Grafana - Enable service
   when: not virtual

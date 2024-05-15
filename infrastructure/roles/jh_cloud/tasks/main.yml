@@ -7,14 +7,14 @@
       ansible.builtin.apt:
         name:
           - fuse3
-      notify: jh_cloud.remount
+      notify: Jh_cloud.remount
 
     - name: Upgrade rclone to latest
       ansible.builtin.command:
         cmd: "/usr/sbin/jh-install-rclone-latest"
       register: _
       changed_when: "'[modified]' in _.stdout"
-      notify: jh_cloud.remount
+      notify: Jh_cloud.remount
 
     - name: "Install config"
       ansible.builtin.template:
@@ -23,7 +23,7 @@
         owner: root
         group: jehon_secrets
         mode: "0640"
-      notify: jh_cloud.remount
+      notify: Jh_cloud.remount
 
     - name: Create dir
       with_items: "{{ mount_list }}"
@@ -43,7 +43,7 @@
         owner: root
         group: root
         mode: "0644"
-      notify: jh_cloud.systemctl_reload
+      notify: Jh_cloud.systemctl_reload
     ## ELSE ##
     - name: "Remove override"
       when: not (cloud_cache_size or (mode != 'ro'))
@@ -51,7 +51,7 @@
       ansible.builtin.file:
         dest: /etc/system/systemd/mnt-cloud{{ item | lower }}.d/ansible.override
         state: absent
-      notify: jh_cloud.systemctl_reload
+      notify: Jh_cloud.systemctl_reload
 
     - name: Enable cloud mount service?
       when: not virtual
@@ -77,4 +77,4 @@
   ansible.builtin.file:
     dest: /etc/jehon/rclone.conf
     state: absent
-  notify: jh_cloud.systemctl_reload
+  notify: Jh_cloud.systemctl_reload

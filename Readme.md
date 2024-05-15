@@ -76,7 +76,7 @@ To be installed on any computer to have a basic setup.
 
 ### Ansible > host\_\*
 
-### Ansible > jehon_service_headless
+### Ansible > jh_service_headless
 
 ### Ansible > jh-<all>
 

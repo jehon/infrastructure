@@ -1,6 +1,6 @@
 ---
 - name: Update indexes
-  listen: jh_basis.indexes
+  listen: Jh_basis.indexes
   ansible.builtin.apt:
     update_cache: true
   changed_when: false

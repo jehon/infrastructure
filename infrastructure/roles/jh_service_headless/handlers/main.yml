@@ -1,6 +1,6 @@
 ---
 - name: Restart netplan
-  listen: jehon_service_headless.changed
+  listen: Jh_service_headless.changed
   when: not virtual
   ansible.builtin.command:
     cmd: netplan apply

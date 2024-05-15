@@ -20,7 +20,7 @@
         src: netplan-fixed.yaml
         dest: /etc/netplan/eth0-fixed.yaml
         mode: "0644"
-      notify: jehon_service_headless.changed
+      notify: Jh_service_headless.changed
 
 - name: Set a hostname to {{ inventory_hostname }}
   ansible.builtin.hostname:

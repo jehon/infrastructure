@@ -16,7 +16,7 @@
     - name: Setup Jehon Service Headless
       when: jehon_headless
       ansible.builtin.include_role:
-        name: jehon_service_headless
+        name: jh_service_headless
 
     # Need service headless for netplan
     - name: Setup networking
