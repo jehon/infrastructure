@@ -37,7 +37,7 @@
         mode: "0750"
 
     - name: Set git user for dev user
-      when: jehon.crendentials.github.display_name is defined and jehon.crendentials.github.display_name
+      when: jehon.credentials.github.display_name is defined and jehon.credentials.github.display_name
       block:
         - name: Set git user
           community.general.ini_file:
@@ -52,7 +52,7 @@
           community.general.ini_file:
             path: /home/{{ dev_user }}/.gitconfig
             mode: "0666"
-            owner: "{{ user }}"
+            owner: "{{ dev_user }}"
             section: includeIf "gitdir:~/src/"
             option: path
             value: ".gitconfig-github"
