@@ -1,5 +1,0 @@
-
-[jehon-minidlna]
-title=MiniDLNA port
-description=MiniDLNA server
-ports=8200/tcp
