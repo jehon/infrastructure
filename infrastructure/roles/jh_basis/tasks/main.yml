@@ -20,11 +20,19 @@
       ansible.builtin.package_facts:
         manager: auto
 
-    - name: Update cache if too old
-      # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html#parameter-cache_valid_time
-      ansible.builtin.apt:
-        cache_valid_time: 3600 # seconds -> 1 hour
+    - name: Update system
+      block:
+        - name: Update cache if too old
+          # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html#parameter-cache_valid_time
+          ansible.builtin.apt:
+            cache_valid_time: 3600 # seconds -> 1 hour
+            autoclean: yes
+          register: jh_basis_initial_apt_update
 
+        - name: Run upgrade
+          when: jh_basis_initial_apt_update.cache_updated
+          ansible.builtin.apt:
+            upgrade: dist
     # ############################################
     # #
     # # Configure universe repository
