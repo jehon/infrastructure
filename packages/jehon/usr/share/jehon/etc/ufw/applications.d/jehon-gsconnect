@@ -2,4 +2,4 @@
 [jehon-gsconnect]
 title=GSConnect
 description=Jehon facility
-ports=1716/tcp|1716/upd
+ports=1716/tcp|1716/udp
