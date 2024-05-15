@@ -1,3 +1,4 @@
 ---
 dependencies:
   - role: jh_basis
+  - role: jh_user_dev
