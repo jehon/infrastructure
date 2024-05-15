@@ -49,6 +49,11 @@
       ansible.builtin.include_role:
         name: host_kiosk
 
+    - name: Setup host vps
+      when: inventory_hostname == "vps"
+      ansible.builtin.include_role:
+        name: host_vps
+
     - name: Setup host synology
       when: inventory_hostname == "synology"
       ansible.builtin.include_role:
