@@ -46,34 +46,3 @@ gsettings_set org.gnome.shell.keybindings screenshot-window "@as []"
 gsettings_set org.gnome.shell.keybindings show-screenshot-ui "@as []"
 
 header_end
-
-header_begin "Setup Oh My ZSH"
-if [ ! -d ~/.oh-my-zsh ]; then
-    header_begin "Install Oh My ZSH"
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    header_end
-else
-    jh_info "Oh My ZSH already installed"
-fi
-
-if grep -E "^JH_OMZ=1" ~/.zshrc >&/dev/null; then
-    jh_info "zshrc already patched"
-else
-    header_begin "Hook my scripts into .zshrc"
-    cat <<EOS >.zshrc
-#
-# Generated throudgh $0
-#
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-JH_OMZ=1
-if [ -x /etc/jehon/zsh-profile ]; then
-    . /etc/jehon/zsh-profile
-fi
-EOS
-    header_end
-fi
-
-header_end
