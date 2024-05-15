@@ -3,11 +3,10 @@
 #
 # See https://manpages.debian.org/bookworm/openssh-client/ssh_config.5.en.html
 #
-
-# Host prof-staging-bastion
-#  Hostname               bastion_stag
-#  SessionType            none
+# Host bastion
+#  Hostname               bastion.blablabla
+#  SessionType            none                     # Do not start a session
 
 # Host prof-staging-server
-#  ProxyJump              prof-staging-bastion
+#  ProxyJump              bastion
 #  Hostname               database
