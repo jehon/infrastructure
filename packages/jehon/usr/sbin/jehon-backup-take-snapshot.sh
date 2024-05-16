@@ -17,9 +17,9 @@ dt=$(date +%Y-%m-%d-%H.%M.%S)
 for file in "$from"/*; do
     # http://stackoverflow.com/a/965072/1954789
     filename="$(basename "${file}")"
-    dest="${dt}-${filename}"
+    dest="${to}/${dt}-${filename}"
     echo "File: ${file} -> ${dest}"
-    cp "${file}" "${to}/${dest}"
+    cp "${file}" "${dest}"
 done
 
 # Remove duplicates backups files
