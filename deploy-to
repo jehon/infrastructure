@@ -29,9 +29,13 @@ make dependencies
 export PYTHONPATH="${JH_PKG_FOLDER}/tmp/python/common:$PYTHONPATH"
 cd infrastructure || exit
 
-while [ -n "$1" ]; do
-    HOST="$1"
-    shift
-    "${JH_PKG_FOLDER}"/tmp/python/common/bin/ansible-playbook --limit "${HOST}" "${PLAYBOOK}" |
-        "${JH_PKG_FOLDER}"/packages/jehon/usr/bin/jh-tag-stdin "${HOST}"
-done
+if [ -n "$1" ]; then
+    while [ -n "$1" ]; do
+        HOST="$1"
+        shift
+        "${JH_PKG_FOLDER}"/tmp/python/common/bin/ansible-playbook --limit "${HOST}" "$@" "${PLAYBOOK}" |
+            "${JH_PKG_FOLDER}"/packages/jehon/usr/bin/jh-tag-stdin "${HOST}"
+    done
+else
+    "${JH_PKG_FOLDER}"/tmp/python/common/bin/ansible-playbook "${PLAYBOOK}"
+fi
