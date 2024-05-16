@@ -5,7 +5,7 @@ set -o pipefail
 
 JH_PKG_FOLDER="$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")"
 export JH_PKG_FOLDER
-export PATH="$JH_PKG_FOLDER/tmp/python/common/bin/:$PATH"
+export PATH="${JH_PKG_FOLDER}/tmp/python/common/bin/:${JH_PKG_FOLDER}/packages/jehon/usr/bin/:$PATH"
 export PYTHONPATH="$JH_PKG_FOLDER/tmp/python/common"
 export PRJ_TMP="$JH_PKG_FOLDER/tmp"
 
