@@ -33,6 +33,9 @@ jh_deb_helper_system_user "jehon-tty"
 jh_deb_helper_user_in_group "jehon-tty" "video"
 
 jh_deb_helper_service "jehon-ssh-get-latest.timer"
+jh_deb_helper_service jehon-backup-snapshot-daily.timer
+jh_deb_helper_service jehon-backup-snapshot-monthly.timer
+
 # mount and rclone timer depend on network
 # On Ubuntu, network is managed by NetworkManager
 # and NetowkManager start too late to setup network

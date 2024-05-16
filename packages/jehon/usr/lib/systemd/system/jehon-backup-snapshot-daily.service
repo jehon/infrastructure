@@ -4,7 +4,7 @@ RequiresMountsFor=/var/backups/
 
 [Service]
 Type=simple
-ExecStart=/usr/sbin/jh-backup-take-snapshot.sh daily
+ExecStart=/usr/sbin/jehon-backup-take-snapshot.sh daily
 
 [Install]
 WantedBy=multi-user.target
