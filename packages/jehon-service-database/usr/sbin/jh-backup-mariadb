@@ -5,7 +5,7 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin/
 . jh-lib
 
-BACKUP_FOLDER="/var/backups/daily"
+BACKUP_FOLDER="/var/backups/live"
 
 rm -fr "${BACKUP_FOLDER}"
 mkdir -p "${BACKUP_FOLDER}"
