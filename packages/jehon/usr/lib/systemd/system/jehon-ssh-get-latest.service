@@ -5,6 +5,6 @@ After=network-online.target
 ConditionFileIsExecutable=/usr/bin/curl
 
 [Service]
-# the VT is cleared by TTYVTDisallocate
+# Latest key is the root key but published otherwise...
 Type=oneshot
 ExecStart=/usr/bin/curl -fsSl -o /etc/ssh/authorized_keys/latest https://jehon.github.io/infrastructure/latest-key.pub

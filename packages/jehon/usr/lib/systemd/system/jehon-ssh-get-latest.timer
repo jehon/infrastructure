@@ -3,7 +3,7 @@
 # https://manpages.ubuntu.com/manpages/jammy/en/man5/systemd.timer.5.html
 
 [Unit]
-Description=Weekly update ssh latest key
+Description=Update ssh key
 
 [Timer]
 OnBootSec=0
