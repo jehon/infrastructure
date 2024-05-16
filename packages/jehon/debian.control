@@ -6,6 +6,8 @@ Depends: ${misc:Depends},
 	bc,
 	ca-certificates,
 	curl,
+# Backup deduplication
+	fdupes,
 	file,
 # envsubst
 	gettext-base,
