@@ -7,6 +7,8 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
 . /usr/sbin/jh-deb-helpers.sh
 
+jh_deb_helper_service jehon-database-backup-mariadb.timer
+
 case "$1" in
 configure) ;;
 remove) ;;
