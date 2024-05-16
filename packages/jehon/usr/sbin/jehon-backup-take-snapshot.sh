@@ -2,17 +2,17 @@
 
 FLAVOR=${1:?Need a flavor as [1]}
 
-ROOT="/var/backups"
+ROOT="/var/backups/daily"
 
 mkdir -p "$ROOT/$1"
 
-if jh-fs "is-empty" "/var/backups/live"; then
+if jh-fs "is-empty" "${ROOT}"; then
     echo "No live data, exiting.."
     exit 0
 fi
 
 dt=$(date +%Y-%m-%d-%H.%M.%S)
-for file in "$ROOT"/live/*; do
+for file in "$ROOT"/*; do
     # http://stackoverflow.com/a/965072/1954789
     filename="$(basename "$file")"
     DEST="$FLAVOR/${dt}-${filename}"
