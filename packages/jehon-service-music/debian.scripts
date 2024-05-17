@@ -14,9 +14,6 @@ jh_deb_helper_ufw "app" "jehon-music" "homeIPv4"
 case "$1" in
 configure) ;;
 
-# !! Does not work as expected
-triggered) ;;
-
 remove) ;;
 
 esac
