@@ -5,11 +5,11 @@ import { hideBin } from "yargs/helpers";
 import * as cmdDump from "./commands/dump";
 import * as cmdImport from "./commands/import";
 import * as cmdInfo from "./commands/info";
+import * as cmdKiosk from "./commands/kiosk";
 import * as cmdMigrate from "./commands/migrate";
 import * as cmdNormalize from "./commands/normalize";
 import * as cmdOthers from "./commands/others";
 import * as cmdProblems from "./commands/problems";
-import * as cmdSelect from "./commands/select";
 import * as cmdTitles from "./commands/titles";
 
 type FOCommand = {
@@ -65,7 +65,7 @@ await yargs(hideBin(process.argv))
   .command(cmdOthers as FOCommand)
   .command(cmdProblems as FOCommand)
   .command(cmdTitles as FOCommand)
-  .command(cmdSelect as FOCommand)
+  .command(cmdKiosk as FOCommand)
   .fail((msg, err) => {
     //yargs.js.org/docs/#fail
     if (err) {

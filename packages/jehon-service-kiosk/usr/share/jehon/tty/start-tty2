@@ -20,14 +20,8 @@ fi
 # /usr/bin/fbi --autozoom --timeout 15 "/var/cache/jehon/pictures"/*
 
 echo ""
-echo "*** Selecting pictures..."
-PICTURES_RAW="$(/usr/bin/jh-fo select --amount=30 /mnt/cloud/photos/)"
-readarray -t PICTURES_LIST <<<"${PICTURES_RAW}"
-
-echo ""
 echo "*** Launching display..."
-/usr/bin/fbi --autozoom --timeout 15 "${PICTURES_LIST[@]}"
-
+/usr/bin/jh-fo kiosk --amount=30 /mnt/cloud/photos/
 echo ""
 echo "*** TTY Photos Script has exited..."
 sleep 30s

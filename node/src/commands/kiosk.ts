@@ -1,13 +1,14 @@
 import mimeTypes from "mime-types";
+import child_process from "node:child_process";
 import path from "node:path";
 import FileFolder, { getFolderByName } from "../file-types/file-folder";
 import { arrayShuffle, arrayShuffleWeighted } from "../helpers/array-helpers";
 import { fsIsFolder } from "../helpers/fs-helpers";
 import buildFile from "../lib/buildFile";
 
-export const command = ["select [source]"];
+export const command = ["kiosk [source]"];
 
-export const describe = "Select some files for kiosk mode";
+export const describe = "Launch kiosk on tty";
 
 export const builder = {
   amount: {
@@ -66,6 +67,13 @@ export function handler(globalOptions: { source: string; amount: number }) {
 
   // Process with ... | xargs -d "\n" ...
   process.stdout.write(list.join("\n") + "\n");
+  child_process.execFileSync(
+    "/usr/bin/fbi",
+    ["--autozoom", "--timeout 15", "/mnt/cloud/photos/1.jpg"],
+    {
+      stdio: "inherit"
+    }
+  );
 
   return Promise.resolve();
 }
