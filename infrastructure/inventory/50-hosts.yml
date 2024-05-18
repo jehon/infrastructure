@@ -363,7 +363,6 @@ all:
       ansible_host: "{{ jehon.ip.kiosk }}"
       jehon_always_connected: true
       jehon_ip: "{{ jehon.ip.kiosk }}"
-      jehon_tty: 2 # Fire
       synology:
         username: "systeme-kiosk"
         password: !vault |

@@ -4,5 +4,3 @@ argument_specs:
     options:
       jehon_ip:
         type: string
-      jehon_tty:
-        type: int

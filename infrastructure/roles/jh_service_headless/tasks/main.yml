@@ -29,13 +29,3 @@
     not virtual
     and inventory_hostname is match("[a-zA-Z][a-zA-Z0-9_-]+")
     and inventory_hostname != "localhost"
-
-# TODO: remove
-- name: Set default tty
-  when: >
-    not virtual
-    and jehon_tty > 0
-  ansible.builtin.systemd:
-    name: jehon-chvt@{{ jehon_tty }}.service
-    enabled: true
-    state: started
