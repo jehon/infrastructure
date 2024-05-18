@@ -2,17 +2,11 @@
 
 set -o errexit
 set -o pipefail
-shopt -s nullglob
-
-if [ "$(id -u)" == "0" ]; then
-    echo "Switching to user jehon-tty"
-    # User need access to /dev/fb0
-    su jehon-tty "$0"
-fi
 
 TZ="$(cat /etc/timezone)"
 TZ="${TZ:-UTC}"
 export TZ
-
-echo "Starting jh-fo in kiosk mode at $(date)"
-/usr/bin/jh-fo kiosk --amount=30 /mnt/cloud/photos/
+(
+    echo "Starting jh-fo in kiosk mode at $(date)"
+    /usr/bin/jh-fo kiosk --amount=30 /mnt/cloud/photos/
+) |& tee /tmp/kiosk.log
