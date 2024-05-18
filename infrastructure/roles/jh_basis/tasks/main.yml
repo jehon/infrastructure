@@ -114,13 +114,6 @@
         '[modified]' in _.stdout
         or 'Preparing to unpack' in _.stdout
 
-    - name: Setup Grafana agent repository and package
-      when: grafana_api_key is defined and grafana_api_key
-      ansible.builtin.command:
-        cmd: "/usr/sbin/jh-install-grafana-agent"
-      register: _
-      changed_when: "'[modified]' in _.stdout"
-
     - name: Setup nodejs repository and package
       # node in snap? could not access pCloudDrive... but still the best option
       ansible.builtin.command:

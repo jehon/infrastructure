@@ -1,8 +1,0 @@
----
-- name: Restart Grafana Agent
-  listen: Jh_service_grafana.changed
-  when: not virtual
-  ansible.builtin.systemd:
-    name: grafana-agent
-    state: restarted
-  changed_when: true
