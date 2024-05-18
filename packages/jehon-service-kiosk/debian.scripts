@@ -5,11 +5,8 @@ set -o errexit
 # shellcheck source=SCRIPTDIR/../jehon/usr/sbin/jh-deb-helpers.sh
 . /usr/sbin/jh-deb-helpers.sh
 
-jh_deb_helper_service "jehon-tty@tty2.service"
 jh_deb_helper_service "jehon-kiosk-select-pictures.timer"
 jh_deb_helper_service "jehon-kiosk-refresh-fire.timer"
-jh_deb_helper_service "jehon-kiosk-mode.timer"
-# jehon-tty@tty3.service will be started manually by jh-kiosk-mode
 
 case "$1" in
 configure)
@@ -28,5 +25,8 @@ esac
 #
 # Legacy
 #
+jh_deb_helper_legacy jh_deb_helper_service "jehon-tty@tty2.service"
+jh_deb_helper_legacy jh_deb_helper_service "jehon-tty@tty3.service"
+jh_deb_helper_legacy jh_deb_helper_service "jehon-kiosk-mode.timer"
 
 exit 0
