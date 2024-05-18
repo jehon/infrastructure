@@ -2,4 +2,14 @@
 
 WHERE="${1:-.}"
 
-find "$WHERE" -type f -exec md5sum '{}' ";"
+readOne() {
+    size="$(stat --printf="%s" "$1")"
+
+    dd if="$1" status=none |
+        pv --name "$1" --size "${size}" --eta --progress |
+        dd of=/dev/null status=none
+}
+
+while IFS= read -d '' -r filename; do
+    readOne "${filename}"
+done < <(find "$WHERE" -type f -print0)
