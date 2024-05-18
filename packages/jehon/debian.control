@@ -6,6 +6,8 @@ Depends: ${misc:Depends},
 	bc,
 	ca-certificates,
 	curl,
+# jh-fo (exiftool map to libimage-exiftool-perl)
+	exiftool, libimage-exiftool-perl,
 # Backup deduplication
 	fdupes,
 	file,
