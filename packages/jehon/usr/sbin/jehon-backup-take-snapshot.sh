@@ -3,8 +3,8 @@
 flavor=${1:?Need a flavor as [1]}
 
 root="/var/backups"
-from="${root}/live"
-to="${root}/${flavor}"
+from="${root}/snapshot/daily"
+to="${root}/history/${flavor}"
 
 mkdir -p "$to"
 
