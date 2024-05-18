@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: unused
+
 shopt -s extglob
 
 if [ -z "$1" ]; then

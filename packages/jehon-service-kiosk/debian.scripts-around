@@ -2,6 +2,8 @@
 
 set -o errexit
 
+# TODO: remove this when installed on kiosk
+
 case "$1" in
 install | upgrade) ;;
 

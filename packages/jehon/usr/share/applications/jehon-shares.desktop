@@ -1,6 +1,0 @@
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=pCloud Shares Honlet
-Icon=/usr/share/pixmaps/jehon-shares.svg
-Exec=nautilus "/mnt/cloud/"
