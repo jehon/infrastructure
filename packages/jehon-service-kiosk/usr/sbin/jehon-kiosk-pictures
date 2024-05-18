@@ -10,5 +10,9 @@ if [ "$(id -u)" == "0" ]; then
     su jehon-tty "$0"
 fi
 
-# /usr/bin/jh-fo kiosk --amount=30 /mnt/cloud/photos/
-/usr/bin/fbi /mnt/cloud/photos/1.jpg
+TZ="$(cat /etc/timezone)"
+TZ="${TZ:-UTC}"
+export TZ
+
+echo "Starting jh-fo in kiosk mode at $(date)"
+/usr/bin/jh-fo kiosk --amount=30 /mnt/cloud/photos/
