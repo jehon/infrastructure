@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO: Remove
+
 set -o errexit
 set -o pipefail
 shopt -s nullglob
@@ -24,24 +26,24 @@ mode_fire() {
 }
 
 case "$1" in
-    "" )
-        ;;
-    "photo" )
-        mode_photo
-        ;;
-    "fire" )
-        mode_fire
-        ;;
-    * )
-        jh_error "Given mode not understood: '$1'. Continuing automatically."
+"") ;;
+"photo")
+    mode_photo
+    ;;
+"fire")
+    mode_fire
+    ;;
+*)
+    jh_error "Given mode not understood: '$1'. Continuing automatically."
+    ;;
 esac
 
-HOUR="$( date "+%H" )"
+HOUR="$(date "+%H")"
 jh_value "HOUR" "${HOUR}"
 
-if (( HOUR > 18 )) ; then
+if ((HOUR > 18)); then
     # Adapt to weather conditions
-    if ! /usr/bin/jh-weather-freeze-safe ; then
+    if ! /usr/bin/jh-weather-freeze-safe; then
         mode_fire
     fi
 fi
