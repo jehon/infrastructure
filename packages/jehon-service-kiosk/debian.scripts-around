@@ -3,17 +3,16 @@
 set -o errexit
 
 case "$1" in
-install | upgrade)
-	dpkg-divert --rename --divert /etc/minidlna.conf.diverted /etc/minidlna.conf
-	;;
+install | upgrade) ;;
 
-purge | remove)
-	dpkg-divert --remove --rename --divert /etc/minidlna.conf.diverted /etc/minidlna.conf
-	;;
+purge | remove) ;;
 esac
 
 #
 # Legacy
 #
+
+# 2024-05-18
+dpkg-divert --remove --rename --divert /etc/minidlna.conf.diverted /etc/minidlna.conf || true
 
 exit 0

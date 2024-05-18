@@ -7,6 +7,7 @@ set -o errexit
 
 jh_deb_helper_service "jehon-kiosk-select-pictures.timer"
 jh_deb_helper_service "jehon-kiosk-refresh-fire.timer"
+jh_deb_helper_service "jehon-kiosk-mode.timer"
 
 case "$1" in
 configure)
@@ -25,8 +26,9 @@ esac
 #
 # Legacy
 #
+
+# 2024-05-18
 jh_deb_helper_legacy jh_deb_helper_service "jehon-tty@tty2.service"
 jh_deb_helper_legacy jh_deb_helper_service "jehon-tty@tty3.service"
-jh_deb_helper_legacy jh_deb_helper_service "jehon-kiosk-mode.timer"
 
 exit 0
