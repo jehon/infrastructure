@@ -1,19 +1,18 @@
 Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
-	anacron,
+# TODO: some of these packages must go to jehon-service-desktop
 	build-essential,
 	cifs-utils,
 # luks volumes:
 	cryptsetup, cryptsetup-initramfs,
 	direnv,
-# gparted fat32
-	dosfstools, exfat-fuse, mtools,
+# gparted and fat32
+	gparted, dosfstools, exfat-fuse, mtools,
 # ffmpeg and companies
 	ffmpeg, gstreamer1.0-plugins-bad, gstreamer1.0-plugins-ugly,
 	gcc,
 	gh,
 	gnupg2,
-	gparted,
 	imagemagick-6.q16,
 	iputils-ping,
 	jq,
@@ -22,7 +21,6 @@ Depends: ${misc:Depends},
 	nmap,
 	openssh-client,
 	p7zip-full,
-	parted,
 # Linting in vscode
 	php, php-xml,
 	samba,
