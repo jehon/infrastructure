@@ -1,39 +1,5 @@
 ---
-# - name: Grafana - Install api key
-#   ansible.builtin.template:
-#     src: "{{ role_path }}/templates/grafana-api-key.txt"
-#     dest: /etc/jehon/grafana-api-key.txt
-#     mode: "0640"
-#     owner: grafana-agent
-#     group: jehon_secrets
-#   notify: Jh_service_grafana.changed
-
-# - name: Grafana - Install config River
-#   ansible.builtin.template:
-#     src: "{{ role_path }}/templates/grafana.river"
-#     dest: /etc/grafana-agent-flow.river
-#     mode: "0640"
-#     owner: grafana-agent-flow
-#     group: jehon_secrets
-#   notify: Jh_service_grafana.changed
-
-- name: Grafana - Install config Yaml
-  ansible.builtin.template:
-    src: "{{ role_path }}/templates/grafana.yaml"
-    dest: /etc/grafana-agent.yaml
-    mode: "0640"
-    owner: grafana-agent
-    group: jehon_secrets
-  notify: Jh_service_grafana.changed
-
-- name: Grafana - Enable service
-  when: not virtual
-  ansible.builtin.systemd:
-    name: grafana-agent
-    state: started
-    enabled: true
-
-- name: Grafana - fix /var/log/boot.log
+- name: Fix /var/log/boot.log
   ansible.builtin.file:
     path: /var/log/boot.log
     state: touch
