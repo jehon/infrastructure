@@ -1,0 +1,11 @@
+
+[Unit]
+Description=Refresh the fire [do not enable - it will be started by jehon-kiosk-mode]
+RequiresMountsFor=/mnt/cloud/videos
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/jehon-kiosk-fire
+
+[Install]
+WantedBy=multi-user.target

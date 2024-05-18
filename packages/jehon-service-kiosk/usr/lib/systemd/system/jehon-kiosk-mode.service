@@ -4,7 +4,7 @@ Description=Select the kiosk mode
 
 [Service]
 Type=simple
-ExecStart=/usr/sbin/jh-kiosk-mode
+ExecStart=/usr/sbin/jehon-kiosk-mode
 
 [Install]
 WantedBy=multi-user.target

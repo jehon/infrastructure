@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# TODO: Remove
-
 set -o errexit
 set -o pipefail
 shopt -s nullglob
@@ -12,26 +10,24 @@ shopt -s nullglob
 date
 
 mode_photo() {
-    echo "Going to photo mode"
-    systemctl stop jehon-tty@tty3.service
-    /usr/bin/chvt 2
-    exit 0
+    echo "Leaving 'fire' mode"
+    systemctl stop jehon-kiosk-fire.service
 }
 
 mode_fire() {
-    echo "Going to fire mode"
-    systemctl start jehon-tty@tty3.service
-    /usr/bin/chvt 3
-    exit 0
+    echo "Launching 'fire' mode"
+    systemctl stop jehon-kiosk-fire.service
 }
 
 case "$1" in
 "") ;;
 "photo")
     mode_photo
+    exit 0
     ;;
 "fire")
     mode_fire
+    exit 0
     ;;
 *)
     jh_error "Given mode not understood: '$1'. Continuing automatically."
@@ -45,7 +41,9 @@ if ((HOUR > 18)); then
     # Adapt to weather conditions
     if ! /usr/bin/jh-weather-freeze-safe; then
         mode_fire
+        exit 0
     fi
 fi
 
 mode_photo
+exit 0

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+if [ "$(id -u)" == "0" ]; then
+    echo "Switching to user jehon-tty"
+    # User need access to /dev/fb0
+    su jehon-tty "$0"
+fi
+
+/usr/bin/cvlc --no-audio --loop /var/cache/jehon/fire
