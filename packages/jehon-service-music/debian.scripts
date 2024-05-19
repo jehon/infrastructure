@@ -6,7 +6,7 @@ set -o errexit
 . /usr/sbin/jh-deb-helpers.sh
 
 jh_deb_helper_service "mpd.service"
-jh_deb_helper_service "jehon-music-volume.service"
+# jh_deb_helper_service "jehon-music-volume.service" = Does not work !
 jh_deb_helper_service "jehon-music-update-mpd.timer"
 jh_deb_helper_ufw "app" "jehon-music" "home"
 jh_deb_helper_ufw "app" "jehon-music" "homeIPv4"
