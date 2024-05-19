@@ -4,9 +4,10 @@ WHERE="${1:-.}"
 
 readOne() {
     size="$(stat --printf="%s" "$1")"
+    name="$(basename "$1")"
 
     dd if="$1" status=none |
-        pv --name "$1" --size "${size}" --eta --progress |
+        pv --name "${name}" --size "${size}" --eta --progress |
         dd of=/dev/null status=none
 }
 
