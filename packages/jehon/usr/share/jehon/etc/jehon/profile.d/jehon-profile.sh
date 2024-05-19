@@ -14,7 +14,7 @@
 # For pip (python) local install
 export PATH=~/.local/bin/:~/bin:"$PATH"
 
-TZ="$(cat /etc/timezone)"
+TZ="$(timedatectl show --value --property=Timezone)"
 export TZ
 
 # You may need to manually set your language environment

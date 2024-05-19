@@ -11,6 +11,16 @@ configure)
 		mv /etc/sysctl.conf /etc/sysctl.d/50-initial-sysctl.conf
 		touch /etc/sysctl.conf
 	fi
+
+	if [ "$(timedatectl show --value --property=Timezone)" != "Europe/Brussels" ]; then
+		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		echo "!! Timezone config problem             !!"
+		echo "!!    in jehon-service-headless script !!"
+		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		timedatectl set-timezone "Europe/Brussels"
+	fi
 	;;
 
 remove) ;;

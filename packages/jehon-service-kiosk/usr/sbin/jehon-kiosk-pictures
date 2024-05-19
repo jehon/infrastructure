@@ -3,8 +3,12 @@
 set -o errexit
 set -o pipefail
 
-TZ="$(cat /etc/timezone)"
-TZ="${TZ:-UTC}"
+name="$(basename "$0")"
+
+echo "Starting the ${name}"
+date
+
+TZ="$(timedatectl show --value --property=Timezone)"
 export TZ
 
 echo "Starting jh-fo in kiosk mode at $(date)"
