@@ -5,16 +5,6 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../../../packages/jehon/usr/bin/
 . jh-lib
 
-location="$( jh-location-detect )"
-case "${location}" in
-    "home" )
-        # ok
-        ;;
-    * )
-        jh_info "Not in acceptable location: ${location}"
-        exit 0;
-esac
-
 PCLOUD="${HOME}/pCloudDrive"
 TARGET="${PCLOUD}/Workspaces/Famille/A ranger/"
 
@@ -34,10 +24,10 @@ import() {
     if [ ! -d "${SOURCE}" ]; then
         jh_fatal "Could not read source ${SOURCE}"
     fi
-    "${JH_PKG_FOLDER}"/bin/fo "import" "$@" --to "${TARGET}" "${SOURCE}"
+    "${JH_PKG_FOLDER}"/bin/fo "import" --to "${TARGET}" "${SOURCE}"
 }
 
-import "Workspaces/Jean/Automatic Upload J/" "$@"
-import "Workspaces/Marie-Line/Automatic Upload/" "$@"
+import "Workspaces/Jean/Automatic Upload J/"
+import "Workspaces/Marie-Line/Automatic Upload/"
 
 ok "Done"
