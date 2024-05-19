@@ -6,6 +6,3 @@ RequiresMountsFor=/var/backups/
 [Service]
 Type=simple
 ExecStart=/usr/sbin/jh-backup-mariadb
-
-[Install]
-WantedBy=multi-user.target

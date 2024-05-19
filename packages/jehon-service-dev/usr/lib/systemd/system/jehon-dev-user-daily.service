@@ -5,6 +5,3 @@ RequiresMountsFor=/var/backups/
 Type=simple
 User=jehon
 ExecStart=/usr/bin/jh-dev-user-run daily
-
-[Install]
-WantedBy=multi-user.target

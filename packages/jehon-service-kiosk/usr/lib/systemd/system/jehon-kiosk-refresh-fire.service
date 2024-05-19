@@ -6,6 +6,3 @@ RequiresMountsFor=/mnt/cloud/videos
 [Service]
 Type=simple
 ExecStart=/usr/sbin/jehon-kiosk-fire-sync
-
-[Install]
-WantedBy=multi-user.target

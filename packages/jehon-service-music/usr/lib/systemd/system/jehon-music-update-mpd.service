@@ -8,6 +8,3 @@ After=mpd.service
 Type=simple
 User=mpd
 ExecStart=/usr/bin/mpc update
-
-[Install]
-WantedBy=multi-user.target

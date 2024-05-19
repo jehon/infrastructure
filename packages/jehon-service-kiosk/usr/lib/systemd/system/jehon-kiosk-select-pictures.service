@@ -6,6 +6,3 @@ RequiresMountsFor=/mnt/cloud/photos
 [Service]
 Type=simple
 ExecStart=/usr/bin/systemctl restart getty@tty1.service
-
-[Install]
-WantedBy=multi-user.target
