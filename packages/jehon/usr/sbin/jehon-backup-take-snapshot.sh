@@ -14,13 +14,12 @@ if jh-fs "is-empty" "${from}"; then
 fi
 
 dt=$(date +%Y-%m-%d-%H.%M.%S)
-for file in "$from"/*; do
-    # http://stackoverflow.com/a/965072/1954789
-    filename="$(basename "${file}")"
+while read -r -d $'\0' file; do
+    filename="$(realpath --relative-to "${from}" "$file" | sed "s#/#--#")"
     dest="${to}/${dt}-${filename}"
     echo "File: ${file} -> ${dest}"
     cp "${file}" "${dest}"
-done
+done < <(find "${from}" -type f -print0)
 
 # Remove duplicates backups files
 #   Since too old files are removed before, we are sure
