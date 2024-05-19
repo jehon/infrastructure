@@ -1,4 +1,3 @@
 Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
-	mariadb-server, mariadb-client, mariadb-backup,
-	phpmyadmin
+	mariadb-server, mariadb-client, mariadb-backup
