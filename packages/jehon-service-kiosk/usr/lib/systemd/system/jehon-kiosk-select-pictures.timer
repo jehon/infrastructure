@@ -9,7 +9,6 @@ OnBootSec=2min
 # Check with systemd-analyze calendar "xxx"
 OnCalendar=7:00
 Persistent=true
-RandomizedDelaySec=5m
 
 [Install]
 WantedBy=timers.target
