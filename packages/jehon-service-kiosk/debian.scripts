@@ -27,8 +27,4 @@ esac
 # Legacy
 #
 
-# 2024-05-18
-jh_deb_helper_legacy jh_deb_helper_service "jehon-tty@tty2.service"
-jh_deb_helper_legacy jh_deb_helper_service "jehon-tty@tty3.service"
-
 exit 0
