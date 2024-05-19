@@ -69,7 +69,18 @@ export function handler(globalOptions: { source: string; amount: number }) {
   process.stdout.write(list.join("\n") + "\n");
   child_process.execFileSync(
     "/usr/bin/fbi",
-    ["--autozoom", "--timeout", "15", ...list],
+    [
+      "--autozoom",
+      "--noedit",
+      "--readahead",
+      // Transition mix
+      "--blend",
+      "100",
+      // Image time
+      "--timeout",
+      "15",
+      ...list
+    ],
     {
       stdio: "inherit"
     }
