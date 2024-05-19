@@ -4,7 +4,7 @@ RequiresMountsFor=/var/backups/
 [Service]
 Type=simple
 User=jehon
-ExecStart=/usr/bin/jehon-dev-user-run daily
+ExecStart=/usr/bin/jh-dev-user-run daily
 
 [Install]
 WantedBy=multi-user.target
