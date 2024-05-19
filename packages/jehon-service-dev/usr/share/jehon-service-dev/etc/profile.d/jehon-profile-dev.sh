@@ -5,14 +5,6 @@ if [ "$(id -u)" -eq "0" ]; then
     return
 fi
 
-# # See https://unix.stackexchange.com/a/26782/240487
-# # interactive => if [[ $- == *i* ]]
-# # login       => if shopt -q login_shell
-# if [[ $- != *i* ]]; then
-#     # Not when non-interractive
-#     return
-# fi
-
 echo "Loading jh-profile-dev: interactive"
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -28,11 +20,6 @@ fi
 #
 if [ -n "$BASH_VERSION" ]; then
     echo "Loading jh-profile-dev: interactive bash"
-
-    ############################
-    #
-    # PROMPT
-    #
 
     # user@host / folder
     # shellcheck disable=SC2154
