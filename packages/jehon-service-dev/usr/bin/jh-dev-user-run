@@ -6,4 +6,22 @@ shopt -s nullglob
 
 _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-whoami
+# shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin/
+. jh-lib
+
+context="$1"
+
+case "${context}" in
+"daily" | "hourly") ;;
+"location") ;;
+*)
+    jh_fatal "Context not found: ${context}"
+    ;;
+esac
+
+echo "I am '$(whoami)'"
+configRoot="${HOME}/src/infrastructure/conf/auto"
+config="${configRoot}/${context}"
+
+[ -d "${configRoot}" ] || jh_fatal "Config folder not found: ${configRoot}"
+[ -d "${config}" ] || jh_fatal "Context config not found: ${config}"
