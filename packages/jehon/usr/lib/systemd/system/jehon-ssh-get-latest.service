@@ -2,7 +2,6 @@
 [Unit]
 Description=Update ssh latest key
 After=network-online.target
-ConditionFileIsExecutable=/usr/bin/curl
 
 [Service]
 # Latest key is the root key but published otherwise...
