@@ -5,4 +5,6 @@ Replaces:
 Conflicts:
 	jehon-hardware
 Depends: ${misc:Depends},
-	jehon (<= JH_VERSION)
+	jehon (<= JH_VERSION),
+# Dandling coma
+	bash

@@ -35,4 +35,6 @@ Depends: ${misc:Depends},
 	unattended-upgrades,
 	wget,
 # zsh profile
-	zsh
+	zsh,
+# Dandling coma
+	bash

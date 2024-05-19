@@ -1,5 +1,6 @@
 Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
-	mpd,
-	alsa-utils,
-	mpc
+# Music server
+	alsa-utils, mpc, mpd,
+# Dandling coma
+	bash

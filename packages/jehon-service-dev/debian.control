@@ -29,5 +29,5 @@ Depends: ${misc:Depends},
 	terminator,
 	traceroute,
 	xvfb,
-# To fix dangling coma problem
+# Dandling coma
 	bash
