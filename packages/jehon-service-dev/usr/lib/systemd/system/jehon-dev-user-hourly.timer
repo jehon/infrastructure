@@ -1,0 +1,13 @@
+
+[Unit]
+# RequiresMountsFor=/var/backups/
+
+[Timer]
+OnBootSec=2min
+# In local time
+# Check with systemd-analyze calendar "xxx"
+OnCalendar=hourly
+Persistent=true
+
+[Install]
+WantedBy=timers.target

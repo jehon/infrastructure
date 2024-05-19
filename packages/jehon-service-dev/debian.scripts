@@ -5,12 +5,13 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
 . /usr/sbin/jh-deb-helpers.sh
 
-# see: dh_installdeb(1)
+jh_deb_helper_service jehon-dev-user-hourly.timer
+jh_deb_helper_service jehon-dev-user-daily.timer
 
 case "$1" in
 configure)
     update-alternatives --set x-terminal-emulator /usr/bin/terminator
-	;;
+    ;;
 
 esac
 
