@@ -4,7 +4,6 @@ Description=Refresh the picture's selection
 RequiresMountsFor=/mnt/cloud/photos
 
 [Timer]
-OnBootSec=2min
 # In local time
 # Check with systemd-analyze calendar "xxx"
 OnCalendar=7:00
