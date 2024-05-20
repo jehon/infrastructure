@@ -24,7 +24,7 @@ import() {
     if [ ! -d "${SOURCE}" ]; then
         jh_fatal "Could not read source ${SOURCE}"
     fi
-    "${JH_PKG_FOLDER}"/bin/fo "import" --to "${TARGET}" "${SOURCE}"
+    jh-fo "import" --to "${TARGET}" "${SOURCE}"
 }
 
 import "Workspaces/Jean/Automatic Upload J/"
