@@ -20,6 +20,11 @@ import FileTimed from "./file-timed";
 const EXIFTOOL = "exiftool";
 
 if (!process.env.TZ) {
+  // TODO: take it from TZ="$(timedatectl show --value --property=Timezone)"
+  process.env.TZ = "Europe/Brussels";
+}
+
+if (!process.env.TZ) {
   process.stderr.write("Not TZ found\n");
   process.exit(1);
 }
