@@ -4,5 +4,5 @@
   tasks:
     - name: Do a full upgrade and reboot
       ansible.builtin.command:
-        cmd: /usr/sbin/jh-system-upgrade full
+        cmd: /usr/sbin/jehon-system-upgrade full
       changed_when: false

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+systemd-analyze verify graphical.target

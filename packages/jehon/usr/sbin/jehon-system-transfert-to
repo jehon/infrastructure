@@ -7,9 +7,9 @@ set -o errexit
 
 DEST=${1:?Need the dest as [1]}
 
-for U in /home/* ; do
-    USER="$( basename "$U" )"
-    if id "$USER" >& /dev/null ; then
+for U in /home/*; do
+    USER="$(basename "$U")"
+    if id "$USER" >&/dev/null; then
         echo "* Cleaning for user $USER"
         sudo -u "$USER" jh-home-cleanup |& jh-tag-stdin "home-${U}"
     fi
@@ -17,14 +17,14 @@ done
 
 jh-home-cleanup |& jh-tag-stdin "home-root"
 
-if docker ps >& /dev/null; then
+if docker ps >&/dev/null; then
     (
         jh-docker-stop-all
         docker system prune -a
     ) | jh-tag-stdin "root-docker"
 fi
 
-cp --preserve=all -v "$JH_SWD/jh-system-transfert-from" "$DEST/"
+cp --preserve=all -v "$JH_SWD/jehon-system-transfert-from" "$DEST/"
 
 mkdir -p "$DEST/home"
 rsync -ai \
@@ -40,7 +40,7 @@ rsync -ai \
     --exclude "/*/.cloud/Cache/cached" --exclude "/*/pCloudDrive" \
     --exclude "/*/.vscode/" \
     --exclude "/*/.local/share/docker" \
-    --exclude "lost+found"  --filter "P lost+found" \
+    --exclude "lost+found" --filter "P lost+found" \
     /home/ \
     "$DEST/home/"
 
@@ -48,7 +48,7 @@ header_begin "Syncing"
 sync
 header_end
 
-jh_info "Used space:        $( du -ksh "$DEST" )"
-jh_info "Remaiging space:   $( df -h --output=avail "$DEST" |tail -n 1 )"
+jh_info "Used space:        $(du -ksh "$DEST")"
+jh_info "Remaiging space:   $(df -h --output=avail "$DEST" | tail -n 1)"
 
 ok
