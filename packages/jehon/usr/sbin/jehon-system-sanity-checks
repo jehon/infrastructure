@@ -6,4 +6,23 @@ shopt -s nullglob
 
 _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-systemd-analyze verify graphical.target
+countLines() {
+    function __RESULT { export LINE_COUNT=$(cat -); }
+    exec 3>&1
+    __RESULT < <({ cat "$1" | tee >(wc -l 1>&2); } 2>&1 >&3 3>&-) 3>&-
+    exec 3>&-
+    unset -f __RESULT
+}
+
+# shellcheck disable=SC2155 # to allow copy-paste
+export defaultTarget="$(systemctl get-default)"
+
+systemd-analyze verify "${defaultTarget}"
+
+systemctl list-units --state=failed
+
+# systemctl list-jobs
+
+# systemctl list-dependencies "${defaultTarget}"
+
+# systemctl --state=not-found --all
