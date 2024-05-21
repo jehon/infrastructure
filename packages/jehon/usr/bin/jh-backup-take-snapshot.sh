@@ -40,12 +40,12 @@ fdupes "${to}" -f -r | head -n 1 | xargs --no-run-if-empty -I{} rm -v "{}"
 case "${flavor}" in
 "daily")
     # Remove too old backups: 40 days old
-    find "/var/backups/daily" -mtime +40 -delete
+    find "${to}/" -mtime +40 -delete
     ;;
 
 "monthly")
     # Remove too old backups: 2 years old...
-    find "/var/backups/monthly" -mtime +730 -delete
+    find "${to}/" -mtime +730 -delete
     ;;
 
 *)
