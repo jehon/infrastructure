@@ -12,7 +12,8 @@ jh_value "PCLOUD" "${PCLOUD}"
 jh_value "TARGET" "${TARGET}"
 
 if [ ! -d "${TARGET}" ]; then
-    jh_fatal "Could not access target ${TARGET}"
+    echo "Could not access target ${TARGET}... exiting"
+    exit 0
 fi
 
 import() {
