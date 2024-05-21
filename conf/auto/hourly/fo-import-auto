@@ -27,7 +27,7 @@ import() {
         jh_fatal "Could not read source ${SOURCE}"
     fi
 
-    # TODO: rework TZ into fo.ts and remove harmony-temporal
+    # FIXME: rework TZ into fo.ts and remove harmony-temporal
     export TZ="Europe/Brussels"
     node --import tsx/esm --harmony-temporal node/src/fo.ts "import" --to "${TARGET}" "${SOURCE}"
 }
