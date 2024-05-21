@@ -39,11 +39,6 @@ export JH_TS
 # Other configs
 export JH_CLOUD_USER=~/pCloudDrive
 
-# Create a "3"rd out where all structured messages will go
-# This allow us to test_capture stdout and stderr everywhere,
-# while still letting passing through the messages "Success / failure / ..."
-exec 3>&1
-
 #
 # JH_SWD (Script Working Directory)
 #   where the script currently execute
@@ -171,13 +166,6 @@ jh_value_file() {
     else
         jh_value "$key" "${file} ${JH_MSG_KO}"
     fi
-}
-
-#
-# Log something for message (on >3)
-#
-jh_pipe_message() {
-    (echo "$@") >&3
 }
 
 JH_MSG_OK="$(jh_color "01;32")✓$(jh_color)"
