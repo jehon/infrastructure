@@ -19,7 +19,7 @@ mkdir -p "$JH_TEST_TMP"
 # Log the success (with a green ✓)
 #
 log_success() {
-    jh_pipe_message "$(echo -e "\e[1;32m\xE2\x9C\x93\e[1;00m Test '\e[1;33m$1\e[00m' success")"
+    echo -e "\e[1;32m\xE2\x9C\x93\e[1;00m Test '\e[1;33m$1\e[00m' success"
 }
 
 #
