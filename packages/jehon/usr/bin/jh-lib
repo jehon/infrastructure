@@ -148,17 +148,29 @@ jh_info() {
 }
 
 jh_value() {
-    KEY="$1"
-    VALUE="$2"
+    key="$1"
+    value="$2"
     # Add : to key to put empty spaces after the :
     jh_color 36
     echo -n " 🛈"
     jh_color
 
-    printf " %-${JH_DEFAULT_IDENT}s " "$KEY:"
+    printf " %-${JH_DEFAULT_IDENT}s " "${key}:"
     jh_color 36
-    echo "$VALUE"
+    echo -n "${value}"
     jh_color
+    echo
+}
+
+jh_value_file() {
+    key="$1"
+    file="$2"
+
+    if [ -e "${file}" ]; then
+        jh_value "$key" "${file} ${JH_MSG_OK}"
+    else
+        jh_value "$key" "${file} ${JH_MSG_KO}"
+    fi
 }
 
 #
