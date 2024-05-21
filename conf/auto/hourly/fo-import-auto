@@ -2,8 +2,10 @@
 
 set -o errexit
 
-# shellcheck source-path=SCRIPTDIR/../../../packages/jehon/usr/bin/
-. jh-lib
+_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+# shellcheck source-path=SCRIPTDIR/
+. "${_SD}/../../../bin/lib.sh"
 
 PCLOUD="${HOME}/pCloudDrive"
 TARGET="${PCLOUD}/Workspaces/Famille/A ranger/"
@@ -25,7 +27,10 @@ import() {
     if [ ! -d "${SOURCE}" ]; then
         jh_fatal "Could not read source ${SOURCE}"
     fi
-    jh-fo "import" --to "${TARGET}" "${SOURCE}"
+
+    # TODO: rework TZ into fo.ts and remove harmony-temporal
+    export TZ="Europe/Brussels"
+    node --import tsx/esm --harmony-temporal node/src/fo.ts "import" --to "${TARGET}" "${SOURCE}"
 }
 
 import "Workspaces/Jean/Automatic Upload J/"
