@@ -4,6 +4,7 @@ set -o errexit
 set -o pipefail
 
 name="$(basename "$0")"
+exec &> >(tee -a "/tmp/${name}")
 
 echo "Starting the ${name}"
 date
@@ -12,4 +13,4 @@ TZ="$(timedatectl show --value --property=Timezone)"
 export TZ
 
 echo "Starting jh-fo in kiosk mode at $(date)"
-exec /usr/bin/jh-fo kiosk --amount=30 /mnt/cloud/photos/
+/usr/bin/jh-fo kiosk --amount=30 /mnt/cloud/photos/
