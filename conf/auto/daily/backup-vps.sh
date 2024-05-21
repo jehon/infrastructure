@@ -13,3 +13,5 @@ target="${JH_CLOUD_USER}/Systèmes/vps"
 
 rsync --recursive --itemize-changes \
     vps:/var/backups/snapshot/ "${target}/snapshots"
+
+# TODO: backup data too...
