@@ -8,7 +8,7 @@ shopt -s nullglob
 . jh-lib
 
 root="${1:-"/var/backups"}"
-from="${root}/snapshot/daily"
+from="${root}/snapshot/full"
 to="${root}/history"
 
 jh_value_file "root" "${root}"

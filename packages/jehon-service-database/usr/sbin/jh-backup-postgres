@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ROOT="/var/backups/snapshot/daily"
+ROOT="/var/backups/snapshot/full"
 
 backupOne() {
 	db="$1"
