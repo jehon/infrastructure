@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+# shellcheck source-path=SCRIPTDIR/
+. jh-lib
+
+folder="${1:-.}"
+regex="${2:-".*-test"}"
+
+runInFolder() {
+    local inFolder="$1"
+
+    for F in "${inFolder}"/*-test.sh; do
+        BN="$(jh-fs "name" "${F}")"
+
+        if ! [[ "${BN}" =~ .*-test ]]; then
+            jh_info "Skipping non matching file $F"
+            continue
+        fi
+
+        if [ ! -x "$F" ]; then
+            jh_info "Skipping non-executable $F"
+            continue
+        fi
+
+        (
+            header_begin "Starting $BN"
+            # bash -c "'$F'" || (
+            #     ko "Failed"
+            #     false
+            # )
+            header_end
+        ) | jh-tag-stdin
+
+    done
+
+    # Recurse in subfolders
+    for F in "${inFolder}"/*; do
+        if [ -d "$F" ]; then
+            runInFolder "$F" jh-tag-stdin "$(basename "$F")"
+        fi
+    done
+}
+
+runInFolder "${folder}"
+
+ok "All run with success"
