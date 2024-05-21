@@ -98,7 +98,7 @@ header_end
 				echo ""
 
 				if [ -r "$N/debian.links" ]; then
-					jh_pipe_message "Generate links (manual)"
+					echo "Generate links (manual)" >&2 # Do not poluate the file
 					echo "#"
 					echo "# Manually added:"
 					echo "#"
@@ -107,7 +107,7 @@ header_end
 					rm -f "$N/debian.links"
 				fi
 				if [ -d "$N/usr/share/$N/etc" ]; then
-					jh_pipe_message "Generate links (automatic)"
+					echo "Generate links (automatic)" >&2 # Do not poluate the file
 					echo ""
 					echo "#"
 					echo "# Automatically added:"
@@ -121,7 +121,7 @@ header_end
 			#   need to come after cleanup
 			(
 				if [ -r "$N/debian.install" ]; then
-					jh_pipe_message "Generate install (manual)"
+					echo "Generate install (manual)" >&2 # Do not poluate the file
 					echo "#"
 					echo "# Manually added:"
 					echo "#"
@@ -130,8 +130,8 @@ header_end
 					rm -f "$N/debian.install"
 				fi
 
-				if jh-fs not-empty "$N" ; then
-					jh_pipe_message "Generate install (automatic)"
+				if jh-fs not-empty "$N"; then
+					echo "Generate install (automatic)" >&2 # Do not poluate the file
 					echo ""
 					echo "#"
 					echo "# Automatically added:"
