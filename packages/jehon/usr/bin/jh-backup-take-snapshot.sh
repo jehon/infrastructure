@@ -1,10 +1,21 @@
 #!/usr/bin/env bash
 
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+# shellcheck source-path=SCRIPTDIR/../bin/
+. jh-lib
+
 flavor=${1:?Need a flavor as [1]}
 
-root="/var/backups"
+root="${2:-"/var/backups"}"
 from="${root}/snapshot/daily"
 to="${root}/history/${flavor}"
+
+jh_value_file "root" "${root}"
+jh_value_file "from" "${from}"
+jh_value_file "to" "${to}"
 
 mkdir -p "$to"
 
@@ -25,3 +36,19 @@ done < <(find "${from}" -type f -print0)
 #   Since too old files are removed before, we are sure
 #   to keep one individual backup at anytime
 fdupes "${to}" -f -r | head -n 1 | xargs --no-run-if-empty -I{} rm -v "{}"
+
+case "${flavor}" in
+"daily")
+    # Remove too old backups: 40 days old
+    find "/var/backups/daily" -mtime +40 -delete
+    ;;
+
+"monthly")
+    # Remove too old backups: 2 years old...
+    find "/var/backups/monthly" -mtime +730 -delete
+    ;;
+
+*)
+    echo "Unknown flavor: ${flavor}" >&2
+    ;;
+esac
