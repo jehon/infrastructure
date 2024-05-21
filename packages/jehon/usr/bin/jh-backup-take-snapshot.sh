@@ -7,48 +7,45 @@ shopt -s nullglob
 # shellcheck source-path=SCRIPTDIR/../bin/
 . jh-lib
 
-flavor=${1:?Need a flavor as [1]}
-
-root="${2:-"/var/backups"}"
+root="${1:-"/var/backups"}"
 from="${root}/snapshot/daily"
-to="${root}/history/${flavor}"
+to="${root}/history"
 
 jh_value_file "root" "${root}"
 jh_value_file "from" "${from}"
 jh_value_file "to" "${to}"
 
-mkdir -p "$to"
+mkdir -p "${to}/daily"
+mkdir -p "${to}/monthly"
 
 if jh-fs "is-empty" "${from}"; then
     echo "No live data, exiting.."
     exit 0
 fi
 
-dt=$(date +%Y-%m-%d-%H.%M.%S)
+dayly_dt=$(date +%Y-%m-%d-%H.%M.%S)
+monthly_dt=$(date +%Y-%m)
 while read -r -d $'\0' file; do
     filename="$(realpath --relative-to "${from}" "$file" | sed "s#/#--#")"
-    dest="${to}/${dt}-${filename}"
-    echo "File: ${file} -> ${dest}"
-    cp "${file}" "${dest}"
+    daily_dest="${to}/daily/${dayly_dt}-${filename}"
+    echo "Daily: ${file} -> ${daily_dest}"
+    cp -f "${file}" "${daily_dest}"
+
+    monthly_dest="${to}/monthly/${monthly_dt}-${filename}"
+    if [ ! -r "${monthly_dest}" ]; then
+        echo "Monthly: ${file} -> ${monthly_dest}"
+        cp -f "${file}" "${monthly_dest}"
+    fi
 done < <(find "${from}" -type f -print0)
 
-case "${flavor}" in
-"daily")
-    # Remove too old backups: 40 days old
-    find "${to}/" -mtime +40 -delete
-    ;;
+# Remove daily old backups - covered by monthly backup
+find "${to}/daily" -mtime +31 -delete
 
-"monthly")
-    # Remove too old backups: 2 years old...
-    find "${to}/" -mtime +730 -delete
-    ;;
+# Remove monthly old backups: 2 years old...
+find "${to}/monthly" -mtime +730 -delete
 
-*)
-    echo "Unknown flavor: ${flavor}" >&2
-    ;;
-esac
-
-# Remove duplicates backups files
-#   Since too old files are removed before, we are sure
-#   to keep one individual backup at anytime
-fdupes "${to}" -f -r | head -n 1 | xargs --no-run-if-empty -I{} rm -v "{}"
+# # Remove duplicates backups files
+# #   Since too old files are removed before, we are sure
+# #   to keep one individual backup at anytime
+# # Problem: if the same data is in multiple files, this will cause a problem
+# fdupes "${to}" -f -r | head -n 1 | xargs --no-run-if-empty -I{} rm -v "{}"

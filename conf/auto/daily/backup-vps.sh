@@ -14,6 +14,6 @@ target="${JH_CLOUD_USER}/Systèmes/vps"
 rsync --recursive --itemize-changes \
     vps:/var/backups/snapshot/ "${target}/snapshot/"
 
-jh-backup-take-snapshot.sh daily "${target}"
+jh-backup-take-snapshot.sh "${target}"
 
 # TODO: backup data too...

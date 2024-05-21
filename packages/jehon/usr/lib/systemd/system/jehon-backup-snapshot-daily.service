@@ -1,7 +1,0 @@
-
-[Unit]
-RequiresMountsFor=/var/backups/
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/jh-backup-take-snapshot.sh daily
