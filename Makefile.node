@@ -42,7 +42,7 @@ package-lock.json: package.json
 .PHONY: node-build
 node-build: $(NODE_TMP)/built/.built
 
-$(NODE_TMP)/built/.built: node/** \
+$(NODE_TMP)/built/.built:  $(wildcard node/**/* ) \
 		$(NODE_DEPENDENCY_MARK)
 
 	./node_modules/.bin/webpack
