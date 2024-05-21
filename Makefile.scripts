@@ -46,7 +46,7 @@ scripts-test: \
 .PHONY: scripts-test-shell
 scripts-test-shell: scripts-build
 	find tests/ -name "*.sh" -exec "chmod" "+x" "{}" ";"
-	jh-test-runner ./tests/scripts/
+	jh-runner ./tests/scripts/ '.*-test$$'
 
 .PHONY: scripts-lint
 scripts-lint: scripts-lint-shellcheck scripts-lint-desktop
