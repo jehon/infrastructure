@@ -32,7 +32,7 @@ runInFolder() {
                 # We are in a subshell
                 echo "Starting '${BN}' ..."
                 "$F" && ok "Script ok"
-            ) | jh-tag-stdin
+            ) | jh-tag-stdin "${BN}"
         } || {
             ko "Failure"
             result=1
