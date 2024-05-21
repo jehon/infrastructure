@@ -32,11 +32,6 @@ while read -r -d $'\0' file; do
     cp "${file}" "${dest}"
 done < <(find "${from}" -type f -print0)
 
-# Remove duplicates backups files
-#   Since too old files are removed before, we are sure
-#   to keep one individual backup at anytime
-fdupes "${to}" -f -r | head -n 1 | xargs --no-run-if-empty -I{} rm -v "{}"
-
 case "${flavor}" in
 "daily")
     # Remove too old backups: 40 days old
@@ -52,3 +47,8 @@ case "${flavor}" in
     echo "Unknown flavor: ${flavor}" >&2
     ;;
 esac
+
+# Remove duplicates backups files
+#   Since too old files are removed before, we are sure
+#   to keep one individual backup at anytime
+fdupes "${to}" -f -r | head -n 1 | xargs --no-run-if-empty -I{} rm -v "{}"
