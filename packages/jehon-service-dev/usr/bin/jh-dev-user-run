@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# !! Must run as end-user
+
 set -o errexit
 set -o pipefail
 shopt -s nullglob
@@ -20,11 +22,11 @@ case "${context}" in
     ;;
 esac
 
-echo "I am '$(whoami)'"
 configRoot="${HOME}/src/infrastructure/conf/auto"
 config="${configRoot}/${context}"
 
 [ -d "${configRoot}" ] || jh_fatal "Config folder not found: ${configRoot}"
 [ -d "${config}" ] || jh_fatal "Context config not found: ${config}"
 
+# TODO: replace with script runner that tag ouptut
 run-parts --report --arg="$arg" "${config}"
