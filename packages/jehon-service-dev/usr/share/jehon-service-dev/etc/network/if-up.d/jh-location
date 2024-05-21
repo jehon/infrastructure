@@ -5,7 +5,7 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../../../../../../../jehon/usr/bin
 . jh-lib
 
-exec >& >(tee -a /var/log/location.log )
+exec >& >(tee -a /var/log/"$(basename "$0")")
 
 date
 
