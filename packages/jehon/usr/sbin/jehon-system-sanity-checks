@@ -14,16 +14,18 @@ systemctl reset-failed
 # shellcheck disable=SC2155 # to allow copy-paste
 export defaultTarget="$(systemctl get-default)"
 
-systemd-analyze verify "${defaultTarget}"
+echo "*** Analyse"
+systemd-analyze --no-pager verify "${defaultTarget}"
 
-systemctl list-units --state=failed
+echo "*** Failed"
+systemctl --no-pager list-units --state=failed
 
-# systemctl list-jobs
+echo "*** not-found"
+systemctl --no-pager --state=not-found
 
-systemctl list-dependencies "${defaultTarget}"
+echo "*** list-dependencies of ${defaultTarget}"
+systemctl --no-pager list-dependencies "${defaultTarget}"
 
-systemctl --state=not-found
-
-echo "Dead links: "
+echo "*** Dead links"
 find /etc/systemd -xtype l -printf '%p => %l\n'
 find /usr/lib/systemd -xtype l -printf '%p => %l\n'
