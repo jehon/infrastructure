@@ -12,7 +12,7 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 target="${JH_CLOUD_USER}/Systèmes/vps"
 
 rsync --recursive --itemize-changes \
-    vps:/var/backups/snapshot/ "${target}/snapshot/"
+    vps:/var/backups/snapshot/full/ "${target}/snapshot/full/"
 
 jh-backup-take-snapshot.sh "${target}"
 
