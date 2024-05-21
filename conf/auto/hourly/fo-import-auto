@@ -7,10 +7,9 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${_SD}/../../../bin/lib.sh"
 
-PCLOUD="${HOME}/pCloudDrive"
-TARGET="${PCLOUD}/Workspaces/Famille/A ranger/"
+TARGET="${JH_CLOUD_USER}/Workspaces/Famille/A ranger/"
 
-jh_value "PCLOUD" "${PCLOUD}"
+jh_value "CLOUD" "${JH_CLOUD_USER}"
 jh_value "TARGET" "${TARGET}"
 
 if [ ! -d "${TARGET}" ]; then
@@ -20,7 +19,7 @@ fi
 
 import() {
     NAME="$1"
-    SOURCE="${PCLOUD}/$1"
+    SOURCE="${JH_CLOUD_USER}/$1"
     shift
 
     jh_info "Importing $NAME"
@@ -34,6 +33,6 @@ import() {
 }
 
 import "Workspaces/Jean/Automatic Upload J/"
-import "Workspaces/Marie-Line/Automatic Upload/"
+# import "Workspaces/Marie-Line/Automatic Upload/"
 
 ok "Done"
