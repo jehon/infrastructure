@@ -37,7 +37,7 @@ header_begin "Generating index.html in $(pwd)"
             continue
         fi
 
-        echo "+ $FILE" >&3
+        echo "+ $FILE" >&2
         generateFile "$FILE"
     done < <(find "." -name ".git" -prune -o -type f -printf "%P\n" | sort)
 
