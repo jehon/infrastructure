@@ -1,3 +1,9 @@
+# Infrastructure
+
+curl -fsSL https://jehon.github.io/infrastructure/packages/jehon.deb -o jehon.deb
+
+./deploy-to kiosk --become --user jehon --e "ansible_host=192.168.1.5"
+
 # What where?
 
 | Objective           | Types                       | Script | Packages | Ansible | Application | Not managed | Comment                              |
