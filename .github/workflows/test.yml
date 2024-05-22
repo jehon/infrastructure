@@ -71,7 +71,7 @@ jobs:
       - run: ./setup.sh
       - run: bin/rehydrate.sh
 
-      - run: make "${{ matrix.target }}"
+      - run: make --debug=basic "${{ matrix.target }}"
 
   valid:
     # placeholder for validation of PR
@@ -110,7 +110,7 @@ jobs:
           chmod -v +x tmp/python/*/bin/*
 
       - run: ./setup.sh
-      - run: make release
+      - run: make --debug=basic release
 
       - name: Upload Pages artifact
         # https://github.com/actions/upload-pages-artifact?tab=readme-ov-file
