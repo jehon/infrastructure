@@ -20,13 +20,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@main
-
       - uses: actions/setup-node@v4
         with:
           node-version: current
           check-latest: true
-          cache: npm
+
+      # We checkout only on first step
+      - uses: actions/checkout@main
 
       - run: ./setup.sh
       - run: make dump
@@ -57,19 +57,19 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
-      - uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: tmp
-
       - uses: actions/setup-node@v4
         with:
           node-version: current
           check-latest: true
 
+      # We use the copy of the repo instead of checkout
+      - uses: actions/download-artifact@v4
+        with:
+          name: built
+          path: tmp
+
       - run: ./setup.sh
       - run: bin/rehydrate.sh
-
       - run: make --debug=basic "${{ matrix.target }}"
 
   valid:
@@ -104,10 +104,8 @@ jobs:
           name: build
           path: tmp
 
-      - run: |
-          chmod -v +x tmp/python/*/bin/*
-
       - run: ./setup.sh
+      - run: bin/rehydrate.sh
       - run: make --debug=basic release
 
       - name: Upload Pages artifact
