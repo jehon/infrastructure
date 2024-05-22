@@ -1,8 +1,21 @@
 # Infrastructure
 
-curl -fsSL https://jehon.github.io/infrastructure/packages/jehon.deb -o jehon.deb
+## By installing jehon.deb first
 
+```
+curl -fsSL https://jehon.github.io/infrastructure/packages/jehon.deb -o jehon.deb
+sudo apt install -f
+```
+
+```
+./deploy-to kiosk --e "ansible_host=192.168.1.5"
+```
+
+## By deploy-to
+
+```
 ./deploy-to kiosk --become --user jehon --e "ansible_host=192.168.1.5"
+```
 
 # What where?
 
