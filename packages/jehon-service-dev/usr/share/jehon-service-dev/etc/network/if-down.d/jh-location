@@ -1,14 +1,1 @@
-#!/usr/bin/env bash
-
-set -o errexit
-set -o pipefail
-shopt -s nullglob
-
-_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
-
-exec >& >(tee -a /var/log/"$(basename "$0").log")
-
-date
-echo "Detected change in network conditions"
-
-"${_SD}"/../../../../../bin/jh-location-go
+../if-up.d/jh-location

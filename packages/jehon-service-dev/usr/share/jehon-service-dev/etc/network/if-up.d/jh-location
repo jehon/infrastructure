@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# CAVEAT: Used in if-down.d too
+
 set -o errexit
 set -o pipefail
 shopt -s nullglob
