@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
 set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 # shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin
 . jh-lib
@@ -8,33 +12,13 @@ set -o errexit
 #
 # [1]: whished location or detect it
 #
-LOCATION="${LOCATION:-$( jh-location-detect )}"
-
-CONF="/etc/jehon/locations"
-
-run_folder() {
-    LOCATION="$1"
-    FOLDER="$CONF/$LOCATION"
-    header_begin "Location $LOCATION"
-
-    if jh-fs is-empty "$FOLDER"; then
-        jh_fatal "Folder is empty/not found: $FOLDER"
-    fi
-
-    for F in "$FOLDER"/* ; do
-        FN="$( basename "$F" )"
-        header_begin "$LOCATION - $FN: Running"
-        if ! "$F" ; then
-            jh_error "$FN"
-        fi
-        header_end
-    done
-    header_end
-}
+export LOCATION="${LOCATION:-$(jh-location-detect)}"
 
 CACHE="/var/cache/jehon/location"
+CONF="/usr/share/jehon/locations"
+
 if [ -r "${CACHE}" ]; then
-    PREV_LOCATION="$( cat "${CACHE}" )"
+    PREV_LOCATION="$(cat "${CACHE}")"
 fi
 
 jh_debug "PREV_LOCATION: ${PREV_LOCATION}"
@@ -42,10 +26,12 @@ jh_debug "LOCATION:      ${LOCATION}"
 
 if [ "${PREV_LOCATION}" == "${LOCATION}" ]; then
     jh_info "Already at location ${LOCATION}"
+    exit 0
 fi
 
 jh_info "Going to location ${LOCATION}"
-run_folder "$LOCATION"
-run_folder "always"
 
-echo "${LOCATION}" > "${CACHE}"
+jh-runner "${CONF}/${LOCATION}"
+jh-runner "${CONF}/always"
+
+echo "${LOCATION}" >"${CACHE}"

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# restart if started
+systemctl try-restart docker
