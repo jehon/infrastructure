@@ -88,6 +88,8 @@ jobs:
     if: ${{ github.ref_name == 'main' && github.ref_type == 'branch' }}
 
     steps:
+      - uses: actions/checkout@main
+
       - uses: actions/setup-node@v4
         with:
           node-version: current
