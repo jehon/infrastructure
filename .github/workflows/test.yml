@@ -100,8 +100,8 @@ jobs:
       # We use the copy of the repo instead of checkout
       - uses: actions/download-artifact@v4
         with:
-          name: repo
-          path: .
+          name: build
+          path: tmp
 
       - run: ./setup.sh
       - run: bin/rehydrate.sh
