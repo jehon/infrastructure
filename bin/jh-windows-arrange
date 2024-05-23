@@ -13,8 +13,8 @@ moveWindowTo() {
     # Thanks to https://askubuntu.com/a/702302/638656
 
     window="${1:?Need window to move}"
-    position="${2:?Need target position}" # x,y,w,h (gravity is hardcoded)
-    desktop="${3:?Need the desktop}"
+    desktop="${2:?Need the desktop}"
+    position="${3:?Need target position}" # x,y,w,h (gravity is hardcoded)
     shift
     shift
     # Options for [...]:
@@ -35,23 +35,32 @@ moveWindowTo() {
 
     wmctrl -ir "$winId" -b remove,maximized_vert
     wmctrl -ir "$winId" -b remove,maximized_horz
-    wmctrl -ir "$winId" -e 0,"$position"
-    wmctrl -ir "$winId" -s "$desktop"
+    wmctrl -ir "$winId" -e "0,${position}" -t "${desktop}"
     while [ -n "$1" ]; do
         wmctrl -ir "$winId" -b add,"$1"
         shift
     done
 }
 
-# S_LEFT_L=0
-S_FRONT_L=1920
-S_FRONT_W=3440
+S_SEC_LEFT=0
+S_SEC_TOP=0
+S_SEC_WIDTH=1920
+S_SEC_HEIGHT=0
+S_PRIM_LEFT=$((S_SEC_LEFT + S_SEC_WIDTH))
+S_PRIM_TOP=0
+S_PRIM_WIDTH=3440
+S_PRIM_HEIGHT=1440
 
 case "$1" in
 "")
-    moveWindowTo 'Spotify' "0,0,100,100" 1 maximized_vert maximized_horz
-    moveWindowTo '.* - infrastructure$' "$((S_FRONT_L)),0,$((S_FRONT_W / 2)),100" 1 maximized_vert
-    #    moveWindowTo '- cryptomedic$' 'DP-3'
+    # Secondary screen
+    moveWindowTo 'Spotify' 1 "$((S_SEC_LEFT)),$((S_SEC_TOP)),$((S_SEC_WIDTH)),$((S_SEC_HEIGHT))" maximized_vert maximized_horz
+    # Front screen D1
+
+    # Front screen D2
+    moveWindowTo '.* - infrastructure$' 1 "$((S_PRIM_LEFT)),$((S_PRIM_TOP)),$((S_PRIM_WIDTH / 2)),$((S_PRIM_HEIGHT))" maximized_vert
+    # Front screen D3
+    moveWindowTo '.* - cryptomedic$' 2 "$((S_PRIM_LEFT)),$((S_PRIM_TOP)),$((S_PRIM_WIDTH / 2)),$((S_PRIM_HEIGHT))" maximized_vert
     ;;
 "ls-windows")
     wmctrl -l
