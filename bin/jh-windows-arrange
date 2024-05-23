@@ -26,44 +26,68 @@ moveWindowTo() {
             grep -E -- "${window}" |
             cut -d" " -f1 || true
     )
+    printf "%-30s | %10s | %-20s | " "${window}" "${winId}" "${position}"
 
     if [ -z "${winId}" ]; then
-        echo "Window not found: ${window}"
+        echo "not found!"
         return
     fi
-    echo "Window: ${winId}: move to ${position}"
 
-    wmctrl -ir "$winId" -b remove,maximized_vert
-    wmctrl -ir "$winId" -b remove,maximized_horz
-    wmctrl -ir "$winId" -e "0,${position}" -t "${desktop}"
+    WM() {
+        wmctrl -ir "$winId" "$@"
+    }
+
+    WM -b remove,maximized_vert
+    WM -b remove,maximized_horz
+    WM -e "0,${position}"
+    WM -t "${desktop}"
     while [ -n "$1" ]; do
-        wmctrl -ir "$winId" -b add,"$1"
+        WM -b add,"$1"
         shift
     done
+    echo "ok"
 }
 
-S_SEC_LEFT=0
-S_SEC_TOP=0
-S_SEC_WIDTH=1920
-S_SEC_HEIGHT=0
-S_PRIM_LEFT=$((S_SEC_LEFT + S_SEC_WIDTH))
-S_PRIM_TOP=0
-S_PRIM_WIDTH=3440
-S_PRIM_HEIGHT=1440
+# All screens
+: $((BORDER_LEFT = 51))
+: $((BORDER_TOP = 106))
+
+# Secondary
+: $((S_SEC_LEFT = BORDER_LEFT))
+: $((S_SEC_TOP = BORDER_TOP))
+: $((S_SEC_WIDTH = 1920 - BORDER_LEFT))
+: $((S_SEC_HEIGHT = 1080 - BORDER_TOP))
+
+# Primary
+: $((S_PRIM_LEFT = S_SEC_LEFT + S_SEC_WIDTH + BORDER_LEFT))
+: $((S_PRIM_TOP = BORDER_TOP))
+: $((S_PRIM_WIDTH = 3440 - BORDER_LEFT))
+: $((S_PRIM_HEIGHT = 1440 - BORDER_TOP))
 
 case "$1" in
 "")
     # Secondary screen
-    moveWindowTo 'Spotify' 1 "$((S_SEC_LEFT)),$((S_SEC_TOP)),$((S_SEC_WIDTH)),$((S_SEC_HEIGHT))" maximized_vert maximized_horz
+    moveWindowTo 'Spotify' \
+        1 \
+        "$((S_SEC_LEFT)),$((S_SEC_TOP)),$((S_SEC_WIDTH)),$((S_SEC_HEIGHT))" \
+        maximized_vert maximized_horz
+
     # Front screen D1
 
     # Front screen D2
-    moveWindowTo '.* - infrastructure$' 1 "$((S_PRIM_LEFT)),$((S_PRIM_TOP)),$((S_PRIM_WIDTH / 2)),$((S_PRIM_HEIGHT))" maximized_vert
+    moveWindowTo '.* - infrastructure$' \
+        1 \
+        "$((S_PRIM_LEFT)),$((S_PRIM_TOP)),$((S_PRIM_WIDTH / 2)),$((S_PRIM_HEIGHT))" \
+        maximized_vert
+
     # Front screen D3
-    moveWindowTo '.* - cryptomedic$' 2 "$((S_PRIM_LEFT)),$((S_PRIM_TOP)),$((S_PRIM_WIDTH / 2)),$((S_PRIM_HEIGHT))" maximized_vert
+    moveWindowTo '.* - cryptomedic$' \
+        2 \
+        "$((S_PRIM_LEFT + BORDER_LEFT)),$((S_PRIM_TOP + BORDER_TOP)),$((S_PRIM_WIDTH / 2)),$((S_PRIM_HEIGHT))" \
+        maximized_vert
     ;;
 "ls-windows")
-    wmctrl -l
+    wmctrl -l -G
     exit 0
     ;;
 "ls-screens")
