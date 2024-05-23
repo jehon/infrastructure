@@ -31,6 +31,8 @@ fi
 
 jh_info "Going to location ${LOCATION}"
 
+export LOCATION
+
 jh-runner "${CONF}/${LOCATION}"
 jh-runner "${CONF}/always"
 
