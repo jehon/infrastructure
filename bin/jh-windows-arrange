@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+# shellcheck source-path=SCRIPTDIR
+. "${_SD}"/lib.sh
+
+moveWindowTo() {
+    window="${1:?Need window to move}"
+    position="${2:?Need target position}"
+    desktop="${3:?Need the desktop}"
+    # maximized_vert
+    # maximized_horz
+    shift
+    shift
+
+    winId=$(
+        wmctrl -l |
+            grep -v -- ' -1 ' | # Ignore sticky windows
+            grep -E -- "${window}" |
+            cut -d" " -f1
+    )
+
+    if [ -z "${winId}" ]; then
+        echo "Window not found: ${window}"
+        return
+    fi
+    echo "Window: ${winId}"
+
+    wmctrl -ir "$winId" -b remove,maximized_vert
+    wmctrl -ir "$winId" -b remove,maximized_horz
+    wmctrl -ir "$winId" -e 0,"$position"
+    wmctrl -ir "$winId" -s "$desktop"
+    while [ -n "$1" ]; do
+        wmctrl -ir "$winId" -b add,"$1"
+        shift
+    done
+}
+
+case "$1" in
+"")
+    moveWindowTo '- infrastructure$' '0,0,0,1000,1000' 1
+    #    moveWindowTo '- cryptomedic$' 'DP-3'
+    ;;
+"ls-windows")
+    wmctrl -l
+    exit 0
+    ;;
+"ls-desktop")
+    xrandr | grep " connected"
+    exit 0
+    ;;
+*)
+    jh_fatal "Unknown verb: $1"
+    ;;
+esac

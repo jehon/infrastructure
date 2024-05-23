@@ -1,4 +1,6 @@
 Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
+# jh-windows-arrange
+	wmctrl,
 # Dandling coma
 	bash
