@@ -10,13 +10,16 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 . "${_SD}"/lib.sh
 
 moveWindowTo() {
+    # Thanks to https://askubuntu.com/a/702302/638656
+
     window="${1:?Need window to move}"
     position="${2:?Need target position}"
     desktop="${3:?Need the desktop}"
-    # maximized_vert
-    # maximized_horz
     shift
     shift
+    # Options for [...]:
+    #    - maximized_vert
+    #    - maximized_horz
 
     winId=$(
         wmctrl -l |
