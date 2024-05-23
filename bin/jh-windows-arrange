@@ -13,7 +13,7 @@ moveWindowTo() {
     # Thanks to https://askubuntu.com/a/702302/638656
 
     window="${1:?Need window to move}"
-    position="${2:?Need target position}"
+    position="${2:?Need target position}" # x,y,w,h (gravity is hardcoded)
     desktop="${3:?Need the desktop}"
     shift
     shift
@@ -23,16 +23,15 @@ moveWindowTo() {
 
     winId=$(
         wmctrl -l |
-            grep -v -- ' -1 ' | # Ignore sticky windows
             grep -E -- "${window}" |
-            cut -d" " -f1
+            cut -d" " -f1 || true
     )
 
     if [ -z "${winId}" ]; then
         echo "Window not found: ${window}"
         return
     fi
-    echo "Window: ${winId}"
+    echo "Window: ${winId}: move to ${position}"
 
     wmctrl -ir "$winId" -b remove,maximized_vert
     wmctrl -ir "$winId" -b remove,maximized_horz
@@ -44,16 +43,21 @@ moveWindowTo() {
     done
 }
 
+# S_LEFT_L=0
+S_FRONT_L=1920
+S_FRONT_W=3440
+
 case "$1" in
 "")
-    moveWindowTo '- infrastructure$' '0,0,0,1000,1000' 1
+    moveWindowTo 'Spotify' "0,0,100,100" 1 maximized_vert maximized_horz
+    moveWindowTo '.* - infrastructure$' "$((S_FRONT_L)),0,$((S_FRONT_W / 2)),100" 1 maximized_vert
     #    moveWindowTo '- cryptomedic$' 'DP-3'
     ;;
 "ls-windows")
     wmctrl -l
     exit 0
     ;;
-"ls-desktop")
+"ls-screens")
     xrandr | grep " connected"
     exit 0
     ;;
