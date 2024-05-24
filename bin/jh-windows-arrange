@@ -9,6 +9,10 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR
 . "${_SD}"/lib.sh
 
+isScreenConnected() {
+    xrandr | grep " connected" | grep "$1" &>/dev/null
+}
+
 moveWindowTo() {
     # Thanks to https://askubuntu.com/a/702302/638656
 
@@ -52,17 +56,29 @@ moveWindowTo() {
 : $((BORDER_LEFT = 51))
 : $((BORDER_TOP = 106))
 
-# Secondary
-: $((S_SEC_LEFT = BORDER_LEFT))
-: $((S_SEC_TOP = BORDER_TOP))
-: $((S_SEC_WIDTH = 1920 - BORDER_LEFT))
-: $((S_SEC_HEIGHT = 1080 - BORDER_TOP))
-
-# Primary
-: $((S_PRIM_LEFT = S_SEC_LEFT + S_SEC_WIDTH + BORDER_LEFT))
+# Laptop Screen
+: $((S_PRIM_LEFT = BORDER_LEFT))
 : $((S_PRIM_TOP = BORDER_TOP))
-: $((S_PRIM_WIDTH = 3440 - BORDER_LEFT))
-: $((S_PRIM_HEIGHT = 1440 - BORDER_TOP))
+: $((S_PRIM_WIDTH = 1900 - BORDER_LEFT))
+: $((S_PRIM_HEIGHT = 1200 - BORDER_TOP))
+
+: $((S_SEC_LEFT = S_PRIM_LEFT))
+: $((S_SEC_TOP = S_PRIM_TOP))
+: $((S_SEC_WIDTH = S_PRIM_WIDTH))
+: $((S_SEC_HEIGHT = S_PRIM_HEIGHT))
+
+if "DP-2"; then
+    echo "At home desk"
+
+    # Secondary
+    : $((S_SEC_WIDTH = 1920 - BORDER_LEFT))
+    : $((S_SEC_HEIGHT = 1080 - BORDER_TOP))
+
+    # Primary
+    : $((S_PRIM_LEFT = S_SEC_LEFT + S_SEC_WIDTH + BORDER_LEFT))
+    : $((S_PRIM_WIDTH = 3440 - BORDER_LEFT))
+    : $((S_PRIM_HEIGHT = 1440 - BORDER_TOP))
+fi
 
 case "$1" in
 "")
