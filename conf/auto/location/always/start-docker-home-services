@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+. "${_SD}/../../../../bin/lib.sh"
+
+cd "${JH_PKG_FOLDER}/devstack"
+
+if [ "$LOCATION" == "home" ]; then
+    docker compose up --profile=home
+else
+    true
+fi

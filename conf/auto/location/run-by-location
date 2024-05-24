@@ -6,4 +6,13 @@ shopt -s nullglob
 
 _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-echo "Here LOCATION: ${LOCATION}"
+runOne() {
+    if [ -r "$1" ] && jh-fs not-empty "$1"; then
+        jh-runner "$1"
+    else
+        echo "Folder not found: $1"
+    fi
+}
+
+runOne "${_SD}/${LOCATION}"
+runOne "${_SD}/always"
