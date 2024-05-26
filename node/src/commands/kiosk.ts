@@ -82,7 +82,7 @@ export function handler(globalOptions: { source: string; amount: number }) {
       ...list
     ],
     {
-      stdio: "inherit"
+      stdio: ["ignore", "pipe", "pipe"]
     }
   );
 
