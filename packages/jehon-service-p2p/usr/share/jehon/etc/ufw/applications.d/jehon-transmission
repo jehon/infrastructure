@@ -1,7 +1,0 @@
-
-[jehon-transmission]
-title=Transmission
-description=Allow access to the transmission server
-ports=9091/tcp
-
-# https://help.ubuntu.com/community/TransmissionHowTo

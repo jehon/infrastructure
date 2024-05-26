@@ -1,6 +1,0 @@
-Depends: ${misc:Depends},
-	jehon (<= JH_VERSION),
-# Torrents
-	transmission-common, transmission-daemon, transmission-cli,
-# Dandling coma
-	bash
