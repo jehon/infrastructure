@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+. jh-lib
+
+SCRIPT=/usr/share/jehon/node/jh-fo
+if [ -n "${JH_PKG_FOLDER}" ]; then
+    SCRIPT="${JH_PKG_FOLDER}"/tmp/node/built/jh-fo.cjs
+fi
+
+echo "SCRIPT: ${SCRIPT}"
+node --harmony-temporal "${SCRIPT}" "$@"

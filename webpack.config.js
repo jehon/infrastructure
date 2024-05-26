@@ -7,7 +7,7 @@ const config = {
   entry: "./node/src/fo.ts",
   output: {
     path: path.join(__dirname, "tmp/node/built"),
-    filename: "jh-fo"
+    filename: "jh-fo.cjs"
   },
   mode: "development",
   target: "node",
