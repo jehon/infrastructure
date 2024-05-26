@@ -117,7 +117,4 @@ remove) ;;
 
 esac
 
-jh_deb_helper_legacy jh_deb_helper_service jehon-backup-snapshot-daily.timer
-jh_deb_helper_legacy jh_deb_helper_service jehon-backup-snapshot-monthly.timer
-
 exit 0
