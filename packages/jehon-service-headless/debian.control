@@ -1,6 +1,8 @@
 Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
 	console-setup, kbd,
+# Cockpit
+	cockpit,
 # for fbgrab (frame buffer screenshot)
 	fbcat,
 	netplan.io,

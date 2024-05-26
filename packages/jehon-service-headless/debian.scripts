@@ -5,6 +5,9 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
 . /usr/sbin/jh-deb-helpers.sh
 
+jh_deb_helper_ufw "port" "cockpit" "home"
+jh_deb_helper_ufw "port" "cockpit" "homeIPV4"
+
 case "$1" in
 configure)
 	if [ -s /etc/sysctl.conf ]; then

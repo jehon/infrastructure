@@ -1,0 +1,4 @@
+[jehon-cockpit]
+title=Cockpit
+description=Jehon facility
+ports=9090/tcp
