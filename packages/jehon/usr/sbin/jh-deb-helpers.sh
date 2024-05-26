@@ -214,7 +214,7 @@ jh_deb_helper_ufw() {
 		NETWORKS="192.168.0.0/16"
 		;;
 	*)
-		echo "jh_deb_helper_ufw need a network explicitely [3]" >&2
+		echo "jh_deb_helper_ufw invalid network name: $NETWORK_NAME [3]" >&2
 		exit 1
 		;;
 	esac
