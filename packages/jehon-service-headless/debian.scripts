@@ -5,8 +5,8 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
 . /usr/sbin/jh-deb-helpers.sh
 
-jh_deb_helper_ufw "port" "cockpit" "home"
-jh_deb_helper_ufw "port" "cockpit" "homeIPv4"
+jh_deb_helper_ufw "app" "jehon-cockpit" "home"
+jh_deb_helper_ufw "app" "jehon-cockpit" "homeIPv4"
 
 case "$1" in
 configure)

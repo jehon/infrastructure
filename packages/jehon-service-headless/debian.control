@@ -3,10 +3,7 @@ Depends: ${misc:Depends},
 	console-setup, kbd,
 # Cockpit
 	cockpit,
-# for fbgrab (frame buffer screenshot)
-	fbcat,
 	netplan.io,
-	rsyslog,
 	screen,
 # Dandling coma
 	bash
