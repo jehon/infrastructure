@@ -3,13 +3,19 @@ services:
     image: httpd:alpine
     restart: always
     expose:
-      - 1080
-      - 1025
+      - 80
+      - 443
     ports:
-      - "2025:1080"
+      - "80:80"
     healthcheck:
       test: wget -O - http://127.0.0.1:1080/healthz
       interval: 2s
       timeout: 1s
       retries: 3
       start_period: 3s
+
+  # torrent:
+  #   image: linuxserver/transmission
+  #   restart: always
+  #   ports:
+  #     - ""

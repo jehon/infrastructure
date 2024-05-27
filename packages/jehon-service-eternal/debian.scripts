@@ -6,8 +6,12 @@ set -o errexit
 . /usr/sbin/jh-deb-helpers.sh
 
 case "$1" in
-configure) ;;
-
+configure)
+    /usr/sbin/jehon-eternal install
+    ;;
+remove)
+    /usr/sbin/jehon-eternal uninstall
+    ;;
 esac
 
 #

@@ -11,8 +11,24 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin/
 . jh-lib
 
-case "$1" in
+dcRoot=/usr/share/jehon-service-eternal/stack/
+cmd="$1"
+
+cd "${dcRoot}"
+
+case "${cmd}" in
+"install")
+    # docker compose pull --quiet
+    # # https://docs.docker.com/reference/cli/docker/compose/up/
+    # docker compose up --build --detach --remove-orphans
+    # docker image prune -f
+    true
+    ;;
+"remove")
+    docker compose down -f
+    docker image prune -f
+    ;;
 *)
-    jh_fatal "Unknown command: $1"
+    docker compose "$@"
     ;;
 esac
