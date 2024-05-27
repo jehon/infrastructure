@@ -1,6 +1,6 @@
 Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
 # backend docker (official vs ubuntu)
-	docker-compose-plugin || docker-compose-v2,
+	docker-compose-plugin | docker-compose-v2,
 # Dandling coma
 	bash
