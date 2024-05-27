@@ -18,10 +18,9 @@ cd "${dcRoot}"
 
 case "${cmd}" in
 "install")
-    # docker compose pull --quiet
-    # # https://docs.docker.com/reference/cli/docker/compose/up/
-    # docker compose up --build --detach --remove-orphans
-    # docker image prune -f
+    docker compose pull --quiet
+    # https://docs.docker.com/reference/cli/docker/compose/up/
+    docker compose up --build --detach --remove-orphans
     true
     ;;
 "remove")
