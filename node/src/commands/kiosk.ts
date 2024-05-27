@@ -67,7 +67,8 @@ export function handler(globalOptions: { source: string; amount: number }) {
 
   // Process with ... | xargs -d "\n" ...
   process.stdout.write(list.join("\n") + "\n");
-  child_process.execFileSync(
+  process.stdout.write("Starting fbi...\n");
+  const res = child_process.execFileSync(
     "/usr/bin/fbi",
     [
       "--autozoom",
@@ -86,6 +87,7 @@ export function handler(globalOptions: { source: string; amount: number }) {
       encoding: "utf-8"
     }
   );
+  process.stdout.write("fbi has exited\n");
 
   return Promise.resolve();
 }
