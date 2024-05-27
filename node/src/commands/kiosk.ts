@@ -84,7 +84,7 @@ export function handler(globalOptions: { source: string; amount: number }) {
         ...list
       ],
       {
-        stdio: ["pipe", "pipe", "pipe"],
+        stdio: "inherit",
         encoding: "utf-8"
       }
     );
