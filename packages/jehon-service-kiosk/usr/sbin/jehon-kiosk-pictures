@@ -4,13 +4,9 @@ set -o errexit
 set -o pipefail
 
 name="$(basename "$0")"
-# exec &> >(tee -a "/tmp/${name}")
-
-ttyNumber=1
 
 echo "Starting the ${name}"
 date
-echo "Using TTY: ${ttyNumber}"
 
 echo "Starting jh-fo in kiosk mode at $(date)"
 /usr/bin/jh-fo kiosk --amount=30 /mnt/cloud/photos/

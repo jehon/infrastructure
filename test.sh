@@ -15,6 +15,11 @@ service=getty@tty1.service
 ./deploy-patch-from-packages "${target}" packages/jehon-service-kiosk/usr/lib/systemd/system/getty@tty1.service.d/jehon-kiosk-override.conf
 scp tmp/node/built/jh-fo.cjs "${target}":/usr/share/jehon/node
 
+# service=jehon-kiosk.service
+# ./deploy-patch-from-packages "${target}" packages/jehon-service-kiosk/usr/lib/systemd/system/jehon-kiosk.service
+
+./deploy-patch-from-packages "${target}" packages/jehon-service-backend/usr/share/jehon-service-backend/docker-compose.yml
+
 # shellcheck disable=SC2087 # client side expension
 ssh "${target}" <<EOS
 clear
