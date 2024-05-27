@@ -24,11 +24,6 @@
       ansible.builtin.include_role:
         name: jh_network
 
-    - name: Setup monitoring
-      when: "'grp_jehon' in group_names"
-      ansible.builtin.include_role:
-        name: jh_monitoring
-
     - name: Setup cloud
       when: "'grp_jehon' in group_names"
       ansible.builtin.include_role:
