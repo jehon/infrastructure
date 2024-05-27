@@ -82,7 +82,8 @@ export function handler(globalOptions: { source: string; amount: number }) {
       ...list
     ],
     {
-      stdio: ["ignore", "pipe", "pipe"]
+      stdio: ["ignore", "pipe", "pipe"],
+      encoding: "utf-8"
     }
   );
 
