@@ -78,8 +78,7 @@ export function handler(globalOptions: { source: string; amount: number }) {
         // Image time
         "--timeout",
         "15",
-        // "--vt",
-        // "1",
+        // "/mnt/cloud/photos/1.jpg",
         // "/mnt/cloud/photos/1.jpg"
         ...list
       ],

@@ -10,8 +10,8 @@ make tmp/node/built/.built
 target=kiosk
 service=getty@tty1.service
 
-# ./deploy-patch-from-packages "${target}" packages/jehon/usr/bin/jh-fo
-# ./deploy-patch-from-packages "${target}" packages/jehon-service-kiosk/usr/lib/systemd/system/jehon-kiosk.service
+./deploy-patch-from-packages "${target}" packages/jehon/usr/bin/jh-fo
+./deploy-patch-from-packages "${target}" packages/jehon-service-kiosk/usr/sbin/jehon-kiosk-pictures
 ./deploy-patch-from-packages "${target}" packages/jehon-service-kiosk/usr/lib/systemd/system/getty@tty1.service.d/jehon-kiosk-override.conf
 scp tmp/node/built/jh-fo.cjs "${target}":/usr/share/jehon/node
 
