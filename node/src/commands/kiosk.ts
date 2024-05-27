@@ -68,26 +68,31 @@ export function handler(globalOptions: { source: string; amount: number }) {
   // Process with ... | xargs -d "\n" ...
   process.stdout.write(list.join("\n") + "\n");
   process.stdout.write("Starting fbi...\n");
-  const res = child_process.execFileSync(
-    "/usr/bin/fbi",
-    [
-      "--autozoom",
-      "--noedit",
-      "--readahead",
-      // Transition mix
-      "--blend",
-      "100",
-      // Image time
-      "--timeout",
-      "15",
-      ...list
-    ],
-    {
-      stdio: ["ignore", "pipe", "pipe"],
-      encoding: "utf-8"
-    }
-  );
-  process.stdout.write("fbi has exited\n");
+  try {
+    child_process.execFileSync(
+      "/usr/bin/fbi",
+      [
+        "--autozoom",
+        "--noedit",
+        "--readahead",
+        // Image time
+        "--timeout",
+        "15",
+        // "--vt",
+        // "1",
+        // "/mnt/cloud/photos/1.jpg"
+        ...list
+      ],
+      {
+        stdio: ["pipe", "pipe", "pipe"],
+        encoding: "utf-8"
+      }
+    );
+    process.stdout.write("fbi has exited\n");
+  } catch (e: any) {
+    process.stdout.write(`fbi has exited with error ${e.code}\n`);
+    console.error(e);
+  }
 
   return Promise.resolve();
 }
