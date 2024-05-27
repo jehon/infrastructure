@@ -7,10 +7,14 @@ set -o errexit
 
 case "$1" in
 configure)
-    /usr/sbin/jehon-eternal install
+    if jh-is-full-machine; then
+        /usr/sbin/jehon-eternal install
+    fi
     ;;
 remove)
-    /usr/sbin/jehon-eternal uninstall
+    if jh-is-full-machine; then
+        /usr/sbin/jehon-eternal uninstall
+    fi
     ;;
 esac
 
