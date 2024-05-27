@@ -380,8 +380,6 @@ all:
           32326265343833616662353964363765356363313831326363333038626132613937346636623831
           6530613235303634360a623436323531623064626466353238633339363237326664353436346331
           3832
-    vps:
-      jehon_headless: true
     synology:
       # We use also the /etc/ssh/ssh_config.d/jehon.conf
       # See https://serverfault.com/a/926506/275843
@@ -401,6 +399,7 @@ all:
       script_folder: /volume1/scripts/scripts
     vps:
       ansible_host: "{{ jehon.ip.vps }}"
+      jehon_headless: true
 
   children:
     grp_jehon:
