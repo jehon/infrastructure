@@ -9,3 +9,7 @@ fi
 docker system prune \
     --filter "until=24h" \
     --force
+
+docker builder prune \
+    --filter until=48h \
+    --force
