@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if ! docker info >&/dev/null; then
+    echo "Docker is not running, exiting...:"
+    exit 0
+fi
+
+# https://docs.docker.com/config/pruning/#prune-everything
+docker system prune \
+    --filter "until=24h" \
+    --force

@@ -26,9 +26,10 @@ case "${cmd}" in
     ;;
 "remove")
     docker compose down -f
-    docker image prune -f
     ;;
 *)
     docker compose "$@"
     ;;
 esac
+
+jh-docker-clean
