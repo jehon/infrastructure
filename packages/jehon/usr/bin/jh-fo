@@ -15,4 +15,7 @@ if [ -n "${JH_PKG_FOLDER}" ]; then
 fi
 script=${scriptFolder}/jh-fo.cjs
 
+TZ="$(timedatectl show --value --property=Timezone)"
+export TZ
+
 node --harmony-temporal "${script}" "$@"

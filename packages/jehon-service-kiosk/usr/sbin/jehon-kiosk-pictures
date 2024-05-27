@@ -12,8 +12,5 @@ echo "Starting the ${name}"
 date
 echo "Using TTY: ${ttyNumber}"
 
-TZ="$(timedatectl show --value --property=Timezone)"
-export TZ
-
 echo "Starting jh-fo in kiosk mode at $(date)"
 /usr/bin/jh-fo kiosk --amount=30 /mnt/cloud/photos/
