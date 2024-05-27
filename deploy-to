@@ -5,6 +5,11 @@ SWD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${SWD}/bin/lib.sh"
 
+# Initial setup from dhcp ip:
+#
+# -e "ansible_host=192.168.1.5"
+#
+
 PLAYBOOK="${PLAYBOOK:-"setup.yml"}"
 
 if [ -z "$1" ]; then
