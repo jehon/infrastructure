@@ -1,6 +1,7 @@
 services:
   test:
     image: httpd:alpine
+    # https://hub.docker.com/_/httpd
     restart: always
     expose:
       - 80
@@ -13,9 +14,3 @@ services:
       timeout: 1s
       retries: 3
       start_period: 3s
-
-  # torrent:
-  #   image: linuxserver/transmission
-  #   restart: always
-  #   ports:
-  #     - ""
