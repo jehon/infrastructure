@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# !! Must run as end-user
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+# shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin/
+. jh-lib
+
+case "$1" in
+*)
+    jh_fatal "Unknown command: $1"
+    ;;
+esac

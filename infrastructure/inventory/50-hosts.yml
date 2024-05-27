@@ -361,8 +361,16 @@ all:
       jehon_debian_testing: 75
     kiosk:
       ansible_host: "{{ jehon.ip.kiosk }}"
+      cloud_type: home
+      cloud_cache_size: 10M
+      cloud_mount:
+        Musiques: ro
+        Photos: ro
+        Videos: ro
       jehon_always_connected: true
+      jehon_headless: true
       jehon_ip: "{{ jehon.ip.kiosk }}"
+      jehon_repo_docker: true
       synology:
         username: "systeme-kiosk"
         password: !vault |
@@ -372,6 +380,8 @@ all:
           32326265343833616662353964363765356363313831326363333038626132613937346636623831
           6530613235303634360a623436323531623064626466353238633339363237326664353436346331
           3832
+    vps:
+      jehon_headless: true
     synology:
       # We use also the /etc/ssh/ssh_config.d/jehon.conf
       # See https://serverfault.com/a/926506/275843
@@ -399,16 +409,3 @@ all:
         dev:
         kiosk:
         vps:
-    grp_servers:
-      # Define some variables
-      hosts:
-        kiosk:
-      vars:
-        cloud_type: home
-        cloud_cache_size: 10M
-        cloud_mount:
-          Musiques: ro
-          Photos: ro
-          Videos: ro
-        jehon_always_connected: true
-        jehon_headless: true

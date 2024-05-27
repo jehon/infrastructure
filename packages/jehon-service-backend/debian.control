@@ -1,0 +1,6 @@
+Depends: ${misc:Depends},
+	jehon (<= JH_VERSION),
+# backend docker
+	docker-compose-plugin
+# Dandling coma
+	bash

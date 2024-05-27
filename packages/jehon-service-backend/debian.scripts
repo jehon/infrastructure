@@ -1,0 +1,17 @@
+#!/usr/bin/sh
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
+. /usr/sbin/jh-deb-helpers.sh
+
+case "$1" in
+configure) ;;
+
+esac
+
+#
+# Legacy
+#
+
+exit 0

@@ -33,4 +33,9 @@ systemctl status "${service}"
 
 echo "..."; sleep 5
 ps -e | grep fbi
+
+# Stats
+echo "---------- Hardware Stats ------------------"
+top -bn1 | head -n 5
+
 EOS
