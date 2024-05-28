@@ -1,25 +1,26 @@
 #!/usr/bin/bash
 
-SWD="$(dirname "$( realpath "${BASH_SOURCE[0]}")")"
+SWD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 # shellcheck source=SCRIPTDIR/../bin
 . "${SWD}/bin/lib.sh"
 
-if [ -z "$2" ]; then
+host="$1"
+shift
+
+if [ -z "$1" ]; then
+    # host is already shifted
     jh_fatal "Need [host] [source]"
 fi
 
-HOST="$1"
-shift
-
 while [ -n "$1" ]; do
-    SOURCE="$1"
-    DEST="${SOURCE#packages/*/}"
-    jh_value "SOURCE" "$SOURCE"
-    jh_value "DEST"   "$DEST"
+    source="$1"
+    dest="${source#packages/*/}"
+    jh_value "SOURCE" "${source}"
+    jh_value "dest" "${dest}"
 
-    rsync -i --checksum "$SOURCE" "root@$HOST:/$DEST"
-    # scp "$SOURCE" "root@$HOST:/$DEST"
-    ok "Uploaded to $DEST"
+    rsync -i --checksum "${source}" "root@${host}:/${dest}"
+    # scp "$SOURCE" "root@$HOST:/${dest}"
+    ok "Uploaded to ${dest}"
     shift
 done
