@@ -4,6 +4,5 @@ Description=Update rclone
 After=network-online.target
 
 [Service]
-# the VT is cleared by TTYVTDisallocate
 Type=oneshot
 ExecStart=/usr/bin/rclone self-update
