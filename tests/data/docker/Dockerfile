@@ -1,7 +1,5 @@
 
-ARG SOURCE
-
-FROM ${SOURCE}
+FROM ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /workspace

@@ -12,7 +12,6 @@ run_in_docker() {
     # Avoid override in other scripts
     _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-    DOCKER_IMAGE="${1:"ubuntu: latest"}"
     # Test name is taken from the initial run file
     # So we must run it as is (not sourced)
     TEST_FILE="$0"
@@ -30,7 +29,6 @@ run_in_docker() {
 
         # Build from swd...
         docker build \
-            --build-arg "SOURCE=${DOCKER_IMAGE}" \
             --build-context "publish=${JH_PKG_FOLDER}/tmp/publish" \
             --tag "test-docker" \
             "${_SD}" |& jh-tag-stdin "building"
