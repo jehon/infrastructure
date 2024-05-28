@@ -150,8 +150,8 @@
     ############################################
     - name: "Ensure installed snap"
       when: not virtual
-      with_items:
-        - docker
-      community.general.snap:
-        name: "{{ item }}"
-        state: present
+      block:
+        - name: "Snap docker"
+          community.general.snap:
+            name: docker
+            state: present
