@@ -35,12 +35,10 @@ export PYTHONPATH="${JH_PKG_FOLDER}/tmp/python/common:$PYTHONPATH"
 cd infrastructure || exit
 
 if [ -n "$1" ]; then
-    while [ -n "$1" ]; do
-        HOST="$1"
-        shift
-        ansible-playbook --limit "${HOST}" "$@" "${PLAYBOOK}" |
-            "${JH_PKG_FOLDER}"/packages/jehon/usr/bin/jh-tag-stdin "${HOST}"
-    done
+    HOST="$1"
+    shift
+    ansible-playbook --limit "${HOST}" "$@" "${PLAYBOOK}" |
+        "${JH_PKG_FOLDER}"/packages/jehon/usr/bin/jh-tag-stdin "${HOST}"
 else
     ansible-playbook "${PLAYBOOK}"
 fi
