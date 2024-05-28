@@ -91,13 +91,6 @@
     #
     ############################################
 
-    - name: Setup nodejs repository and package
-      # node in snap? could not access pCloudDrive... but still the best option
-      ansible.builtin.command:
-        cmd: "/usr/sbin/jh-install-node"
-      register: _
-      changed_when: "'[modified]' in _.stdout"
-
     ############################################
     #
     # Packages jehon-*
@@ -155,3 +148,12 @@
           community.general.snap:
             name:
               - docker
+
+    - name: "Ensure installed snap"
+      when: not virtual
+      block:
+        - name: "Normal snaps"
+          community.general.snap:
+            name:
+              - node
+            classic: true

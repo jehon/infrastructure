@@ -5,6 +5,8 @@
 # as standalone...
 #
 
+# FIXME: unused anymore (using snap now)
+
 set -o errexit
 
 if [ "$(whoami)" != "root" ]; then
@@ -14,18 +16,18 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
-BEFORE="$( node --version || true)"
+BEFORE="$(node --version || true)"
 VERSION="${1:-current}"
 curl -fsSL "https://deb.nodesource.com/setup_$VERSION.x" | bash - >/dev/null
 
-if ! type nodejs >& /dev/null ; then
+if ! type nodejs >&/dev/null; then
     echo "[modified] Installing nodejs"
     apt update
     apt install --yes --quiet nodejs
 else
     echo "** Skipping installation of nodejs since it is already present"
 fi
-AFTER="$( node --version || true)"
+AFTER="$(node --version || true)"
 
 if [ "$BEFORE" != "$AFTER" ]; then
     echo "[modified] Version has changed: ${BEFORE} => ${AFTER}"
