@@ -49,29 +49,18 @@
     - name: Set git user for dev user
       when: jehon.credentials.github.display_name is defined and jehon.credentials.github.display_name
       block:
-        - name: Set git user
-          community.general.ini_file:
-            path: /home/{{ dev_user }}/.gitconfig
-            mode: "0666"
+        - name: Set gitconfig file
+          ansible.builtin.template:
+            src: gitconfig
+            dest: /home/{{ dev_user }}/.gitconfig
             owner: "{{ dev_user }}"
-            section: user
-            option: name
-            value: "{{ jehon.credentials.github.display_name }}"
+            group: "{{ dev_user }}"
+            mode: "0640"
 
-        - name: Include github config in general config
-          community.general.ini_file:
-            path: /home/{{ dev_user }}/.gitconfig
-            mode: "0666"
+        - name: Set gitconfig-github file
+          ansible.builtin.template:
+            src: gitconfig-github
+            dest: /home/{{ dev_user }}/.gitconfig-github
             owner: "{{ dev_user }}"
-            section: includeIf "gitdir:~/src/"
-            option: path
-            value: ".gitconfig-github"
-
-        - name: Set github config for dev user
-          community.general.ini_file:
-            path: /home/{{ dev_user }}/.gitconfig-github
-            mode: "0666"
-            owner: "{{ dev_user }}"
-            section: user
-            option: email
-            value: "{{ jehon.credentials.github.login }}@users.noreply.github.com"
+            group: "{{ dev_user }}"
+            mode: "0640"

@@ -1,6 +1,9 @@
 #
 # See https://git-scm.com/docs/git-config
 #
+[user]
+name = {{ jehon.credentials.professional.display_name }}
+email = {{ jehon.credentials.professional.email }}
 
 [push]
 default = current
@@ -21,28 +24,32 @@ writeCommitGraph = true
 [init]
 defaultBranch = main
 
-[commit]
-gpgsign = false
-
 [core]
 # Convert crlf on input, checkout untouched
 # Thanks to https://stackoverflow.com/a/20653073/1954789
 autocrlf = input
 
 [submodule]
-    recurse = true
+recurse = true
+
+#
+# GitHub
+#
+
+[includeIf "gitdir:~/src/"]
+path = .gitconfig-github
 
 #
 # GitFlow
 #
 
 [gitflow "branch"]
-	master = main
-	develop = develop
+master = main
+develop = develop
 
 [gitflow "prefix"]
-	feature = feature/
-	release = release/
-	hotfix = hotfix/
-	support = support/
-	versiontag =
+feature = feature/
+release = release/
+hotfix = hotfix/
+support = support/
+versiontag =
