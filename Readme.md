@@ -147,7 +147,7 @@ See https://docs.ansible.com/ansible/latest/user_guide/vault.html#encrypting-ind
 - Add ssh key to infra ssh packages ???
 
 ```lang=shell
-wsl --install debian
+wsl --install ubuntu
 cd && mkdir -p src && git clone git@github.com:jehon/infrastructure
 ```
 
