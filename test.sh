@@ -8,17 +8,15 @@ rm -fr tmp/node/built/.built
 make tmp/node/built/.built
 
 target=kiosk
-service=getty@tty1.service
+service=mnt-cloud-musiques.mount
 
-./deploy-patch-from-packages "${target}" packages/jehon/usr/bin/jh-fo
-./deploy-patch-from-packages "${target}" packages/jehon-service-kiosk/usr/sbin/jehon-kiosk-pictures
-./deploy-patch-from-packages "${target}" packages/jehon-service-kiosk/usr/lib/systemd/system/getty@tty1.service.d/jehon-kiosk-override.conf
-scp tmp/node/built/jh-fo.cjs "${target}":/usr/share/jehon/node
+./deploy-patch-from-packages "${target}" \
+    packages/jehon/usr/lib/systemd/system/jehon-update-rclone.service \
+    packages/jehon/usr/lib/systemd/system/jehon-update-rclone.timer \
+    packages/jehon/usr/lib/systemd/system/mnt-cloud-musiques.mount
 
-# service=jehon-kiosk.service
-# ./deploy-patch-from-packages "${target}" packages/jehon-service-kiosk/usr/lib/systemd/system/jehon-kiosk.service
-
-./deploy-patch-from-packages "${target}" packages/jehon-service-backend/usr/share/jehon-service-backend/docker-compose.yml
+# ./deploy-patch-from-packages "${target}" \
+#     packages/jehon-service-backend/usr/share/jehon-service-backend/docker-compose.yml
 
 # shellcheck disable=SC2087 # client side expension
 ssh "${target}" <<EOS
