@@ -22,4 +22,4 @@ set -o pipefail
 		apt-cache policy dpkg
 		apt-cache policy jehon
 	EOS
-) | run_in_docker "debian:stable"
+) | run_in_docker

@@ -12,7 +12,7 @@ run_in_docker() {
     # Avoid override in other scripts
     _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-    DOCKER_IMAGE="${1:?Need image as [1]}"
+    DOCKER_IMAGE="${1:"ubuntu: latest"}"
     # Test name is taken from the initial run file
     # So we must run it as is (not sourced)
     TEST_FILE="$0"
