@@ -85,34 +85,11 @@
     #
     ############################################
 
-    - name: Setup Debian
-      when: ansible_distribution == "Debian"
-      block:
-        - name: Setup debian repositories
-          when: jehon_debian_testing > 0
-          ansible.builtin.command:
-            cmd: /usr/sbin/jh-install-debian-testing {{ jehon_debian_testing }}
-          register: _
-          notify: Jh_basis.indexes
-          changed_when: "'[modified]' in _.stdout"
-
-    - name: Refresh indexes for jehon
-      ansible.builtin.meta: flush_handlers
-
     ############################################
     #
     # Repositories and packages
     #
     ############################################
-
-    - name: Setup docker repository and packages
-      when: jehon_repo_docker
-      ansible.builtin.command:
-        cmd: "/usr/sbin/jh-install-docker"
-      register: _
-      changed_when: >
-        '[modified]' in _.stdout
-        or 'Preparing to unpack' in _.stdout
 
     - name: Setup nodejs repository and package
       # node in snap? could not access pCloudDrive... but still the best option
@@ -165,3 +142,16 @@
               ansible.builtin.apt:
                 pkg:
                   - "jehon-hardware-{{ jehon_hardware }}"
+
+    ############################################
+    #
+    # Snap's
+    #
+    ############################################
+    - name: "Ensure installed snap"
+      when: not virtual
+      with_items:
+        - docker
+      community.general.snap:
+        name: "{{ item }}"
+        state: present

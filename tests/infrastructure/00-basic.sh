@@ -32,4 +32,4 @@ set -o pipefail
 		cat ../tmp/infrastructure/encryption-key
 		cat ../tmp/infrastructure/encryption-key | grep "encryption-key-mock"
 	EOS
-) | run_in_docker "debian:stable"
+) | run_in_docker "ubuntu:latest"

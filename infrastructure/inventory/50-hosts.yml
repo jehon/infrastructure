@@ -375,9 +375,6 @@ all:
         Musiques: rw
         Photos: rw
         Videos: rw
-      jehon_repo_docker: true
-      ## Depend also on the OS
-      jehon_debian_testing: 75
     kiosk:
       ansible_host: "{{ jehon.ip.kiosk }}"
       cloud_type: home
@@ -389,7 +386,6 @@ all:
       jehon_always_connected: true
       jehon_headless: true
       jehon_ip: "{{ jehon.ip.kiosk }}"
-      jehon_repo_docker: true
       synology:
         username: "systeme-kiosk"
         password: !vault |
