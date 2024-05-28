@@ -151,7 +151,7 @@
     - name: "Ensure installed snap"
       when: not virtual
       block:
-        - name: "Snap docker"
+        - name: "Normal snaps"
           community.general.snap:
-            name: docker
-            state: present
+            name:
+              - docker
