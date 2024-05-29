@@ -50,7 +50,7 @@ run_in_docker() {
             --build-context "workspace=${JH_PKG_FOLDER}" \
             --tag "${runBaseImage}" \
             --target "${buildTarget}" \
-            "${LIB_SD}" |& jh-tag-stdin "building ${runBaseImage}"
+            "${LIB_SD}" |& jh-tag-stdin "run.sh building ${runBaseImage}"
 
         docker kill "${DOCKER_TAG}" &>/dev/null || true
         docker rm -f "${DOCKER_TAG}" &>/dev/null || true
