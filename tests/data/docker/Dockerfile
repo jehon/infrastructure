@@ -27,4 +27,6 @@ FROM basis AS basisWithSetup
 ENV PATH="/workspace/tmp/python/common/bin:${PATH}"
 ENV PYTHONPATH="/workspace/tmp/python/common:${PYTHONPATH}"
 
-RUN --mount=type=cache,target=/var/cache/apt /workspace/setup.sh
+RUN /workspace/setup.sh
+
+RUN make dependencies

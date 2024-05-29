@@ -8,8 +8,8 @@ set -o pipefail
 
 # TODO: make clean should remove all this...
 
-baseImage="test-docker-basis"
-baseImageWithSetup="test-docker-setup"
+export baseImage="test-docker-basis"
+export baseImageWithSetup="test-docker-setup"
 
 # Avoid override in other scripts
 LIB_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
