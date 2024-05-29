@@ -4,19 +4,19 @@ set -o errexit
 set -o pipefail
 shopt -s nullglob
 
-target=kiosk
+host=kiosk
 service=mnt-cloud-musiques.mount
 
-./deploy-patch-from-packages "${target}" \
+./deploy-patch-from-packages "${host}" \
     packages/jehon/usr/lib/systemd/system/jehon-update-rclone.service \
     packages/jehon/usr/lib/systemd/system/jehon-update-rclone.timer \
     packages/jehon/usr/lib/systemd/system/mnt-cloud-musiques.mount
 
-# ./deploy-patch-from-packages "${target}" \
+# ./deploy-patch-from-packages "${host}" \
 #     packages/jehon-service-backend/usr/share/jehon-service-backend/docker-compose.yml
 
 # shellcheck disable=SC2087 # client side expension
-ssh "${target}" <<EOS
+ssh "${host}" <<EOS
 clear
 systemctl daemon-reload
 
@@ -39,11 +39,10 @@ echo "..."; sleep 2
 echo "---------- Hardware Stats ------------------"
 top -bn1 | head -n 5
 
+EOS
 
 # This will always fail
 ssh "${host}" reboot || true
-
-EOS
 
 sleep 20s
 while true; do
@@ -53,3 +52,11 @@ while true; do
     ssh kiosk ls /
     sleep 5s
 done
+
+# 1 mount
+# 2 service
+# 3 timer
+
+# 123
+# DEE: ok
+# EDD:
