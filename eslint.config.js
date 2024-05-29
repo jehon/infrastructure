@@ -33,6 +33,16 @@ const config = [
       "@typescript-eslint/no-explicit-any": "off"
     }
   },
+  {
+    files: [
+      "packages/jehon-service-eternal/usr/share/jehon-service-eternal/stack/**/*.js"
+    ],
+    languageOptions: {
+      globals: {
+        ...globals.browser
+      }
+    }
+  },
   // https://github.com/eslint/eslint/issues/17400#issuecomment-1646873272
   // https://eslint.org/docs/latest/use/configure/configuration-files#globally-ignoring-files-with-ignores
   {
