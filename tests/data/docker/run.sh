@@ -14,19 +14,6 @@ baseImageWithSetup="test-docker-setup"
 # Avoid override in other scripts
 LIB_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
-docker build \
-    --build-context "publish=${JH_PKG_FOLDER}/tmp/publish" \
-    --build-context "workspace=${JH_PKG_FOLDER}" \
-    --tag "${baseImage}" \
-    --target "basis" \
-    "${LIB_SD}" |& jh-tag-stdin "building ${baseImage}"
-
-docker build \
-    --build-context "publish=""${JH_PKG_FOLDER}""/tmp/publish" \
-    --build-context "workspace=""${JH_PKG_FOLDER}""" \
-    --tag "${baseImageWithSetup}" \
-    "${LIB_SD}" |& jh-tag-stdin "building ${baseImageWithSetup}"
-
 run_in_docker() {
     # Avoid override in other scripts
     _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
@@ -43,7 +30,27 @@ run_in_docker() {
     {
         echo "*******************************************************"
         echo "* Docker Image:     ${runBaseImage}"
+        echo "* Docker Tag:       ${buildTarget}"
         echo "* Docker Tag:       ${DOCKER_TAG}"
+
+        case ${runBaseImage} in
+        "${baseImage}")
+            buildTarget="basis"
+            ;;
+        "${baseImageWithSetup}")
+            buildTarget="basisWithSetup"
+            ;;
+        *)
+            jh_fatal "base image unknown: ${runBaseImage}"
+            ;;
+        esac
+
+        docker build \
+            --build-context "publish=${JH_PKG_FOLDER}/tmp/publish" \
+            --build-context "workspace=${JH_PKG_FOLDER}" \
+            --tag "${runBaseImage}" \
+            --target "${buildTarget}" \
+            "${LIB_SD}" |& jh-tag-stdin "building ${runBaseImage}"
 
         docker kill "${DOCKER_TAG}" &>/dev/null || true
         docker rm -f "${DOCKER_TAG}" &>/dev/null || true

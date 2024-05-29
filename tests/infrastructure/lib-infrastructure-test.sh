@@ -45,7 +45,6 @@ test_in_docker() {
 	) | docker run --rm --name "$TAG" --interactive \
 		-v "$JH_PKG_FOLDER:$REMOTE_PRJ" \
 		-v "$JH_PKG_FOLDER/tmp/infrastructure/50-hosts.yml:$REMOTE_PRJ/infrastructure/inventory/50-hosts.yml" \
-		-v "test-ansible-python-cache:$REMOTE_PRJ/tmp/python/common" \
 		--tmpfs "$REMOTE_PRJ/infrastructure/built" \
 		"$IMG" "bash" |&
 		jh-tag-stdin "inside" ||
