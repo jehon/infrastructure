@@ -1,5 +1,5 @@
 services:
-  test:
+  index:
     image: httpd:alpine
     # https://hub.docker.com/_/httpd
     restart: always
@@ -7,17 +7,18 @@ services:
       - 80
       - 443
     ports:
-      - "80:80"
-    healthcheck:
-      test: wget -O - http://127.0.0.1:1080/healthz
-      interval: 2s
-      timeout: 1s
-      retries: 3
-      start_period: 3s
+      # - "80:80"
+      - target: 80
+        published: 80
+        mode: host
+    volumes:
+      - type: bind
+        source: index
+        target: /usr/local/apache2/htdocs/
 
-  # torrent:
-  #   image: linuxserver/transmission
-  #  # https://hub.docker.com/r/linuxserver/transmission
-  #   restart: always
-  #   ports:
-  #     - ""
+  torrent:
+    image: linuxserver/transmission
+    # https://hub.docker.com/r/linuxserver/transmission
+    restart: always
+    # ports:
+    #   - ""
