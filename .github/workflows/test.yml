@@ -31,6 +31,7 @@ jobs:
       - run: ./setup.sh
       - run: make dump
       - run: make build
+      - run: make release
 
       - uses: actions/upload-artifact@v4
         with:
@@ -41,6 +42,12 @@ jobs:
         with:
           name: jehon.deb
           path: tmp/publish/packages/jehon.deb
+
+      - name: Upload Pages artifact
+        # https://github.com/actions/upload-pages-artifact?tab=readme-ov-file
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: tmp/publish
 
   ga-test:
     runs-on: ubuntu-latest
@@ -85,43 +92,8 @@ jobs:
     steps:
       - run: echo "ok"
 
-  build-pages:
-    runs-on: ubuntu-latest
-    needs:
-      - valid
-    timeout-minutes: 120
-    if: ${{ github.ref_name == 'main' && github.ref_type == 'branch' }}
-
-    steps:
-      - uses: actions/checkout@main
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: current
-          check-latest: true
-
-      - uses: crazy-max/ghaction-import-gpg@v6
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-
-      # We use the copy of the repo instead of checkout
-      - uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: tmp
-
-      - run: ./setup.sh
-      - run: bin/rehydrate.sh
-      - run: make --debug=basic release
-
-      - name: Upload Pages artifact
-        # https://github.com/actions/upload-pages-artifact?tab=readme-ov-file
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: tmp/publish
-
   deploy:
-    needs: build-pages
+    needs: valid
     concurrency:
       group: release-${{ github.ref_name }}
       # cancel-in-progress: true

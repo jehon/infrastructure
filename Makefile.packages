@@ -112,7 +112,8 @@ packages-lint:
 
 $(PACKAGES_REPO)/Release.gpg: $(PACKAGES_REPO)/Release
 	rm -f "$@"
-	gpg --sign --detach-sign --armor --local-user BE92EC0B8D9AD0707EF597724E69AF0D0EC8EDA1 --output "$@" "$<"
+# If we don't have the key, we do it anyway (ex: in PR)
+	gpg --sign --detach-sign --armor --local-user BE92EC0B8D9AD0707EF597724E69AF0D0EC8EDA1 --output "$@" "$<" || true
 	$(call touch,$@)
 
 .PHONY: packages-release
