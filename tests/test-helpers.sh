@@ -15,6 +15,9 @@ JH_TEST_NAME="${JH_TEST_NAME:-$(jh-fs "name" "${BASH_SOURCE[1]}")}"
 JH_TEST_TMP="${JH_PKG_FOLDER}/tmp/$(dirname "$(realpath --relative-base "${JH_PKG_FOLDER}/tests" "$0")")/$JH_TEST_NAME"
 mkdir -p "$JH_TEST_TMP"
 
+export baseImage
+export baseImageWithSetup
+
 #
 # Log the success (with a green ✓)
 #

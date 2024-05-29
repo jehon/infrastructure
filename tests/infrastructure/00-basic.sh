@@ -8,8 +8,9 @@ set -o pipefail
 
 (
 	cat <<-'EOS'
-		echo "************* Setup *******************"
-		./setup.sh
+		echo "************* Dump *******************"
+		echo $PATH
+		echo $PYTHONPATH
 
 		echo "************* Dump *******************"
 		make dump

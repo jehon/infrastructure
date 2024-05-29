@@ -8,9 +8,6 @@ set -o pipefail
 
 (
 	cat <<-EOS
-		echo "************* Setup *******************"
-		./setup.sh
-
 		echo "************* Run setup dev *******************"
 		cd infrastructure
 		ansible-playbook setup.yml ${JH_ANSIBLE_TEST} --limit dev

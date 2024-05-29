@@ -14,7 +14,8 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 # Caution: will be pasted as-is
 export JH_ANSIBLE_TEST="--connection=local --extra-vars '{\"jh_basis_deb_url\": \"/setup/packages/jehon.deb\"}'"
+export baseImageWithSetup
 
 test_in_docker() {
-	run_in_docker "${baseImageWithSetup}"
+	run_in_docker "${test-docker-setup}"
 }

@@ -8,9 +8,6 @@ set -o pipefail
 
 (
 	cat <<-EOS
-		echo "************* Setup *******************"
-		./setup.sh
-
 		echo "************* Run dump dev *******************"
 		cd infrastructure
 		ansible-playbook dump.yml ${JH_ANSIBLE_TEST} --limit dev
