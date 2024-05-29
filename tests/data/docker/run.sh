@@ -28,11 +28,6 @@ run_in_docker() {
     runBaseImage="${1:-"${baseImage}"}"
 
     {
-        echo "*******************************************************"
-        echo "* Docker Image:     ${runBaseImage}"
-        echo "* Docker Tag:       ${buildTarget}"
-        echo "* Docker Tag:       ${DOCKER_TAG}"
-
         case ${runBaseImage} in
         "${baseImage}")
             buildTarget="basis"
@@ -44,6 +39,11 @@ run_in_docker() {
             jh_fatal "base image unknown: ${runBaseImage}"
             ;;
         esac
+
+        echo "*******************************************************"
+        echo "* Docker Image:     ${runBaseImage}"
+        echo "* Docker Tag:       ${buildTarget}"
+        echo "* Docker Tag:       ${DOCKER_TAG}"
 
         docker build \
             --build-context "publish=${JH_PKG_FOLDER}/tmp/publish" \
@@ -74,7 +74,7 @@ run_in_docker() {
 		EOS
         } | docker run --label "${DOCKER_TAG}" \
             -v "${JH_PKG_FOLDER}:/workspace" \
-            --rm -i --privileged "${baseImage}" |&
+            --rm -i --privileged "${runBaseImage}" |&
             jh-tag-stdin "inside" || jh_fatal "!! Test failed: ${TEST_SUITE}/${TEST_NAME} ($?) !!"
 
         echo "ok"
