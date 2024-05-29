@@ -17,5 +17,5 @@ export JH_ANSIBLE_TEST="--connection=local --extra-vars '{\"jh_basis_deb_url\": 
 export baseImageWithSetup
 
 test_in_docker() {
-	run_in_docker "test-docker-setup"
+	run_in_docker "${baseImageWithSetup}"
 }

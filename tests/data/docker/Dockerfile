@@ -14,10 +14,12 @@ RUN apt --quiet update
 
 RUN apt install --yes git
 
-COPY --from=workspace . /workspace
+COPY --from=workspace . .
+# Override the encrypted values in the hosts config
+COPY --from=workspace tmp/infrastructure/50-hosts.yml infrastructure/inventory/50-hosts.yml
 
 # To avoid security warning about untrusted folder from git
-RUN git config --global --add safe.directory /workspace
+RUN git config --global --add safe.directory .
 
 #
 # With Setup inside
@@ -27,6 +29,6 @@ FROM basis AS basisWithSetup
 ENV PATH="/workspace/tmp/python/common/bin:${PATH}"
 ENV PYTHONPATH="/workspace/tmp/python/common:${PYTHONPATH}"
 
-RUN /workspace/setup.sh
+RUN ./setup.sh
 
 RUN make dependencies
