@@ -73,7 +73,6 @@ run_in_docker() {
             echo "----------- done ---------------------------"
 		EOS
         } | docker run --label "${DOCKER_TAG}" \
-            -v "${JH_PKG_FOLDER}:/workspace" \
             --rm -i --privileged "${runBaseImage}" |&
             jh-tag-stdin "inside" || jh_fatal "!! Test failed: ${TEST_SUITE}/${TEST_NAME} ($?) !!"
 

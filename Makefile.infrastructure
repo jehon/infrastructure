@@ -106,9 +106,7 @@ $(PUBLISH)/dev-config.json: $(INFRASTRUCTURE_TMP)/test.built
 	$(call touch,$@)
 
 .PHONY: infrastructure-test
-infrastructure-test: $(INFRASTRUCTURE_TMP)/test.built \
-		$(INFRASTRUCTURE_TMP)/50-hosts.yml \
-		$(HOME)/.ssh/id_rsa.pub
+infrastructure-test: $(INFRASTRUCTURE_TMP)/test.built
 
 	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/infrastructure
 
@@ -119,6 +117,8 @@ $(HOME)/.ssh/id_rsa.pub:
 $(INFRASTRUCTURE_TMP)/test.built: \
 		$(PYTHON_DEPENDENCY_COMMON_MARK) \
 		$(PACKAGES_REPO_MARK) \
+		$(INFRASTRUCTURE_TMP)/50-hosts.yml \
+		$(HOME)/.ssh/id_rsa.pub \
 		setup.sh
 
 	$(call touch,$@)
