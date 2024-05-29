@@ -7,32 +7,30 @@ shopt -s nullglob
 host=kiosk
 service=jehon-cloud@Musiques.service
 
-./deploy-patch-from-packages "${host}" \
-    packages/jehon/usr/lib/systemd/system/jehon-update-rclone.service \
-    packages/jehon/usr/lib/systemd/system/jehon-update-rclone.timer \
-    packages/jehon/usr/lib/systemd/system/jehon-cloud@.service \
-    packages/jehon/usr/sbin/jehon-cloud-mount
-
 # ./deploy-patch-from-packages "${host}" \
-#     packages/jehon-service-backend/usr/share/jehon-service-backend/docker-compose.yml
+#     packages/jehon/usr/lib/systemd/system/jehon-update-rclone.service \
+#     packages/jehon/usr/lib/systemd/system/jehon-update-rclone.timer \
+#     packages/jehon/usr/lib/systemd/system/jehon-cloud@.service \
+#     packages/jehon/usr/sbin/jehon-cloud-mount
+
+rsync -r --delete packages/jehon-service-eternal/usr/share/jehon-service-eternal/stack/ \
+    ${host}:/usr/share/jehon-service-eternal/stack/
 
 # shellcheck disable=SC2087 # client side expension
 ssh "${host}" <<EOS
 clear
-systemctl daemon-reload
-# systemctl disable mnt-cloud-musiques.mount
-# systemctl disable jehon-update-rclone.service
-# systemctl disable jehon-update-rclone.timer
-# systemctl enable jehon-cloud@Musiques.service
+# systemctl daemon-reload
 
-echo "Service: ${service}"
+/usr/sbin/jehon-eternal install
 
-echo "..."; sleep 1
-systemctl restart "${service}"
+# echo "Service: ${service}"
 
-echo "..."; sleep 5
-systemctl status "${service}"
-journalctl -u "${service}" -n 60
+# echo "..."; sleep 1
+# systemctl restart "${service}"
+
+# echo "..."; sleep 5
+# systemctl status "${service}"
+# journalctl -u "${service}" -n 60
 
 EOS
 

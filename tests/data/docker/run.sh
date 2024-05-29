@@ -8,6 +8,25 @@ set -o pipefail
 
 # TODO: make clean should remove all this...
 
+baseImage="test-docker-basis"
+baseImageWithSetup="test-docker-setup"
+
+# Avoid override in other scripts
+LIB_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+docker build \
+    --build-context "publish=${JH_PKG_FOLDER}/tmp/publish" \
+    --build-context "workspace=${JH_PKG_FOLDER}" \
+    --tag "${baseImage}" \
+    --target "basis" \
+    "${LIB_SD}" |& jh-tag-stdin "building ${baseImage}"
+
+docker build \
+    --build-context "publish=""${JH_PKG_FOLDER}""/tmp/publish" \
+    --build-context "workspace=""${JH_PKG_FOLDER}""" \
+    --tag "${baseImageWithSetup}" \
+    "${LIB_SD}" |& jh-tag-stdin "building ${baseImageWithSetup}"
+
 run_in_docker() {
     # Avoid override in other scripts
     _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
@@ -15,23 +34,19 @@ run_in_docker() {
     # Test name is taken from the initial run file
     # So we must run it as is (not sourced)
     TEST_FILE="$0"
-
     TEST_NAME="$(basename "${TEST_FILE}")"
     TEST_SUITE="$(basename "$(dirname "${TEST_FILE}")")"
     DOCKER_TAG="test-infrastructure-${TEST_SUITE}:${TEST_NAME}"
 
+    runBaseImage="${1:-"${baseImage}"}"
+
     {
         echo "*******************************************************"
-        echo "* Docker Tag:     ${DOCKER_TAG}"
+        echo "* Docker Image:     ${runBaseImage}"
+        echo "* Docker Tag:       ${DOCKER_TAG}"
 
         docker kill "${DOCKER_TAG}" &>/dev/null || true
         docker rm -f "${DOCKER_TAG}" &>/dev/null || true
-
-        # Build from swd...
-        docker build \
-            --build-context "publish=${JH_PKG_FOLDER}/tmp/publish" \
-            --tag "test-docker" \
-            "${_SD}" |& jh-tag-stdin "building"
 
         {
             cat <<-'EOS'
@@ -52,7 +67,7 @@ run_in_docker() {
 		EOS
         } | docker run --label "${DOCKER_TAG}" \
             -v "${JH_PKG_FOLDER}:/workspace" \
-            --rm -i --privileged "test-docker" |&
+            --rm -i --privileged "${baseImage}" |&
             jh-tag-stdin "inside" || jh_fatal "!! Test failed: ${TEST_SUITE}/${TEST_NAME} ($?) !!"
 
         echo "ok"

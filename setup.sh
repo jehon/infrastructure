@@ -50,6 +50,7 @@ echo "* Installing shellcheck..."
 root_or_sudo "$JH_PKG_FOLDER"/packages/jehon/usr/sbin/jh-install-shellcheck
 echo "* Installing shellcheck done"
 
+# TODO: remove node install?
 if ! type node >&/dev/null; then
     echo "* Installing node (current)..."
     root_or_sudo "$JH_PKG_FOLDER"/packages/jehon/usr/sbin/jh-install-node current
