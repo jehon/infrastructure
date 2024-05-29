@@ -4,9 +4,6 @@ set -o errexit
 set -o pipefail
 shopt -s nullglob
 
-rm -fr tmp/node/built/.built
-make tmp/node/built/.built
-
 target=kiosk
 service=mnt-cloud-musiques.mount
 
@@ -25,20 +22,34 @@ systemctl daemon-reload
 
 echo "Service: ${service}"
 
-echo "..."; sleep 1
-systemctl restart "${service}"
+# echo "..."; sleep 1
+# systemctl restart "${service}"
 
-echo "..."; sleep 5
-journalctl -u "${service}" -n 60
+# echo "..."; sleep 5
+# systemctl status "${service}"
+# journalctl -u "${service}" -n 60
 
-echo "..."; sleep 5
-systemctl status "${service}"
+systemctl enable mnt-cloud-musiques.mount
+systemctl disable jehon-update-rclone.service
+systemctl disable jehon-update-rclone.timer
 
-echo "..."; sleep 5
-ps -e | grep fbi
+echo "..."; sleep 2
 
 # Stats
 echo "---------- Hardware Stats ------------------"
 top -bn1 | head -n 5
 
+
+# This will always fail
+ssh "${host}" reboot || true
+
 EOS
+
+sleep 20s
+while true; do
+    clear
+    echo -n "Testing... "
+    ping kiosk -c 1
+    ssh kiosk ls /
+    sleep 5s
+done
