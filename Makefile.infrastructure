@@ -96,7 +96,6 @@ infrastructure-lint: dependencies
 
 .PHONY: infrastructure-build
 infrastructure-build: dependencies \
-	$(INFRASTRUCTURE_TMP)/test.built \
 	$(PUBLISH)/dev-config.json
 
 $(PUBLISH)/dev-config.json: $(INFRASTRUCTURE_TMP)/test.built
@@ -122,13 +121,6 @@ $(INFRASTRUCTURE_TMP)/test.built: \
 		$(PACKAGES_REPO_MARK) \
 		setup.sh
 
-	$(call mkdir,$@)
-	docker build \
-		--tag "test-ansible/ansible:local" \
-		--build-context "root=$(ROOT)/tests/packages/root" \
-		--build-context "publish=$(ROOT_TMP)/publish" \
-		--file "$(ROOT)"/tests/infrastructure/Dockerfile \
-		.
 	$(call touch,$@)
 
 $(INFRASTRUCTURE_TMP)/50-hosts.yml: infrastructure/inventory/50-hosts.yml \
