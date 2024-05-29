@@ -65,6 +65,9 @@ configure)
 	mkdir -p /mnt/cloud
 	chmod a+rX /mnt/cloud
 
+	mkdir -p /mnt/data
+	chmod a+rX /mnt/data
+
 	mkdir -p /var/cache/rclone
 	mkdir -p /var/cache/jehon
 
