@@ -38,7 +38,7 @@
       vars:
         jh_cloud_mode: "{{ cloud_mount[item] | default('ro') }}"
       ansible.builtin.template:
-        src: service-override.mount
+        src: mnt-cloud-ansible.override
         dest: /etc/systemd/system/mnt-cloud-{{ item | lower }}.mount.d/ansible.conf
         owner: root
         group: root
