@@ -4,7 +4,8 @@ cloudFolder="$1"
 # To lower case:
 localFolder="${cloudFolder,,}"
 
-echo "cloud folder: ${cloudFolder}"
-echo "local folder: ${localFolder}"
+echo "** cloud folder: ${cloudFolder}"
+echo "** local folder: ${localFolder}"
 
+echo "Launching mount..."
 exec /usr/bin/rclone mount "cloud:/${cloudFolder}" "/mnt/cloud/${localFolder}" --config=/etc/jehon/rclone.conf
