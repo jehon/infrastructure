@@ -1,6 +1,6 @@
 [Unit]
 Description=JH Cloud mount Musiques
-After=jehon-update-rclone.service
+# After=jehon-update-rclone.service
 
 [Mount]
 Type=rclone
@@ -9,4 +9,4 @@ Where=/mnt/cloud/photos
 Options=_netdev,ro,nofail,noexec,config=/etc/jehon/rclone.conf
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=remote-fs.target
