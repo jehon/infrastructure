@@ -7,7 +7,7 @@ shopt -s nullglob
 # shellcheck source-path=SCRIPTDIR/
 . "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
-pushd "$JH_PKG_FOLDER/../tmp/repo" >/dev/null
+pushd "$JH_PKG_FOLDER/../tmp/publish/packages" >/dev/null
 
 dpkg -l | grep jehon- | grep ii |
     awk '{print $2}' |

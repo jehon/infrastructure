@@ -89,7 +89,6 @@ dump:
 	$(call dump_info,PWD,$(shell pwd))
 	$(call dump_info,ROOT)
 	$(call dump_info,ROOT_TMP)
-	$(call dump_info,REPO)
 	$(call dump_info,VERSION)
 	$(call dump_space)
 	$(call dump_info,VERSION_LAST_GIT)

@@ -6,7 +6,7 @@
 #    jehon*/
 #
 # Generate:
-#    repo/
+#    tmp/packages/
 #
 
 packages: packages-dump packages-build packages-test
@@ -34,7 +34,6 @@ packages-dump:
 
 .PHONY: packages-clean
 packages-clean:
-	rm -fr repo/*
 	rm -fr "$(PACKAGES_TMP)"
 	docker image rm -f $$( docker image ls --filter 'reference=test-packages/*' --format '{{.Repository}}:{{.Tag}}' ) 2>/dev/null || echo "!! No image to remove"
 
@@ -120,7 +119,7 @@ $(PACKAGES_REPO)/Release.gpg: $(PACKAGES_REPO)/Release
 packages-release: $(PACKAGES_TMP)/.built \
 		$(PACKAGES_REPO)/Release.gpg
 
-	rsync -a "$(PACKAGES_REPO)/" "$(PUBLISH)/repo"
+	rsync -a "$(PACKAGES_REPO)/" "$(PUBLISH)/packages/"
 
 packages-deploy-local: packages-build
 	apt list --quiet --installed 2>/dev/null \

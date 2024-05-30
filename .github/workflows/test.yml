@@ -28,10 +28,17 @@ jobs:
       # We checkout only on first step
       - uses: actions/checkout@main
 
+      - uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+        if: ${{ github.ref_name == 'main' && github.ref_type == 'branch' }}
+
       - run: ./setup.sh
       - run: make dump
       - run: make build
+
       - run: make release
+        if: ${{ github.ref_name == 'main' && github.ref_type == 'branch' }}
 
       - uses: actions/upload-artifact@v4
         with:
