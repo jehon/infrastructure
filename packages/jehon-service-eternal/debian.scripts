@@ -5,6 +5,8 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
 . /usr/sbin/jh-deb-helpers.sh
 
+export PATH="$PATH:/snap/bin"
+
 case "$1" in
 configure)
     if jh-is-full-machine; then
