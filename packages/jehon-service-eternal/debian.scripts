@@ -10,11 +10,13 @@ export PATH="$PATH:/snap/bin"
 case "$1" in
 configure)
     if jh-is-full-machine; then
+        echo "* Installing jehon-eternal"
         /usr/sbin/jehon-eternal install
     fi
     ;;
 remove)
     if jh-is-full-machine; then
+        echo "* Uninstalling jehon-eternal"
         /usr/sbin/jehon-eternal uninstall
     fi
     ;;
