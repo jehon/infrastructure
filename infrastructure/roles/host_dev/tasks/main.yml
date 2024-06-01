@@ -1,5 +1,5 @@
 ---
-- name: Setup profile
+- name: Setup dev profile
   when: dev_user is defined and dev_user
   block:
     ############################################
@@ -7,7 +7,7 @@
     # User config
     #
     ############################################
-    - name: Install secrets files for {{ dev_user }}
+    - name: Install secrets files for dev for {{ dev_user }}
       with_items:
         - cryptomedic.php
         - cryptomedic.sh
@@ -23,7 +23,7 @@
         group: jehon_secrets
         mode: "0700"
 
-    - name: Local SSH Config
+    - name: Local SSH Config for dev
       ansible.builtin.template:
         src: "{{ role_path }}/templates/ssh_config"
         dest: /home/{{ dev_user }}/.ssh/config
