@@ -34,9 +34,7 @@ const config = [
     }
   },
   {
-    files: [
-      "packages/jehon-service-eternal/usr/share/jehon-service-eternal/stack/**/*.js"
-    ],
+    files: ["packages/jehon-service-eternal/**/*.js"],
     languageOptions: {
       globals: {
         ...globals.browser
