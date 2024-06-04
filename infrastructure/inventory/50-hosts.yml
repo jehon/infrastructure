@@ -377,7 +377,7 @@ all:
         Videos: rw
     kiosk:
       ansible_host: "{{ jehon.ip.kiosk }}"
-      cloud_type: home
+      cloud_type: pcloud
       cloud_cache_size: 10M
       cloud_mount:
         Musiques: ro
