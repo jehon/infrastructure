@@ -113,7 +113,7 @@ $(PACKAGES_REPO)/Release.gpg: $(PACKAGES_REPO)/Release
 	rm -f "$@"
 # If we don't have the key, we don't sign it... and no file is created
 # !! Empty file = problem
-	gpg --sign --detach-sign --armor --local-user BE92EC0B8D9AD0707EF597724E69AF0D0EC8EDA1 --output "$@" "$<" || true
+	gpg --sign --detach-sign --armor --local-user BE92EC0B8D9AD0707EF597724E69AF0D0EC8EDA1 --output "$@" "$<"
 
 .PHONY: packages-release
 packages-release: $(PACKAGES_TMP)/.built \
