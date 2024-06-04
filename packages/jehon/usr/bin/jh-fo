@@ -15,4 +15,4 @@ if [ -x "${localScript}" ]; then
     exit 0
 fi
 
-npm exec --yes -- "gitlab:jehon/file-organizer#production" "-h"
+npm exec --yes -- "gitlab:jehon/file-organizer#production" "$@"
