@@ -1,6 +1,12 @@
 #!/usr/bin/bash
 
-# We only export bin folder
+#
+# This script is sourced by the shell
+#   it must thus work with bash and zsh
+#
+# It can not "set -o errexit" otherwise the terminal quit abrubtely on erro
+#
+
 SWF="${BASH_SOURCE[0]}"
 if [[ "$SWF" == "" ]]; then
     # shellcheck disable=SC2296
