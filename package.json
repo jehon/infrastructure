@@ -6,38 +6,14 @@
     "license": "MIT",
     "repository": "https://github.com/jehon/infrastructure",
     "dependencies": {
-        "chalk": "5.3.0",
-        "debug": "4.3.5",
-        "fastest-levenshtein": "1.0.16",
-        "mime-types": "2.1.35",
-        "p-queue": "8.0.1",
-        "tsx": "4.11.2",
-        "tz-lookup": "6.1.25",
-        "yargs": "17.7.2"
     },
     "devDependencies": {
         "@commitlint/cli": "19.3.0",
         "@commitlint/config-conventional": "19.2.2",
         "@eslint/js": "9.4.0",
-        "@types/callsite": "1.0.34",
-        "@types/debug": "4.1.12",
-        "@types/eslint__js": "8.42.3",
-        "@types/mime-types": "2.1.4",
-        "@types/node": "20.14.0",
-        "@types/tz-lookup": "6.1.2",
-        "@types/webpack": "5.28.5",
-        "@types/yargs": "17.0.32",
-        "depcheck": "1.4.7",
         "eslint": "8.57.0",
         "husky": "9.0.11",
-        "prettier": "3.3.0",
-        "ts-loader": "9.5.1",
-        "ts-node": "10.9.2",
-        "typescript": "5.4.5",
-        "typescript-eslint": "7.12.0",
-        "webpack": "5.91.0",
-        "webpack-cli": "5.1.4",
-        "webpack-shebang-plugin": "1.1.8"
+        "prettier": "3.3.0"
     },
     "scripts": {
         "postinstall": "install -D /dev/null node_modules/.dependencies && husky || true"

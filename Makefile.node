@@ -1,17 +1,12 @@
 
 .PHONY: node
-node: clear node-dump node-test node-lint ok
+node: clear node-dump node-lint ok
 
 dump: node-dump
 clean: node-clean
-build: node-build
 dependencies: node-dependencies
-test: node-test
 lint: node-lint
 
-export PATH := $(ROOT)/node_modules/.bin:$(PATH)
-NODE_ROOT = node/
-NODE_TMP = $(TMP)/node
 NODE_DEPENDENCY_MARK = node_modules/.dependencies
 
 .PHONY: node-dump
@@ -19,12 +14,11 @@ node-dump:
 	$(call dump_space)
 	$(call dump_title,NODE)
 	$(call dump_version,node)
-	$(call dump_info,NODE_TMP)
 	$(call dump_info,NODE_DEPENDENCY_MARK)
 
 .PHONY: node-clean
 node-clean:
-	rm -fr "$(NODE_TMP)"
+	rm -fr node_modules
 
 .PHONY: node-dependencies
 node-dependencies: $(NODE_DEPENDENCY_MARK)
@@ -39,38 +33,9 @@ package-lock.json: package.json
 	npm install --package-lock-only
 	@touch "$@"
 
-.PHONY: node-build
-node-build: $(NODE_TMP)/built/.built
-
-$(NODE_TMP)/built/.built:  $(wildcard node/**/* ) \
-		$(NODE_DEPENDENCY_MARK)
-
-	./node_modules/.bin/webpack
-	@touch "$@"
-
 .PHONY: node-lint
-node-lint: node-lint-typescript node-lint-eslint
-
-.PHONY: node-lint-typescript
-node-lint-typescript: $(NODE_DEPENDENCY_MARK)
-	node_modules/.bin/tsc --noEmit
+node-lint: node-lint-eslint
 
 .PHONY: node-lint-eslint
 node-lint-eslint: $(NODE_DEPENDENCY_MARK)
 	node_modules/.bin/eslint .
-
-.PHONY: eslint-fix
-node-eslint-fix: $(NODE_DEPENDENCY_MARK)
-	node_modules/.bin/eslint . --fix
-
-.PHONY: node-test
-node-test: $(NODE_DEPENDENCY_MARK)
-	rm -fr "$(NODE_TMP)"
-	mkdir -p "$(NODE_TMP)"
-# Check reporters: https://nodejs.org/api/test.html#test-reporters
-# --experimental-test-coverage
-	node --import tsx/esm --harmony-temporal $(ARGS) --test "$(NODE_ROOT)/**/*.spec.ts"
-
-.PHONY: node-test-watch
-node-test-watch:
-	ARGS="--watch" make node-test
