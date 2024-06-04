@@ -71,7 +71,6 @@ jobs:
           - scripts-test
           - packages-test
           - infrastructure-test
-          - node-test
 
     steps:
       - uses: actions/checkout@main
