@@ -8,5 +8,5 @@ name="$(basename "$0")"
 echo "Starting the ${name}"
 date
 
-echo "Starting jh-fo in kiosk mode at $(date)"
+echo "Starting file-organizer in kiosk mode at $(date)"
 /usr/bin/jh-fo kiosk --amount=30 /mnt/cloud/photos/
