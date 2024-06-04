@@ -9,13 +9,10 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR
 . jh-lib
 
-scriptFolder=/usr/share/jehon/node
-if [ -n "${JH_PKG_FOLDER}" ]; then
-    scriptFolder="${JH_PKG_FOLDER}"/tmp/node/built
+localScript="${JH_PKG_FOLDER}/../file-organizer/bin/file-organizer"
+if [ -x "${localScript}" ]; then
+    ${localScript} "$@"
+    exit 0
 fi
-script=${scriptFolder}/jh-fo.cjs
 
-TZ="$(timedatectl show --value --property=Timezone)"
-export TZ
-
-node --harmony-temporal "${script}" "$@"
+npm exec --yes -- "gitlab:jehon/file-organizer#production" "-h"
