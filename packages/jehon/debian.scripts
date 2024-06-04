@@ -71,21 +71,25 @@ configure)
 	mkdir -p /var/cache/rclone
 	mkdir -p /var/cache/jehon
 
-	jh_enable_locale() {
-		L="$1"
+	if [ -r /etc/locale.gen ]; then
+		jh_enable_locale() {
+			L="$1"
 
-		if ! grep -e "^$L" /etc/locale.gen 2>/dev/null >/dev/null; then
-			echo "Activating and generating locales $L"
-			sed --in-place "s/^# $L/$L/" /etc/locale.gen
-			# /usr/sbin/locale-gen "$L"
-		fi
-	}
+			if ! grep -e "^$L" /etc/locale.gen 2>/dev/null >/dev/null; then
+				echo "Activating and generating locales $L"
+				sed --in-place "s/^# $L/$L/" /etc/locale.gen
+				# /usr/sbin/locale-gen "$L"
+			fi
+		}
 
-	jh_enable_locale 'fr_BE.UTF-8'
-	jh_enable_locale 'en_IE.UTF-8'
-	jh_enable_locale 'en_US.UTF-8'
+		jh_enable_locale 'fr_BE.UTF-8'
+		jh_enable_locale 'en_IE.UTF-8'
+		jh_enable_locale 'en_US.UTF-8'
 
-	/usr/sbin/locale-gen --keep-existing
+		/usr/sbin/locale-gen --keep-existing
+	else
+		echo "No locale.gen found, not enabling $L"
+	fi
 
 	if jh-is-full-machine; then
 		for F in /etc/sysctl.conf /etc/sysctl.d/*.conf; do
