@@ -94,11 +94,9 @@ packages-structure: $(PACKAGES_TMP)/.structure.built
 $(PACKAGES_TMP)/.structure.built: packages/pkg-build-structure.sh \
 		$(VERSION_FILE) \
 		packages/jehon/usr/share/keyrings/jehon.gpg \
-		$(NODE_TMP)/built/.built \
 		$(shell find packages/ )
 
 	packages/pkg-build-structure.sh "$(PACKAGES_TMP_STRUCTURE)" "$(call version)" | jh-tag-stdin "build-structure"
-	rsync -ai tmp/node/built/* "$(PACKAGES_TMP_STRUCTURE)"/jehon/usr/share/jehon/node/
 	$(call touch,$@)
 
 .PHONY: packages-test
