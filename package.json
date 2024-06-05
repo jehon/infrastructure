@@ -13,7 +13,7 @@
         "@eslint/js": "9.4.0",
         "eslint": "9.4.0",
         "husky": "9.0.11",
-        "prettier": "3.3.0"
+        "prettier": "3.3.1"
     },
     "scripts": {
         "postinstall": "install -D /dev/null node_modules/.dependencies && husky || true"
