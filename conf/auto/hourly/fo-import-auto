@@ -29,7 +29,7 @@ import() {
 
     # FIXME: rework TZ into fo.ts and remove harmony-temporal
     export TZ="Europe/Brussels"
-    jh-fo "import" --to "${TARGET}" "${SOURCE}"
+    jh-fo "import" --no-progress --to "${TARGET}" "${SOURCE}"
 }
 
 import "Workspaces/Jean/Automatic Upload J/"
