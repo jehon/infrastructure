@@ -38,6 +38,8 @@ fi # Bash only
 
 # Loading direnv
 # This will modify the prompt, so let's put this here
+#   See https://github.com/direnv/direnv/commit/f5deb57e5944978c6a0017bbcb2a808e3e59fb21
+#   Fix requires direnv 2.34.0 (2.32.1 at 2024-06-05)
 if type direnv &>/dev/null; then
     declare -a PROMPT_COMMAND
     eval "$(direnv hook bash)"
