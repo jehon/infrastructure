@@ -29,10 +29,10 @@ import() {
 
     # FIXME: rework TZ into fo.ts and remove harmony-temporal
     export TZ="Europe/Brussels"
-    node --import tsx/esm --harmony-temporal "${JH_PKG_FOLDER}"/node/src/fo.ts "import" --to "${TARGET}" "${SOURCE}"
+    jh-fo "import" --to "${TARGET}" "${SOURCE}"
 }
 
 import "Workspaces/Jean/Automatic Upload J/"
-# import "Workspaces/Marie-Line/Automatic Upload/"
+import "Workspaces/Marie-Line/Automatic Upload/"
 
 ok "Done"
