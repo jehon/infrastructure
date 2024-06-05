@@ -17,9 +17,13 @@ rsync --recursive --itemize-changes \
 
 jh-backup-take-snapshot.sh "${target}"
 
-mkdir -p "${target}/data/${JH_TIMESTAMP}"
+latestDir="${target}/data/latest"
+backupDir="${target}/data/${JH_TIMESTAMP}"
+mkdir -p "${backupDir}"
 mkdir -p "${target}/data/latest"
 rsync --recursive --itemize-changes \
-    --backup --backup-dir="${target}/data/${JH_TIMESTAMP}" \
+    --backup --backup-dir="${backupDir}" \
     --delete \
-    vps:/mnt/data/ "${target}/data/latest"
+    vps:/mnt/data/ "${latestDir}"
+
+find "${target}/data/" -type d -mindepth 1 -empty -delete
