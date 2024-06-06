@@ -10,10 +10,10 @@ jh_deb_helper_ufw "app" "jehon-cockpit" "homeIPv4"
 
 case "$1" in
 configure)
-	if [ -s /etc/sysctl.conf ]; then
-		mv /etc/sysctl.conf /etc/sysctl.d/50-initial-sysctl.conf
-		touch /etc/sysctl.conf
-	fi
+	# if [ -s /etc/sysctl.conf ]; then
+	# 	mv /etc/sysctl.conf /etc/sysctl.d/50-initial-sysctl.conf
+	# 	touch /etc/sysctl.conf
+	# fi
 
 	if jh-is-full-machine; then
 		if [ "$(timedatectl show --value --property=Timezone)" != "Europe/Brussels" ]; then
