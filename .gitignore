@@ -8,3 +8,8 @@
 
 tmp/
 node_modules/
+
+#
+# Unknown
+#
+.eslintcache
