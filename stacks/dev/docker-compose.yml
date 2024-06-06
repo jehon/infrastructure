@@ -1,0 +1,39 @@
+services:
+  #   static:
+  #     image: httpd:alpine
+  #     restart: always
+  #     expose:
+  #       - 80
+  #     volumes:
+  #       - type: bind
+  #         read_only: true
+  #         source: ./httpd
+  #         target: /usr/local/apache2/htdocs/
+
+  # docker:
+  #   # image: portainer/portainer-ce:2.11.1
+  #   image: selfhostedpro/yacht
+  #   restart: always
+  #   ports:
+  #     - "5001:8000"
+  #   volumes:
+  #     - type: bind
+  #       source: ${XDG_RUNTIME_DIR}/docker.sock
+  #       target: /var/run/docker.sock
+
+  mail:
+    # https://github.com/maildev/maildev
+    # Healthcheck exist, but does not work
+    image: maildev/maildev
+    restart: always
+    expose:
+      - 1080
+      - 1025
+    ports:
+      - "2025:1080"
+    healthcheck:
+      test: wget -O - http://127.0.0.1:1080/healthz
+      interval: 2s
+      timeout: 1s
+      retries: 3
+      start_period: 3s

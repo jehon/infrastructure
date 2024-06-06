@@ -25,7 +25,7 @@ const config = [
     }
   },
   {
-    files: ["packages/jehon-service-eternal/**/*.js"],
+    files: ["stacks/**/*.js"],
     languageOptions: {
       globals: {
         ...globals.browser

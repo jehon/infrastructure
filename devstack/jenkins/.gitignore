@@ -1,9 +1,0 @@
-
-config/raw/org.jenkins.plugins.lockableresources.LockableResourcesManager.xml
-config/raw/org.jenkinsci.plugins.workflow.flow.FlowExecutionList.xml
-config/raw/jenkins.telemetry.Correlator.xml
-config/raw/queue.xml
-
-# Only the config.xml in the GitHub folder
-config/raw/jobs/GitHub/*
-!config/raw/jobs/GitHub/config.xml
