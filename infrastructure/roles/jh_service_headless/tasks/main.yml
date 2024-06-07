@@ -21,11 +21,3 @@
         dest: /etc/netplan/eth0-fixed.yaml
         mode: "0644"
       notify: Jh_service_headless.changed
-
-- name: Set a hostname to {{ inventory_hostname }}
-  ansible.builtin.hostname:
-    name: "{{ inventory_hostname }}"
-  when: >
-    not virtual
-    and inventory_hostname is match("[a-zA-Z][a-zA-Z0-9_-]+")
-    and inventory_hostname != "localhost"
