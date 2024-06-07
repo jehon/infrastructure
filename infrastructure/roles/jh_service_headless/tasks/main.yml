@@ -1,9 +1,4 @@
 ---
-- name: "Ensure jehon-service-headless is present"
-  ansible.builtin.apt:
-    pkg:
-      - "jehon-service-headless"
-
 #
 # Detect interface?
 #

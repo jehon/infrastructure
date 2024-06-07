@@ -4,6 +4,7 @@
     pkg:
       - jehon-service-music
       - jehon-service-kiosk
+      - jehon-service-headless
 
 - name: Set a hostname to {{ inventory_hostname }}
   ansible.builtin.hostname:
