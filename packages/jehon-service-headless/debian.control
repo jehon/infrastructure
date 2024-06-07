@@ -1,6 +1,5 @@
 Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
-	console-setup, kbd,
 # Cockpit
 	cockpit,
 	netplan.io,
