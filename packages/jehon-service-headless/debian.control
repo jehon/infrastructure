@@ -2,6 +2,5 @@ Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
 # Cockpit
 	cockpit,
-	netplan.io,
 # Dandling coma
 	bash
