@@ -96,8 +96,6 @@ To be installed on any computer to have a basic setup.
 
 ### Ansible > host\_\*
 
-### Ansible > jh_service_headless
-
 ### Ansible > jh-<all>
 
 ### Ansible > service_desktop_linux
