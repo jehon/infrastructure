@@ -3,6 +3,5 @@ Depends: ${misc:Depends},
 # Cockpit
 	cockpit,
 	netplan.io,
-	screen,
 # Dandling coma
 	bash
