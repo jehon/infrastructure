@@ -379,7 +379,6 @@ all:
         Videos: ro
       jehon_always_connected: true
       jehon_headless: true
-      # jehon_ip: "{{ jehon.ip.kiosk }}"
       synology:
         username: "systeme-kiosk"
         password: !vault |
