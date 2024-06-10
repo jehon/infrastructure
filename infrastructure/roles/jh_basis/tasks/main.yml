@@ -85,6 +85,12 @@
     #
     ############################################
 
+    - name: Add Docker repository
+      notify: Jh_basis.indexes
+      ansible.builtin.template:
+        src: jehon-docker.sources
+        dest: /etc/apt/sources.list.d/jehon-docker.sources
+
     ############################################
     #
     # Repositories and packages

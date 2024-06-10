@@ -1,0 +1,11 @@
+#
+# Jehon
+#
+
+X-Repolib-Name: Docker (jehon)
+Types: deb
+URIs: https://download.docker.com/{{ ansible_system | lower }}/{{ ansible_distribution | lower }}
+Suites: {{ ansible_distribution_release }}
+Components:main
+Enabled: yes
+Signed-By: /usr/share/keyrings/jehon-docker-ubuntu.gpg

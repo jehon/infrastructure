@@ -1,0 +1,9 @@
+#
+# Jehon
+#
+
+X-Repolib-Name: Gitlab CI Local (Jehon)
+Types: deb
+URIs: https://gitlab-ci-local-ppa.firecow.dk
+Enabled: yes
+Signed-By: /usr/share/keyrings/jehon-gitlab-ci-local.gpg
