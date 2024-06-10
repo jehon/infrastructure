@@ -15,22 +15,13 @@ context="$1"
 configRoot="${HOME}/src/infrastructure/conf/auto"
 config="${configRoot}/${context}"
 
+# shell check disable=SC
+LOCATION="${LOCATION:''}"
+if [ -z "${LOCATION}" ]; then
+    LOCATION="$(jh-location-detect)"
+fi
+
 [ -d "${configRoot}" ] || jh_fatal "Config folder not found: ${configRoot}"
 [ -d "${config}" ] || jh_fatal "Context config not found: ${config}"
 
-case "${context}" in
-"daily" | "hourly")
-    jh-runner "${config}"
-    ;;
-"location")
-    location="${LOCATION}"
-    if [ -z "${location}" ]; then
-        location="$(jh-location-detect)"
-    fi
-    jh-runner "${config}/${location}"
-    jh-runner "${config}/always"
-    ;;
-*)
-    jh_fatal "Context not found: ${context}"
-    ;;
-esac
+jh-runner "${config}"
