@@ -3,4 +3,5 @@
   listen: Jh_basis.indexes
   ansible.builtin.apt:
     update_cache: true
+    upgrade: full
   changed_when: false
