@@ -90,6 +90,9 @@
       ansible.builtin.template:
         src: jehon-docker.sources
         dest: /etc/apt/sources.list.d/jehon-docker.sources
+        owner: root
+        group: root
+        mode: 644
 
     ############################################
     #
@@ -155,13 +158,13 @@
     # Snap's
     #
     ############################################
-    - name: "Ensure installed snap"
-      when: not virtual
-      block:
-        - name: "Normal snaps"
-          community.general.snap:
-            name:
-              - docker
+    # - name: "Ensure installed snap"
+    #   when: not virtual
+    #   block:
+    #     - name: "Normal snaps"
+    #       community.general.snap:
+    #         name:
+    #           - docker
 
     - name: "Ensure installed snap"
       when: not virtual
