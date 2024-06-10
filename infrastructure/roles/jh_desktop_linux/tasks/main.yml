@@ -10,11 +10,10 @@
       ansible.builtin.apt:
         pkg:
           - copyq
-          - digikam
-          - ffmpegthumbnailer # Thumbnails for movies
-          - gnome-network-displays
-          - gnome-shell-extensions
-          - gthumb # Print multiple images on one page
+          # - ffmpegthumbnailer # Thumbnails for movies
+          # - gnome-network-displays
+          # - gnome-shell-extensions
+          # - gthumb # Print multiple images on one page
           - libfuse2 # pcloud
           - solaar
 
@@ -22,6 +21,7 @@
       when: not virtual
       with_items:
         - firefox
+        - digikam
         - gimp
         - ksnip
         - mkvtoolnix-jz
@@ -40,7 +40,6 @@
         name: "{{ item }}"
         state: present
         classic: true
-    # node in snap? could not access pCloudDrive... but still the best option
 
     - name: "Ensure installed snap (special) "
       when: not virtual
