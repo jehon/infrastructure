@@ -58,6 +58,7 @@ all:
 
         gateway: 192.168.1.1
 
+        # Mac:
         kiosk: 2a02:a03f:a9cd:8a00:ba27:ebff:fe7c:8ef3
         # kiosk: 192.168.1.154
 
@@ -72,11 +73,9 @@ all:
         vps: 135.125.106.114
         # vps: 2001:41d0:404:200::2a3f
 
-        # 192.168.1.8 wifi-asus # 3c:7c:3f:8b:1b:d0
-        # 192.168.1.53    wireless-ap   # e8:ab:fa:b0:ac:20
-        # 192.168.1.6   tp-link         # EC:08:6B:FE:60:3D
-        # 192.168.1.62  ???             # 34:EA:E7:AD:4B:96 # hf-lpt230
-        # 192.168.1.51  latitude-wifi   #
+        # Other:
+        # - wifi home: 192.168.1.8 (3c:7c:3f:8b:1b:d0)
+        # - hub:
 
       url:
         synology_external: "https://jehon.synology.me:4001"
