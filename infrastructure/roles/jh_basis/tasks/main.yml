@@ -177,3 +177,17 @@
             name:
               - node
             classic: true
+
+    ############################################
+    #
+    # Packages (too volatile one)
+    #
+    ############################################
+    - name: "Install some packages"
+      ansible.builtin.apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
