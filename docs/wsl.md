@@ -1,0 +1,10 @@
+winget install Microsoft.VisualStudioCode
+winget install pCloudAG.pCloudDrive
+winget install VideoLAN.VLC
+winget install TheDocumentFoundation.LibreOffice
+winget install Notepad++.Notepad++
+winget install Cyanfish.NAPS2
+winget install Logitech.OptionsPlus
+winget install Inkscape.Inkscape
+winget install GIMP.GIMP
+winget install KDE.digikam
