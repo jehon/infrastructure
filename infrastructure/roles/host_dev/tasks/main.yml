@@ -47,3 +47,52 @@
     #   ansible.builtin.command:
     #     cmd: echo "{{ jehon.docker.token }}" | docker login -u "{{ jehon.docker.username }}"
     #   changed_when: false
+
+#
+# Desktop side
+#
+- name: Setup desktop environment
+  block:
+    - name: Install desktop packages
+      ansible.builtin.apt:
+        pkg:
+          - copyq
+          # - ffmpegthumbnailer # Thumbnails for movies
+          # - gnome-network-displays
+          # - gnome-shell-extensions
+          # - gthumb # Print multiple images on one page
+          - libfuse2 # pcloud
+          - solaar
+
+    - name: "Ensure installed snap"
+      when: not virtual
+      with_items:
+        - firefox
+        - digikam
+        - gimp
+        - ksnip
+        - mkvtoolnix-jz
+        - spotify
+        - whatsapp-for-linux # Personnal (conf call)
+        - vlc
+      community.general.snap:
+        name: "{{ item }}"
+        state: present
+
+    - name: "Ensure installed snap (classic)"
+      when: not virtual
+      with_items:
+        - code
+      community.general.snap:
+        name: "{{ item }}"
+        state: present
+        classic: true
+
+    - name: "Ensure installed snap (special) "
+      when: not virtual
+      with_items:
+        - subtitle-edit
+      community.general.snap:
+        name: "{{ item }}"
+        state: present
+        channel: edge
