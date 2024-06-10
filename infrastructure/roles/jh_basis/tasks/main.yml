@@ -93,6 +93,14 @@
 
     ############################################
     #
+    # Update repository if necessary
+    #
+    ############################################
+    - name: Update repositories if necessary...
+      ansible.builtin.meta: flush_handlers
+
+    ############################################
+    #
     # Packages jehon-*
     #
     ############################################
