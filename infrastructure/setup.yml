@@ -13,7 +13,6 @@
       ansible.builtin.include_role:
         name: jh_basis
 
-    # Need service headless for netplan
     - name: Setup networking
       when: "'grp_jehon' in group_names"
       ansible.builtin.include_role:
