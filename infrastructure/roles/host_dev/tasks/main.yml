@@ -36,6 +36,7 @@
       become_user: "{{ dev_user }}"
       block:
         - name: Docker rootless
+          when: not virtual
           ansible.builtin.command:
             cmd: /usr/bin/dockerd-rootless-setuptool.sh install --force
           register: _
