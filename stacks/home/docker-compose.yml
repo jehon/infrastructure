@@ -20,10 +20,18 @@ services:
     image: linuxserver/transmission
     # https://hub.docker.com/r/linuxserver/transmission
     restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=$TZ
+    volumes:
+      - $HOME/data/torrent/data:/config
+      - $HOME/data/torrent/downloads:/downloads
+      - $HOME/data/torrent/watch:/watch
     ports:
-      - 9091:9091
-      - 51413:51413
-      - 51413:51413/udp
+      - 9091:9091 # Web UI
+      # - 51413:51413 # Torrent traffic
+      # - 51413:51413/udp # Torrent traffic
 
   gitlab:
     image: gitlab/gitlab-runner:latest
