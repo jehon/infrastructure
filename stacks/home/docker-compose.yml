@@ -9,7 +9,7 @@ services:
     ports:
       # - "80:80"
       - target: 80
-        published: 80
+        published: 5080
         mode: host
     volumes:
       - type: bind
@@ -20,5 +20,18 @@ services:
     image: linuxserver/transmission
     # https://hub.docker.com/r/linuxserver/transmission
     restart: always
-    # ports:
-    #   - ""
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+
+  gitlab:
+    image: gitlab/gitlab-runner:latest
+    restart: always
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+      - type: bind
+        source: $HOME/data/gitlab
+        target: /etc/gitlab-runner
