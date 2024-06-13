@@ -3,7 +3,7 @@
 set -o errexit
 
 # shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
-. /usr/sbin/jh-deb-helpers.sh
+. /usr/sbin/jehon-deb-helpers.sh
 
 # see: dh_installdeb(1)
 
@@ -16,8 +16,8 @@ set -o errexit
 # fi
 
 jh_deb_helper_system_group "docker"
-jh_deb_helper_system_group "fuse"
-jh_deb_helper_system_group "sudo"
+# jh_deb_helper_system_group "fuse"
+# jh_deb_helper_system_group "sudo"
 jh_deb_helper_system_group "jehon_secrets"
 
 jh_deb_helper_ufw "port" "ssh" "public"
@@ -28,9 +28,8 @@ jh_deb_helper_user_in_group "jehon" "fuse"
 jh_deb_helper_user_in_group "jehon" "sudo"
 
 jh_deb_helper_system_user "jehon-tty"
-# jh_deb_helper_user_in_group "jehon-tty" "audio"
-# jh_deb_helper_user_in_group "jehon-tty" "input"
-jh_deb_helper_user_in_group "jehon-tty" "video"
+jh_deb_helper_user_in_group "jehon-tty" "tty"
+# jh_deb_helper_user_in_group "jehon-tty" "video"
 
 jh_deb_helper_service "jehon-ssh-get-latest.timer"
 jh_deb_helper_service jehon-backup-snapshot.timer
@@ -40,18 +39,19 @@ jh_deb_helper_service jehon-backup-snapshot.timer
 # and NetowkManager start too late to setup network
 # => So network related units are not started automatically
 
-jh_deb_helper_patch "/etc/adduser.conf" "jehon" "/usr/share/jehon/etc_adduser.conf.patch"
-jh_deb_helper_patch "/etc/fuse.conf" "jehon" "/usr/share/jehon/etc_fuse.conf.patch"
-jh_deb_helper_patch "/etc/inputrc" "jehon" "/usr/share/jehon/etc_inputrc.patch"
-jh_deb_helper_patch "/etc/zsh/zshrc" "jehon" "/usr/share/jehon/etc_zsh_zshrc.patch"
+# jh_deb_helper_patch "/etc/adduser.conf" "jehon" "/usr/share/jehon/etc_adduser.conf.patch"
+# jh_deb_helper_patch "/etc/fuse.conf" "jehon" "/usr/share/jehon/etc_fuse.conf.patch"
+# jh_deb_helper_patch "/etc/inputrc" "jehon" "/usr/share/jehon/etc_inputrc.patch"
+# jh_deb_helper_patch "/etc/zsh/zshrc" "jehon" "/usr/share/jehon/etc_zsh_zshrc.patch"
 
 case "$1" in
 configure)
 	if [ ! -d /etc/jehon/restricted/ ]; then
 		echo "- Creating /etc/jehon/restricted..."
 		mkdir -p /etc/jehon/restricted/
-		chmod 700 /etc/jehon/restricted
 	fi
+	chmod --changes --recursive "u=rwX,g=rX,o=" /etc/jehon/restricted
+	chown --changes --recursive "root:jehon_secrets" /etc/jehon/restricted
 
 	if ! find /etc/ssh/ssh_host_* 1>/dev/null 2>/dev/null; then
 		echo "- Generating host keys for ssh..."
@@ -71,57 +71,50 @@ configure)
 	mkdir -p /var/cache/rclone
 	mkdir -p /var/cache/jehon
 
-	if [ -r /etc/locale.gen ]; then
-		jh_enable_locale() {
-			L="$1"
+	# if [ -r /etc/locale.gen ]; then
+	# 	jh_enable_locale() {
+	# 		L="$1"
 
-			if ! grep -e "^$L" /etc/locale.gen 2>/dev/null >/dev/null; then
-				echo "Activating and generating locales $L"
-				sed --in-place "s/^# $L/$L/" /etc/locale.gen
-				# /usr/sbin/locale-gen "$L"
-			fi
-		}
+	# 		if ! grep -e "^$L" /etc/locale.gen 2>/dev/null >/dev/null; then
+	# 			echo "Activating and generating locales $L"
+	# 			sed --in-place "s/^# $L/$L/" /etc/locale.gen
+	# 			# /usr/sbin/locale-gen "$L"
+	# 		fi
+	# 	}
 
-		jh_enable_locale 'fr_BE.UTF-8'
-		jh_enable_locale 'en_IE.UTF-8'
-		jh_enable_locale 'en_US.UTF-8'
+	# 	jh_enable_locale 'fr_BE.UTF-8'
+	# 	jh_enable_locale 'en_IE.UTF-8'
+	# 	jh_enable_locale 'en_US.UTF-8'
 
-		/usr/sbin/locale-gen --keep-existing
-	else
-		echo "No locale.gen found, not enabling $L"
-	fi
+	# 	/usr/sbin/locale-gen --keep-existing
+	# else
+	# 	echo "No locale.gen found, not enabling $L"
+	# fi
 
-	if jh-is-full-machine; then
-		for F in /etc/sysctl.conf /etc/sysctl.d/*.conf; do
-			echo "* Sysctl: Reload $F"
-			sysctl -p "$F"
-		done
+	# if jh-is-full-machine; then
+	# 	# for F in /etc/sysctl.conf /etc/sysctl.d/*.conf; do
+	# 	# 	echo "* Sysctl: Reload $F"
+	# 	# 	sysctl -p "$F"
+	# 	# done
 
-		if systemctl is-active --quiet ssh; then
-			echo "* Reload ssh config"
-			systemctl reload ssh
-		fi
+	# 	if systemctl is-active --quiet ssh; then
+	# 		echo "* Reload ssh config"
+	# 		systemctl reload ssh
+	# 	fi
 
-		if ! ufw status | grep "Status: active" >/dev/null 2>/dev/null; then
-			echo "* Enabling ufw"
-			# UFW ask confirmation otherwise, but this confirmation is not handled by Ansible...
-			# so we force it!
-			ufw --force enable
-			echo "* Enabling ufw done"
-		fi
-	fi
-
-	mkdir -p /etc/jehon/restricted
-	chmod --changes --recursive "u=rwX,g=rX,o=" /etc/jehon/restricted
-	chown --changes --recursive "root:jehon_secrets" /etc/jehon/restricted
-
-	mkdir -p /mnt/docker
-	chmod --changes --recursive "u=rwX,g=rX,o=" /mnt/docker
-	chown --changes --recursive "root:jehon_secrets" /mnt/docker
+	# 	if ! ufw status | grep "Status: active" >/dev/null 2>/dev/null; then
+	# 		echo "* Enabling ufw"
+	# 		# UFW ask confirmation otherwise, but this confirmation is not handled by Ansible...
+	# 		# so we force it!
+	# 		ufw --force enable
+	# 		echo "* Enabling ufw done"
+	# 	fi
+	# fi
 	;;
-
-remove) ;;
-
+remove)
+	# Legacy as of 2023-06-13
+	rm -fr /mnt/docker
+	;;
 esac
 
 exit 0

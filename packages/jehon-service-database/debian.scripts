@@ -5,7 +5,7 @@ set -o errexit
 # GRANT ALL PRIVILEGES ON *.* TO 'jehon'@'%' IDENTIFIED BY 'xxx' WITH GRANT OPTION;
 
 # shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
-. /usr/sbin/jh-deb-helpers.sh
+. /usr/sbin/jehon-deb-helpers.sh
 
 jh_deb_helper_service jehon-database-backup-mariadb.timer
 

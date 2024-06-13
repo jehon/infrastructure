@@ -3,7 +3,7 @@
 set -o errexit
 
 # shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
-. /usr/sbin/jh-deb-helpers.sh
+. /usr/sbin/jehon-deb-helpers.sh
 
 # see: dh_installdeb(1)
 

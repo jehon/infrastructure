@@ -2,8 +2,8 @@
 
 set -o errexit
 
-# shellcheck source=SCRIPTDIR/../jehon/usr/sbin/jh-deb-helpers.sh
-. /usr/sbin/jh-deb-helpers.sh
+# shellcheck source=SCRIPTDIR/../jehon/usr/sbin/jehon-deb-helpers.sh
+. /usr/sbin/jehon-deb-helpers.sh
 
 jh_deb_helper_service "mpd.service"
 # jh_deb_helper_service "jehon-music-volume.service" = Does not work !
