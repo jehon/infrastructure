@@ -4,8 +4,8 @@
 
 ```
 curl -fsSL https://jehon.github.io/infrastructure/packages/jehon.deb -o jehon.deb
-sudo apt install --yes ./jehon.deb && apt update
-# sudo apt install -f
+sudo apt install --yes ./jehon.deb
+sudo apt update
 ```
 
 ```
