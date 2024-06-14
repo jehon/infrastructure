@@ -26,14 +26,13 @@ services:
     # Healthcheck exist, but does not work
     image: maildev/maildev
     restart: always
+    environment:
+      # Fix healthcheck and listen to ipv6
+      #   PR: https://github.com/maildev/maildev/pull/486
+      #   Bug: https://github.com/maildev/maildev/issues/484
+      MAILDEV_IP: "::"
     expose:
       - 1080
       - 1025
     ports:
       - "2025:1080"
-    healthcheck:
-      test: wget -O - http://127.0.0.1:1080/healthz
-      interval: 2s
-      timeout: 1s
-      retries: 3
-      start_period: 3s
