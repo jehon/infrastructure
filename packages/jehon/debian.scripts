@@ -16,8 +16,8 @@ set -o errexit
 # fi
 
 jh_deb_helper_system_group "docker"
-# jh_deb_helper_system_group "fuse"
-# jh_deb_helper_system_group "sudo"
+jh_deb_helper_system_group "fuse"
+jh_deb_helper_system_group "sudo"
 jh_deb_helper_system_group "jehon_secrets"
 
 jh_deb_helper_ufw "port" "ssh" "public"
