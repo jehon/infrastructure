@@ -1,0 +1,11 @@
+#
+# For Vagrant
+#
+
+X-Repolib-Name: Hashicorp (Jehon)
+Types: deb
+URIs: https://apt.releases.hashicorp.com
+Suites: {{ ansible_distribution_release }}
+Components: main
+Enabled: yes
+Signed-By: /usr/share/keyrings/jehon-hashicorp.gpg

@@ -97,6 +97,15 @@
         group: root
         mode: "0644"
 
+    - name: Add Hashicorp repository
+      notify: Jh_basis.indexes
+      ansible.builtin.template:
+        src: jehon-hashicorp.sources
+        dest: /etc/apt/sources.list.d/jehon-hashicorp.sources
+        owner: root
+        group: root
+        mode: "0644"
+
     ############################################
     #
     # Repositories and packages
