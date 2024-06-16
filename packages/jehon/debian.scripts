@@ -17,6 +17,7 @@ set -o errexit
 
 jh_deb_helper_system_group "docker"
 jh_deb_helper_system_group "fuse"
+jh_deb_helper_system_group "vboxusers"
 jh_deb_helper_system_group "sudo"
 jh_deb_helper_system_group "jehon_secrets"
 
@@ -26,6 +27,7 @@ jh_deb_helper_system_user "jehon"
 jh_deb_helper_user_in_group "jehon" "docker"
 jh_deb_helper_user_in_group "jehon" "fuse"
 jh_deb_helper_user_in_group "jehon" "sudo"
+jh_deb_helper_user_in_group "jehon" "vboxusers"
 
 jh_deb_helper_system_user "jehon-tty"
 jh_deb_helper_user_in_group "jehon-tty" "tty"
