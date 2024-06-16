@@ -43,6 +43,11 @@ jh_deb_helper_patch "/etc/fuse.conf" "jehon" "/usr/share/jehon/etc_fuse.conf.pat
 jh_deb_helper_patch "/etc/inputrc" "jehon" "/usr/share/jehon/etc_inputrc.patch"
 jh_deb_helper_patch "/etc/zsh/zshrc" "jehon" "/usr/share/jehon/etc_zsh_zshrc.patch"
 
+# Those scripts must handled the configure/remove
+run-parts --verbose --regex ".*" \
+	--arg "$1" \
+	/usr/share/jehon/scripts/install
+
 case "$1" in
 configure)
 	if [ ! -d /etc/jehon/restricted/ ]; then
