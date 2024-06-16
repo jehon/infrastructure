@@ -39,10 +39,9 @@ jh_deb_helper_service jehon-backup-snapshot.timer
 # and NetowkManager start too late to setup network
 # => So network related units are not started automatically
 
-# jh_deb_helper_patch "/etc/adduser.conf" "jehon" "/usr/share/jehon/etc_adduser.conf.patch"
-# jh_deb_helper_patch "/etc/fuse.conf" "jehon" "/usr/share/jehon/etc_fuse.conf.patch"
-# jh_deb_helper_patch "/etc/inputrc" "jehon" "/usr/share/jehon/etc_inputrc.patch"
-# jh_deb_helper_patch "/etc/zsh/zshrc" "jehon" "/usr/share/jehon/etc_zsh_zshrc.patch"
+jh_deb_helper_patch "/etc/fuse.conf" "jehon" "/usr/share/jehon/etc_fuse.conf.patch"
+jh_deb_helper_patch "/etc/inputrc" "jehon" "/usr/share/jehon/etc_inputrc.patch"
+jh_deb_helper_patch "/etc/zsh/zshrc" "jehon" "/usr/share/jehon/etc_zsh_zshrc.patch"
 
 case "$1" in
 configure)
