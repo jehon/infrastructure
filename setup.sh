@@ -46,15 +46,6 @@ PKGS=(
 root_or_sudo apt install --quiet --yes "${PKGS[@]}"
 echo "* Installing packages done"
 
-# TODO: remove node install?
-if ! type node >&/dev/null; then
-    echo "* Installing node (current)..."
-    root_or_sudo "$JH_PKG_FOLDER"/packages/jehon/usr/sbin/jh-install-node current
-    echo "* Installing node (current) done"
-else
-    echo "* Installing node (current): already installed"
-fi
-
 echo "* Enabling direnv..."
 direnv allow "$JH_PKG_FOLDER"/
 echo "* Enabling direnv done"
