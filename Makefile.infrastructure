@@ -79,7 +79,7 @@ $(INFRASTRUCTURE_TMP)/ssh-key:
 	fi
 
 .PHONY: infrastructure-dump-runtimes
-infrastructure-dump-runtimes: dependencies
+infrastructure-dump-runtimes: infrastructure-dependencies
 	@type ansible | grep "$(ROOT)/"
 	@ansible --version
 
