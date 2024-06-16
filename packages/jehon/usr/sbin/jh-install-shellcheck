@@ -3,6 +3,8 @@
 set -o errexit
 set -o pipefail
 
+# FIXME(shellcheck): Unused, ubuntu version is ok
+
 scversion="stable" # or "v0.4.7", or "latest"
 
 if type shellcheck && [ -z "$1" ]; then

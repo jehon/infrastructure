@@ -24,6 +24,8 @@ Depends: ${misc:Depends},
 # Linting in vscode
 	php, php-xml,
 	samba,
+# Version is now ok in ubuntu
+	shellcheck,
 # jh-music-canonize:
 	sox, libsox-fmt-mp3,
 	terminator,
