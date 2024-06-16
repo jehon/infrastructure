@@ -2,7 +2,9 @@
 # Jehon
 #
 
-X-Repolib-Name: Github Cli (jehon)
+# FIXME: Unused ?
+
+X-Repolib-Name: Github Cli (Jehon)
 Types: deb
 URIs: https://cli.github.com/packages/
 Suites: stable
