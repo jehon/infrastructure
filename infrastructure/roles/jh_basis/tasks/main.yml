@@ -148,15 +148,6 @@
     #         name:
     #           - docker
 
-    - name: "Ensure installed snap"
-      when: not virtual
-      block:
-        - name: "Normal snaps"
-          community.general.snap:
-            name:
-              - node
-            classic: true
-
     ############################################
     #
     # Packages (too volatile one)
