@@ -75,6 +75,11 @@ configure)
 	mkdir -p /var/cache/rclone
 	mkdir -p /var/cache/jehon
 
+	# Install a new revision of rclone
+	# Uninstallation will be done when removing rclone package
+	# FIXME(rclone>1.64.2): remove this when ubuntu version is > 1.64.2
+	/usr/sbin/jh-install-rclone-latest
+
 	# if [ -r /etc/locale.gen ]; then
 	# 	jh_enable_locale() {
 	# 		L="$1"

@@ -2,13 +2,20 @@
 
 set -o errexit
 
-if type rclone >& /dev/null; then
-    VERSION="$( rclone version | head -n 1 | cut -d " " -f 2 )"
+#
+# Update will be done by jehon-update-rclone.service (+ timer)
+# using `rclone self-update`
+#
+
+# FIXME(rclone>1.64.2): remove this when ubuntu version is > 1.64.2
+
+if type rclone >&/dev/null; then
+    VERSION="$(rclone version | head -n 1 | cut -d " " -f 2)"
     # Lowercase comparison
-    if dpkg --compare-versions "${VERSION,,}" lt "v1.64.2" 2> /dev/null ; then
+    if dpkg --compare-versions "${VERSION,,}" lt "v1.64.2" 2>/dev/null; then
         echo "** Version can not self-update **"
         echo "[modified] Removing old version"
-        REAL="$( type -P rclone )"
+        REAL="$(type -P rclone)"
         rm -fv "$REAL"
 
         # Now we need to make the real install
