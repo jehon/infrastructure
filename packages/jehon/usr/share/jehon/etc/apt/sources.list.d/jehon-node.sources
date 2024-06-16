@@ -1,0 +1,14 @@
+#
+# Node
+#
+# FIXME: Use latest / edge repository when available
+# See https://github.com/nodesource/distributions/discussions/1796
+#
+
+X-Repolib-Name: Node (Jehon)
+Types: deb
+URIs: https://deb.nodesource.com/node_22.x
+Suites: nodistro
+Components: main
+Enabled: yes
+Signed-By: /usr/share/keyrings/jehon-node.gpg
