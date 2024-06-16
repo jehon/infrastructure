@@ -32,4 +32,4 @@ COPY --from=workspace tmp/infrastructure/50-hosts.yml infrastructure/inventory/5
 
 RUN ./setup.sh
 
-RUN make dependencies
+RUN make infrastructure-dependencies
