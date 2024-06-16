@@ -10,5 +10,3 @@ argument_specs:
         type: dict
       synology:
         type: dict
-      jehon_always_connected:
-        type: boolean

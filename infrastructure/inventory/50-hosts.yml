@@ -40,7 +40,6 @@ all:
       3831343433306239650a306137366634303533656338623336633235386439303232353763343737
       6637
     dev_password:
-    jehon_always_connected: false
     jehon_headless: false
     #
     # Those variables can not be overriden!
