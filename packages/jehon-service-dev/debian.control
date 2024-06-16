@@ -19,6 +19,7 @@ Depends: ${misc:Depends},
 	lftp,
 	make,
 	nmap,
+	nodejs,
 	openssh-client,
 # Linting in vscode
 	php, php-xml,
