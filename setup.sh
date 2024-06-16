@@ -36,7 +36,8 @@ PKGS=(
     # git-restore-mtime: https://stackoverflow.com/a/64147402/1954789
     git-restore-mtime
     shellcheck
-    nodejs
+    # npm is provided by node official package, but not by ubuntu package
+    nodejs npm
     gnupg2
     python3-full python3-pip python3-autopep8 python3-netaddr python3-passlib python3-apt python3-termcolor
     git make sshpass
