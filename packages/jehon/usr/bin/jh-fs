@@ -18,7 +18,7 @@ get_size() {
     fi
 
     if [ -d "$FILE" ]; then
-        if [ -z "$( ls -A "$FILE" )" ]; then
+        if [ -z "$(ls -A "$FILE")" ]; then
             return 1
         else
             return 0
@@ -47,34 +47,39 @@ get_size() {
 # jh_debug "EXT:                   $EXT"
 
 case "${ACTION}" in
-    "name" )
-#        echo "${FILENAME_NO_EXTENSION}"
-        python3 -c "import pathlib; print(pathlib.Path('${FILE}').stem)"
-        ;;
-    "extension" )
-#        echo "${EXT}"
-        python3 -c "import pathlib; print(pathlib.Path('${FILE}').suffix.lstrip('.'))"
-        ;;
-    "not-empty" )
-        if get_size "${FILE}"; then
-            exit 0
-        fi
-        exit 1
-        ;;
-    "is-empty" )
-        if get_size "${FILE}"; then
-            exit 1
-        fi
+"name")
+    #        echo "${FILENAME_NO_EXTENSION}"
+    python3 -c "import pathlib; print(pathlib.Path('${FILE}').stem)"
+    ;;
+"extension")
+    #        echo "${EXT}"
+    python3 -c "import pathlib; print(pathlib.Path('${FILE}').suffix.lstrip('.'))"
+    ;;
+"not-empty")
+    if get_size "${FILE}"; then
         exit 0
-        ;;
+    fi
+    exit 1
+    ;;
+"is-empty")
+    if get_size "${FILE}"; then
+        exit 1
+    fi
+    exit 0
+    ;;
 
-    "to-extension" )
-        NEW_EXT="${3:?Need new extension [3]}"
-        # echo "${FILE/\.${EXT}/}...${NEW_EXT#.}"
-        python3 -c "import pathlib; print(pathlib.Path('${FILE}').with_suffix('${NEW_EXT}'))"
-        ;;
-    * )
-        jh_fatal "Unknow action: $ACTION"
-        ;;
+"to-extension")
+    NEW_EXT="${3:?Need new extension [3]}"
+    # echo "${FILE/\.${EXT}/}...${NEW_EXT#.}"
+    python3 -c "import pathlib; print(pathlib.Path('${FILE}').with_suffix('${NEW_EXT}'))"
+    ;;
+"file-to-path")
+    FILENAME="$(basename "$FILE")"
+    TARGET_PATH="/${FILENAME//_/\/}"
+    TARGET_NAME="${TARGET_PATH%.sh}"
+    echo "${TARGET_NAME}"
+    ;;
+*)
+    jh_fatal "Unknow action: $ACTION"
+    ;;
 esac
-
