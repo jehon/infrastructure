@@ -21,8 +21,6 @@ jh_deb_helper_system_group "vboxusers"
 jh_deb_helper_system_group "sudo"
 jh_deb_helper_system_group "jehon_secrets"
 
-jh_deb_helper_ufw "port" "ssh" "public"
-
 jh_deb_helper_system_user "jehon"
 jh_deb_helper_user_in_group "jehon" "docker"
 jh_deb_helper_user_in_group "jehon" "fuse"
@@ -33,7 +31,6 @@ jh_deb_helper_system_user "jehon-tty"
 jh_deb_helper_user_in_group "jehon-tty" "tty"
 # jh_deb_helper_user_in_group "jehon-tty" "video"
 
-jh_deb_helper_service "jehon-ssh-get-latest.timer"
 jh_deb_helper_service jehon-backup-snapshot.timer
 
 # mount and rclone timer depend on network
@@ -127,5 +124,12 @@ remove)
 	rm -fr /mnt/docker
 	;;
 esac
+
+#
+# Legacy
+#
+
+# 2024-06-17 (moved to jehon-service-headless)
+jh_deb_helper_legacy jh_deb_helper_service "jehon-ssh-get-latest.timer"
 
 exit 0

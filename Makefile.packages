@@ -46,7 +46,7 @@ $(PACKAGES_TMP)/.built: \
 
 	$(call touch,$@)
 
-$(PUBLISH)/latest-key.pub: packages/jehon/usr/share/jehon/etc/ssh/authorized_keys/root
+$(PUBLISH)/latest-key.pub: packages/jehon-service-headless/usr/share/jehon-service-headless/etc/ssh/authorized_keys/root
 	$(call mkdir,$@)
 	cp -f "$<" "$@"
 	$(call touch,$@)
