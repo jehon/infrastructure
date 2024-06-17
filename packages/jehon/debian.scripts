@@ -100,11 +100,6 @@ configure)
 	fi
 
 	if jh-is-full-machine; then
-		# 	# for F in /etc/sysctl.conf /etc/sysctl.d/*.conf; do
-		# 	# 	echo "* Sysctl: Reload $F"
-		# 	# 	sysctl -p "$F"
-		# 	# done
-
 		if systemctl is-active --quiet ssh; then
 			echo "* Reload ssh config"
 			systemctl reload ssh
