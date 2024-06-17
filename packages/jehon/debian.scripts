@@ -114,10 +114,7 @@ configure)
 		fi
 	fi
 	;;
-remove)
-	# Legacy as of 2023-06-13
-	rm -fr /mnt/docker
-	;;
+remove) ;;
 esac
 
 #
