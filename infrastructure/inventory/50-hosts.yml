@@ -358,9 +358,12 @@ all:
 
   hosts:
     dev:
-      ansible_host: localhost
-      # ansible_connection: local
+      ## Use local ssh
+      # ansible_host: localhost
+      # Use local become
+      ansible_connection: local
       ansible_become: true
+
       cloud_type: pcloud-rw
       cloud_cache_size: 20G
       cloud_mount:

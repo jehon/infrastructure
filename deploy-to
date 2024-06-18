@@ -26,6 +26,8 @@ if [ "$1" == "init" ]; then
 fi
 
 if [ ! -r ~/restricted/ansible-encryption-key ]; then
+    mkdir -p ~/restricted
+    touch ~/restricted/ansible-encryption-key
     jh_fatal "Key is not defined at ~/restricted/ansible-encryption-key"
 fi
 
@@ -34,10 +36,18 @@ make dependencies
 export PYTHONPATH="${JH_PKG_FOLDER}/tmp/python/common:$PYTHONPATH"
 cd infrastructure || exit
 
+ARGS=()
+
+case "$HOST" in
+    "" | "dev" )
+        ARGS+=( "--ask-become-pass" )
+esac
+
 if [ -n "$1" ]; then
     HOST="$1"
     shift
-    ansible-playbook --limit "${HOST}" "$@" "${PLAYBOOK}" |
+    ansible-playbook --limit "${HOST}" "$@" "${PLAYBOOK}" \
+        "${ARGS[@]}" |
         "${JH_PKG_FOLDER}"/packages/jehon/usr/bin/jh-tag-stdin "${HOST}"
 else
     ansible-playbook "${PLAYBOOK}"
