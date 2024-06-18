@@ -5,6 +5,8 @@ Depends: ${misc:Depends},
 	cifs-utils,
 # luks volumes:
 	cryptsetup, cryptsetup-initramfs,
+# Java (see )
+	default-jdk, maven,
 	direnv,
 # gparted and fat32
 	gparted, dosfstools, exfat-fuse, mtools,
