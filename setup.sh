@@ -36,8 +36,7 @@ PKGS=(
     # git-restore-mtime: https://stackoverflow.com/a/64147402/1954789
     git-restore-mtime
     shellcheck
-    # npm is provided by node official package, but not by ubuntu package
-    nodejs npm
+    nodejs
     gnupg2
     python3-full python3-pip python3-autopep8 python3-netaddr python3-passlib python3-apt python3-termcolor
     git make sshpass
@@ -47,6 +46,11 @@ PKGS=(
 )
 root_or_sudo apt install --quiet --yes "${PKGS[@]}"
 echo "* Installing packages done"
+
+if ! type npm ;  then
+    # npm is provided by node official package, but not by ubuntu package
+    root_or_sudo apt install --quiet --yes npm
+fi
 
 echo "* Enabling direnv..."
 direnv allow "$JH_PKG_FOLDER"/
