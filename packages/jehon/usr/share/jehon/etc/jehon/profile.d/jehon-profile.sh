@@ -26,13 +26,13 @@ export LANGUAGE=C.UTF-8
 export NODE_NO_WARNINGS=1
 
 # Import setup-profile.sh everywhere
-if [ -r ~/src ]; then
+if [ -r ~/koalty ]; then
     while read -r F; do
         # No pipe or fancy, otherwise no include...
 
         # shellcheck source=/dev/null
         source "$F"
-    done < <(find ~/src \
+    done < <(find ~/koalty \
         -type d \( -name "node_modules" -o -name "vendor" -o -name "tmp" \) -prune -false \
         -o -name "setup-profile.sh")
 fi

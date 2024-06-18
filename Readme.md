@@ -147,7 +147,7 @@ See https://docs.ansible.com/ansible/latest/user_guide/vault.html#encrypting-ind
 
 ```lang=shell
 wsl --install ubuntu
-cd && mkdir -p src && git clone git@github.com:jehon/infrastructure
+cd && mkdir -p koalty && git clone git@github.com:jehon/infrastructure
 ```
 
 In WSL
@@ -155,7 +155,7 @@ In WSL
 ```lang=shell
 cd
 ssh-keygen
-mkdir -p src
+mkdir -p koalty
 git clone git@github.com:jehon/infrastructure
 sudo ./deploy-infra-to init
 ```
@@ -167,6 +167,6 @@ wsl --shutdown
 In WSL
 
 ```lang=shell
-src/infrastructure/deploy-infra-to init
+koalty/infrastructure/deploy-infra-to init
 cp .ssh/id_rsa.pub
 ```

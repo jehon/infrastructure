@@ -20,10 +20,10 @@ export JH_TIMESTAMP
 # For Debug easy (https://wiki.bash-hackers.org/scripting/debuggingtips)
 export PS4='\033[0;33m+${BASH_SOURCE[0]: -10}:${LINENO}:\033[0m ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 
-# ... src/
+# ... koalty/
 export JH_SRC
 
-# ...src/packages
+# ...koalty/packages
 export JH_PKG_FOLDER
 
 export JH_PKG_INITIAL="jehon"
@@ -44,7 +44,7 @@ export JH_CLOUD_USER=~/pCloudDrive
 #   where the script currently execute
 #
 #   /usr/(s)bin
-#   ~/src/packages/$JH_PKG_INITIAL/usr/(s)bin
+#   ~/koalty/packages/$JH_PKG_INITIAL/usr/(s)bin
 #
 #  !! this depend on [1] <= the caller script
 #
