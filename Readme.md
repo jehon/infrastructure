@@ -163,10 +163,3 @@ sudo ./deploy-infra-to init
 ```lang=shell
 wsl --shutdown
 ```
-
-In WSL
-
-```lang=shell
-koalty/infrastructure/deploy-infra-to init
-cp .ssh/id_rsa.pub
-```
