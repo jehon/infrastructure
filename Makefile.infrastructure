@@ -12,7 +12,8 @@
 INFRASTRUCTURE_TMP=$(TMP)/infrastructure
 ENCRYPTION_MOCK=infrastructure/.config/ansible-encryption-mock
 
-KEY_TYPE=id_ed25519
+SSH_KEY_TYPE=ed25519
+SSH_KEY_FILE=id_$(SSH_KEY_TYPE)
 
 export ANSIBLE_CONFIG=infrastructure/ansible.cfg
 
@@ -76,8 +77,8 @@ $(INFRASTRUCTURE_TMP)/encryption-key:
 $(INFRASTRUCTURE_TMP)/ssh-key:
 	$(call mkdir,$@)
 	rm -f "$@"
-	if [ -r $(HOME)/.ssh/$(KEY_TYPE) ]; then \
-		ln -fs $(HOME)/.ssh/$(KEY_TYPE) "$@"; \
+	if [ -r $(HOME)/.ssh/$(SSH_KEY_FILE) ]; then \
+		ln -fs $(HOME)/.ssh/$(SSH_KEY_FILE) "$@"; \
 	fi
 
 .PHONY: infrastructure-dump-runtimes
@@ -113,14 +114,14 @@ infrastructure-test: $(INFRASTRUCTURE_TMP)/test.built
 	run-parts --exit-on-error --verbose --regex "^[0-9][0-9]-.*" ./tests/infrastructure
 
 # For github actions, we need a ssh key
-$(HOME)/.ssh/$(KEY_TYPE).pub:
-	ssh-keygen -q -t "$(KEY_TYPE)" -f "$(HOME)/.ssh/$(KEY_TYPE)" -N ""
+$(HOME)/.ssh/$(SSH_KEY_FILE).pub:
+	ssh-keygen -q -t "$(SSH_KEY_TYPE)" -f "$(HOME)/.ssh/$(SSH_KEY_FILE)" -N ""
 
 $(INFRASTRUCTURE_TMP)/test.built: \
 		$(PYTHON_DEPENDENCY_COMMON_MARK) \
 		$(PACKAGES_REPO_MARK) \
 		$(INFRASTRUCTURE_TMP)/50-hosts.yml \
-		$(HOME)/.ssh/$(KEY_TYPE).pub \
+		$(HOME)/.ssh/$(SSH_KEY_FILE).pub \
 		setup.sh
 
 	$(call touch,$@)

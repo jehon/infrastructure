@@ -33,13 +33,6 @@ autocrlf = input
 recurse = true
 
 #
-# GitHub
-#
-
-[includeIf "gitdir:~/koalty/"]
-path = .gitconfig-github
-
-#
 # GitFlow
 #
 
@@ -53,3 +46,13 @@ release = release/
 hotfix = hotfix/
 support = support/
 versiontag =
+
+#
+# Foreign hosts
+#
+
+[includeIf "hasconfig:remote.*.url:git@github.com*/**"]
+path = .gitconfig-github
+
+[includeIf "hasconfig:remote.*.url:git@gitlab.com*/**"]
+path = .gitconfig-gitlab
