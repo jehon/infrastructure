@@ -26,8 +26,10 @@ getGPGKeyAndDearmor() {
     echo "Saving to ${TARGET}"
 }
 
-getGPGKeyAndDearmor "docker-ubuntu" "https://download.docker.com/linux/ubuntu/gpg"
 getGPGKey "github-cli" "https://cli.github.com/packages/githubcli-archive-keyring.gpg"
+
+getGPGKeyAndDearmor "docker-ubuntu" "https://download.docker.com/linux/ubuntu/gpg"
+getGPGKeyAndDearmor "docker-debian" "https://download.docker.com/linux/debian/gpg"
 getGPGKeyAndDearmor "hashicorp" "https://apt.releases.hashicorp.com/gpg"
 getGPGKeyAndDearmor "node" "https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key"
 getGPGKeyAndDearmor "virtualbox" "https://www.virtualbox.org/download/oracle_vbox_2016.asc"
