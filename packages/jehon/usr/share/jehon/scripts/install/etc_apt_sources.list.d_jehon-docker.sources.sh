@@ -5,6 +5,8 @@ set -o pipefail
 shopt -s nullglob
 
 target="$(jh-fs "file-to-path" "$0")"
+codename="$(lsb_release -cs)"
+distribution="$(lsb_release -is | tr '[:upper:]' '[:lower:]')"
 
 case "$1" in
 "configure" | "")
@@ -16,11 +18,11 @@ case "$1" in
 
 X-Repolib-Name: Docker (jehon)
 Types: deb
-URIs: https://download.docker.com/linux/ubuntu
-Suites: $(lsb_release -cs)
+URIs: https://download.docker.com/linux/${distribution}
+Suites: ${codename}
 Components: stable
 Enabled: yes
-Signed-By: /usr/share/keyrings/jehon-docker-ubuntu.gpg
+Signed-By: /usr/share/keyrings/jehon-docker-${distribution}.gpg
 EOS
 
     ) | jh-install-file "${target}"

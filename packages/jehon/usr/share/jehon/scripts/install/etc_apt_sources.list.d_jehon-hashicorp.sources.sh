@@ -5,6 +5,7 @@ set -o pipefail
 shopt -s nullglob
 
 target="$(jh-fs "file-to-path" "$0")"
+codename="$(lsb_release -cs)"
 
 case "$1" in
 "configure" | "")
@@ -19,7 +20,7 @@ case "$1" in
 X-Repolib-Name: Hashicorp (Jehon)
 Types: deb
 URIs: https://apt.releases.hashicorp.com
-Suites: $(lsb_release -cs)
+Suites: ${codename}
 Components: main
 Enabled: yes
 Signed-By: /usr/share/keyrings/jehon-hashicorp.gpg
