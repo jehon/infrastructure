@@ -40,9 +40,9 @@ gsettings_set org.gnome.mutter workspaces-only-on-primary true
 jh_info "Shrink dash"
 gsettings_set org.gnome.shell.extensions.dash-to-dock custom-theme-shrink true
 
-jh_info "Remove default keys for screenshot - allow ksnip to take them"
-gsettings_set org.gnome.shell.keybindings screenshot "@as []"
-gsettings_set org.gnome.shell.keybindings screenshot-window "@as []"
-gsettings_set org.gnome.shell.keybindings show-screenshot-ui "@as []"
+# jh_info "Remove default keys for screenshot - allow ksnip to take them"
+# gsettings_set org.gnome.shell.keybindings screenshot "@as []"
+# gsettings_set org.gnome.shell.keybindings screenshot-window "@as []"
+# gsettings_set org.gnome.shell.keybindings show-screenshot-ui "@as []"
 
 header_end
