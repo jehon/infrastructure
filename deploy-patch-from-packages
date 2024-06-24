@@ -19,7 +19,11 @@ while [ -n "$1" ]; do
     jh_value "SOURCE" "${source}"
     jh_value "dest" "${dest}"
 
-    rsync -i --checksum "${source}" "root@${host}:/${dest}"
+    if [ "${host}" == "dev" ]; then
+        sudo cp -f "${source}" "/${dest}"
+    else
+        rsync -i --checksum "${source}" "root@${host}:/${dest}"
+    fi
     # scp "$SOURCE" "root@$HOST:/${dest}"
     ok "Uploaded to ${dest}"
     shift
