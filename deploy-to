@@ -39,8 +39,9 @@ cd infrastructure || exit
 ARGS=()
 
 case "$HOST" in
-    "" | "dev" )
-        ARGS+=( "--ask-become-pass" )
+"" | "dev")
+    ARGS+=("--ask-become-pass")
+    ;;
 esac
 
 if [ -n "$1" ]; then
