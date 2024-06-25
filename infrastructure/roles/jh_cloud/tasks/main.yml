@@ -18,39 +18,11 @@
         mode: "0640"
       notify: Jh_cloud.remount
 
-    - name: Create dir
-      with_items: "{{ mount_list }}"
-      ansible.builtin.file:
-        state: directory
-        dest: /etc/systemd/system/mnt-cloud-{{ item | lower }}.mount.d/
-        mode: "0755"
-
-    - name: Install override
-      when: cloud_cache_size or (mode != 'ro')
-      with_items: "{{ mount_list }}"
-      vars:
-        jh_cloud_mode: "{{ cloud_mount[item] | default('ro') }}"
-      ansible.builtin.template:
-        src: mnt-cloud-ansible.override
-        dest: /etc/systemd/system/mnt-cloud-{{ item | lower }}.mount.d/ansible.conf
-        owner: root
-        group: root
-        mode: "0644"
-      notify: Jh_cloud.systemctl_reload
-    ## ELSE ##
-    - name: "Remove override"
-      when: not (cloud_cache_size or (mode != 'ro'))
-      with_items: "{{ mount_list }}"
-      ansible.builtin.file:
-        dest: /etc/system/systemd/mnt-cloud{{ item | lower }}.d/ansible.override
-        state: absent
-      notify: Jh_cloud.systemctl_reload
-
     - name: Enable cloud mount service
       when: not virtual
       with_items: "{{ mount_list }}"
       ansible.builtin.systemd:
-        name: mnt-cloud-{{ item | lower }}.mount
+        name: jehon-cloud@{{ item }}.service
         enabled: "{{ jh_cloud_start }}"
         state: "{{ 'started' if jh_cloud_start else 'stopped' }}"
 
@@ -61,3 +33,19 @@
     dest: /etc/jehon/rclone.conf
     state: absent
   notify: Jh_cloud.systemctl_reload
+
+# TODO: Legacy as of 2024-06-25
+- name: Create dir
+  with_items: "{{ mount_list }}"
+  ansible.builtin.file:
+    state: absent
+    dest: /etc/systemd/system/mnt-cloud-{{ item | lower }}.mount.d/
+
+# TODO: Legacy as of 2024-06-25
+- name: Enable cloud mount service
+  when: not virtual
+  with_items: "{{ mount_list }}"
+  ansible.builtin.systemd:
+    name: jehon-cloud@{{ item }}.service
+    enabled: false
+    state: "stopped"

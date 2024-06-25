@@ -6,7 +6,7 @@ Description=JH Cloud mount Musiques
 Type=rclone
 What=cloud:/Photos
 Where=/mnt/cloud/photos
-Options=_netdev,ro,nofail,noexec,config=/etc/jehon/rclone.conf
+Options=_netdev,rw,nofail,noexec,allow-other,config=/etc/jehon/rclone.conf,cache-dir=/var/cache/rclone,vfs-cache-mode=full,vfs-cache-max-size=1000M,gid=978,dir-perms=0775
 
 [Install]
 WantedBy=remote-fs.target

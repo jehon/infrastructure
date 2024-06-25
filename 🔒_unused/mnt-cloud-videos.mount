@@ -1,0 +1,12 @@
+[Unit]
+Description=JH Cloud mount Musiques
+# After=jehon-update-rclone.service
+
+[Mount]
+Type=rclone
+What=cloud:/Videos
+Where=/mnt/cloud/videos
+Options=_netdev,rw,nofail,noexec,allow-other,config=/etc/jehon/rclone.conf,cache-dir=/var/cache/rclone,vfs-cache-mode=full,vfs-cache-max-size=1000M,group-name=jehon_cloud,dir-perms=0775
+
+[Install]
+WantedBy=remote-fs.target
