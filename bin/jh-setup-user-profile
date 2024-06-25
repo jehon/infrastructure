@@ -11,6 +11,10 @@ set -o pipefail
 #
 #   gsettings list-recursively org.gnome.shell
 #
+# Get modifies values?
+#
+#   dconf dump /
+#
 
 dryRun=
 if [ "$1" == "-n" ]; then
@@ -43,6 +47,9 @@ gsettings_set org.gnome.shell.window-switcher current-workspace-only true
 
 jh_info "One dash per workspace"
 gsettings_set org.gnome.shell.extensions.dash-to-dock isolate-workspaces true
+
+jh_info "Separate the dash on each monitor"
+gsettings_set org.gnome.shell.extensions.dash-to-dock multi-monitor true
 
 jh_info "One dash per monitor"
 gsettings_set org.gnome.shell.extensions.dash-to-dock isolate-monitors true
