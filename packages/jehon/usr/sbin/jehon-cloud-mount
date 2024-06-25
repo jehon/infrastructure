@@ -9,6 +9,7 @@ echo "** cloud folder: ${cloudFolder}"
 echo "** local folder: ${localFolder}"
 
 echo "Launching mount..."
+# See https://rclone.org/commands/rclone_mount/
 exec /usr/bin/rclone mount \
     "cloud:/${cloudFolder}" \
     "/mnt/cloud/${localFolder}" \
