@@ -3,9 +3,20 @@
 cloudFolder="$1"
 # To lower case:
 localFolder="${cloudFolder,,}"
+gid="$(getent group jehon_cloud | cut -d ":" -f 3)"
 
 echo "** cloud folder: ${cloudFolder}"
 echo "** local folder: ${localFolder}"
 
 echo "Launching mount..."
-exec /usr/bin/rclone mount "cloud:/${cloudFolder}" "/mnt/cloud/${localFolder}" --config=/etc/jehon/rclone.conf
+exec /usr/bin/rclone mount \
+    "cloud:/${cloudFolder}" \
+    "/mnt/cloud/${localFolder}" \
+    --allow-other \
+    --gid="${gid}" \
+    --file-perms=0660 \
+    --dir-perms=0775 \
+    --config=/etc/jehon/rclone.conf \
+    --cache-dir=/var/cache/rclone \
+    --vfs-cache-max-size=1000M \
+    --vfs-cache-mode=full

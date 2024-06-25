@@ -4,7 +4,7 @@ After=jehon-update-rclone.service
 
 [Service]
 Type=notify
-ExecStart=/usr/bin/rclone mount "cloud:/%i" "/mnt/cloud/$(%i)" --config=/etc/jehon/rclone.conf --ro
+ExecStart=/usr/sbin/jehon-cloud-mount "%i"
 
 [Install]
 WantedBy=multi-user.target
