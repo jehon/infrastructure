@@ -23,14 +23,6 @@
         group: jehon_secrets
         mode: "0700"
 
-    - name: Local SSH Config for dev
-      ansible.builtin.template:
-        src: "{{ role_path }}/templates/ssh_config"
-        dest: /home/{{ dev_user }}/.ssh/config
-        owner: "{{ dev_user }}"
-        group: "jehon_secrets"
-        mode: "0640"
-
     # - name: Run as user
     #   become: true
     #   become_user: "{{ dev_user }}"
@@ -72,6 +64,8 @@
         - gimp
         - ksnip
         - mkvtoolnix-jz
+        - libreoffice
+        - slack
         - spotify
         - whatsapp-for-linux # Personnal (conf call)
         - vlc
