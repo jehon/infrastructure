@@ -10,7 +10,7 @@ openpyxl-stubs
 defusedxml==0.7.1
 
 # https://pillow.readthedocs.io/en/stable/
-pillow==10.3.0
+pillow==10.4.0
 types-Pillow
 
 # https://pypi.org/project/PyExifTool/
