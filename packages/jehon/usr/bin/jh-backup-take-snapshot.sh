@@ -39,10 +39,12 @@ while read -r -d $'\0' file; do
 done < <(find "${from}" -type f -print0)
 
 # Remove daily old backups - covered by monthly backup
-find "${to}/daily" -mtime +31 -delete
+find "${to}/daily/" -type f -mtime +31 -delete
+find "${to}/daily/" -mindepth 1 -type d -empty -delete
 
 # Remove monthly old backups: 2 years old...
-find "${to}/monthly" -mtime +730 -delete
+find "${to}/monthly/" -type f -mtime +730 -delete
+find "${to}/monthly/" -mindepth 1 -type d -empty -delete
 
 # # Remove duplicates backups files
 # #   Since too old files are removed before, we are sure
