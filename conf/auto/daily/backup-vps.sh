@@ -11,7 +11,16 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 target="${JH_CLOUD_USER}/Systèmes/vps"
 
-mkdir -p "${target}/snapshot/full/"
+if [ ! -r "${target}" ]; then
+    header_begin "Wait for cloud folder"
+    sleep 1s
+    if [ ! -r "${target}" ]; then
+        jh_fatal "Cloud folder is NOT ready"
+    fi
+    echo "Cloud folder is ready"
+    header_end
+fi
+
 rsync --recursive --itemize-changes \
     vps:/var/backups/snapshot/full/ "${target}/snapshot/full/"
 
