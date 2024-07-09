@@ -11,15 +11,8 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 target="${JH_CLOUD_USER}/Systèmes/vps"
 
-if [ ! -r "${target}" ]; then
-    header_begin "Wait for cloud folder"
-    sleep 1s
-    if [ ! -r "${target}" ]; then
-        jh_fatal "Cloud folder is NOT ready"
-    fi
-    echo "Cloud folder is ready"
-    header_end
-fi
+# shellcheck source-path=SCRIPTDIR/../../../
+"${JH_PKG_FOLDER}"/bin/jh-wait-home-cloud "${target}"
 
 header_begin "Full: Syncing data"
 rsync --recursive --itemize-changes \
