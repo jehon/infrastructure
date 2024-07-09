@@ -11,7 +11,7 @@
 
     - name: "Install config"
       ansible.builtin.template:
-        src: "{{ cloud_type }}.conf"
+        src: "rclone.conf"
         dest: /etc/jehon/rclone.conf
         owner: root
         group: jehon_secrets
@@ -33,19 +33,3 @@
     dest: /etc/jehon/rclone.conf
     state: absent
   notify: Jh_cloud.systemctl_reload
-
-# TODO: Legacy as of 2024-06-25
-- name: Create dir
-  with_items: "{{ mount_list }}"
-  ansible.builtin.file:
-    state: absent
-    dest: /etc/systemd/system/mnt-cloud-{{ item | lower }}.mount.d/
-
-# TODO: Legacy as of 2024-06-25
-- name: Enable cloud mount service
-  when: not virtual
-  with_items: "{{ mount_list }}"
-  ansible.builtin.systemd:
-    name: jehon-cloud@{{ item }}.service
-    enabled: false
-    state: "stopped"

@@ -1,8 +1,0 @@
----
-argument_specs:
-  main:
-    options:
-      data_volume:
-        type: string
-      script_folder:
-        type: string
