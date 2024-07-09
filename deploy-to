@@ -18,12 +18,7 @@ if [ -z "$1" ]; then
 
     jh_fatal "Need [host...]"
 fi
-
-if [ "$1" == "init" ]; then
-    if [ "$(id -u)" != "0" ]; then
-        jh_fatal "You need to use sudo to run 'init' target"
-    fi
-fi
+HOST="$1"
 
 if [ ! -r ~/restricted/ansible-encryption-key ]; then
     mkdir -p ~/restricted
@@ -40,12 +35,12 @@ ARGS=()
 
 case "$HOST" in
 "" | "dev")
+    echo "Require sudo password"
     ARGS+=("--ask-become-pass")
     ;;
 esac
 
 if [ -n "$1" ]; then
-    HOST="$1"
     shift
     ansible-playbook --limit "${HOST}" "$@" "${PLAYBOOK}" \
         "${ARGS[@]}" |
