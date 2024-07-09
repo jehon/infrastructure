@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC2046 # the values are ok for word splitting
 apt-get purge $(dpkg -l | grep '^rc' | awk '{print $2}')
