@@ -74,10 +74,16 @@ case "${ACTION}" in
     python3 -c "import pathlib; print(pathlib.Path('${FILE}').with_suffix('${NEW_EXT}'))"
     ;;
 "file-to-path")
-    FILENAME="$(basename "$FILE")"
-    TARGET_PATH="/${FILENAME//_/\/}"
-    TARGET_NAME="${TARGET_PATH%.sh}"
-    echo "${TARGET_NAME}"
+    TARGET="$(basename "$FILE")"
+    TARGET="/${TARGET//_/\/}"
+    echo "${TARGET}"
+    ;;
+
+"path-to-file")
+    TARGET="$(realpath "$FILE")"
+    TARGET="${TARGET//\//_}"
+    TARGET="${TARGET#"_"}"
+    echo "${TARGET}"
     ;;
 *)
     jh_fatal "Unknow action: $ACTION"

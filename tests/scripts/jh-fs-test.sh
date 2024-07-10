@@ -24,4 +24,6 @@ assert_failure "not-empty" "${script}" "not-empty" "/etc/anything"
 assert_failure "is-empty" "${script}" "is-empty" "/etc/"
 assert_success "is-empty" "${script}" "is-empty" "/etc/anything"
 
-assert_equals "file-to-path" "/etc/apt/sources.list.d/jehon-hashicorp.sources" "$("${script}" "file-to-path" "jehon/scripts/hooks/etc_apt_sources.list.d_jehon-hashicorp.sources.sh")"
+assert_equals "file-to-path" "/etc/apt/sources.list.d/jehon-hashicorp.sources" "$("${script}" "file-to-path" "jehon/scripts/hooks/etc_apt_sources.list.d_jehon-hashicorp.sources")"
+
+assert_equals "path-to-file" "etc_apt_sources.list.d_jehon-hashicorp.sources" "$("${script}" "path-to-file" "/etc/apt/sources.list.d/jehon-hashicorp.sources")"
