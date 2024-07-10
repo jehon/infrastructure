@@ -6,7 +6,7 @@ set -o pipefail
 # shellcheck source-path=SCRIPTDIR
 . jh-lib
 
-JH_DEFAULT_IDENT=20
+jhValueIdent=20
 
 SOURCE="${1:?Need to specify movie as [1]}"
 SOURCE_FOLDER="$(dirname "${SOURCE}")"

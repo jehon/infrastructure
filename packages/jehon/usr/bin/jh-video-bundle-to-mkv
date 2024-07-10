@@ -6,7 +6,7 @@ shopt -s nullglob
 
 # shellcheck source-path=SCRIPTDIR
 . jh-lib
-JH_DEFAULT_IDENT=30
+jhValueIdent=30
 
 SOURCE="${1:?Need to specify movie as [1]}"
 

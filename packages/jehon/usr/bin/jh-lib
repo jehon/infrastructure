@@ -14,7 +14,6 @@
 #
 
 JH_TIMESTAMP="$(date "+%Y-%m-%d %H.%M.%S")"
-JH_DEFAULT_IDENT=10
 export JH_TIMESTAMP
 
 # For Debug easy (https://wiki.bash-hackers.org/scripting/debuggingtips)
@@ -37,6 +36,7 @@ export JH_MSG_KO
 export JH_TS
 
 # Other configs
+jhValueIdent=10
 export JH_CLOUD_USER=~/pCloudDrive
 
 #
@@ -150,7 +150,7 @@ jh_value() {
     echo -n " 🛈"
     jh_color
 
-    printf " %-${JH_DEFAULT_IDENT}s " "${key}:"
+    printf " %-${jhValueIdent}s " "${key}:"
     jh_color 36
     echo -n "${value}"
     jh_color
