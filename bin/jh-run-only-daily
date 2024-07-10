@@ -27,7 +27,9 @@ if find "${historyFile}" -mtime -1 -print >&/dev/null; then
     exit 0
 fi
 
-echo "Need to run..."
-# "$@"
+# Create/update the history marker only on success
+jh_on_exit "if [ \$? == 0 ]; then touch '${historyFile}'; fi"
 
-touch "${historyFile}"
+echo "Need to run..."
+
+"$@"
