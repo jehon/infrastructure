@@ -3,19 +3,18 @@
 set -o errexit
 set -o pipefail
 
-JH_PKG_FOLDER="$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")"
-export JH_PKG_FOLDER
+prjFolder="$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")"
+export prjFolder
+export prjTmp="$JH_PKG_FOLDER/tmp"
+
 export PATH="${JH_PKG_FOLDER}/tmp/python/common/bin/:${JH_PKG_FOLDER}/packages/jehon/usr/bin/:$PATH"
 export PYTHONPATH="$JH_PKG_FOLDER/tmp/python/common"
-export PRJ_TMP="$JH_PKG_FOLDER/tmp"
+
+# FIXME(legacy): Old notation
+export PRJ_TMP="${prjTmp}"
+export JH_PKG_FOLDER="${prjFolder}"
 
 # shellcheck source-path=SCRIPTDIR/../
-. "${JH_PKG_FOLDER}/packages/jehon/usr/bin/jh-lib"
+. "${prjFolder}/packages/jehon/usr/bin/jh-lib"
 
-mkdir -p "$JH_PKG_FOLDER/tmp"
-
-mkdir -p "$PRJ_TMP"
-
-runDockerCompose() {
-    docker compose --project-directory "$JH_PKG_FOLDER" --env-file=/etc/jehon/restricted/jenkins.env "$@"
-}
+mkdir -p "$prjTmp"
