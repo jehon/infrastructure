@@ -118,9 +118,4 @@ esac
 # Legacy
 #
 
-# As of 2024-06-25
-jh_deb_helper_legacy jh_deb_helper_service mnt-cloud-musiques.mount
-jh_deb_helper_legacy jh_deb_helper_service mnt-cloud-photos.mount
-jh_deb_helper_legacy jh_deb_helper_service mnt-cloud-videos.mount
-
 exit 0
