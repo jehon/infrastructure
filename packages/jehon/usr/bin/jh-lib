@@ -212,67 +212,24 @@ jh_background_process() {
     echo "$PID"
 }
 
-#
-# Redirect output to log only if not in JH_DAEMON mode
-#
-jh_log_or_tty() {
-    local LOG="$1"
-
-    if [ -z "$LOG" ]; then
-        jh_fatal "jh_log_or_tty: need the log file as [1]"
-    fi
-
-    if [ -n "$JH_DAEMON" ]; then
-        echo "****** Starting $0 at $(date) ******" >>"$LOG"
-        exec >>"$LOG" 2>>"$LOG" </dev/null
-    fi
-}
-
-jh_exclusive() {
-    CMD="${1:-take}"
-    LOCK_FILE="$2"
-
-    case "$CMD" in
-    "take")
-        jh_exclusive_take "$LOCK_FILE"
-        ;;
-    "steal")
-        jh_exclusive_kill "$LOCK_FILE"
-        jh_exclusive_take "$LOCK_FILE"
-        ;;
-    "kill")
-        jh_exclusive_kill "$LOCK_FILE"
-        exit 0
-        ;;
-    esac
-
-}
-
-# shellcheck disable=SC2120
 jh_exclusive_take() {
-    local LOCK_FILE
-    local FD
+    local lockFile="${1:?Need the lockfile as [1]}"
+    local fd
 
-    LOCK_FILE="/var/lock/$(basename "${1:-$0}").lock"
-    touch "$LOCK_FILE"
+    touch "$lockFile"
 
     #
     # check the actually running lock with
     #     sudo fuser $LOCK_FILE
     #
 
-    exec {FD}<"$LOCK_FILE"
-    # echo "LOCK_FILE: $LOCK_FILE"
-
-    flock --exclusive --nonblock "$FD" || jh_fatal "Could not acquire lock $LOCK_FILE" >&2
-
-    #    jh_on_exit "rm -f '$LOCK_FILE'"
+    # See https://www.baeldung.com/linux/bash-ensure-instance-running
+    exec {fd}<"$lockFile"
+    flock --exclusive --nonblock "$fd" || jh_fatal "Could not acquire lock $lockFile" >&2
 }
 
-# shellcheck disable=SC2120
 jh_exclusive_kill() {
-    local LOCK_FILE
-    LOCK_FILE="/var/lock/$(basename "${1:-$0}").lock"
+    local lockFile="${1:?Need the lockfile as [1]}"
 
-    fuser --kill "$LOCK_FILE"
+    fuser --kill "$lockFile"
 }
