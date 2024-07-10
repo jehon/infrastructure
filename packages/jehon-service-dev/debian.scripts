@@ -6,7 +6,6 @@ set -o errexit
 . /usr/sbin/jehon-deb-helpers.sh
 
 jh_deb_helper_service jehon-dev-user-hourly.timer
-jh_deb_helper_service jehon-dev-user-daily.timer
 
 case "$1" in
 configure)

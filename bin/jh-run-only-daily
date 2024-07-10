@@ -7,9 +7,7 @@ shopt -s nullglob
 # shellcheck source-path=SCRIPTDIR/
 . "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
-command="${1:?Need at least the command as [1] - args may follow]}"
-
-stateFilesRadix="${prjRoot}/tmp/history/$(jh-fs "path-to-file" "${command}")"
+stateFilesRadix="${prjRoot}/tmp/history/$(jh-fs "path-to-file" "$0")"
 
 mkdir -p "$(dirname "${stateFilesRadix}")"
 
@@ -31,5 +29,3 @@ fi
 jh_on_exit "if [ \$? == 0 ]; then touch '${historyFile}'; fi"
 
 echo "Need to run..."
-
-"$@"

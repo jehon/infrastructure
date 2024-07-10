@@ -1,7 +1,0 @@
-[Unit]
-RequiresMountsFor=/var/backups/
-
-[Service]
-Type=simple
-User=jehon
-ExecStart=/usr/bin/jh-dev-user-run daily
