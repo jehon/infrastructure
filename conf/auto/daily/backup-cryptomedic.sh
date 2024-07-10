@@ -12,7 +12,7 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 target="$JH_CLOUD_USER"/Systèmes/cryptomedic/backups/
 
 # shellcheck source-path=SCRIPTDIR/../../../
-"${JH_PKG_FOLDER}"/bin/jh-wait-home-cloud "${target}"
+"${prjRoot}"/bin/jh-wait-home-cloud "${target}"
 
 # shellcheck source=/dev/null
 . "$HOME"/restricted/cryptomedic.sh

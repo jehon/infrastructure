@@ -19,7 +19,7 @@ cat <<-EOF >"$PATCH"
 	Hello world
 EOF
 
-assert_success "jh-patch" "$JH_PKG_FOLDER"/packages/jehon/usr/bin/jh-patch "$TARGET" "tag" "$PATCH"
+assert_success "jh-patch" "$prjRoot"/packages/jehon/usr/bin/jh-patch "$TARGET" "tag" "$PATCH"
 
 test_capture "jh-patch-patch read" cat "$TARGET"
 assert_captured_output_contains "Live source: $PATCH"
@@ -31,7 +31,7 @@ assert_captured_output_contains "This is the file"
 assert_captured_output_contains "Hello world"
 test_capture_empty
 
-assert_success "jh-patch-patch" "$JH_PKG_FOLDER"/packages/jehon/usr/bin/jh-patch "$TARGET" "tag"
+assert_success "jh-patch-patch" "$prjRoot"/packages/jehon/usr/bin/jh-patch "$TARGET" "tag"
 
 test_capture_file "read the generated file" "$TARGET"
 assert_captured_output_contains "This is the file"

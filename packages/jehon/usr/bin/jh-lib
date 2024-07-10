@@ -23,9 +23,7 @@ export PS4='\033[0;33m+${BASH_SOURCE[0]: -10}:${LINENO}:\033[0m ${FUNCNAME[0]:+$
 export JH_SRC
 
 # ...koalty/packages
-export JH_PKG_FOLDER
-
-export JH_PKG_INITIAL="jehon"
+export prjRoot
 
 # relative to +1 script
 export JH_SWD
@@ -63,12 +61,11 @@ JH_SWD="$(dirname "$(realpath --physical "${JH_SWF}")")"
 #
 #  !! this depend on [0] <= the jh-lib script
 #
-JH_PKG_FOLDER="$(dirname "$(dirname "$(dirname "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")")")")"
+prjRoot="$(dirname "$(dirname "$(dirname "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")")")")"
 # If SELF is as /usr/bin, then it is not under package source
-if [ "$JH_PKG_FOLDER" = "/" ]; then
-    JH_PKG_FOLDER=""
+if [ "$prjRoot" = "/" ]; then
+    prjRoot=""
 fi
-JH_SRC="$(dirname "$JH_PKG_FOLDER")"
 
 JH_TS="$(date +%F-%H-%M-%S.%N)"
 

@@ -46,8 +46,8 @@ run_in_docker() {
         echo "* Docker Tag:       ${DOCKER_TAG}"
 
         docker build \
-            --build-context "publish=${JH_PKG_FOLDER}/tmp/publish" \
-            --build-context "workspace=${JH_PKG_FOLDER}" \
+            --build-context "publish=${prjRoot}/tmp/publish" \
+            --build-context "workspace=${prjRoot}" \
             --tag "${runBaseImage}" \
             --target "${buildTarget}" \
             "${LIB_SD}" |& jh-tag-stdin "run.sh building ${runBaseImage}"
