@@ -24,7 +24,7 @@ if docker ps >&/dev/null; then
     ) | jh-tag-stdin "root-docker"
 fi
 
-cp --preserve=all -v "$JH_SWD/jehon-system-transfert-from" "$DEST/"
+cp --preserve=all -v "$jhSWD/jehon-system-transfert-from" "$DEST/"
 
 mkdir -p "$DEST/home"
 rsync -ai \

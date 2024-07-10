@@ -7,6 +7,6 @@ set -o errexit
 # Script Working Directory
 TWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
-assert_equals "JH_SWD" "$TWD" "$JH_SWD"
+assert_equals "jhSWD" "$TWD" "$jhSWD"
 
 assert_file_exists "/etc/hosts"

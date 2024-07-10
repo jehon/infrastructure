@@ -25,8 +25,8 @@ export JH_SRC
 # ...koalty/packages
 export prjRoot
 
-# relative to +1 script
-export JH_SWD
+# relative to initial($0) script
+export jhSWD
 
 export jhMsgOk
 export jhMsgKo
@@ -36,22 +36,14 @@ jhValueIdent=10
 export jhCloudFolderInUserHome=~/pCloudDrive
 
 #
-# JH_SWD (Script Working Directory)
+# jhSWD (Script Working Directory)
 #   where the script currently execute
 #
 #   /usr/(s)bin
-#   ~/koalty/packages/$JH_PKG_INITIAL/usr/(s)bin
 #
 #  !! this depend on [1] <= the caller script
 #
-JH_SWF="$(realpath "$0")"
-# JH_SWF="${BASH_SOURCE[1]}"
-# if [[ -z "${JH_SWF}" && -n "${ZSH_VERSION}" ]]; then
-#     # ZSH way
-#     # shellcheck disable=SC2296
-#     JH_SWF="${(%):-%N}"
-# fi
-JH_SWD="$(dirname "$(realpath --physical "${JH_SWF}")")"
+jhSWD="$(dirname "$(realpath --physical "$(realpath "$0")")")"
 
 #
 #

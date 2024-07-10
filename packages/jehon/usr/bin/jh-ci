@@ -33,6 +33,6 @@ header_end
 jh_info "Tests are successfull!"
 
 if [ "$GIT_BRANCH" != "main" ]; then
-    "$JH_SWD"/jh-ci-merge | jh-tag-stdin "$GIT_BRANCH merge"
+    "$jhSWD"/jh-ci-merge | jh-tag-stdin "$GIT_BRANCH merge"
     "$0"
 fi
