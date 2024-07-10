@@ -28,7 +28,7 @@ echo "...done"
 
 echo "Getting storage"
 lftp "${CRYPTOMEDIC_DEPLOY_FILES_USER}:${CRYPTOMEDIC_DEPLOY_FILES_PASSWORD=}@${CRYPTOMEDIC_DEPLOY_FILES_HOST}" \
-    -e "set net:limit-rate 100K; mirror live/ '$target/'; bye"
+    -e "set net:limit-rate 200k; mirror live/ '$target/'; bye"
 echo "...done"
 
 ok "Backup finished with success"
