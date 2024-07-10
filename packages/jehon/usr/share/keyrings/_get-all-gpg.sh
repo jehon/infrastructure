@@ -26,10 +26,15 @@ getGPGKeyAndDearmor() {
     echo "Saving to ${TARGET}"
 }
 
+# # !! Keep jehon.gpg
+# rm -f "$_SD"/jehon-.gpg
+
 getGPGKey "github-cli" "https://cli.github.com/packages/githubcli-archive-keyring.gpg"
 
 getGPGKeyAndDearmor "docker-ubuntu" "https://download.docker.com/linux/ubuntu/gpg"
 getGPGKeyAndDearmor "docker-debian" "https://download.docker.com/linux/debian/gpg"
+getGPGKeyAndDearmor "gitlab-runner" "https://packages.gitlab.com/runner/gitlab-runner/gpgkey/runner-gitlab-runner-49F16C5CC3A0F81F.pub.gpg"
+# getGPGKeyAndDearmor "gitlab" "https://packages.gitlab.com/runner/gitlab-runner/gpgkey"
 getGPGKeyAndDearmor "hashicorp" "https://apt.releases.hashicorp.com/gpg"
 getGPGKeyAndDearmor "node" "https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key"
 getGPGKeyAndDearmor "virtualbox" "https://www.virtualbox.org/download/oracle_vbox_2016.asc"
