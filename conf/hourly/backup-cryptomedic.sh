@@ -7,14 +7,14 @@ shopt -s nullglob
 _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 # shellcheck source-path=SCRIPTDIR/
-. "${_SD}/../../../bin/lib.sh"
+. "${_SD}/../../bin/lib.sh"
 
-# shellcheck source-path=SCRIPTDIR/../../../
+# shellcheck source-path=SCRIPTDIR/../../
 . "${prjRoot}"/bin/jh-run-only-daily
 
 target="${jhCloudFolderInUserHome}"/Systèmes/cryptomedic/backups/
 
-# shellcheck source-path=SCRIPTDIR/../../../
+# shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-wait-home-cloud "${target}"
 
 # shellcheck source=/dev/null
@@ -28,7 +28,7 @@ echo "...done"
 
 echo "Getting storage"
 lftp "${CRYPTOMEDIC_DEPLOY_FILES_USER}:${CRYPTOMEDIC_DEPLOY_FILES_PASSWORD=}@${CRYPTOMEDIC_DEPLOY_FILES_HOST}" \
-    -e "mirror live/ '$target/'; bye"
+    -e "set net:limit-rate 100K; mirror live/ '$target/'; bye"
 echo "...done"
 
 ok "Backup finished with success"

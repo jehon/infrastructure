@@ -7,18 +7,19 @@ shopt -s nullglob
 _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 # shellcheck source-path=SCRIPTDIR/
-. "${_SD}/../../../bin/lib.sh"
+. "${_SD}/../../bin/lib.sh"
 
-# shellcheck source-path=SCRIPTDIR/../../../
+# shellcheck source-path=SCRIPTDIR/../../
 . "${prjRoot}"/bin/jh-run-only-daily
 
 target="${jhCloudFolderInUserHome}/Systèmes/vps"
 
-# shellcheck source-path=SCRIPTDIR/../../../
+# shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-wait-home-cloud "${target}"
 
 header_begin "Full: Syncing data"
-rsync --recursive --itemize-changes \
+rsync --bwlimit=100KiB \
+    --recursive --itemize-changes \
     vps:/var/backups/snapshot/full/ "${target}/snapshot/full/"
 header_end
 header_begin "Full: Taking snapshots"
@@ -30,7 +31,8 @@ latestDir="${target}/data/latest"
 backupDir="${target}/data/${jhTS}"
 mkdir -p "${backupDir}"
 mkdir -p "${target}/data/latest"
-rsync --recursive --itemize-changes \
+rsync --bwlimit=100KiB \
+    --recursive --itemize-changes \
     --backup --backup-dir="${backupDir}" \
     --delete \
     vps:/mnt/data/ "${latestDir}"
