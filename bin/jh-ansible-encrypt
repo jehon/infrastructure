@@ -6,7 +6,7 @@ set -o errexit
 . "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
 echo "Installing dependencies"
-make --directory "$JH_PKG_FOLDER" python-dependencies
+make --directory "$prjRoot" python-dependencies
 
 echo ""
 
