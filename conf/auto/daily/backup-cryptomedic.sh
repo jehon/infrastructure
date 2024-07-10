@@ -9,7 +9,7 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${_SD}/../../../bin/lib.sh"
 
-target="$JH_CLOUD_USER"/Systèmes/cryptomedic/backups/
+target="${jhCloudFolderInUserHome}"/Systèmes/cryptomedic/backups/
 
 # shellcheck source-path=SCRIPTDIR/../../../
 "${prjRoot}"/bin/jh-wait-home-cloud "${target}"

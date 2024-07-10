@@ -9,7 +9,7 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR
 . "${_SD}"/lib.sh
 
-check="${1:-"${JH_CLOUD_USER}/Workspaces"}"
+check="${1:-"${jhCloudFolderInUserHome}/Workspaces"}"
 
 echo check: "$check"
 

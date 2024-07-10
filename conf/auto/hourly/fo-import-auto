@@ -7,9 +7,9 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${_SD}/../../../bin/lib.sh"
 
-TARGET="${JH_CLOUD_USER}/Workspaces/Famille/A ranger/"
+TARGET="${jhCloudFolderInUserHome}/Workspaces/Famille/A ranger/"
 
-jh_value "CLOUD" "${JH_CLOUD_USER}"
+jh_value "CLOUD" "${jhCloudFolderInUserHome}"
 jh_value "TARGET" "${TARGET}"
 
 if [ ! -d "${TARGET}" ]; then
@@ -19,7 +19,7 @@ fi
 
 import() {
     NAME="$1"
-    SOURCE="${JH_CLOUD_USER}/$1"
+    SOURCE="${jhCloudFolderInUserHome}/$1"
     shift
 
     jh_info "Importing $NAME"

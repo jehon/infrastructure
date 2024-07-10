@@ -34,7 +34,7 @@ export JH_TS
 
 # Other configs
 jhValueIdent=10
-export JH_CLOUD_USER=~/pCloudDrive
+export jhCloudFolderInUserHome=~/pCloudDrive
 
 #
 # JH_SWD (Script Working Directory)

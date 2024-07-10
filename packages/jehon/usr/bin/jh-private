@@ -105,7 +105,7 @@ mount_rclone() {
 
 start() {
 	mount_rclone \
-		"${JH_CLOUD_USER}/Workspaces/Jean/.encrypted_2024" \
+		"${jhCloudFolderInUserHome}/Workspaces/Jean/.encrypted_2024" \
 		"${CRYPTED_MOUNTED}"
 
 	do_move_to_be_encrypted_files
