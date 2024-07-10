@@ -2,10 +2,10 @@
 
 set -o errexit
 
-JH_ROOT="$(dirname "$(dirname "$(dirname "${BASH_SOURCE[0]}")")")"
+prjRoot="$(dirname "$(dirname "$(dirname "${BASH_SOURCE[0]}")")")"
 
-# shellcheck source=SCRIPTDIR/../../packages/jehon/usr/bin/jh-lib
-. "$JH_ROOT"/packages/jehon/usr/bin/jh-lib
+# shellcheck source-path=SCRIPTDIR/../../
+. "$prjRoot"/packages/jehon/usr/bin/jh-lib
 
 echo "Here we are at $(date)"
 

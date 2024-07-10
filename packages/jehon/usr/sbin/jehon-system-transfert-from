@@ -3,11 +3,11 @@
 set -o errexit
 
 # !! we don't have jh-lib yet
-JH_SWD="$(dirname "$(realpath --physical "${BASH_SOURCE[0]}")")"
+_SD="$(dirname "$(realpath --physical "${BASH_SOURCE[0]}")")"
 
 rsync -ai \
         --progress \
         --one-file-system \
         --delete --delete-excluded \
-        "$JH_SWD/home/" \
-        /home/ \
+        "$_SD/home/" \
+        /home/

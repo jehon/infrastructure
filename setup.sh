@@ -3,8 +3,7 @@
 set -o errexit
 set -o pipefail
 
-SWD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
-JH_PKG_FOLDER="$SWD"
+prjRoot="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -47,11 +46,11 @@ PKGS=(
 root_or_sudo apt install --quiet --yes "${PKGS[@]}"
 echo "* Installing packages done"
 
-if ! type npm ;  then
+if ! type npm; then
     # npm is provided by node official package, but not by ubuntu package
     root_or_sudo apt install --quiet --yes npm
 fi
 
 echo "* Enabling direnv..."
-direnv allow "$JH_PKG_FOLDER"/
+direnv allow "$prjRoot"/
 echo "* Enabling direnv done"

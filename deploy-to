@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-SWD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+prjRoot="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 # shellcheck source-path=SCRIPTDIR/
-. "${SWD}/bin/lib.sh"
+. "${prjRoot}/bin/lib.sh"
 
 # Initial setup from dhcp ip:
 #
@@ -28,7 +28,7 @@ fi
 
 make dependencies
 
-export PYTHONPATH="${JH_PKG_FOLDER}/tmp/python/common:$PYTHONPATH"
+export PYTHONPATH="${prjRoot}/tmp/python/common:$PYTHONPATH"
 cd infrastructure || exit
 
 ARGS=()
@@ -44,7 +44,7 @@ if [ -n "$1" ]; then
     shift
     ansible-playbook --limit "${HOST}" "$@" "${PLAYBOOK}" \
         "${ARGS[@]}" |
-        "${JH_PKG_FOLDER}"/packages/jehon/usr/bin/jh-tag-stdin "${HOST}"
+        "${prjRoot}"/packages/jehon/usr/bin/jh-tag-stdin "${HOST}"
 else
     ansible-playbook "${PLAYBOOK}"
 fi
