@@ -7,7 +7,8 @@ JH_ROOT="$(dirname "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")")"
 
 lockFile="${JH_ROOT}/tmp/$(basename "$0").lock"
 
-jh_exclusive_take "${lockFile}"
+jh_value "lock file" "${lockFile}"
+jh_exclusive "${lockFile}"
 
 echo "ok, lock acquired (I am $$)"
 read -r

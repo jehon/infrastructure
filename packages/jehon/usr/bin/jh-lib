@@ -194,7 +194,7 @@ jh_background_process() {
     echo "$PID"
 }
 
-jh_exclusive_take() {
+jh_exclusive() {
     local lockFile="${1:?Need the lockfile as [1]}"
     local fd
 
@@ -206,12 +206,14 @@ jh_exclusive_take() {
     #
 
     # See https://www.baeldung.com/linux/bash-ensure-instance-running
-    exec {fd}<"$lockFile"
-    flock --exclusive --nonblock "$fd" || jh_fatal "Could not acquire lock $lockFile" >&2
-}
+    exec {fd}<"${lockFile}"
+    flock --exclusive --nonblock "$fd" || {
+        echo "Lock file busy as ${lockFile}" >&2
+        fuser "${lockFile}"
 
-jh_exclusive_kill() {
-    local lockFile="${1:?Need the lockfile as [1]}"
+        echo "Unlock with:" >&2
+        echo "\$ fuser --kill '${lockFile}'" >&2
 
-    fuser --kill "$lockFile"
+        jh_fatal "Could not acquire lock ${lockFile}" >&2
+    }
 }
