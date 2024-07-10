@@ -19,7 +19,7 @@ X-Repolib-Name: Gitlab (Jehon)
 Types: deb
 URIs: https://packages.gitlab.com/runner/gitlab-runner/ubuntu/
 Suites: ${codename}
-Components: contrib
+Components: main
 Enabled: yes
 Signed-By: /usr/share/keyrings/jehon-gitlab-runner.gpg
 EOS
