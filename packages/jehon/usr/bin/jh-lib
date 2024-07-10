@@ -13,8 +13,8 @@
 #
 #
 
-JH_TIMESTAMP="$(date "+%Y-%m-%d %H.%M.%S")"
-export JH_TIMESTAMP
+jhTS="$(date "+%Y-%m-%d %H.%M.%S")"
+export jhTS
 
 # For Debug easy (https://wiki.bash-hackers.org/scripting/debuggingtips)
 export PS4='\033[0;33m+${BASH_SOURCE[0]: -10}:${LINENO}:\033[0m ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
@@ -30,7 +30,6 @@ export JH_SWD
 
 export jhMsgOk
 export jhMsgKo
-export JH_TS
 
 # Other configs
 jhValueIdent=10
@@ -65,8 +64,6 @@ prjRoot="$(dirname "$(dirname "$(dirname "$(dirname "$(dirname "$(realpath "${BA
 if [ "$prjRoot" = "/" ]; then
     prjRoot=""
 fi
-
-JH_TS="$(date +%F-%H-%M-%S.%N)"
 
 if [ -z "$JH_DAEMON" ]; then
     if [[ $- == *i* ]] || [ -t 0 ]; then

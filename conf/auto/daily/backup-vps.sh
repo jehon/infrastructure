@@ -24,7 +24,7 @@ header_end
 
 header_begin "Incremental: Syncing data"
 latestDir="${target}/data/latest"
-backupDir="${target}/data/${JH_TIMESTAMP}"
+backupDir="${target}/data/${jhTS}"
 mkdir -p "${backupDir}"
 mkdir -p "${target}/data/latest"
 rsync --recursive --itemize-changes \

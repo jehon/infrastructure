@@ -7,7 +7,7 @@ shopt -s nullglob
 # shellcheck source-path=SCRIPTDIR
 . jh-lib
 
-jh_info "TS: ${JH_TS}"
+jh_info "TS: ${jhTS}"
 
 if [ "$1" == "add" ]; then
     header_begin "Adding files"
@@ -21,11 +21,11 @@ git pull
 header_end
 
 header_begin "Commit"
-git commit -m "$1 (${JH_TS})"
+git commit -m "$1 (${jhTS})"
 header_end
 
 header_begin "Push"
 git push
 header_end
 
-jh_info "TS: ${JH_TS}"
+jh_info "TS: ${jhTS}"
