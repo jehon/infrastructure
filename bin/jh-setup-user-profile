@@ -3,7 +3,7 @@
 set -o errexit
 set -o pipefail
 
-# shellcheck source-path=SCRIPTDIR/../packages/jehon/usr/bin
+# shellcheck source-path=SCRIPTDIR/../packages/jehon/usr/bin/
 . jh-lib
 
 #
@@ -31,7 +31,7 @@ gsettings_set() {
 
     if [ "$CUR_VAL" != "$NEW_VAL" ]; then
         $dryRun gsettings set "$1" "$2" "$3"
-        echo "[modified] ${JH_MSG_OK} ${CUR_VAL} => ${NEW_VAL} done"
+        echo "[modified] ${jhMsgOk} ${CUR_VAL} => ${NEW_VAL} done"
     else
         echo "[untouchd] = '$1' '$2': '$CUR_VAL'  ('$NEW_VAL')"
     fi

@@ -28,9 +28,8 @@ export prjRoot
 # relative to +1 script
 export JH_SWD
 
-export JH_MSG_OK
-export JH_MSG_KO
-
+export jhMsgOk
+export jhMsgKo
 export JH_TS
 
 # Other configs
@@ -159,25 +158,25 @@ jh_value_file() {
     file="$2"
 
     if [ -e "${file}" ]; then
-        jh_value "$key" "${file} ${JH_MSG_OK}"
+        jh_value "$key" "${file} ${jhMsgOk}"
     else
-        jh_value "$key" "${file} ${JH_MSG_KO}"
+        jh_value "$key" "${file} ${jhMsgKo}"
     fi
 }
 
-JH_MSG_OK="$(jh_color "01;32")✓$(jh_color)"
-JH_MSG_KO="$(jh_color "01;31")✗$(jh_color)"
+jhMsgOk="$(jh_color "01;32")✓$(jh_color)"
+jhMsgKo="$(jh_color "01;31")✗$(jh_color)"
 
 ok() {
     if [ -n "$1" ]; then
-        echo "$JH_MSG_OK $*"
+        echo "$jhMsgOk $*"
     else
         ok "Done"
     fi
 }
 
 ko() {
-    echo -e "$JH_MSG_KO $*"
+    echo -e "$jhMsgKo $*"
 }
 
 jh_on_exit() {

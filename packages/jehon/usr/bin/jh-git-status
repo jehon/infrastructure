@@ -36,15 +36,15 @@ export GIT_STASH_CNT
 # LOCAL COMMIT NOT PUSHED
 AHEAD=$(git status -sb | grep -E '\[(ahead|behind)' | sed -r 's/^.*\[//g' | sed -r 's/\].*$//g')
 if [ -z "$AHEAD" ]; then
-    m "$JH_MSG_OK" "GIT origin" "up-to-date"
+    m "$jhMsgOk" "GIT origin" "up-to-date"
 else
-    m "$JH_MSG_KO" "GIT origin" "$AHEAD"
+    m "$jhMsgKo" "GIT origin" "$AHEAD"
 fi
 
 # STASH LIST
 GIT_STASH_CNT=$(git stash list | wc -l)
 if [[ $GIT_STASH_CNT -eq 0 ]]; then
-    m "$JH_MSG_OK" "GIT Stash" "None"
+    m "$jhMsgOk" "GIT Stash" "None"
 else
-    m "$JH_MSG_KO" "GIT Stash" "$GIT_STASH_CNT"
+    m "$jhMsgKo" "GIT Stash" "$GIT_STASH_CNT"
 fi
