@@ -14,8 +14,8 @@ user_report_failure
 # shellcheck source-path=SCRIPTDIR/../../
 . "${prjRoot}"/bin/jh-run-only-daily
 
-# shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-wait-home-cloud
+# # shellcheck source-path=SCRIPTDIR/../../
+# "${prjRoot}"/bin/jh-wait-home-cloud
 
 syncOne() {
     folder="$1"
