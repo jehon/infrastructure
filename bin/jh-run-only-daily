@@ -30,6 +30,6 @@ else
 fi
 
 # Create/update the history marker only on success
-jh_on_exit "if [ \$? == 0 ]; then touch '${historyFile}'; fi"
+jh_on_exit_success "touch \"${historyFile}\""
 
-echo "Need to run..."
+echo "Running..."
