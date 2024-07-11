@@ -8,6 +8,8 @@ gid="$(getent group jehon_cloud | cut -d ":" -f 3)"
 echo "** cloud folder: ${cloudFolder}"
 echo "** local folder: ${localFolder}"
 
+mkdir -r "${localFolder}"
+
 echo "Launching mount..."
 # See https://rclone.org/commands/rclone_mount/
 exec /usr/bin/rclone mount \
