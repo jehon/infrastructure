@@ -9,6 +9,8 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${_SD}/../../bin/lib.sh"
 
+user_report_failure
+
 # shellcheck source-path=SCRIPTDIR/../../
 . "${prjRoot}"/bin/jh-run-only-daily
 
@@ -33,9 +35,10 @@ syncOne() {
     # --bwlimit "500K": limit the bandwidth (at 500KBy/s, 1GByte = 30min)
     #
 
+    #        --stats 99d \
+
     rclone \
         --verbose \
-        --stats 99d \
         --config "/etc/jehon/rclone.conf" \
         --bwlimit "400K" \
         --exclude "@eaDir" --exclude "@eaDir/**" \
