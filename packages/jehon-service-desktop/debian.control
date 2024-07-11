@@ -1,5 +1,9 @@
 Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
+# clipboard
+	copyq,
+# Logitech material
+	solaar,
 # jh-windows-arrange
 	wmctrl,
 # Dandling coma

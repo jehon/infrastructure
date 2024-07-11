@@ -5,8 +5,8 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
 . /usr/sbin/jehon-deb-helpers.sh
 
-jh_deb_helper_ufw "app" "jehon-supertuxkart" "home"
-jh_deb_helper_ufw "app" "jehon-supertuxkart" "homeIPv4"
+# jh_deb_helper_ufw "app" "jehon-supertuxkart" "home"
+# jh_deb_helper_ufw "app" "jehon-supertuxkart" "homeIPv4"
 jh_deb_helper_ufw "app" "jehon-gsconnect" "home"
 jh_deb_helper_ufw "app" "jehon-gsconnect" "homeIPv4"
 

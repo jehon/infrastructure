@@ -48,13 +48,12 @@
     - name: Install desktop packages
       ansible.builtin.apt:
         pkg:
-          - copyq
+          - jehon-service-desktop
           # - ffmpegthumbnailer # Thumbnails for movies
           # - gnome-network-displays
           # - gnome-shell-extensions
           # - gthumb # Print multiple images on one page
           - libfuse2 # pcloud
-          - solaar
 
     - name: "Ensure installed snap"
       when: not virtual
