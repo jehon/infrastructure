@@ -19,10 +19,14 @@ if ! jh_exclusive "${lockFile}"; then
     exit 0
 fi
 
-# Modified days ago
-if find "${historyFile}" -mtime -1 -print >&/dev/null; then
-    echo "No need to run it"
-    exit 0
+if [ "$1" = "--force" ]; then
+    echo "Forcing run"
+else
+    # Modified days ago
+    if find "${historyFile}" -mtime -1 -print >&/dev/null; then
+        echo "No need to run it"
+        exit 0
+    fi
 fi
 
 # Create/update the history marker only on success
