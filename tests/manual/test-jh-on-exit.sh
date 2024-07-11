@@ -20,3 +20,5 @@ jh_on_exit_success ee2
 
 jh_on_exit_failure "echo \"it is a failure\""
 echo "at the end"
+
+# false

@@ -165,24 +165,35 @@ ko() {
     echo -e "$jhMsgKo $*"
 }
 
+declare -a jh_on_exit_hanlder_list_success
+declare -a jh_on_exit_hanlder_list_failure
+jh_on_exit_hanlder() {
+    local exitCode=$?
+
+    if [ "$exitCode" == 0 ]; then
+        cmds=("${jh_on_exit_hanlder_list_success[@]}")
+    else
+        cmds=("${jh_on_exit_hanlder_list_failure[@]}")
+    fi
+    for cmd in "${cmds[@]}"; do
+        $cmd
+    done
+    exit $exitCode
+}
+
+trap jh_on_exit_hanlder EXIT
+
 jh_on_exit() {
-    # Thanks to https://stackoverflow.com/a/7287873/1954789
-    # for SIG_NAME in "EXIT"; do
-    local SIG_NAME="EXIT"
-    trap -- "$(
-        # helper fn to get existing trap command from output of trap -p
-        trap -p 'EXIT' | cut -d ' ' -f 3 | tr -d "'"
-        printf '%s\n' "$1"
-    )" "$SIG_NAME"
-    # done
+    jh_on_exit_success "$1"
+    jh_on_exit_failure "$1"
 }
 
 jh_on_exit_success() {
-    jh_on_exit "if [ \$? == 0 ]; then $1; fi"
+    jh_on_exit_hanlder_list_success+=("$1")
 }
 
 jh_on_exit_failure() {
-    jh_on_exit "if [ \$? != 0 ]; then $1; fi"
+    jh_on_exit_hanlder_list_failure+=("$1")
 }
 
 jh_background_process() {
