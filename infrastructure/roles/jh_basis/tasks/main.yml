@@ -140,24 +140,26 @@
     # Snap's
     #
     ############################################
-    # - name: "Ensure installed snap"
-    #   when: not virtual
-    #   block:
-    #     - name: "Normal snaps"
-    #       community.general.snap:
-    #         name:
-    #           - docker
+    # 2024-07-11: deb packages have apparmor problems
+    - name: "Ensure installed snap"
+      when: not virtual
+      block:
+        - name: "Normal snaps"
+          community.general.snap:
+            name:
+              - docker
 
     ############################################
     #
     # Packages (too volatile one)
     #
     ############################################
-    - name: "Install some packages"
-      ansible.builtin.apt:
-        pkg:
-          - docker-ce
-          - docker-ce-cli
-          - containerd.io
-          - docker-buildx-plugin
-          - docker-compose-plugin
+    # 2024-07-11: deb packages have apparmor problems
+    # - name: "Install some packages"
+    #   ansible.builtin.apt:
+    #     pkg:
+    #       - docker-ce
+    #       - docker-ce-cli
+    #       - containerd.io
+    #       - docker-buildx-plugin
+    #       - docker-compose-plugin
