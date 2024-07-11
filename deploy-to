@@ -31,18 +31,19 @@ make dependencies
 export PYTHONPATH="${prjRoot}/tmp/python/common:$PYTHONPATH"
 cd infrastructure || exit
 
-ARGS=()
+withSudo=""
 
 case "$HOST" in
 "" | "dev")
     echo "Require sudo password"
-    ARGS+=("--ask-become-pass")
+    withSudo="sudo --preserve-env=PATH,PYTHONPATH"
+    # ARGS+=("--ask-become-pass")
     ;;
 esac
 
 if [ -n "$1" ]; then
     shift
-    ansible-playbook --limit "${HOST}" "$@" "${PLAYBOOK}" \
+    $withSudo "${prjRoot}"/tmp/python/common/bin/ansible-playbook --limit "${HOST}" "$@" "${PLAYBOOK}" \
         "${ARGS[@]}" |
         "${prjRoot}"/packages/jehon/usr/bin/jh-tag-stdin "${HOST}"
 else
