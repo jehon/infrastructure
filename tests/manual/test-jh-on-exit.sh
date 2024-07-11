@@ -8,14 +8,15 @@ JH_ROOT="$(dirname "$(dirname "$(dirname "${BASH_SOURCE[0]}")")")"
 ee1() {
     echo "cool, on exit 1"
 }
-jh_on_exit ee1
+jh_on_exit_success ee1
+
+jh_on_exit_success "echo \"test\""
+jh_on_exit_success "echo \"test test\""
 
 ee2() {
     echo "cool, on exit 2"
 }
-jh_on_exit ee2
+jh_on_exit_success ee2
 
-echo "Current trap: "
-trap -p EXIT
-
+jh_on_exit_failure "echo \"it is a failure\""
 echo "at the end"

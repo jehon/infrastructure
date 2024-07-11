@@ -177,6 +177,14 @@ jh_on_exit() {
     # done
 }
 
+jh_on_exit_success() {
+    jh_on_exit "if [ \$? == 0 ]; then $1; fi"
+}
+
+jh_on_exit_failure() {
+    jh_on_exit "if [ \$? != 0 ]; then $1; fi"
+}
+
 jh_background_process() {
     if [ -n "$JH_BACKGROUND_LOG" ]; then
         "$@" >"$JH_BACKGROUND_LOG" 2>&1 &
