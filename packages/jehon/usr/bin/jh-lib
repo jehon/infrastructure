@@ -176,7 +176,9 @@ jh_on_exit_hanlder() {
         cmds=("${jh_on_exit_hanlder_list_failure[@]}")
     fi
     for cmd in "${cmds[@]}"; do
-        $cmd
+        # echo "$cmd"
+        # Eval keep the " and ' as-is
+        eval "$cmd"
     done
     exit $exitCode
 }
