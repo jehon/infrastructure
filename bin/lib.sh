@@ -16,7 +16,7 @@ export PYTHONPATH="$prjRoot/tmp/python/common"
 mkdir -p "$prjTmp"
 
 user_report() {
-    echo "${jhTS} $(basename "$0"): $*" >>~/Desktop/log.txt
+    echo "${jhTS} $(basename "$0"): $*" | tee -a ~/Desktop/log.txt
 }
 
 user_report_failure() {
