@@ -32,6 +32,8 @@ Depends: ${misc:Depends},
 	sox, libsox-fmt-mp3,
 	terminator,
 	traceroute,
+# xml_grep (jh-jdk)
+	xml-twig-tools,
 	xvfb,
 # Dandling coma
 	bash
