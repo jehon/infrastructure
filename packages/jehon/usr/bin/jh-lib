@@ -48,9 +48,9 @@ jhSWD="$(dirname "$(realpath --physical "$(realpath "$0")")")"
 #
 #  !! this depend on [0] <= the jh-lib script
 #
-prjRoot="$(dirname "$(dirname "$(dirname "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")")")")"
 # If SELF is as /usr/bin, then it is not under package source
-if [ "$prjRoot" = "/" ]; then
+prjRoot="$(dirname "$(dirname "$(dirname "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]:-$0}")")")")")")"
+if [ "$prjRoot" = "/" ] || [ -z "$prjRoot" ]; then
     prjRoot=""
 fi
 
@@ -61,7 +61,7 @@ if [ -z "$JH_DAEMON" ]; then
         JH_DAEMON="yes"
     fi
 fi
-if [ "$JH_DAEMON" == "no" ]; then
+if [ "$JH_DAEMON" = "no" ]; then
     JH_DAEMON=""
 fi
 export JH_DAEMON
