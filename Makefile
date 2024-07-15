@@ -101,6 +101,7 @@ dump:
 	$(call dump_info,GITHUB_STEP_SUMMARY)
 	$(call dump_space)
 	lsb_release -a || true
+	cat /etc/os-release
 
 .PHONY: dump-runtimes
 dump-runtimes:

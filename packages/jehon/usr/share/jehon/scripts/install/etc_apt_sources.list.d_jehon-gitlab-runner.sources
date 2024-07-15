@@ -5,7 +5,7 @@ set -o pipefail
 shopt -s nullglob
 
 target="$(jh-fs "file-to-path" "$0")"
-codename="$(lsb_release -cs)"
+. /etc/os-release
 
 case "$1" in
 "configure" | "")
@@ -20,7 +20,7 @@ case "$1" in
 X-Repolib-Name: Gitlab (Jehon)
 Types: deb
 URIs: https://packages.gitlab.com/runner/gitlab-runner/ubuntu/
-Suites: ${codename}
+Suites: ${VERSION_CODENAME}
 Components: main
 Enabled: yes
 Signed-By: /usr/share/keyrings/jehon-gitlab-runner.gpg
