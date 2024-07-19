@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# shellcheck source=SCRIPTDIR/../packages/jehon/usr/bin/jh-lib
+. jh-lib
+
+groupId="$1"
+artifactId="$2"
+version="$3"
+type="${4:-pom}"
+
+jh_value "groupId" "$groupId"
+jh_value "artifactId" "$artifactId"
+jh_value "version" "$version"
+jh_value "type" "$type"
+
+mvn -U dependency:get -Dartifact="$groupId:$artifactId:$version:$type"
