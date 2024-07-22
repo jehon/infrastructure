@@ -32,4 +32,6 @@ else
         echo "! Removing target folder"
         rm -fr target
     fi
+
+    export JH_JDK="$1"
 fi

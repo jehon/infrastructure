@@ -42,7 +42,24 @@ if [ ! -r $ZSH/oh-my-zsh.sh ]; then
 fi
 
 if [ -r $ZSH/oh-my-zsh.sh ]; then
+    # Get our home zsh
+    # Load profiles and set various default values
     source $ZSH/oh-my-zsh.sh
+
+    #
+    # Customize right prompt status (override)
+    #
+    JH_PROMPT_STATUS=""
+    jh_custom_status() {
+        if [ -n "$JH_PROMPT_STATUS" ]; then
+            echo "$JH_PROMPT_STATUS"
+        fi
+        (
+            . $JAVA_HOME/release
+            echo " jdk:$JAVA_VERSION"
+        )
+    }
+    RPROMPT='$(jh_custom_status)'
 else
     echo "Could not load oh-my-zsh in $ZSH/oh-my-zsh.sh. Continuing..." >&2
 fi
