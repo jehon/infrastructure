@@ -9,6 +9,22 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${_SD}/../../bin/lib.sh"
 
+##################################
+#
+# Config
+#
+
+syno_watch="synology:p2p/watch/"
+syno_uploaded="synology:p2p/downloaded"
+
+cloud_watch="${jhCloudFolderInUserHome}/Workspaces/Jean/p2p/Watch/"
+cloud_uploaded="${jhCloudFolderInUserHome}/Workspaces/Jean/p2p/"
+
+##################################
+#
+# Requirements
+#
+
 # shellcheck source-path=SCRIPTDIR/../../
 . "${prjRoot}"/bin/jh-run-only-daily
 
@@ -18,11 +34,12 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-location-require "home"
 
-syno_watch="synology:p2p/watch/"
-syno_uploaded="synology:p2p/downloaded"
+##################################
+#
+# Run
+#
 
-cloud_watch="${jhCloudFolderInUserHome}/Workspaces/Jean/p2p/Watch/"
-cloud_uploaded="${jhCloudFolderInUserHome}/Workspaces/Jean/p2p/"
+user_report_failure
 
 rclone_run() {
     rclone \
@@ -32,8 +49,6 @@ rclone_run() {
         --exclude "#recycle*" --exclude "Thumbs.*" \
         "$@"
 }
-
-user_report_failure
 
 header_begin "Uploading $cloud_watch to $syno_watch..."
 rclone_run move --delete-empty-src-dirs "$cloud_watch" "$syno_watch"

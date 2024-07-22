@@ -7,23 +7,38 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${_SD}/../../bin/lib.sh"
 
-# shellcheck source-path=SCRIPTDIR/../../
-. "${prjRoot}"/bin/jh-run-only-daily
+##################################
+#
+# Config
+#
 
 target="${jhCloudFolderInUserHome}/Workspaces/Famille/A ranger/"
 
 jh_value "CLOUD" "${jhCloudFolderInUserHome}"
 jh_value "TARGET" "${target}"
 
+##################################
+#
+# Requirements
+#
+
+# shellcheck source-path=SCRIPTDIR/../../
+. "${prjRoot}"/bin/jh-run-only-daily
+
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-wait-home-cloud "${target}"
+
+##################################
+#
+# Run
+#
+
+user_report_failure
 
 if [ ! -d "${target}" ]; then
     echo "Could not access target ${target}... exiting"
     exit 0
 fi
-
-user_report_failure
 
 import() {
     name="$1"

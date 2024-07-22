@@ -9,13 +9,28 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${_SD}/../../bin/lib.sh"
 
-# shellcheck source-path=SCRIPTDIR/../../
-. "${prjRoot}"/bin/jh-run-only-daily
+##################################
+#
+# Config
+#
 
 target="${jhCloudFolderInUserHome}/Systèmes/vps"
 
+##################################
+#
+# Requirements
+#
+
+# shellcheck source-path=SCRIPTDIR/../../
+. "${prjRoot}"/bin/jh-run-only-daily
+
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-wait-home-cloud "${target}"
+
+##################################
+#
+# Run
+#
 
 user_report_failure
 

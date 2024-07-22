@@ -9,18 +9,33 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${_SD}/../../bin/lib.sh"
 
-# shellcheck source-path=SCRIPTDIR/../../
-. "${prjRoot}"/bin/jh-run-only-daily
+##################################
+#
+# Config
+#
 
 target="${jhCloudFolderInUserHome}"/Systèmes/cryptomedic/backups/
+
+##################################
+#
+# Requirements
+#
+
+# shellcheck source-path=SCRIPTDIR/../../
+. "${prjRoot}"/bin/jh-run-only-daily
 
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-wait-home-cloud "${target}"
 
-# shellcheck source=/dev/null
-. "$HOME"/restricted/cryptomedic.sh
+##################################
+#
+# Run
+#
 
 user_report_failure
+
+# shellcheck source=/dev/null
+. "$HOME"/restricted/cryptomedic.sh
 
 echo "Generating a new backup on remote"
 curl -fsSL "http://${CRYPTOMEDIC_DEPLOY_WEB_HOST}/maintenance/create_db_backup.php?pwd=${CRYPTOMEDIC_DEPLOY_WEB_TOKEN}"
