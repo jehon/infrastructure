@@ -9,8 +9,6 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${_SD}/../../bin/lib.sh"
 
-user_report_failure
-
 # shellcheck source-path=SCRIPTDIR/../../
 . "${prjRoot}"/bin/jh-run-only-daily
 
@@ -18,6 +16,8 @@ target="${jhCloudFolderInUserHome}/Systèmes/vps"
 
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-wait-home-cloud "${target}"
+
+user_report_failure
 
 header_begin "Full: Syncing data"
 rsync --bwlimit=100KiB \

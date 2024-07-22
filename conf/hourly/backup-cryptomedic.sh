@@ -9,8 +9,6 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${_SD}/../../bin/lib.sh"
 
-user_report_failure
-
 # shellcheck source-path=SCRIPTDIR/../../
 . "${prjRoot}"/bin/jh-run-only-daily
 
@@ -21,6 +19,8 @@ target="${jhCloudFolderInUserHome}"/Systèmes/cryptomedic/backups/
 
 # shellcheck source=/dev/null
 . "$HOME"/restricted/cryptomedic.sh
+
+user_report_failure
 
 echo "Generating a new backup on remote"
 curl -fsSL "http://${CRYPTOMEDIC_DEPLOY_WEB_HOST}/maintenance/create_db_backup.php?pwd=${CRYPTOMEDIC_DEPLOY_WEB_TOKEN}"

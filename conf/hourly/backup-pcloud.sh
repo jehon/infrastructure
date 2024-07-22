@@ -9,13 +9,16 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${_SD}/../../bin/lib.sh"
 
-user_report_failure
-
 # shellcheck source-path=SCRIPTDIR/../../
 . "${prjRoot}"/bin/jh-run-only-daily
 
-# # shellcheck source-path=SCRIPTDIR/../../
-# "${prjRoot}"/bin/jh-wait-home-cloud
+# shellcheck source-path=SCRIPTDIR/../../
+"${prjRoot}"/bin/jh-wait-home-cloud
+
+# shellcheck source-path=SCRIPTDIR/../../
+"${prjRoot}"/bin/jh-location-require "home"
+
+user_report_failure
 
 syncOne() {
     folder="$1"
@@ -44,7 +47,7 @@ syncOne() {
         --exclude "@eaDir" --exclude "@eaDir/**" \
         --exclude "#recycle*" --exclude "Thumbs.*" \
         sync \
-        "cloud-ro:/$folder" "synology:/$folder"
+        "${jhCloudFolderInUserHome}/$folder" "synology:/$folder"
 
     echo "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
     echo "vvv Syncing $folder done"

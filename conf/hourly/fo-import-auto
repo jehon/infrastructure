@@ -7,34 +7,37 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${_SD}/../../bin/lib.sh"
 
-user_report_failure
-
 # shellcheck source-path=SCRIPTDIR/../../
 . "${prjRoot}"/bin/jh-run-only-daily
 
-TARGET="${jhCloudFolderInUserHome}/Workspaces/Famille/A ranger/"
+target="${jhCloudFolderInUserHome}/Workspaces/Famille/A ranger/"
 
 jh_value "CLOUD" "${jhCloudFolderInUserHome}"
-jh_value "TARGET" "${TARGET}"
+jh_value "TARGET" "${target}"
 
-if [ ! -d "${TARGET}" ]; then
-    echo "Could not access target ${TARGET}... exiting"
+# shellcheck source-path=SCRIPTDIR/../../
+"${prjRoot}"/bin/jh-wait-home-cloud "${target}"
+
+if [ ! -d "${target}" ]; then
+    echo "Could not access target ${target}... exiting"
     exit 0
 fi
 
+user_report_failure
+
 import() {
-    NAME="$1"
-    SOURCE="${jhCloudFolderInUserHome}/$1"
+    name="$1"
+    source="${jhCloudFolderInUserHome}/$1"
     shift
 
-    jh_info "Importing $NAME"
-    if [ ! -d "${SOURCE}" ]; then
-        jh_fatal "Could not read source ${SOURCE}"
+    jh_info "Importing $name"
+    if [ ! -d "${source}" ]; then
+        jh_fatal "Could not read source ${source}"
     fi
 
     # FIXME: rework TZ into fo.ts and remove harmony-temporal
     export TZ="Europe/Brussels"
-    jh-fo "import" --no-progress --to "${TARGET}" "${SOURCE}"
+    jh-fo "import" --no-progress --to "${target}" "${source}"
 }
 
 import "Workspaces/Jean/Automatic Upload J/"
