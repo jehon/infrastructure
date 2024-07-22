@@ -54,10 +54,12 @@ if [ -r $ZSH/oh-my-zsh.sh ]; then
         if [ -n "$JH_PROMPT_STATUS" ]; then
             echo "$JH_PROMPT_STATUS"
         fi
-        (
-            . $JAVA_HOME/release
-            echo " jdk:$JAVA_VERSION"
-        )
+        if [ -n "$JAVA_HOME" ] && [ -r $JAVA_HOME/release ]; then
+            (
+                . $JAVA_HOME/release
+                echo " jdk:$JAVA_VERSION"
+            )
+        fi
     }
     RPROMPT='$(jh_custom_status)'
 else
