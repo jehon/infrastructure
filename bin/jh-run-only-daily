@@ -29,7 +29,12 @@ else
     fi
 fi
 
+markAsSuccess() {
+    echo "Marking job as done in ${historyFile}"
+    touch "${historyFile}"
+}
+
 # Create/update the history marker only on success
-jh_on_exit_success "touch '${historyFile}'"
+jh_on_exit_success "markAsSuccess"
 
 echo "Running..."
