@@ -1,6 +1,6 @@
 
 [Unit]
-Description=Update rclone
+Description=Clean-up docker
 After=docker.service
 
 [Service]
