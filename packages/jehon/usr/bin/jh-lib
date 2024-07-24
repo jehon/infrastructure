@@ -185,6 +185,12 @@ jh_on_exit_hanlder() {
 
 trap jh_on_exit_hanlder EXIT
 
+jh_on_ctrl_c_hanlder() {
+    # Trigger the jh_on_exit_hanlder about failure
+    exit 130
+}
+trap jh_on_ctrl_c_hanlder INT
+
 jh_on_exit() {
     jh_on_exit_success "$1"
     jh_on_exit_failure "$1"
