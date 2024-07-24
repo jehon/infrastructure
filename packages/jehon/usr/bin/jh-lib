@@ -180,7 +180,7 @@ jh_on_exit_hanlder() {
         # Eval keep the " and ' as-is
         eval "$cmd"
     done
-    exit $exitCode
+    exit "$exitCode"
 }
 
 trap jh_on_exit_hanlder EXIT
