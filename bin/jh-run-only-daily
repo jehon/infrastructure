@@ -23,7 +23,7 @@ if [ "$1" = "--force" ] || [ -z "$JH_RUNNER" ]; then
     echo "Forcing run"
 else
     # Modified days ago
-    if find "${historyFile}" -mtime -1 -print >&/dev/null; then
+    if [ "$(find "${historyFile}" -mtime -1 -print)" != "" ]; then
         echo "No need to run it"
         exit 0
     fi
