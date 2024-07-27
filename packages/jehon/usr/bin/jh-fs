@@ -80,7 +80,7 @@ case "${ACTION}" in
     ;;
 
 "path-to-file")
-    TARGET="$(realpath "$FILE")"
+    TARGET="$(realpath --no-symlinks "$FILE")"
     TARGET="${TARGET//\//_}"
     TARGET="${TARGET#"_"}"
     echo "${TARGET}"
