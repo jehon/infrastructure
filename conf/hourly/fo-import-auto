@@ -14,9 +14,6 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 target="${jhCloudFolderInUserHome}/Workspaces/Famille/A ranger/"
 
-jh_value "CLOUD" "${jhCloudFolderInUserHome}"
-jh_value "TARGET" "${target}"
-
 ##################################
 #
 # Requirements
@@ -34,6 +31,9 @@ jh_value "TARGET" "${target}"
 #
 
 user_report_failure
+
+jh_value "CLOUD" "${jhCloudFolderInUserHome}"
+jh_value "TARGET" "${target}"
 
 if [ ! -d "${target}" ]; then
     echo "Could not access target ${target}... exiting"

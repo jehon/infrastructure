@@ -31,6 +31,7 @@ runInFolder() {
             (
                 # We are in a subshell
                 echo "Starting '${BN}' ..."
+                export JH_RUNNER=1
                 "$F" && ok "Script ok"
             ) | jh-tag-stdin "${BN}"
         } || {
