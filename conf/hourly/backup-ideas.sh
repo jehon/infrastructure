@@ -48,3 +48,5 @@ syncOne() {
         "$source" "$syncTarget"
     header_end
 }
+
+syncOne ~/restricted/ideas/1/
