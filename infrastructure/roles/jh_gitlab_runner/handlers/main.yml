@@ -1,0 +1,8 @@
+---
+- name: Update indexes
+  listen: jh_gitlab_runner_vagrant.libvirt_reload
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: libvirtd.service
+    state: restarted
+  changed_when: false

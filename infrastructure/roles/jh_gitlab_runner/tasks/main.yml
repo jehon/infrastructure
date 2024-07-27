@@ -1,0 +1,22 @@
+---
+- name: Setup libvirt profile
+  block:
+    - name: Install libvirt and vagrant
+      ansible.builtin.apt:
+        pkg:
+          - libvirt-daemon-system
+          - libvirt-dev
+          - vagrant
+      notify: jh_gitlab_runner_vagrant.libvirt_reload
+
+    - name: Check if vagrant plugin is installed
+      ansible.builtin.command:
+        cmd: vagrant plugin list
+      register: jh_gitlab_runner_vagrant_libvirt_plugin
+      changed_when: false
+
+    - name: Add vagrant plugin
+      ansible.builtin.command:
+        cmd: vagrant plugin install vagrant-libvirt
+      when: '"vagrant-libvirt" not in jh_gitlab_runner_vagrant_libvirt_plugin.stdout'
+      notify: jh_gitlab_runner_vagrant.libvirt_reload
