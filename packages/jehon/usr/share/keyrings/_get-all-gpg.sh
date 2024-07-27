@@ -36,4 +36,4 @@ getGPGKeyAndDearmor "docker-debian" "https://download.docker.com/linux/debian/gp
 getGPGKeyAndDearmor "gitlab-runner" "https://packages.gitlab.com/runner/gitlab-runner/gpgkey"
 getGPGKeyAndDearmor "hashicorp" "https://apt.releases.hashicorp.com/gpg"
 getGPGKeyAndDearmor "node" "https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key"
-getGPGKeyAndDearmor "virtualbox" "https://www.virtualbox.org/download/oracle_vbox_2016.asc"
+# getGPGKeyAndDearmor "virtualbox" "https://www.virtualbox.org/download/oracle_vbox_2016.asc"
