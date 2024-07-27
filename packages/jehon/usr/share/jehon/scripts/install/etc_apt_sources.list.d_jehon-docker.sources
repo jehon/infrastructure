@@ -19,11 +19,11 @@ case "$1" in
 
 X-Repolib-Name: Docker (jehon)
 Types: deb
-URIs: https://download.docker.com/linux/${NAME}
+URIs: https://download.docker.com/linux/${ID}
 Suites: ${VERSION_CODENAME}
 Components: stable
 Enabled: yes
-Signed-By: /usr/share/keyrings/jehon-docker-${NAME}.gpg
+Signed-By: /usr/share/keyrings/jehon-docker-${ID}.gpg
 EOS
 
     ) | jh-install-file "${target}"

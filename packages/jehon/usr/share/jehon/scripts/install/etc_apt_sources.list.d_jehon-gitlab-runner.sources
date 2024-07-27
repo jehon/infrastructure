@@ -19,7 +19,7 @@ case "$1" in
 
 X-Repolib-Name: Gitlab (Jehon)
 Types: deb
-URIs: https://packages.gitlab.com/runner/gitlab-runner/ubuntu/
+URIs: https://packages.gitlab.com/runner/gitlab-runner/${ID}/
 Suites: ${VERSION_CODENAME}
 Components: main
 Enabled: yes
