@@ -16,7 +16,7 @@
     - name: Create user
       ansible.builtin.user:
         name: "{{  dev_user }}"
-        shell: /usr/bin/zsh
+        shell: /bin/zsh
         groups: sudo,docker,fuse,jehon_secrets
         generate_ssh_key: true
         append: true
