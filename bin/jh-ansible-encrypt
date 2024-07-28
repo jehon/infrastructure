@@ -15,6 +15,6 @@ echo ""
 #
 
 cd infrastructure
-ansible-vault encrypt_string "${1:?Need what to encrypt as [1]}"
+ansible-vault encrypt_string "${1:?Need what to encrypt as [1] - or '-' to encrypt stdin}"
 
 echo ""
