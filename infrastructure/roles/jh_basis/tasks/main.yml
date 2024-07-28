@@ -28,6 +28,8 @@
             cache_valid_time: 3600 # seconds -> 1 hour
             autoclean: true
           register: jh_basis_initial_apt_update
+          # This does not make change!
+          changed_when: false
 
         - name: Run upgrade
           when: jh_basis_initial_apt_update.cache_updated
