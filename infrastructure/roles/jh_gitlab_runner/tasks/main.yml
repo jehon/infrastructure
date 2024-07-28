@@ -5,6 +5,7 @@
       ansible.builtin.apt:
         pkg:
           - libvirt-daemon-system
+          - libvirt-clients
           - libvirt-dev
           - vagrant
       notify: jh_gitlab_runner_vagrant.libvirt_reload
