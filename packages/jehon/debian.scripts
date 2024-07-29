@@ -112,6 +112,16 @@ configure)
 			echo "* Enabling ufw done"
 		fi
 	fi
+
+	# To allow auto mounting throug rclone (https://rclone.org/commands/rclone_mount/)
+	# Debian create these links for us, let's not conflict
+	if [ ! -r /sbin/mount.rclone ]; then
+		ln -s /usr/bin/rclone /sbin/mount.rclone
+	fi
+
+	if [ ! -r /sbin/mount.rclone ]; then
+		ln -s /usr/bin/rclone /usr/bin/rclonefs
+	fi
 	;;
 remove) ;;
 esac
