@@ -55,7 +55,7 @@ import() {
     jh-fo "import" --no-progress --to "${target}" "${source}"
 }
 
-import "Workspaces/Jean/Automatic Upload J/"
+import "Workspaces/Jean/Backups/Google Pixel 7 Pro/"
 import "Workspaces/Marie-Line/Automatic Upload/"
 
 ok "Done"
