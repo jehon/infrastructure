@@ -8,12 +8,14 @@ echo
 echo "$0 $*"
 echo
 
+# shellcheck source-path=SCRIPTDIR/../packages/jehon/usr/bin/
 . jh-lib
 
 # dryRun=echo
 
 branch="${1:?Need the branch as [1]}"
 versPatch="$2"
+dryRun="${dryRun:}"
 
 if [ -z "$project" ]; then
 	project="$( basename "$( realpath . )" )"
