@@ -33,6 +33,8 @@ jh_deb_helper_system_user "jehon-tty"
 jh_deb_helper_user_in_group "jehon-tty" "tty"
 # jh_deb_helper_user_in_group "jehon-tty" "video"
 
+jh_deb_helper_system_user "jehon-daemon"
+
 jh_deb_helper_service jehon-backup-snapshot.timer
 jh_deb_helper_service jehon-update-rclone.timer
 jh_deb_helper_service jehon-docker-clean.timer
