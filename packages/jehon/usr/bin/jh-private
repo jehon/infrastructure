@@ -74,8 +74,6 @@ mount_rclone() {
 		echo ""
 		echo "Mounting in background..."
 		(
-			mkdir -p "${DST}.new" || true
-
 			#
 			# Thanks to https://forum.rclone.org/t/rclone-one-liner-to-connect-a-webdav-mount-without-rclone-conf/20444
 			#
