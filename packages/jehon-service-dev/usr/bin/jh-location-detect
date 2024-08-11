@@ -29,16 +29,19 @@ case "${WIFI}" in
         ;;
 esac
 
-IP="$( hostname -I )"
-jh_debug "Detected IP: $IP"
-case "${IP}" in
-    "" )
-        in_location "disconnected"
-        ;;
-    192\.168\.1\.* )
-        in_location "home"
-        ;;
-esac
+IPS="$( hostname -I )"
+jh_debug "Detected IP: $IPS"
+for IP in $IPS; do
+    jh_debug "IP: $IP"
+    case "${IP}" in
+        "" )
+            in_location "disconnected"
+            ;;
+        192\.168\.1\.* )
+            in_location "home"
+            ;;
+    esac
+done
 
 # Fallback
 jh_debug "** Fallback"
