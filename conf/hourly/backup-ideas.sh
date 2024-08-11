@@ -14,7 +14,7 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # Config
 #
 
-target="${jhCloudFolderInUserHome}/Workspaces/Jean/Professionnel/Backups/"
+target="${jhCloudFolderInUserHome}/Workspaces/Jean/Backups/Ideas"
 
 ##################################
 #
