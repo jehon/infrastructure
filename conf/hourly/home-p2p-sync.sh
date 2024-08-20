@@ -14,8 +14,8 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # Config
 #
 
-syno_watch="synology:p2p/watch/"
-syno_uploaded="synology:p2p/downloaded"
+syno_watch="vps:/srv/p2p/watch/"
+syno_uploaded="vps:/srv/p2p/downloaded"
 
 cloud_watch="${jhCloudFolderInUserHome}/Workspaces/Jean/Videos/_p2p/Watch/"
 cloud_uploaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Videos/_p2p/"
@@ -32,7 +32,7 @@ cloud_uploaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Videos/_p2p/"
 "${prjRoot}"/bin/jh-wait-home-cloud
 
 # shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-location-require "home"
+#"${prjRoot}"/bin/jh-location-require "home"
 
 ##################################
 #
