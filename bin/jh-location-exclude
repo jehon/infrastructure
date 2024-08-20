@@ -9,7 +9,6 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR
 . "${_SD}"/lib.sh
 
-all_locations="$*"
 : "${1:?Need the location as [1]}"
 
 detected="$(jh-location-detect)"
