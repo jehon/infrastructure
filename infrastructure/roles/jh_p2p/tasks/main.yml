@@ -1,0 +1,8 @@
+---
+- name: Setup p2p
+  block:
+    - name: Install p2p packages
+      ansible.builtin.apt:
+        pkg:
+          - deluged
+          - deluge-web

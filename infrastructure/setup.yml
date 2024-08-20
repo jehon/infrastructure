@@ -43,6 +43,7 @@
       with_items:
         - host_vps
         - jh_gitlab_runner
+        - jh_p2p
       loop_control:
         loop_var: role
       ansible.builtin.include_role:
