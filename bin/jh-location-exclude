@@ -16,9 +16,9 @@ detected="$(jh-location-detect)"
 
 while [ -n "$1" ]; do
     if [ "$detected" == "${1}" ]; then
-        exit 0
+        jh_fatal "At excluded location (${1})"
     fi
     shift
 done
 
-jh_fatal "Not at the required location (${all_locations})"
+exit 0

@@ -21,6 +21,12 @@ case "${WIFI}" in
     "" )
         # No wifi
         ;;
+    "Heyfjveidofbridkegxto" )
+        in_location "mobile"
+        ;;
+    "Digiteal")
+        in_location "work"
+        ;;
     "chez_honlet" )
         in_location "home"
         ;;
