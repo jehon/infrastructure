@@ -1,0 +1,26 @@
+
+[jehon-cockpit]
+title=Cockpit
+description=Jehon facility
+ports=9090/tcp
+
+[jehon-deluge]
+title=Deluge Web
+description=Deluge Web server
+ports=8112/tcp
+
+[jehon-gsconnect]
+title=GSConnect
+description=Jehon facility
+ports=1716/tcp|1716/udp
+
+[jehon-mysql]
+title=Mysql server
+description=Jehon facility
+ports=3306/tcp
+
+[jehon-supertuxkart]
+# https://github.com/supertuxkart/stk-code/blob/master/NETWORKING.md
+title=SuperTuxKart
+description=Allow access to the supertuxkart server
+ports=2759/tcp|2757/tcp

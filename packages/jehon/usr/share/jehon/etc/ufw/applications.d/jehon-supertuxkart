@@ -1,7 +1,0 @@
-
-[jehon-supertuxkart]
-title=SuperTuxKart
-description=Allow access to the supertuxkart server
-ports=2759/tcp|2757/tcp
-
-# https://github.com/supertuxkart/stk-code/blob/master/NETWORKING.md
