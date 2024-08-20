@@ -14,10 +14,7 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # Config
 #
 
-syno_watch="vps:/srv/p2p/watch/"
-syno_uploaded="vps:/srv/p2p/downloaded"
-
-cloud_watch="${jhCloudFolderInUserHome}/Workspaces/Jean/Videos/_p2p/Watch/"
+syno_uploaded="synology:p2p/downloaded"
 cloud_uploaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Videos/_p2p/"
 
 ##################################
@@ -49,10 +46,6 @@ rclone_run() {
         --exclude "#recycle*" --exclude "Thumbs.*" \
         "$@"
 }
-
-header_begin "Uploading $cloud_watch to $syno_watch..."
-rclone_run move --delete-empty-src-dirs "$cloud_watch" "$syno_watch"
-header_end
 
 header_begin "Uploading $syno_uploaded to $cloud_uploaded..."
 rclone_run move --delete-empty-src-dirs "$syno_uploaded" "$cloud_uploaded"
