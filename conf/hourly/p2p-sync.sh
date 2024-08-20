@@ -32,7 +32,7 @@ cloud_uploaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Videos/_p2p/"
 "${prjRoot}"/bin/jh-wait-home-cloud
 
 # shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-location-require "home"
+"${prjRoot}"/bin/jh-location-exclude "mobile"
 
 ##################################
 #

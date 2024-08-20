@@ -26,7 +26,7 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 "${prjRoot}"/bin/jh-wait-home-cloud
 
 # shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-location-require "home"
+"${prjRoot}"/bin/jh-location-exclude "mobile"
 
 ##################################
 #

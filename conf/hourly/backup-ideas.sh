@@ -27,6 +27,9 @@ target="${jhCloudFolderInUserHome}/Workspaces/Jean/Backups/Ideas"
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-wait-home-cloud "${target}"
 
+# shellcheck source-path=SCRIPTDIR/../../
+"${prjRoot}"/bin/jh-location-exclude "mobile"
+
 ##################################
 #
 # Run
