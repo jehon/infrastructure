@@ -16,7 +16,7 @@
         state: directory
         owner: debian-deluged
         group: debian-deluged
-        mode: 0775
+        mode: "0775"
       loop:
         - /srv/p2p/downloaded
         - /srv/p2p/downloading
@@ -32,4 +32,4 @@
       ansible.builtin.user:
         name: jehon
         groups: debian-deluged
-        append: yes
+        append: true
