@@ -10,8 +10,8 @@ set -o errexit
 # Config
 #
 
-syno_watch="vps:/srv/p2p/watch/"
-syno_uploaded="vps:/srv/p2p/downloaded"
+vps_watch="vps:/srv/p2p/watch/"
+vps_uploaded="vps:/srv/p2p/downloaded"
 
 cloud_watch="${jhCloudFolderInUserHome}/Workspaces/Jean/Videos/_p2p/Watch/"
 cloud_uploaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Videos/_p2p/"
@@ -46,10 +46,19 @@ rclone_run() {
         "$@"
 }
 
-header_begin "Uploading $cloud_watch to $syno_watch..."
-rclone_run move --delete-empty-src-dirs "$cloud_watch" "$syno_watch"
+header_begin "Uploading $cloud_watch to $vps_watch..."
+rsync \
+    --bwlimit=200KiB \
+    --recursive --itemize-changes \
+    --delete \
+    "$cloud_watch" "$vps_watch"
+rclone_run move --delete-empty-src-dirs "$cloud_watch" "$vps_watch"
 header_end
 
-header_begin "Uploading $syno_uploaded to $cloud_uploaded..."
-rclone_run move --delete-empty-src-dirs "$syno_uploaded" "$cloud_uploaded"
+header_begin "Uploading $vps_uploaded to $cloud_uploaded..."
+rsync \
+    --bwlimit=200KiB \
+    --recursive --itemize-changes \
+    --delete \
+    "$vps_uploaded" "$cloud_uploaded"
 header_end
