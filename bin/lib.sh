@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-
 set -o errexit
-set -o pipefail
 
 prjRoot="$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")"
 export prjRoot
@@ -14,11 +12,3 @@ export PYTHONPATH="$prjRoot/tmp/python/common"
 . "${prjRoot}/packages/jehon/usr/bin/jh-lib"
 
 mkdir -p "$prjTmp"
-
-user_report() {
-    echo "${jhTS} $(basename "$0"): $*" | tee -a ~/Desktop/log.txt
-}
-
-user_report_failure() {
-    jh_on_exit_failure "user_report failure"
-}

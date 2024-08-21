@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 
 set -o errexit
-set -o pipefail
-shopt -s nullglob
-
-_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 # shellcheck source-path=SCRIPTDIR/
-. "${_SD}/../../bin/lib.sh"
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/../conf-lib.sh"
 
 ##################################
 #
