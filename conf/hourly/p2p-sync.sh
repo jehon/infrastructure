@@ -11,10 +11,10 @@ set -o errexit
 #
 
 vps_watch="vps:/srv/p2p/watch/"
-vps_uploaded="vps:/srv/p2p/downloaded"
+vps_downloaded="vps:/srv/p2p/downloaded/"
 
 cloud_watch="${jhCloudFolderInUserHome}/Workspaces/Jean/Videos/_p2p/Watch/"
-cloud_uploaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Videos/_p2p/"
+cloud_downloaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Videos/_p2p/"
 
 ##################################
 #
@@ -50,15 +50,14 @@ header_begin "Uploading $cloud_watch to $vps_watch..."
 rsync \
     --bwlimit=200KiB \
     --recursive --itemize-changes \
-    --delete \
+    --remove-source-files \
     "$cloud_watch" "$vps_watch"
-rclone_run move --delete-empty-src-dirs "$cloud_watch" "$vps_watch"
 header_end
 
-header_begin "Uploading $vps_uploaded to $cloud_uploaded..."
+header_begin "Uploading $vps_downloaded to $cloud_downloaded..."
 rsync \
     --bwlimit=200KiB \
     --recursive --itemize-changes \
-    --delete \
-    "$vps_uploaded" "$cloud_uploaded"
+    --remove-source-files \
+    "$vps_downloaded" "$cloud_downloaded"
 header_end
