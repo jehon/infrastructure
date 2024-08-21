@@ -1,43 +1,17 @@
 {
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "always",
-    "source.organizeImports": "always"
-    },
   "files.associations": {
     "Makefile.*": "makefile"
   },
-  "files.trimTrailingWhitespace": true,
   "github-actions.workflows.pinned.workflows": [
     ".github/workflows/test.yml"
   ],
   "javascript.preferences.importModuleSpecifier": "relative",
   "javascript.preferences.importModuleSpecifierEnding": "js",
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "terminal.integrated.scrollback": 100000,
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#3389a9"
   },
   "yaml.customTags": [
     "!vault"
-  ],
-  "javascript.format.enable": false,
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+  ]
 }
