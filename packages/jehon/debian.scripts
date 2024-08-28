@@ -131,5 +131,7 @@ esac
 #
 # Legacy
 #
+jh_deb_helper_legacy jh_deb_helper_system_group "jehon_secrets"
+jh_deb_helper_legacy jh_deb_helper_system_group "jehon_cloud"
 
 exit 0
