@@ -27,7 +27,7 @@
       when: inventory_hostname == "dev"
       with_items:
         - host_dev
-        - jh_gitlab_runner
+        # - jh_gitlab_runner
       loop_control:
         loop_var: role
       ansible.builtin.include_role:
