@@ -19,7 +19,7 @@ jh_deb_helper_system_group "docker"
 jh_deb_helper_system_group "fuse"
 jh_deb_helper_system_group "vboxusers"
 jh_deb_helper_system_group "sudo"
-jh_deb_helper_system_group "jehon_secrets"
+jh_deb_helper_system_group "jehon-secrets"
 jh_deb_helper_system_group "jehon_cloud"
 
 jh_deb_helper_system_user "jehon"
@@ -55,7 +55,7 @@ configure)
 		mkdir -p /etc/jehon/restricted/
 	fi
 	chmod --changes --recursive "u=rwX,g=rX,o=" /etc/jehon/restricted
-	chown --changes --recursive "root:jehon_secrets" /etc/jehon/restricted
+	chown --changes --recursive "root:jehon-secrets" /etc/jehon/restricted
 
 	if ! find /etc/ssh/ssh_host_* 1>/dev/null 2>/dev/null; then
 		echo "- Generating host keys for ssh..."
