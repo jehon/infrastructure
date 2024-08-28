@@ -75,6 +75,7 @@ jh_deb_helper_patch() {
 }
 
 jh_deb_helper_system_group() {
+	# Separate with "-"
 	GRP="$1"
 
 	case "$DEB_CMD" in

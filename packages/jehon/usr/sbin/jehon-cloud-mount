@@ -3,7 +3,7 @@
 cloudFolder="$1"
 # To lower case:
 localFolder="${cloudFolder,,}"
-gid="$(getent group jehon_cloud | cut -d ":" -f 3)"
+gid="$(getent group jehon-cloud | cut -d ":" -f 3)"
 
 echo "** cloud folder: ${cloudFolder}"
 echo "** local folder: ${localFolder}"

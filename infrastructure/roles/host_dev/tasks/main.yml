@@ -20,7 +20,7 @@
         src: "{{ item }}"
         dest: "/home/{{ dev_user }}/restricted/{{ item }}"
         owner: "{{ dev_user }}"
-        group: jehon_secrets
+        group: jehon-secrets
         mode: "0700"
 
     # - name: Run as user

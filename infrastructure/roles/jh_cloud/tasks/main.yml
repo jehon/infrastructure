@@ -14,7 +14,7 @@
         src: "rclone.conf"
         dest: /etc/jehon/rclone.conf
         owner: root
-        group: jehon_secrets
+        group: jehon-secrets
         mode: "0640"
       notify: Jh_cloud.remount
 

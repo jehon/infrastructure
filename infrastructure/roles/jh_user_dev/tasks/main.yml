@@ -17,7 +17,7 @@
       ansible.builtin.user:
         name: "{{  dev_user }}"
         shell: /bin/zsh
-        groups: sudo,docker,fuse,jehon_secrets
+        groups: sudo,docker,fuse,jehon-secrets
         generate_ssh_key: true
         append: true
 
@@ -43,7 +43,7 @@
         state: directory
         dest: /home/{{ dev_user }}/restricted/
         owner: "{{ dev_user }}"
-        group: jehon_secrets
+        group: jehon-secrets
         mode: "0750"
 
     - name: Set git user for dev user
