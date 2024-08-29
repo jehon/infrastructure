@@ -27,7 +27,7 @@
         name: gitlab-runner
         groups:
           - docker
-        append: yes
+        append: true
       notify: jh_gitlab_runner.gitlab-runner
     - name: Configure rights on folder
       ansible.builtin.file:
