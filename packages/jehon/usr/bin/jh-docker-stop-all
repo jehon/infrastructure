@@ -4,4 +4,5 @@ if [ "$UID" == 0 ]; then
     aa-remove-unknown
 fi
 
+# shellcheck disable=SC2046
 docker stop $(docker ps -a -q) --time 1 --signal SIGKILL
