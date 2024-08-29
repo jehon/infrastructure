@@ -4,9 +4,10 @@
     - name: Install libvirt and vagrant
       ansible.builtin.apt:
         pkg:
-          - libvirt-daemon-system
-          - libvirt-clients
-          - libvirt-dev
+          # - libvirt-daemon-system
+          # - libvirt-clients
+          # - libvirt-dev
+          - gitlab-runner
           # - vagrant
       notify: jh_gitlab_runner_vagrant.libvirt_reload
 
@@ -25,6 +26,12 @@
 
 - name: Configure rights
   block:
+    - name: Add gitlab-runner to docker group
+      ansible.builtin.user:
+        name: gitlab-runner
+        groups:
+          - docker
+        append: yes
     - name: Configure rights on folder
       ansible.builtin.file:
         state: directory
