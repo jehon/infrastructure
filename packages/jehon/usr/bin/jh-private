@@ -5,13 +5,14 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR
 . jh-lib
 
-CRYPTED_MOUNTED="${HOME}/Private"
-TO_BE_ENCRYPTED="${HOME}/to-be-encrypted"
-NEWLY_ENCRYPTED="${CRYPTED_MOUNTED}/divers"
-NEWLY_ENCRYPTED_OTHER="${CRYPTED_MOUNTED}/divers-others"
+cryptedSource="${jhCloudFolderInUserHome}/Workspaces/Jean/.encrypted_2024"
+cryptedMounted="${HOME}/Private"
+toBeEncrypted="${HOME}/to-be-encrypted"
+newlyEncrypted="${cryptedMounted}/divers"
+newlyEncryptedOther="${cryptedMounted}/divers-others"
 
-mkdir -p "${TO_BE_ENCRYPTED}"
-chmod "0700" "${TO_BE_ENCRYPTED}"
+mkdir -p "${toBeEncrypted}"
+chmod "0700" "${toBeEncrypted}"
 
 declare -a MOUNTED
 
@@ -102,9 +103,7 @@ mount_rclone() {
 }
 
 start() {
-	mount_rclone \
-		"${jhCloudFolderInUserHome}/Workspaces/Jean/.encrypted_2024" \
-		"${CRYPTED_MOUNTED}"
+	mount_rclone "${cryptedSource}" "${cryptedMounted}"
 
 	do_move_to_be_encrypted_files
 
@@ -144,8 +143,8 @@ stop() {
 }
 
 function do_move_to_be_encrypted_files() {
-	if [ ! -d "${NEWLY_ENCRYPTED}" ]; then
-		echo "NEWLY_ENCRYPTED not found: ${NEWLY_ENCRYPTED}" >&2
+	if [ ! -d "${newlyEncrypted}" ]; then
+		echo "newlyEncrypted not found: ${newlyEncrypted}" >&2
 		return
 	fi
 
@@ -154,17 +153,17 @@ function do_move_to_be_encrypted_files() {
 	local I
 	local F
 
-	cd "${TO_BE_ENCRYPTED}"
+	cd "${toBeEncrypted}"
 
 	header_begin "Calculating index"
-	LAST="$(find "${NEWLY_ENCRYPTED}" -regex '.*\/[0-9]*\..*' -print | sort | tail -n 1)"
+	LAST="$(find "${newlyEncrypted}" -regex '.*\/[0-9]*\..*' -print | sort | tail -n 1)"
 	LAST_NAME="$(jh-fs name "${LAST}")"
 	# Force base 10 even with leading 00
 	((I = 10#${LAST_NAME} + 1))
 	jh_value "Actual counter" "${I}"
 	header_end
 
-	for F in "${TO_BE_ENCRYPTED}"/*; do
+	for F in "${toBeEncrypted}"/*; do
 		if [ ! -e "$F" ]; then
 			break
 		fi
@@ -184,27 +183,28 @@ function do_move_to_be_encrypted_files() {
 		# 	continue
 		# 	;;
 		*)
-			mkdir -p "${NEWLY_ENCRYPTED_OTHER}"
-			mv "${F}" "${NEWLY_ENCRYPTED_OTHER}/"
+			mkdir -p "${newlyEncryptedOther}"
+			mv "${F}" "${newlyEncryptedOther}/"
 			header_end
 			continue
 			;;
 		esac
 
 		exiftool -overwrite_original "-UserComment<filename" "-TagsList+=_new" "${F}"
-		FN="${NEWLY_ENCRYPTED}/$(printf %08d ${I}).${EXT}"
+		FN="${newlyEncrypted}/$(printf %08d "${I}").${EXT}"
 		mv -v "$F" "$FN"
 		((++I))
 		header_end
 	done
 
-	header_begin "Remaining in TO_BE_ENCRYPTED (${TO_BE_ENCRYPTED})"
-	ls "${TO_BE_ENCRYPTED}"
+	header_begin "Remaining in toBeEncrypted (${toBeEncrypted})"
+	ls "${toBeEncrypted}"
 	header_end
 }
 
-jh_on_exit stop
-start
+prefetch() {
+	jh-cloud-prefetch "${cryptedSource}"
+}
 
 function treatAction() {
 	case "$1" in
@@ -218,15 +218,18 @@ function treatAction() {
 		start
 		do_move_to_be_encrypted_files
 		;;
-	"d")
-		start
-		jh_info "Launching digikam"
-		# 	digikam --database-directory "${CRYPTED_MOUNTED}"/.metadata/ &
+	"p")
+		jh_background_process prefetch
 		;;
+	# "d")
+	# 	start
+	# 	jh_info "Launching digikam"
+	# 	# 	digikam --database-directory "${cryptedMounted}"/.metadata/ &
+	# 	;;
 	"n" | "nautilus")
 		start
 		jh_info "Launching nautilus"
-		nautilus "${CRYPTED_MOUNTED}"/ &
+		nautilus "${cryptedMounted}"/ &
 		;;
 	*)
 		return 1
@@ -235,11 +238,24 @@ function treatAction() {
 	return 0
 }
 
-while echo -n "?" && read -r A; do
-	echo "Action (q/s/n/d/i/y): $A"
+jh_on_exit stop
+start
+
+# while echo -n "?" && read -r A; do
+# 	echo "Action (stop/import/nautilus/prefetch/digikam): $A"
+while true; do
+	A=$(
+		TERM=ansi whiptail --menu "Actions" 20 $COLUMNS 10 \
+			"n" "nautilus" \
+			"p" "prefetch" \
+			"i" "import" \
+			"s" "stop" \
+			3>&1 1>&2 2>&3
+	)
+
+	echo "Action: $A"
 	if ! treatAction "$A"; then
 		echo "Unknown action: $A"
 	fi
+	read -p "Ok?" -r _pause
 done
-
-# stop
