@@ -1,0 +1,7 @@
+---
+- name: Setup desktop environment
+  block:
+    - name: Install desktop packages
+      ansible.builtin.apt:
+        pkg:
+          - terraform
