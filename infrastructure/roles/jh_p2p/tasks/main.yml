@@ -30,6 +30,6 @@
 
     - name: Add dev to debian-deluged
       ansible.builtin.user:
-        name: { { dev_user } }
+        name: "{{ dev_user }}"
         groups: debian-deluged
         append: true
