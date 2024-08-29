@@ -49,7 +49,7 @@
       ansible.builtin.apt:
         pkg:
           - jehon-service-desktop
-          # - ffmpegthumbnailer # Thumbnails for movies
+          - ffmpegthumbnailer # Thumbnails for movies
           # - gnome-network-displays
           # - gnome-shell-extensions
           # - gthumb # Print multiple images on one page
