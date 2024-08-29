@@ -1,24 +1,7 @@
 #!/usr/bin/env bash
 
-case "$1" in
-"")
-	ACT="stop"
-	;;
-"stop" | "kill")
-	ACT="$1"
-	;;
-*)
-	echo "Invalid action - valid are 'stop', 'kill'"
-	exit 255
-	;;
-esac
-
-if [ "$(docker ps -a -q)" = "" ]; then
-	echo "No running containers"
-else
-	(
-		while read -r ID; do
-			docker "$ACT" "$ID" 2>&1 | jh-tag-stdin "$ID-Stopping"
-		done
-	) < <(DOCKER_ECHO="" docker ps -a -q)
+if [ "$UID" == 0 ]; then
+    aa-remove-unknown
 fi
+
+docker stop $(docker ps -a -q) --time 1 --signal SIGKILL
