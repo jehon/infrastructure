@@ -28,8 +28,8 @@
         src: /var/lib/deluged/config
         state: link
 
-    - name: Add jehon to debian-deluged
+    - name: Add dev to debian-deluged
       ansible.builtin.user:
-        name: jehon
+        name: { { dev_user } }
         groups: debian-deluged
         append: true
