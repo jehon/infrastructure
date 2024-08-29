@@ -4,9 +4,9 @@ MSG="$1"
 MSG="${MSG%% }"
 MSG="${MSG## }"
 
-MSGS=( )
+MSGS=()
 if [ -n "$MSG" ]; then
-	MSGS+=( "$MSG" )
+	MSGS+=("$MSG")
 fi
 
 # Keep spaces: IFS=''
@@ -14,22 +14,21 @@ fi
 while IFS='' read -r LINE; do
 	if [ "${LINE:0:1}" = '*' ]; then
 		# shellcheck disable=SC2001
-		CL="$( echo "$LINE" | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" )"
-		# H="$( echo "$CL" | cut -d ' ' -f 1 )"
-		T="$( echo "$CL" | cut -d ' ' -f 2- )"
+		CL="$(echo "$LINE" | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g")"
+		T="$(echo "$CL" | cut -d ' ' -f 2-)"
 	fi
 
 	if [[ "$T" = *"..." ]]; then
 		T="${T%...}"
 		T="${T#Starting }"
-		MSGS+=( "$T" )
+		MSGS+=("$T")
 	fi
 
 	MSG=""
 	COLOR=32
-	for m in "${MSGS[@]}" ; do
+	for m in "${MSGS[@]}"; do
 		MSG="${MSG}[\e[1;${COLOR}m$m\e[00m]"
-		(( COLOR++ ))
+		((COLOR++))
 	done
 
 	if [ -n "$MSG" ]; then
