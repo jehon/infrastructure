@@ -13,8 +13,8 @@ set -o errexit
 vps_watch="vps:/srv/p2p/watch/"
 vps_downloaded="vps:/srv/p2p/downloaded/"
 
-cloud_watch="${jhCloudFolderInUserHome}/Workspaces/Jean/Videos/_p2p/Watch/"
-cloud_downloaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Videos/_p2p/"
+cloud_downloaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Work/p2p/"
+cloud_watch="${cloud_downloaded}/Watch/"
 
 ##################################
 #
