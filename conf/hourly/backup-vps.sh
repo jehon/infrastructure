@@ -21,7 +21,7 @@ target="${jhCloudFolderInUserHome}/Systèmes/vps"
 . "${prjRoot}"/bin/jh-run-only-daily
 
 # shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-wait-home-cloud "${target}"
+"${prjRoot}"/bin/jh-wait-folder "${target}"
 
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-location-exclude "mobile"

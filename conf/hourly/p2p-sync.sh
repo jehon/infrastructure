@@ -25,7 +25,7 @@ cloud_watch="${cloud_downloaded}/Watch/"
 . "${prjRoot}"/bin/jh-run-only-daily
 
 # shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-wait-home-cloud
+"${prjRoot}"/bin/jh-wait-folder
 
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-location-exclude "mobile"
