@@ -52,13 +52,14 @@ syncToLocalHdd() {
             --bwlimit "400K" \
             "${jhCloudFolderInUserHome}/$folder/" "$localTarget/$folder"
 
-        # TODO: remove old backups
+        ok "Syncing $folder is done"
 
         if jh-fs "is-empty" "$backup"; then
             rmdir "$backup"
         fi
 
-        ok "Syncing $folder is done"
+        echo "Removing old backups"
+        ok "Cleaning $backup is done"
     } |& jh-tag-stdin "$folder"
 }
 
