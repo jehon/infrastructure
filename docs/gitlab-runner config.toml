@@ -18,13 +18,13 @@ shutdown_timeout = 0
     MaxUploadedArchiveSize = 0
   [runners.docker]
     tls_verify = false
-#########################################3
-    image = "docker:latest"
-    privileged = true
-#########################################3
     disable_entrypoint_overwrite = false
     oom_kill_disable = false
     disable_cache = false
-    volumes = ["/cache", "/certs/client"]
     shm_size = 0
     network_mtu = 0
+#########################################3
+    image = "docker:latest"
+    privileged = true
+    volumes = ["/cache", "/certs"]
+#########################################3
