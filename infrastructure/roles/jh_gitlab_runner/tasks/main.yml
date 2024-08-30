@@ -1,7 +1,7 @@
 ---
-- name: Setup libvirt profile
+- name: Setup Gitlab runner
   block:
-    - name: Install libvirt and vagrant
+    - name: Install Gitlab runner packages
       ansible.builtin.apt:
         pkg:
           - gitlab-runner
