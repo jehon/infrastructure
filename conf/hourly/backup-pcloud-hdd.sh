@@ -41,17 +41,22 @@ syncToLocalHdd() {
     folder="$1"
     {
         backup="${localBackup}/$folder/$jhTS"
+        mkdir -p "$backup"
 
         echo "Syncing $folder..."
         echo " With backup to: $backup"
         rsync \
             --itemize-changes \
             --recursive --times --delete \
-            --backup "${backup}" \
+            --backup-dir "${backup}" \
             --bwlimit "400K" \
-            "${jhCloudFolderInUserHome}/$folder" "$localTarget/$folder"
+            "${jhCloudFolderInUserHome}/$folder/" "$localTarget/$folder"
 
         # TODO: remove old backups
+
+        if jh-fs "is-empty" "$backup"; then
+            rmdir "$backup"
+        fi
 
         ok "Syncing $folder is done"
     } |& jh-tag-stdin "$folder"
