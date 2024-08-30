@@ -27,7 +27,7 @@
       when: inventory_hostname == "dev"
       with_items:
         - host_dev
-        # - jh_gitlab_runner
+        - jh_gitlab_runner
         - client_1
       loop_control:
         loop_var: role
