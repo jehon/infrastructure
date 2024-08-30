@@ -7,6 +7,6 @@ set -o errexit
 
 SCRIPT="$prjRoot/packages/jehon/usr/bin/jh-disk-space-test.sh"
 
-assert_success run "$SCRIPT" / 1
+assert_success "with 1" "$SCRIPT" / 1
 
-assert_failure run "$SCRIPT" / 100000
+assert_failure "with huge" "$SCRIPT" / 999999
