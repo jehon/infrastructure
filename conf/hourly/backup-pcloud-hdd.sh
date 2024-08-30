@@ -45,12 +45,17 @@ syncToLocalHdd() {
 
         echo "Syncing $folder..."
         echo " With backup to: $backup"
-        rsync \
-            --itemize-changes \
-            --recursive --times --delete \
-            --backup-dir "${backup}" \
-            --bwlimit "400K" \
-            "${jhCloudFolderInUserHome}/$folder/" "$localTarget/$folder"
+        OPTS=(
+            --itemize-changes
+            --recursive --times --delete
+            --backup-dir "${backup}"
+            --bwlimit "400K"
+        )
+        if [ -z "$JH_DAEMON" ]; then
+            jh_info "Show progress in interactive mode"
+            OPTS+=(--progress)
+        fi
+        rsync "${OPTS[@]}" "${jhCloudFolderInUserHome}/$folder/" "$localTarget/$folder"
 
         ok "Syncing $folder is done"
 
