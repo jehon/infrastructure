@@ -41,10 +41,11 @@ user_report_failure
 syncToLocalHdd() {
     folder="$1"
     {
-        backup="${localBackup}/$folder/$jhTS"
-        mkdir -p "$backup"
+        backupFolderRoot="${localBackup}/$folder"
 
-        echo "Syncing $folder..."
+        header_begin "Syncing"
+        backup="${backupFolderRoot}/$jhTS"
+        mkdir -p "$backup"
         echo " With backup to: $backup"
         OPTS=(
             --itemize-changes
@@ -53,19 +54,18 @@ syncToLocalHdd() {
             --bwlimit "400K"
         )
         if [ -z "$JH_DAEMON" ]; then
-            jh_info "Show progress in interactive mode"
             OPTS+=(--progress)
         fi
         rsync "${OPTS[@]}" "${jhCloudFolderInUserHome}/$folder/" "$localTarget/$folder"
 
         ok "Syncing $folder is done"
+        header_end
 
-        if jh-fs "is-empty" "$backup"; then
-            rmdir "$backup"
-        fi
-
-        echo "Removing old backups"
-        ok "Cleaning $backup is done"
+        header_begin "Cleaning backups"
+        # 30 days
+        find "$backupFolderRoot" -type f -mtime +30 -delete
+        find "$backupFolderRoot" -type d -empty -delete
+        header_end
     } |& jh-tag-stdin "$folder"
 }
 
