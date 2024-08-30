@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -o errexit
+set -o pipefail
 
 # shellcheck source-path=SCRIPTDIR/
 . "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/../conf-lib.sh"
@@ -33,36 +34,36 @@ user_report_failure
 
 syncToSynology() {
     folder="$1"
-    echo "************************************************"
-    echo "*** Syncing $folder..."
-    echo "************************************************"
+    {
 
-    #
-    # rclone help flags
-    #  --max-backlog (Kb): the backlog size (checking files) - https://rclone.org/docs/#max-backlog-n
-    #
-    #
-    # https://rclone.org/filtering/
-    # https://rclone.org/docs/
-    #
-    # --stats 99d: print stats only every 99 days (https://forum.rclone.org/t/can-we-have-rsync-kind-of-logs-with-rclone/9110/2?u=jehon)
-    # --bwlimit "500K": limit the bandwidth (at 500KBy/s, 1GByte = 30min)
-    #
+        echo "Syncing $folder..."
 
-    #        --stats 99d \
+        #
+        # rclone help flags
+        #  --max-backlog (Kb): the backlog size (checking files) - https://rclone.org/docs/#max-backlog-n
+        #
+        #
+        # https://rclone.org/filtering/
+        # https://rclone.org/docs/
+        #
+        # --stats 99d: print stats only every 99 days (https://forum.rclone.org/t/can-we-have-rsync-kind-of-logs-with-rclone/9110/2?u=jehon)
+        # --bwlimit "500K": limit the bandwidth (at 500KBy/s, 1GByte = 30min)
+        #
 
-    rclone \
-        --verbose \
-        --config "/etc/jehon/rclone.conf" \
-        --bwlimit "400K" --transfers=1 \
-        --exclude "@eaDir" --exclude "@eaDir/**" \
-        --exclude "#recycle*" --exclude "Thumbs.*" \
-        sync \
-        "${jhCloudFolderInUserHome}/$folder" "synology:/$folder"
+        #        --stats 99d \
 
-    echo "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-    echo "vvv Syncing $folder done"
-    echo "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+        rclone \
+            --verbose \
+            --config "/etc/jehon/rclone.conf" \
+            --bwlimit "400K" --transfers=1 \
+            --exclude "@eaDir" --exclude "@eaDir/**" \
+            --exclude "#recycle*" --exclude "Thumbs.*" \
+            sync \
+            "${jhCloudFolderInUserHome}/$folder" "synology:/$folder"
+
+        ok "Syncing $folder is done"
+
+    } |& jh-tag-stdin "$folder"
 }
 
 syncToSynology "Archives" || RES=1
