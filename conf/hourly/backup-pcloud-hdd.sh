@@ -11,6 +11,10 @@ set -o pipefail
 # Config
 #
 
+localHdd=/media/jehon/49dff6cc-57a5-4690-a5b6-0b4497f8e2f2
+localTarget="${localHdd}/pcloud"
+localBackup="${localHdd}/backup"
+
 ##################################
 #
 # Requirements
@@ -20,12 +24,11 @@ set -o pipefail
 . "${prjRoot}"/bin/jh-run-only-daily
 
 # shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-wait-folder
+"${prjRoot}"/bin/jh-wait-folder "$localTarget"
+"${prjRoot}"/bin/jh-wait-folder "$localBackup"
 
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-location-require "home"
-
-localHdd=/media/jehon/49dff6cc-57a5-4690-a5b6-0b4497f8e2f2/pcloud
 
 ##################################
 #
@@ -37,14 +40,17 @@ user_report_failure
 syncToLocalHdd() {
     folder="$1"
     {
+        backup="${localBackup}/$folder/$jhTS"
+
         echo "Syncing $folder..."
+        echo " With backup to: $backup"
         rsync \
             --itemize-changes \
-            --recursive --delete \
+            --recursive --times --delete \
+            --backup "${backup}" \
             --bwlimit "400K" \
-            "${jhCloudFolderInUserHome}/$folder" "$localHdd/$folder"
+            "${jhCloudFolderInUserHome}/$folder" "$localTarget/$folder"
 
-        # TODO: backup
         # TODO: remove old backups
 
         ok "Syncing $folder is done"
