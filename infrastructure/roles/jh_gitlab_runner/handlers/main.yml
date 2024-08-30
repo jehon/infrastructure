@@ -1,7 +1,7 @@
 ---
 - name: Restart gitlab-runner
   listen: jh_gitlab_runner.gitlab-runner
-  when: not virtual
+  when: not virtual and ansible_facts.services['gitlab-runner.service']['state'] == 'running'
   ansible.builtin.systemd:
     daemon_reload: true
     name: gitlab-runner.service
