@@ -14,6 +14,7 @@ set -o pipefail
 localHdd=/media/jehon/49dff6cc-57a5-4690-a5b6-0b4497f8e2f2
 localTarget="${localHdd}/pcloud"
 localBackup="${localHdd}/backup"
+minFreeSpaceGb=10
 
 ##################################
 #
@@ -77,4 +78,7 @@ if [ "$RES" = 1 ]; then
     exit 1
 fi
 
+if ! jh-disk-space-test.sh "$localHdd" $minFreeSpaceGb; then
+    jh_fatal "Less than $minFreeSpaceGb remaining on disk"
+fi
 ok "Backup finished with success"
