@@ -31,7 +31,7 @@ set -o errexit
 
 user_report_failure
 
-syncOne() {
+syncToSynology() {
     folder="$1"
     echo "************************************************"
     echo "*** Syncing $folder..."
@@ -65,11 +65,11 @@ syncOne() {
     echo "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
 }
 
-syncOne "Archives" || RES=1
-syncOne "Photos" || RES=1
-syncOne "Bibliothèque" || RES=1
-syncOne "Musiques" || RES=1
-syncOne "Videos" || RES=1
+syncToSynology "Archives" || RES=1
+syncToSynology "Photos" || RES=1
+syncToSynology "Bibliothèque" || RES=1
+syncToSynology "Musiques" || RES=1
+syncToSynology "Videos" || RES=1
 
 if [ "$RES" = 1 ]; then
     echo "Some sync did fail"
