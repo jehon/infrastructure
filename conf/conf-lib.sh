@@ -16,6 +16,6 @@ user_report() {
 }
 
 user_report_failure() {
-    exec >& >(jh-tag-stdin "$scriptName" | tee -a ~/Desktop/log.err)
+    exec >& >(jh-tag-stdin "$scriptName" | tee -a ~/Desktop/err.txt)
     jh_on_exit_failure "user_report failure"
 }
