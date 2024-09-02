@@ -12,16 +12,18 @@ fi
 # Keep spaces: IFS=''
 #    Thanks to https://stackoverflow.com/a/7314111/1954789
 while IFS='' read -r LINE; do
-	if [ "${LINE:0:1}" = '*' ]; then
-		# shellcheck disable=SC2001
-		CL="$(echo "$LINE" | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g")"
-		T="$(echo "$CL" | cut -d ' ' -f 2-)"
-	fi
+	if [ -n "$AUTO" ]; then
+		if [ "${LINE:0:1}" = '*' ]; then
+			# shellcheck disable=SC2001
+			CL="$(echo "$LINE" | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g")"
+			T="$(echo "$CL" | cut -d ' ' -f 2-)"
+		fi
 
-	if [[ "$T" = *"..." ]]; then
-		T="${T%...}"
-		T="${T#Starting }"
-		MSGS+=("$T")
+		if [[ "$T" = *"..." ]]; then
+			T="${T%...}"
+			T="${T#Starting }"
+			MSGS+=("$T")
+		fi
 	fi
 
 	MSG=""
@@ -37,8 +39,10 @@ while IFS='' read -r LINE; do
 
 	printf "$MSG%s\n" "$LINE"
 
-	if [[ "$T" = *" done" ]]; then
-		T="${T% done}"
-		unset "MSGS[-1]"
+	if [ -n "$AUTO" ]; then
+		if [[ "$T" = *" done" ]]; then
+			T="${T% done}"
+			unset "MSGS[-1]"
+		fi
 	fi
 done
