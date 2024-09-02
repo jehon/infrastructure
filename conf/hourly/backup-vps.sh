@@ -35,7 +35,7 @@ user_report_failure
 
 header_begin "Full: Syncing data"
 rsync "${jhRsyncOptions[@]}" \
-    --recursive --itemize-changes \
+    --recursive \
     vps:/var/backups/snapshot/full/ "${target}/snapshot/full/"
 header_end
 header_begin "Full: Taking snapshots"
@@ -48,7 +48,7 @@ backupDir="${target}/data/${jhTS}"
 mkdir -p "${backupDir}"
 mkdir -p "${target}/data/latest"
 rsync "${jhRsyncOptions[@]}" \
-    --recursive --itemize-changes \
+    --recursive \
     --backup --backup-dir="${backupDir}" \
     --delete \
     vps:/mnt/data/ "${latestDir}"

@@ -37,25 +37,16 @@ cloud_watch="${cloud_downloaded}/Watch/"
 
 user_report_failure
 
-rclone_run() {
-    rclone \
-        --verbose \
-        --config "/etc/jehon/rclone.conf" \
-        --exclude "@eaDir" --exclude "@eaDir/**" \
-        --exclude "#recycle*" --exclude "Thumbs.*" \
-        "$@"
-}
-
 header_begin "Uploading $cloud_watch to $vps_watch"
 rsync "${jhRsyncOptions[@]}" \
-    --recursive --itemize-changes \
+    --recursive \
     --remove-source-files \
     "$cloud_watch" "$vps_watch"
 header_end
 
 header_begin "Downloading $vps_downloaded to $cloud_downloaded"
 rsync "${jhRsyncOptions[@]}" \
-    --recursive --itemize-changes \
+    --recursive \
     --remove-source-files \
     "$vps_downloaded" "$cloud_downloaded"
 header_end
