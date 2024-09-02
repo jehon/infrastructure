@@ -10,8 +10,9 @@ set -o errexit
 # Config
 #
 
-vps_watch="vps:/srv/p2p/watch/"
-vps_downloaded="vps:/srv/p2p/ready/"
+vps_ssh="vps"
+vps_watch="/srv/p2p/watch/"
+vps_downloaded="/srv/p2p/ready/"
 
 cloud_downloaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Work/p2p/"
 cloud_watch="${cloud_downloaded}/Watch/"
@@ -41,12 +42,16 @@ header_begin "Uploading $cloud_watch to $vps_watch"
 rsync "${jhRsyncOptions[@]}" \
     --recursive \
     --remove-source-files \
-    "$cloud_watch" "$vps_watch"
+    "$cloud_watch" "$vps_ssh:$vps_watch"
 header_end
 
 header_begin "Downloading $vps_downloaded to $cloud_downloaded"
 rsync "${jhRsyncOptions[@]}" \
     --recursive \
     --remove-source-files \
-    "$vps_downloaded" "$cloud_downloaded"
+    "$vps_ssh:$vps_downloaded" "$cloud_downloaded"
+header_end
+
+header_begin "Cleaning remote"
+ssh vps find "$vps_downloaded" -type d -empty -delete
 header_end
