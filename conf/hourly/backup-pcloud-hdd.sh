@@ -47,16 +47,11 @@ syncToLocalHdd() {
         backup="${backupFolderRoot}/$jhTS"
         mkdir -p "$backup"
         echo " With backup to: $backup"
-        OPTS=(
-            --itemize-changes
-            --recursive --times --delete
-            --backup-dir "${backup}"
-            --bwlimit "400K"
-        )
-        if [ -z "$JH_DAEMON" ]; then
-            OPTS+=(--progress)
-        fi
-        rsync "${OPTS[@]}" "${jhCloudFolderInUserHome}/$folder/" "$localTarget/$folder"
+
+        rsync "${jhRsyncOptions[@]}" \
+            --recursive --times --delete \
+            --backup-dir "${backup}" \
+            "${OPTS[@]}" "${jhCloudFolderInUserHome}/$folder/" "$localTarget/$folder"
 
         ok "Syncing $folder is done"
         header_end

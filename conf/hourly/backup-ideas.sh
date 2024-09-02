@@ -40,8 +40,8 @@ syncOne() {
 
     header_begin "Backup of $source"
 
-    rsync -i \
-        --recursive --times --omit-dir-times \
+    rsync "${jhRsyncOptions[@]}" \
+        --recursive --times \
         --delete --delete-excluded \
         --exclude .git --exclude target \
         "$source" "$syncTarget"

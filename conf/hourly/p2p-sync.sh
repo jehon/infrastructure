@@ -11,7 +11,7 @@ set -o errexit
 #
 
 vps_watch="vps:/srv/p2p/watch/"
-vps_downloaded="vps:/srv/p2p/downloaded/"
+vps_downloaded="vps:/srv/p2p/ready/"
 
 cloud_downloaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Work/p2p/"
 cloud_watch="${cloud_downloaded}/Watch/"
@@ -46,17 +46,15 @@ rclone_run() {
         "$@"
 }
 
-header_begin "Uploading $cloud_watch to $vps_watch..."
-rsync \
-    --bwlimit=200KiB \
+header_begin "Uploading $cloud_watch to $vps_watch"
+rsync "${jhRsyncOptions[@]}" \
     --recursive --itemize-changes \
     --remove-source-files \
     "$cloud_watch" "$vps_watch"
 header_end
 
-header_begin "Uploading $vps_downloaded to $cloud_downloaded..."
-rsync \
-    --bwlimit=200KiB \
+header_begin "Downloading $vps_downloaded to $cloud_downloaded"
+rsync "${jhRsyncOptions[@]}" \
     --recursive --itemize-changes \
     --remove-source-files \
     "$vps_downloaded" "$cloud_downloaded"

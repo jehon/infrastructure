@@ -19,3 +19,18 @@ user_report_failure() {
     exec >& >(jh-tag-stdin "$scriptName" | tee -a ~/Desktop/err.txt)
     jh_on_exit_failure "user_report failure"
 }
+
+jhRsyncOptions=(
+    "--itemize-changes"
+)
+if [ -z "$JH_DAEMON" ]; then
+    echo "RSync in interactive mode"
+    jhRsyncOptions+=(
+        "--progress"
+    )
+else
+    jhRsyncOptions+=(
+        "--bwlimit=400KiB"
+    )
+fi
+export jhRsyncOptions

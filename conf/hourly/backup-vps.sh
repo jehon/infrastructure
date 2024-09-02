@@ -34,7 +34,7 @@ target="${jhCloudFolderInUserHome}/Systèmes/vps"
 user_report_failure
 
 header_begin "Full: Syncing data"
-rsync --bwlimit=100KiB \
+rsync "${jhRsyncOptions[@]}" \
     --recursive --itemize-changes \
     vps:/var/backups/snapshot/full/ "${target}/snapshot/full/"
 header_end
@@ -47,7 +47,7 @@ latestDir="${target}/data/latest"
 backupDir="${target}/data/${jhTS}"
 mkdir -p "${backupDir}"
 mkdir -p "${target}/data/latest"
-rsync --bwlimit=100KiB \
+rsync "${jhRsyncOptions[@]}" \
     --recursive --itemize-changes \
     --backup --backup-dir="${backupDir}" \
     --delete \
