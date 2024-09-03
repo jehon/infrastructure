@@ -53,5 +53,5 @@ rsync "${jhRsyncOptions[@]}" \
 header_end
 
 header_begin "Cleaning remote"
-ssh vps find "$vps_downloaded" -type d -empty -delete
+ssh vps find "$vps_downloaded" -type d -mindepth 1 -empty -delete
 header_end
