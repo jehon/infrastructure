@@ -1,15 +1,29 @@
 #!/usr/bin/env bash
 
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR
+. jh-lib
+
 if ! docker info >&/dev/null; then
     echo "Docker is not running, exiting...:"
     exit 0
 fi
 
 # https://docs.docker.com/config/pruning/#prune-everything
+header_begin "System prune"
 docker system prune \
     --filter "until=24h" \
     --force
+header_end
 
+header_begin "Builder prune"
 docker builder prune \
     --filter until=48h \
     --force
+header_end
+
+header_begin "Images prune"
+# https://stackoverflow.com/a/44785784/1954789
+docker image prune --all --force
+header_end
