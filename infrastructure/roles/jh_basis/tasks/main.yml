@@ -142,7 +142,6 @@
     # Snap's
     #
     ############################################
-    # 2024-07-11: deb packages have apparmor problems
     - name: "Ensure installed snap"
       when: not virtual
       block:
@@ -156,12 +155,22 @@
     # Packages (too volatile one)
     #
     ############################################
-    # 2024-07-11: deb packages have apparmor problems
-    # - name: "Install some packages"
-    #   ansible.builtin.apt:
-    #     pkg:
-    #       - docker-ce
-    #       - docker-ce-cli
-    #       - containerd.io
-    #       - docker-buildx-plugin
-    #       - docker-compose-plugin
+    - name: "REMOVE some packages"
+      ansible.builtin.apt:
+        # REMOVE (docker - see below)
+        state: absent
+        pkg:
+          # Docker: see below
+          - containerd.io
+          - docker-ce
+          - docker-ce-cli
+          - docker-ce-rootless-extras
+          - docker-buildx-plugin
+          - docker-compose-plugin
+#
+# Docker:
+#
+# 2024-07-11: deb packages have apparmor problems
+# 2024-09-04: VPS is running on snap
+#             Forcing removal of docker packages
+#
