@@ -1,6 +1,8 @@
 #
 # Jehon
 #
+# Format "deb822"
+#
 
 X-Repolib-Name: Jehon (GitHub-infrastructure)
 Types: deb
