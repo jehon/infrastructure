@@ -77,23 +77,23 @@ jh_color() {
     fi
 }
 
-JH_HEADER_MSGS=()
-
-header_begin() {
-    JH_HEADER_MSGS+=("$1")
+header() {
     printf '*%.0s' $(seq ${#JH_HEADER_MSGS[@]})
     jh_color 93
-    echo -n " ${JH_HEADER_MSGS[-1]}..."
+    echo -n " $1"
     jh_color
     echo
 }
 
+JH_HEADER_MSGS=()
+
+header_begin() {
+    JH_HEADER_MSGS+=("$1")
+    header "$1..."
+}
+
 header_end() {
-    printf '*%.0s' $(seq ${#JH_HEADER_MSGS[@]})
-    jh_color 93
-    echo -n " ${JH_HEADER_MSGS[-1]} done"
-    jh_color
-    echo
+    header " ${JH_HEADER_MSGS[-1]} done"
     unset 'JH_HEADER_MSGS[${#arr[@]}-1]'
 }
 

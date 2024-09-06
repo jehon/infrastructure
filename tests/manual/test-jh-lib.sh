@@ -17,7 +17,10 @@ jh_debug "one invisible debug"
 jh_value "data" "has value"
 DEBUG=1 jh_debug "one visible debug"
 
+header_begin "Various messages"
 echo ": $jhMsgOk ok"
 echo ": $jhMsgKo ko"
+header "blablabla and ok/ko"
 ok "ok?"
 ko "ko?"
+header_end
