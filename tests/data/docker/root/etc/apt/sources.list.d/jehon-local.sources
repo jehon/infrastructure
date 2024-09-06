@@ -6,7 +6,5 @@ URIs: file:///setup/packages
 Suites: /
 Components:
 Enabled: yes
-
-# No signature
 Trusted: yes
 Allow-Insecure: yes
