@@ -13,4 +13,10 @@ jh_value "artifactId" "$artifactId"
 jh_value "version" "$version"
 jh_value "type" "$type"
 
+header_begin "Cache the artifact"
 mvn -U dependency:get -Dartifact="$groupId:$artifactId:$version:$type"
+header_end
+
+header_begin "Copy the artifact to local folder"
+mvn dependency:copy -Dartifact="$groupId:$artifactId:$version:$type" -DoutputDirectory=.
+header_end
