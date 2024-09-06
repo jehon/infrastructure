@@ -60,14 +60,14 @@ gsettings_set org.gnome.mutter workspaces-only-on-primary true
 jh_info "Shrink dash"
 gsettings_set org.gnome.shell.extensions.dash-to-dock custom-theme-shrink true
 
-jh_info "Remove default keys for screenshot - allow ksnip to take them"
-gsettings_set org.gnome.shell.keybindings screenshot "@as []"
-
-jh_info "Adding custom command ksnip"
-# Thanks to https://askubuntu.com/a/1152232/638656
-gsettings_set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
-gsettings_set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "'KSnip'"
-gsettings_set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "'/snap/bin/ksnip -t'"
-gsettings_set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding "'Print'"
+# jh_info "Remove default keys for screenshot - allow ksnip to take them"
+# gsettings_set org.gnome.shell.keybindings screenshot "@as []"
+#
+# jh_info "Adding custom command ksnip"
+# # Thanks to https://askubuntu.com/a/1152232/638656
+# gsettings_set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+# gsettings_set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ name "'KSnip'"
+# gsettings_set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ command "'/snap/bin/ksnip -t'"
+# gsettings_set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/ binding "'Print'"
 
 header_end
