@@ -38,6 +38,14 @@ cloud_watch="${cloud_downloaded}/Watch/"
 
 user_report_failure
 
+header_begin "Uploading desktop files to $vps_watch"
+rsync "${jhRsyncOptions[@]}" \
+    --recursive \
+    --remove-source-files \
+    --include='*.torrent' --exclude '*' \
+    "$HOME/Desktop/" "$vps_ssh:$vps_watch"
+header_end
+
 header_begin "Uploading $cloud_watch to $vps_watch"
 rsync "${jhRsyncOptions[@]}" \
     --recursive \
