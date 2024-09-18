@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
 
-# restart if started
-systemctl try-restart jehon-dev-user-hourly.service
+systemctl start jehon-dev-user-hourly.service
