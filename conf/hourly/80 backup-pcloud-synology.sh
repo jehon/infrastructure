@@ -66,10 +66,13 @@ syncToSynology() {
     } |& jh-tag-stdin "$folder"
 }
 
+# Backup to hdd too
 syncToSynology "Archives" || RES=1
 syncToSynology "Photos" || RES=1
 syncToSynology "Bibliothèque" || RES=1
 syncToSynology "Musiques" || RES=1
+
+# Only to synology
 syncToSynology "Videos" || RES=1
 
 if [ "$RES" = 1 ]; then

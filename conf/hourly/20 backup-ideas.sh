@@ -41,9 +41,9 @@ syncOne() {
     header_begin "Backup of $source"
 
     rsync "${jhRsyncOptions[@]}" \
-        --recursive --times \
+        --recursive --times --omit-dir-times \
         --delete --delete-excluded \
-        --exclude .git --exclude target \
+        --exclude .git --exclude target --filter=':- .gitignore' \
         "$source" "$syncTarget"
     header_end
 }

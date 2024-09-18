@@ -67,6 +67,7 @@ syncToLocalHdd() {
 syncToLocalHdd "Archives" || RES=1
 syncToLocalHdd "Photos" || RES=1
 syncToLocalHdd "Bibliothèque" || RES=1
+syncToLocalHdd "Musiques" || RES=1
 
 if [ "$RES" = 1 ]; then
     echo "Some sync did fail"
