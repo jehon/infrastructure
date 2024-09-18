@@ -26,7 +26,7 @@ cloud_watch="${cloud_downloaded}/Watch/"
 "${prjRoot}"/bin/jh-wait-folder
 
 # shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-location-exclude "mobile"
+"${prjRoot}"/bin/jh-location-exclude "disconnected" "mobile"
 
 ##################################
 #

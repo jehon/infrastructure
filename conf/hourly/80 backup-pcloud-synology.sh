@@ -17,13 +17,10 @@ set -o pipefail
 #
 
 # shellcheck source-path=SCRIPTDIR/../../
-. "${prjRoot}"/bin/jh-run-only-daily
-
-# shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-wait-folder
 
 # shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-location-exclude "mobile"
+"${prjRoot}"/bin/jh-location-require "home"
 
 ##################################
 #

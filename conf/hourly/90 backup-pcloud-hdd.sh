@@ -25,11 +25,11 @@ minFreeSpaceGb=10
 . "${prjRoot}"/bin/jh-run-only-daily
 
 # shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-wait-folder "$localTarget"
-"${prjRoot}"/bin/jh-wait-folder "$localBackup"
+"${prjRoot}"/bin/jh-location-require "home"
 
 # shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-location-require "home"
+"${prjRoot}"/bin/jh-wait-folder "$localTarget"
+"${prjRoot}"/bin/jh-wait-folder "$localBackup"
 
 ##################################
 #
