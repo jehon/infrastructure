@@ -95,6 +95,7 @@ infrastructure-dump-runtimes: infrastructure-dependencies
 .PHONY: infrastructure-lint
 infrastructure-lint: dependencies
 	python3 --version
+	ls -la tmp/python/common/ansiblelint/data/
 	cd infrastructure/ && ansible-lint --version
 	cd infrastructure/ && ansible-lint
 	@echo "$@ ok"
