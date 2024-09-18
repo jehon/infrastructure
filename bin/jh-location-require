@@ -21,4 +21,4 @@ while [ -n "$1" ]; do
     shift
 done
 
-jh_fatal "Not at the required location (${all_locations})"
+jh_fatal "Not at the required location: $detected (${all_locations})"
