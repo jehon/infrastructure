@@ -23,9 +23,6 @@ cloud_watch="${cloud_downloaded}/Watch/"
 #
 
 # shellcheck source-path=SCRIPTDIR/../../
-. "${prjRoot}"/bin/jh-run-only-daily
-
-# shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-wait-folder
 
 # shellcheck source-path=SCRIPTDIR/../../

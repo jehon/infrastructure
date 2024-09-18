@@ -18,9 +18,6 @@ target="${jhCloudFolderInUserHome}/Workspaces/Famille/A ranger/"
 #
 
 # shellcheck source-path=SCRIPTDIR/../../
-. "${prjRoot}"/bin/jh-run-only-daily
-
-# shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-wait-folder "${target}"
 
 # shellcheck source-path=SCRIPTDIR/../../
