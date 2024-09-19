@@ -15,7 +15,6 @@ vps_watch="/srv/p2p/watch/"
 vps_downloaded="/srv/p2p/ready/"
 
 cloud_downloaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Work/p2p/"
-cloud_watch="${cloud_downloaded}/Watch/"
 
 ##################################
 #
@@ -41,13 +40,6 @@ rsync "${jhRsyncOptions[@]}" \
     --remove-source-files \
     --include='*.torrent' --exclude '*' \
     "$HOME/Desktop/" "$vps_ssh:$vps_watch"
-header_end
-
-header_begin "Uploading $cloud_watch to $vps_watch"
-rsync "${jhRsyncOptions[@]}" \
-    --recursive \
-    --remove-source-files \
-    "$cloud_watch" "$vps_ssh:$vps_watch"
 header_end
 
 header_begin "Downloading $vps_downloaded to $cloud_downloaded"
