@@ -86,9 +86,6 @@ infrastructure-dump-runtimes: infrastructure-dependencies
 	@type ansible | grep "$(ROOT)/"
 	@ansible --version
 
-	@type ansible-lint | grep "$(ROOT)/"
-	@ansible-lint --version
-
 	@type ansible-playbook | grep "$(ROOT)/"
 	@ansible-playbook --version
 
