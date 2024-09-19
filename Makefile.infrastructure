@@ -93,11 +93,11 @@ infrastructure-dump-runtimes: infrastructure-dependencies
 	@ansible-playbook --version
 
 .PHONY: infrastructure-lint
-infrastructure-lint: dependencies
-	python3 --version
-	ls -la tmp/python/common/ansiblelint/data/
-	cd infrastructure/ && ansible-lint --version
-	cd infrastructure/ && ansible-lint
+infrastructure-lint:
+	docker run \
+		-v .:/workdir/ \
+		-v ./infrastructure/.config/ansible-encryption-mock:/workdir/tmp/infrastructure/encryption-key \
+		-w /workdir/infrastructure pipelinecomponents/ansible-lint
 	@echo "$@ ok"
 
 .PHONY: infrastructure-build
