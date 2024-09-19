@@ -38,7 +38,7 @@ header_begin "Uploading desktop files to $vps_watch"
 rsync "${jhRsyncOptions[@]}" \
     --recursive \
     --remove-source-files \
-    --include='*.torrent' --exclude '*' \
+    --include='*.torrent' --include='*.torrent.magnet' --exclude '*' \
     "$HOME/Desktop/" "$vps_ssh:$vps_watch"
 header_end
 
