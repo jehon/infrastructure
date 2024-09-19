@@ -3,9 +3,10 @@
 #
 
 ansible
-ansible-lint
 ansible-vault
 pytest
+# ansible-lint:
+ansible-dev-tools
 
 #
 # Packages requirements
