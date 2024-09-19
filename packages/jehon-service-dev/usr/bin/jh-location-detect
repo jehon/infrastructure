@@ -10,45 +10,48 @@ in_location() {
     exit 0
 }
 
-if ! ping -c 1 8.8.8.8 >& /dev/null ; then
+if ! ping -c 1 8.8.8.8 >&/dev/null; then
     in_location "disconnected"
 fi
 
-WIFI="$( iwgetid -r || true )"
+WIFI="$(iwgetid -r || true)"
 jh_debug "Detected WIFI: $WIFI"
 
 case "${WIFI}" in
-    "" )
-        # No wifi
-        ;;
-    "Heyfjveidofbridkegxto" )
-        in_location "mobile"
-        ;;
-    "Digiteal")
-        in_location "work"
-        ;;
-    "chez_honlet" )
-        in_location "home"
-        ;;
-    * )
-        in_location "external"
-        ;;
+"")
+    # No wifi
+    ;;
+"Heyfjveidofbridkegxto")
+    in_location "mobile"
+    ;;
+"Digiteal")
+    in_location "work"
+    ;;
+"Digiteal-dev")
+    in_location "work"
+    ;;
+"chez_honlet")
+    in_location "home"
+    ;;
+*)
+    in_location "public"
+    ;;
 esac
 
-IPS="$( hostname -I )"
+IPS="$(hostname -I)"
 jh_debug "Detected IP: $IPS"
 for IP in $IPS; do
     jh_debug "IP: $IP"
     case "${IP}" in
-        "" )
-            in_location "disconnected"
-            ;;
-        192\.168\.1\.* )
-            in_location "home"
-            ;;
+    "")
+        in_location "disconnected"
+        ;;
+    192\.168\.1\.*)
+        in_location "home"
+        ;;
     esac
 done
 
 # Fallback
 jh_debug "** Fallback"
-in_location "external"
+in_location "public"

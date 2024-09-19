@@ -25,7 +25,7 @@ cloud_downloaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Work/p2p/"
 "${prjRoot}"/bin/jh-wait-folder
 
 # shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-location-exclude "disconnected" "mobile"
+"${prjRoot}"/bin/jh-location-require "home" "work"
 
 ##################################
 #

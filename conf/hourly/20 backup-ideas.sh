@@ -21,7 +21,7 @@ target="${jhCloudFolderInUserHome}/Workspaces/Jean/Backups/Ideas"
 "${prjRoot}"/bin/jh-wait-folder "${target}"
 
 # shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-location-exclude "disconnected" "mobile"
+"${prjRoot}"/bin/jh-location-require "home" "work"
 
 ##################################
 #
