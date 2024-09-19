@@ -24,4 +24,5 @@ fi
 [ -d "${configRoot}" ] || jh_fatal "Config folder not found: ${configRoot}"
 [ -d "${config}" ] || jh_fatal "Context config not found: ${config}"
 
-jh-runner "${config}" |& tee -a ~/Desktop/err.txt
+# Logs are in the journalctl
+jh-runner "${config}"

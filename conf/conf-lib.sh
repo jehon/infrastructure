@@ -16,8 +16,7 @@ user_report() {
 }
 
 user_report_failure() {
-    # Without this, err.txt does not have the file name
-    # but this is a duplicate from jh-dev-user-run
+    # Logs are in the journalctl
     exec >& >(jh-tag-stdin "$scriptName" | tee -a ~/Desktop/err.txt)
     jh_on_exit_failure "user_report failure"
 }
