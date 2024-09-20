@@ -23,7 +23,7 @@ pipdeptree
 #  - problem: ModuleNotFoundError: No module named 'rpds.rpds'
 #  - See https://stackoverflow.com/q/77994097/1954789
 #
-jsonschema==4.17.3
+jsonschema==4.23.0
 
 #
 # For jh-jira-deliver:
