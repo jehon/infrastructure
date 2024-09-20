@@ -74,6 +74,8 @@ assert_file_exists() {
 assert_success() {
     test_capture "$@"
     if [[ $JH_TEST_CAPTURED_EXITCODE -gt 0 ]]; then
+        echo "*** dumping output ***"
+        echo "${JH_TEST_CAPTURED_OUTPUT[@]}"
         log_failure "$CAPTURED_HEADER" "command return $JH_TEST_CAPTURED_EXITCODE"
     fi
     log_success "$CAPTURED_HEADER"
