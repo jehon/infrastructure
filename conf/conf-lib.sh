@@ -9,17 +9,24 @@ LSD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/
 . "${LSD}/../bin/lib.sh"
 
-scriptName="$(basename "$0")"
-
 user_report() {
     echo "${jhTS} $(basename "$0"): $*" | tee -a ~/Desktop/log.txt
 }
 
 user_report_failure() {
     # Logs are in the journalctl
-    exec >& >(jh-tag-stdin "$scriptName" | tee -a ~/Desktop/err.txt)
     jh_on_exit_failure "user_report failure"
 }
+
+case "$(jh-network-detect)" in
+"home")
+    BANDWIDTH=400KiB
+    ;;
+*)
+    BANDWIDTH=100KiB
+    ;;
+esac
+export BANDWIDTH
 
 jhRsyncOptions=(
     "--itemize-changes"
@@ -31,7 +38,7 @@ if [ -z "$JH_DAEMON" ]; then
     )
 else
     jhRsyncOptions+=(
-        "--bwlimit=400KiB"
+        "--bwlimit=$BANDWIDTH"
     )
 fi
 export jhRsyncOptions

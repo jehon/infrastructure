@@ -52,7 +52,7 @@ syncToSynology() {
         rclone \
             --verbose \
             --config "/etc/jehon/rclone.conf" \
-            --bwlimit "400K" --transfers=1 \
+            --bwlimit "$BANDWIDTH" --transfers=1 \
             --exclude "@eaDir" --exclude "@eaDir/**" \
             --exclude "#recycle*" --exclude "Thumbs.*" \
             sync \
