@@ -18,6 +18,15 @@ user_report_failure() {
     jh_on_exit_failure "user_report failure"
 }
 
+#
+# Default values
+#
+
+stateFilesRadix="${prjRoot}/tmp/history/$(jh-fs "path-to-file" "$0")"
+export stateFilesRadix
+
+lockFile="${stateFilesRadix}.lock"
+
 case "$(jh-location-detect)" in
 "home")
     BANDWIDTH=400KiB # Bytes per seconds
@@ -28,10 +37,32 @@ case "$(jh-location-detect)" in
 esac
 export BANDWIDTH
 
+#
+# Are we forced ?
+#
+
+FORCE=""
+if [ -z "$JH_RUNNER" ]; then
+    echo "Forcing run"
+    FORCE="force"
+    BANDWIDTH=2MiB # Nearly unlimited
+    jh_exclusive "${lockFile}" --force
+else
+    if ! jh_exclusive "${lockFile}"; then
+        echo "Already running at ${lockFile}"
+        exit 0
+    fi
+fi
+export FORCE
+
+#
+# Calculated values
+#
+
 jhRsyncOptions=(
     "--itemize-changes"
 )
-if [ -z "$JH_DAEMON" ]; then
+if [ -n "$FORCE" ]; then
     echo "RSync in interactive mode"
     jhRsyncOptions+=(
         "--progress"
@@ -42,21 +73,3 @@ else
     )
 fi
 export jhRsyncOptions
-
-stateFilesRadix="${prjRoot}/tmp/history/$(jh-fs "path-to-file" "$0")"
-export stateFilesRadix
-
-lockFile="${stateFilesRadix}.lock"
-
-FORCE=""
-if [ "$1" = "--force" ] || [ -z "$JH_RUNNER" ]; then
-    echo "Forcing run"
-    FORCE="force"
-    jh_exclusive "${lockFile}" --force
-else
-    if ! jh_exclusive "${lockFile}"; then
-        echo "Already running at ${lockFile}"
-        exit 0
-    fi
-fi
-export FORCE
