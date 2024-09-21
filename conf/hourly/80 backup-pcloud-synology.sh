@@ -63,14 +63,11 @@ syncToSynology() {
     } |& jh-tag-stdin "$folder"
 }
 
-# Only to synology
 syncToSynology "Videos" || RES=1
-
-# Backup to hdd too
-syncToSynology "Archives" || RES=1
-syncToSynology "Photos" || RES=1
-syncToSynology "Bibliothèque" || RES=1
-syncToSynology "Musiques" || RES=1
+# syncToSynology "Archives" || RES=1
+# syncToSynology "Photos" || RES=1
+# syncToSynology "Bibliothèque" || RES=1
+# syncToSynology "Musiques" || RES=1
 
 if [ "$RES" = 1 ]; then
     echo "Some sync did fail"
