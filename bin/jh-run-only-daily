@@ -7,21 +7,11 @@ shopt -s nullglob
 # shellcheck source-path=SCRIPTDIR/
 . "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
-stateFilesRadix="${prjRoot}/tmp/history/$(jh-fs "path-to-file" "$0")"
-
 mkdir -p "$(dirname "${stateFilesRadix}")"
 
 historyFile="${stateFilesRadix}.history"
-lockFile="${stateFilesRadix}.lock"
 
-if ! jh_exclusive "${lockFile}"; then
-    echo "Already running at ${lockFile}"
-    exit 0
-fi
-
-if [ "$1" = "--force" ] || [ -z "$JH_RUNNER" ]; then
-    echo "Forcing run"
-else
+if [ -z "$FORCE" ]; then
     # Modified days ago
     if [ "$(find "${historyFile}" -mtime -1 -print)" != "" ]; then
         echo "No need to run it"
