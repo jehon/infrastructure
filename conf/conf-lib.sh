@@ -42,3 +42,6 @@ else
     )
 fi
 export jhRsyncOptions
+
+stateFilesRadix="${prjRoot}/tmp/history/$(jh-fs "path-to-file" "$0")"
+export stateFilesRadix
