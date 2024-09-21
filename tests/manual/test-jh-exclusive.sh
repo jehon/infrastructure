@@ -8,7 +8,7 @@ prjRoot="$(dirname "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")")"
 lockFile="${prjRoot}/tmp/$(basename "$0").lock"
 
 jh_value "lock file" "${lockFile}"
-jh_exclusive "${lockFile}"
+jh_exclusive "${lockFile}" "$@"
 
 echo "ok, lock acquired (I am $$)"
 read -r

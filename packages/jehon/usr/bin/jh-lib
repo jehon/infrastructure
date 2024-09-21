@@ -231,6 +231,10 @@ jh_exclusive() {
 
     touch "$lockFile"
 
+    if [ "$2" == "--force" ]; then
+        fuser --kill "${lockFile}" || true
+    fi
+
     #
     # check the actually running lock with
     #     sudo fuser $LOCK_FILE
