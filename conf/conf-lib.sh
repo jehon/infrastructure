@@ -45,9 +45,18 @@ export jhRsyncOptions
 
 stateFilesRadix="${prjRoot}/tmp/history/$(jh-fs "path-to-file" "$0")"
 export stateFilesRadix
+
+lockFile="${stateFilesRadix}.lock"
+
 FORCE=""
 if [ "$1" = "--force" ] || [ -z "$JH_RUNNER" ]; then
     echo "Forcing run"
     FORCE="force"
+    jh_exclusive "${lockFile}" --force
+else
+    if ! jh_exclusive "${lockFile}"; then
+        echo "Already running at ${lockFile}"
+        exit 0
+    fi
 fi
 export FORCE
