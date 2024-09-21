@@ -18,9 +18,9 @@ user_report_failure() {
     jh_on_exit_failure "user_report failure"
 }
 
-case "$(jh-network-detect)" in
+case "$(jh-location-detect)" in
 "home")
-    BANDWIDTH=400KiB
+    BANDWIDTH=400KiB # Bytes per seconds
     ;;
 *)
     BANDWIDTH=100KiB
