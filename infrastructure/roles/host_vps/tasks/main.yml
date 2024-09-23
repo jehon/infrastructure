@@ -10,3 +10,9 @@
     name: jehon-mysql
     # later: delete this rule
     # delete: true
+
+- name: Setup stack
+  ansible.builtin.include_role:
+    name: jh_stack
+  vars:
+    stack_git_slug: "jehon/stack-vps"
