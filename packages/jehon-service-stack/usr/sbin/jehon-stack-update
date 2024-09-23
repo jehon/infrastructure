@@ -6,5 +6,26 @@ set -o pipefail
 # shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin
 . jh-lib
 
-echo "Updating the stack"
-whoami
+# shellcheck source-path=SCRIPTDIR/../bin/
+. jh-stack-lib
+
+if [ ! -r "$stackRoot" ]; then
+    jh_fatal "No stack found"
+fi
+
+cd "$stackRoot"
+
+if [ ! -r .git ]; then
+    jh_fatal "No git repository found"
+fi
+
+git fetch
+git reset --hard origin/master
+
+if [ -x bin/setup.sh ]; then
+    bin/setup.sh
+fi
+
+if [ -x bin/cron.sh ]; then
+    bin/cron.sh
+fi
