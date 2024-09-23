@@ -1,9 +1,9 @@
 
 [Unit]
-Description=Clean-up docker
+Description=Update stack
 After=docker.service
 
 [Service]
 Type=oneshot
 User=jehon-daemon
-ExecStart=/usr/sbin/jehon-stack-cron
+ExecStart=/usr/sbin/jehon-stack
