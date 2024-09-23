@@ -6,4 +6,4 @@ After=docker.service
 [Service]
 Type=oneshot
 User=jehon-daemon
-ExecStart=/usr/sbin/jehon-stack-update
+ExecStart=/usr/sbin/jehon-stack-cron
