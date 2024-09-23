@@ -1,0 +1,11 @@
+[Unit]
+Description=Update stack
+After=docker.service
+
+[Timer]
+OnBootSec=120
+OnUnitActiveSec=1d
+Persistent=true
+
+[Install]
+WantedBy=timers.target

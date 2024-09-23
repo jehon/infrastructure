@@ -1,0 +1,22 @@
+#!/bin/sh
+
+set -o errexit
+
+# shellcheck source=SCRIPTDIR/../jehon/usr/sbin/jehon-deb-helpers.sh
+. /usr/sbin/jehon-deb-helpers.sh
+
+jh_deb_helper_service "jehon-stack-update.timer"
+# jh_deb_helper_ufw "app" "jehon-music" "homeIPv4"
+
+case "$1" in
+configure) ;;
+
+remove) ;;
+
+esac
+
+#
+# Legacy
+#
+
+exit 0

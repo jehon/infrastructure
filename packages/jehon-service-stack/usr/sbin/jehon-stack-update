@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+# shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin
+. jh-lib
+
+echo "Updating the stack"
+whoami
