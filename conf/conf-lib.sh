@@ -22,8 +22,7 @@ user_report_failure() {
 # Default values
 #
 
-stateFilesRadix="${prjRoot}/tmp/history/$(jh-fs "path-to-file" "$0")"
-export stateFilesRadix
+mkdir -p "$(dirname "${stateFilesRadix}")"
 
 lockFile="${stateFilesRadix}.lock"
 

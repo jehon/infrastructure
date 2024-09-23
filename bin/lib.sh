@@ -12,3 +12,6 @@ export PYTHONPATH="$prjRoot/tmp/python/common"
 . "${prjRoot}/packages/jehon/usr/bin/jh-lib"
 
 mkdir -p "$prjTmp"
+
+stateFilesRadix="${prjTmp}/history/$(jh-fs "path-to-file" "$0")"
+export stateFilesRadix
