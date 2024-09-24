@@ -2,7 +2,7 @@
   block:
     - name: Install git repo
       ansible.builtin.git:
-        repo: https://{{ jehon.gitlab.username | urlencode }}:{{ gitlab_token | urlencode }}@gitlab.com/${stack_git_slug}
+        repo: https://{{ jehon.credentials.gitlab.username | urlencode }}:{{ gitlab_token | urlencode }}@gitlab.com/${stack_git_slug}
         dest: /home/jehon-daemon/stack
         version: main
       notify: jh_stack.reload
