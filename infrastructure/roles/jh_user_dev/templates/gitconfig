@@ -2,8 +2,8 @@
 # See https://git-scm.com/docs/git-config
 #
 [user]
-name = {{ jehon.credentials.professional.display_name }}
-email = {{ jehon.credentials.professional.email }}
+name = {{ jehon_remote_professional_display_name }}
+email = {{ jehon_remote_professional_email }}
 
 [push]
 default = current
