@@ -40,7 +40,6 @@ all:
       3831343433306239650a306137366634303533656338623336633235386439303232353763343737
       6637
     dev_password:
-    jehon_headless: false
     #
     # Those variables can not be overriden!
     #
@@ -422,7 +421,6 @@ all:
         Photos: ro
         Videos: ro
       jehon_always_connected: true
-      jehon_headless: true
       synology:
         username: "systeme-kiosk"
         password: !vault |
@@ -434,7 +432,6 @@ all:
           3832
     vps:
       ansible_host: "{{ jehon.ip.vps }}"
-      jehon_headless: true
       # "vps": read_repo, read_registry
       gitlab_token: !vault |
         $ANSIBLE_VAULT;1.1;AES256
