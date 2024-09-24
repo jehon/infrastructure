@@ -1,3 +1,4 @@
+Essential: yes
 Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
 # Cockpit
