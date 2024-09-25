@@ -33,9 +33,9 @@
     #       changed_when: '"CLI context \"rootless\" already exists" not in _.stdout'
 
     # - name: Docker - login to docker hub
-    #   when: jehon.docker.username | length > 0 and jehon.docker.token | length > 0
+    #   when: jehon_remote_docker_token | length > 0 and jehon_remote_docker_token | length > 0
     #   ansible.builtin.command:
-    #     cmd: echo "{{ jehon.docker.token }}" | docker login -u "{{ jehon.docker.username }}"
+    #     cmd: echo "{{ jehon_remote_docker_token }}" | docker login -u "{{ jehon_remote_docker_username }}"
     #   changed_when: false
 
 #
