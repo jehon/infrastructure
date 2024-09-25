@@ -49,18 +49,14 @@
     - name: Set git user for dev user
       when: jehon.credentials.github.display_name is defined and jehon.credentials.github.display_name
       block:
-        - name: Set gitconfig file
+        - name: Set gitconfig files
           ansible.builtin.template:
-            src: gitconfig
-            dest: /home/{{ dev_user }}/.gitconfig
+            src: "{{ item }}"
+            dest: /home/{{ dev_user }}/.{{item}}
             owner: "{{ dev_user }}"
             group: "{{ dev_user }}"
             mode: "0640"
-
-        - name: Set gitconfig-github file
-          ansible.builtin.template:
-            src: gitconfig-github
-            dest: /home/{{ dev_user }}/.gitconfig-github
-            owner: "{{ dev_user }}"
-            group: "{{ dev_user }}"
-            mode: "0640"
+          with_items:
+            - gitconfig
+            - gitconfig-github
+            - gitconfig-gitlab

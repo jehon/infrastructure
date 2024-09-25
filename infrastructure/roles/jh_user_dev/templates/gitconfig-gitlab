@@ -1,3 +1,3 @@
 [user]
-name = {{ jehon.credentials.gitlab.display_name }}
-email = {{ jehon.credentials.gitlab.email }}
+name = {{ jehon_remote_gitlab_display_display_name }}
+email = {{ jehon_remote_gitlab_display_email }}

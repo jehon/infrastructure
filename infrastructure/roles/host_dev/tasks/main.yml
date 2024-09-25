@@ -12,8 +12,6 @@
         - cryptomedic.php
         - cryptomedic.sh
         - dev.sh
-        - jenkins.env
-        - jenkins-master.key
         - koalty.sh
         - tmdb.key
       ansible.builtin.template:
