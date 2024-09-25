@@ -1,4 +1,4 @@
 
 [user]
-name = {{ jehon.credentials.github.display_name }}
-email = {{ jehon.credentials.github.email }}
+name = {{ jehon_remote_github_display_name }}
+email = {{ jehon_remote_github_email }}

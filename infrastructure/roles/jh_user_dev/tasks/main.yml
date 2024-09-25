@@ -47,7 +47,7 @@
         mode: "0750"
 
     - name: Set git user for dev user
-      when: jehon.credentials.github.display_name is defined and jehon.credentials.github.display_name
+      when: jehon_remote_github_display_name is defined and jehon_remote_github_display_name
       block:
         - name: Set gitconfig files
           ansible.builtin.template:
