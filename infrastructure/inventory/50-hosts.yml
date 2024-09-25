@@ -32,14 +32,14 @@ all:
   vars:
     ansible_python_interpreter: auto_silent # https://docs.ansible.com/ansible-core/2.13/reference_appendices/interpreter_discovery.html
     ansible_user: root
-    dev_user: !vault |
+    jehon_dev_user: !vault |
       $ANSIBLE_VAULT;1.1;AES256
       65313262616635656164376432343831663034356666623838613964633732633363376336653832
       6534396265656563656131613630383963383266613237620a656635373130336632356365616537
       35323265626531626538363536633361323262306139393161613735343534303061366565313562
       3831343433306239650a306137366634303533656338623336633235386439303232353763343737
       6637
-    dev_password:
+    jehon_dev_password:
     #
     # Those variables can not be overriden!
     #
@@ -340,9 +340,9 @@ all:
       ansible_connection: local
       ansible_become: true
 
-      cloud_type: pcloud-rw
-      cloud_cache_size: 20G
-      cloud_mount:
+      jehon_cloud_type: pcloud-rw
+      jehon_cloud_cache_size: 20G
+      jehon_cloud_mount:
         Musiques: rw
         Photos: rw
         Videos: rw
@@ -359,9 +359,9 @@ all:
         3862336334316130663038383461616465616532333536646562
     kiosk:
       ansible_host: "{{ jehon_ip.kiosk }}"
-      cloud_type: pcloud
-      cloud_cache_size: 10M
-      cloud_mount:
+      jehon_cloud_type: pcloud
+      jehon_cloud_cache_size: 10M
+      jehon_cloud_mount:
         Musiques: ro
         Photos: ro
         Videos: ro

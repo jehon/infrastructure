@@ -1,13 +1,13 @@
 ---
 - name: Setup dev profile
-  when: dev_user is defined and dev_user
+  when: jehon_dev_user is defined and jehon_dev_user
   block:
     ############################################
     #
     # User config
     #
     ############################################
-    - name: Install secrets files for dev for {{ dev_user }}
+    - name: Install secrets files for dev for {{ jehon_dev_user }}
       with_items:
         - cryptomedic.php
         - cryptomedic.sh
@@ -16,14 +16,14 @@
         - tmdb.key
       ansible.builtin.template:
         src: "{{ item }}"
-        dest: "/home/{{ dev_user }}/restricted/{{ item }}"
-        owner: "{{ dev_user }}"
+        dest: "/home/{{ jehon_dev_user }}/restricted/{{ item }}"
+        owner: "{{ jehon_dev_user }}"
         group: jehon-secrets
         mode: "0700"
 
     # - name: Run as user
     #   become: true
-    #   become_user: "{{ dev_user }}"
+    #   become_user: "{{ jehon_dev_user }}"
     #   block:
     #     - name: Docker rootless
     #       when: not virtual

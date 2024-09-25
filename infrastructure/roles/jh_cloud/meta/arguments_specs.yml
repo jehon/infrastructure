@@ -2,11 +2,11 @@
 argument_specs:
   main:
     options:
-      cloud_type:
+      jehon_cloud_type:
         type: string
-      cloud_cache_size:
+      jehon_cloud_cache_size:
         type: string
-      cloud_mount:
+      jehon_cloud_mount:
         type: dict
       jehon_remote_synology_username:
         type: string

@@ -1,6 +1,6 @@
 ---
 - name: Configure cloud
-  when: cloud_type | length > 0
+  when: jehon_cloud_type | length > 0
   block:
     - name: Install packages (fuse)
       when: ansible_pkg_mgr == "apt"
@@ -28,7 +28,7 @@
 
 ## ELSE ##
 - name: "Remove config"
-  when: cloud_type | length == 0
+  when: jehon_cloud_type | length == 0
   ansible.builtin.file:
     dest: /etc/jehon/rclone.conf
     state: absent
