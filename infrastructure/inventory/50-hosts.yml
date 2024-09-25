@@ -51,40 +51,27 @@ all:
     #
     # Those variables can not be overriden!
     #
-    jehon_ip:
-      # TODO: jh_network > main.yml
-      #- name: Show all variables
-      #  ansible.builtin.debug: msg="{{ lookup('ansible.builtin.varnames', '.+')}}"
+    jehon_ip_dev: 127.0.0.1
+    jehon_ip_gateway: 192.168.1.1
 
-      #
-      # ipv6? use jh-network-mac-to-ipv6 "<mac>"
-      #
+    # Mac:
+    jehon_ip_kiosk: 2a02:a03f:a9cd:8a00:ba27:ebff:fe7c:8ef3
+    # kiosk: 192.168.1.154
 
-      # 00:00:00:00:00:1f
-      # Detected by docker host
-      # dev: fe80::200:ff:fe00:1f
-      dev: 127.0.0.1
+    # 3c:7c:3f:8b:1b:d0
+    jehon_ip_switch: fe80::3e7c:3fff:fe8b:1bd0
 
-      gateway: 192.168.1.1
+    # 00:11:32:1b:8f:92
+    jehon_ip_synology: 2a02:a03f:a9cd:8a00:211:32ff:fe1b:8f92
+    # synology: 192.168.1.9
 
-      # Mac:
-      kiosk: 2a02:a03f:a9cd:8a00:ba27:ebff:fe7c:8ef3
-      # kiosk: 192.168.1.154
+    # vps: vps-c87b5de6.vps.ovh.net
+    jehon_ip_vps: 135.125.106.114
+    # vps: 2001:41d0:404:200::2a3f
 
-      # 3c:7c:3f:8b:1b:d0
-      switch: fe80::3e7c:3fff:fe8b:1bd0
-
-      # 00:11:32:1b:8f:92
-      synology: 2a02:a03f:a9cd:8a00:211:32ff:fe1b:8f92
-      # synology: 192.168.1.9
-
-      # vps: vps-c87b5de6.vps.ovh.net
-      vps: 135.125.106.114
-      # vps: 2001:41d0:404:200::2a3f
-
-      # Other:
-      # - wifi home: 192.168.1.8 (3c:7c:3f:8b:1b:d0)
-      # - hub:
+    # Other:
+    # - wifi home: 192.168.1.8 (3c:7c:3f:8b:1b:d0)
+    # - hub:
 
     jehon_remote_cryptomedic_database_username: !vault |
       $ANSIBLE_VAULT;1.1;AES256
@@ -350,7 +337,7 @@ all:
         37356462333330626662313438643932383535386335376330356566613538623537393038376161
         3862336334316130663038383461616465616532333536646562
     kiosk:
-      ansible_host: "{{ jehon_ip.kiosk }}"
+      ansible_host: "{{ jehon_ip_kiosk }}"
       jehon_cloud_type: pcloud
       jehon_cloud_cache_size: 10M
       jehon_cloud_mount:
@@ -367,7 +354,7 @@ all:
         6530613235303634360a623436323531623064626466353238633339363237326664353436346331
         3832
     vps:
-      ansible_host: "{{ jehon_ip.vps }}"
+      ansible_host: "{{ jehon_ip_vps }}"
       # "vps": read_repo, read_registry
       jehon_remote_gitlab_token: !vault |
         $ANSIBLE_VAULT;1.1;AES256

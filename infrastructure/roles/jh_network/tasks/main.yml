@@ -1,15 +1,12 @@
 ---
 - name: Add IP address to /etc/hosts
-  with_items: "{{ jehon_ip.keys() }}"
-  when: jehon_ip[item] is defined and jehon_ip[item]
-  # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/lineinfile_module.html
-
+  loop: "{{ query('ansible.builtin.varnames', '^jehon_ip_.+') | replace('jehon_ip_', '')  }}"
   ansible.builtin.lineinfile:
     path: /etc/hosts
     # Match: <ip|ipv6> <host>.honlet <legacy> # ansible
     regexp: ".* {{ item }}.honlet .* # ansible"
     # Set: <hostname>.honlet and <hostname> alias
-    line: "{{ jehon_ip[item] }} {{ item }}.honlet {{ item }} # ansible"
+    line: "{{ vars['jehon_ip_' + item] }} {{ item }}.honlet {{ item }} # ansible"
     state: present
   register: _
   # On docker, the /etc/hosts is not writable
