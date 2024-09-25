@@ -11,7 +11,6 @@ ZSH_THEME="af-magic"
 
 plugins=(
     direnv
-    docker
     git
 )
 
