@@ -321,10 +321,10 @@ all:
 
       jehon_cloud_type: pcloud-rw
       jehon_cloud_cache_size: 20G
-      jehon_cloud_mount:
-        Musiques: rw
-        Photos: rw
-        Videos: rw
+      # jehon_cloud_mount:
+      #   Musiques: rw
+      #   Photos: rw
+      #   Videos: rw
       jehon_remote_synology_username:
         "systeme-dev"
         # rclone obscure "xxx_password_xxx" | jh-ansible-encrypt -
@@ -340,10 +340,10 @@ all:
       ansible_host: "{{ jehon_ip_kiosk }}"
       jehon_cloud_type: pcloud
       jehon_cloud_cache_size: 10M
-      jehon_cloud_mount:
-        Musiques: ro
-        Photos: ro
-        Videos: ro
+      # jehon_cloud_mount:
+      #   Musiques: ro
+      #   Photos: ro
+      #   Videos: ro
       jehon_always_connected: true
       jehon_remote_synology_username: "systeme-kiosk"
       jehon_remote_synology_password: !vault |
@@ -355,7 +355,7 @@ all:
         3832
     vps:
       ansible_host: "{{ jehon_ip_vps }}"
-      # "vps": read_repo, read_registry
+      # Gitlab credentials: "vps" => read_repo, read_registry
       jehon_remote_gitlab_token: !vault |
         $ANSIBLE_VAULT;1.1;AES256
         63616434643530613266373735313838396238373535626130613632353632313635313964323234
