@@ -8,5 +8,7 @@ argument_specs:
         type: string
       cloud_mount:
         type: dict
-      synology:
-        type: dict
+      jehon_remote_synology_username:
+        type: string
+      jehon_remote_synology_password:
+        type: string
