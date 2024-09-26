@@ -20,7 +20,7 @@ if [ ! -r .git ]; then
 fi
 
 git fetch
-git reset --hard origin/master
+git reset --hard origin
 
 if [ -x bin/setup.sh ]; then
     bin/setup.sh
