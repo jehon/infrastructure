@@ -2,5 +2,5 @@
 argument_specs:
   main:
     options:
-      stack_git_slug:
+      jh_stack_git_slug:
         type: string

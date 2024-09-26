@@ -2,10 +2,18 @@
   block:
     - name: Install git repo
       ansible.builtin.git:
-        repo: https://{{ jehon_remote_gitlab_username | urlencode }}:{{ jehon_remote_gitlab_token | urlencode }}@gitlab.com/${stack_git_slug}
+        repo: "https://{{ jehon_remote_gitlab_username }}:{{ jehon_remote_gitlab_token }}@gitlab.com/{{jh_stack_git_slug}}"
         dest: /home/jehon-daemon/stack
         version: main
       notify: jh_stack.reload
+
+    - name: Set ownership
+      file:
+        dest: /home/jehon-daemon/stack
+        owner: jehon-daemon
+        group: jehon-daemon
+        mode: u=rwX,g=rX,o=rX
+        recurse: yes
 
     - name: Install jehon-service-stack
       ansible.builtin.apt:
