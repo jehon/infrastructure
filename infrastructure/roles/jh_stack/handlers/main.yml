@@ -3,6 +3,7 @@
   listen: jh_stack.reload
   when: not virtual
   ansible.builtin.systemd:
+    # We start this, as it will setup/cron at start, and we want that
     name: jehon-stack.service
     state: restarted
   changed_when: false
