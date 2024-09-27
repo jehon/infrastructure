@@ -40,6 +40,10 @@ docker compose pull \
     --quiet
 header_end
 
+header_begin "Building new images"
+docker compose build
+header_end
+
 header_begin "Restart with new images"
 docker compose up \
     --remove-orphans \
