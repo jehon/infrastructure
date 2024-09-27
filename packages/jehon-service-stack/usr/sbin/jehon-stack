@@ -27,6 +27,7 @@ cat >"$stackRoot"/.env <<EOS
 # id: $(id)
 PUID=$(id -u)
 PGID=$(id -g)
+TZ=$(cat /etc/timezone)
 EOS
 
 if [ -x bin/setup.sh ]; then
