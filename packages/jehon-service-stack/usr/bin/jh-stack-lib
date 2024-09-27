@@ -33,7 +33,7 @@ with_folder() {
     name="$2" # May be empty
 
     # Give access to the operators and remove access from others
-    folder="${stackRoot}/volumes/${context}/${currentService}/${name}"
+    folder="${stackRoot}/volumes/${currentService}/${context}/${currentService}/${name}"
     install -v --directory "${folder}"
     # chown --change --recursive "${currentServiceUid}:operators" "${folder}"
     # chmod --change --recursive g+rwX,o-rwx "${folder}"
@@ -50,6 +50,6 @@ with_var() {
     with_folder "var" "$1"
 }
 
-with_cache() {
-    with_folder "cache" "$1"
-}
+# with_cache() {
+#     with_folder "cache" "$1"
+# }
