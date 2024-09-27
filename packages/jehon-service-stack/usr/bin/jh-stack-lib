@@ -16,7 +16,7 @@ export stackRoot
 
 currentService=
 # currentServiceUid=
-service() {
+on() {
     currentService="$1"
     # currentServiceUid="1000" # Most container run as 1000
 
