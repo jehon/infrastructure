@@ -13,8 +13,8 @@ set -o errexit
 vps_ssh="vps"
 vps_ssh_user="jehon-daemon"
 vps_root="/home/jehon-daemon/stack/volumes"
-vps_watch="${vps_root}/torrents.var.watched/"
-vps_downloaded="${vps_root}/torrents.var.ready/"
+vps_watch="${vps_root}/torrents.watched.var/"
+vps_downloaded="${vps_root}/torrents.ready.var/"
 
 cloud_downloaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Work/p2p/"
 
