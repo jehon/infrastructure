@@ -15,18 +15,18 @@ stackRoot=/home/jehon-daemon/stack
 export stackRoot
 
 currentService=
-currentServiceUid=
+# currentServiceUid=
 service() {
     currentService="$1"
-    currentServiceUid="1000" # Most container run as 1000
+    # currentServiceUid="1000" # Most container run as 1000
 
     header "* ${currentService}"
 }
 
-with_user() {
-    # By default, user is 1000
-    currentServiceUid="${1:1000}"
-}
+# with_user() {
+#     # By default, user is 1000
+#     currentServiceUid="${1:1000}"
+# }
 
 with_folder() {
     context="${1:?Need the context: data/cache}"
@@ -35,12 +35,19 @@ with_folder() {
     # Give access to the operators and remove access from others
     folder="${stackRoot}/volumes/${context}/${currentService}/${name}"
     install -v --directory "${folder}"
-    chown --change --recursive "${currentServiceUid}:operators" "${folder}"
-    chmod --change --recursive g+rwX,o-rwx "${folder}"
+    # chown --change --recursive "${currentServiceUid}:operators" "${folder}"
+    # chmod --change --recursive g+rwX,o-rwx "${folder}"
 }
 
-with_data() {
-    with_folder "data" "$1"
+# with_etc() {
+#     with_folder "etc" "$1"
+# }
+with_etc() {
+    with_folder "etc" "$1"
+}
+
+with_var() {
+    with_folder "var" "$1"
 }
 
 with_cache() {
