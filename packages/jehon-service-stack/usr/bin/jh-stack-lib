@@ -39,5 +39,5 @@ with_folder() {
 }
 
 with_var() {
-    with_folder "var.$1"
+    with_folder "$1.var"
 }
