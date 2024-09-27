@@ -32,7 +32,7 @@ with_folder() {
     folder="${1:?Need the folder name as etc-var.config}"
 
     # Give access to the operators and remove access from others
-    folder="${stackRoot}/volumes/${currentService}/${folder}"
+    folder="${stackRoot}/volumes/${currentService}.${folder}"
     install -v --directory "${folder}"
     # chown --change --recursive "${currentServiceUid}:operators" "${folder}"
     # chmod --change --recursive g+rwX,o-rwx "${folder}"
