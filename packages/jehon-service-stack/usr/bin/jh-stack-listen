@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+cd stack
+
+docker ps --format json
+docker compose logs -f

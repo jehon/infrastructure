@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+shopt -s nullglob
+
+# shellcheck source-path=SCRIPTDIR/
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
+
+target="${1:?Need host as [1]}"
+
+ssh \
+    -L 9091:localhost:9091 \
+    "jehon-daemon@${target}" \
+    /usr/bin/jh-stack-listen
