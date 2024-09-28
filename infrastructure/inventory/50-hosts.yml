@@ -294,8 +294,10 @@ all:
 
     jehon_remote_synology_external_url: "https://jehon.synology.me:4001"
 
-    jehon_remote_synology_username: ""
-    jehon_remote_synology_password: ""
+    jehon_remote_synology_username: "no-defined"
+
+    # rclone obscure "xxx_password_xxx" | jh-ansible-encrypt -
+    jehon_remote_synology_password: "no-defined"
 
     jehon_remote_tmdb_key: !vault |
       $ANSIBLE_VAULT;1.1;AES256
@@ -327,9 +329,7 @@ all:
       #   Musiques: rw
       #   Photos: rw
       #   Videos: rw
-      jehon_remote_synology_username:
-        "systeme-dev"
-        # rclone obscure "xxx_password_xxx" | jh-ansible-encrypt -
+      jehon_remote_synology_username: "systeme-dev"
       jehon_remote_synology_password: !vault |
         $ANSIBLE_VAULT;1.1;AES256
         32623230373332323634393930316332613139303163386438323233653038386163643135363236
