@@ -320,7 +320,6 @@ all:
       ansible_become: true
 
       jehon_cloud_type: pcloud-rw
-      jehon_cloud_cache_size: 20G
       # jehon_cloud_mount:
       #   Musiques: rw
       #   Photos: rw
@@ -339,7 +338,6 @@ all:
     kiosk:
       ansible_host: "{{ jehon_ip_kiosk }}"
       jehon_cloud_type: pcloud
-      jehon_cloud_cache_size: 10M
       # jehon_cloud_mount:
       #   Musiques: ro
       #   Photos: ro
