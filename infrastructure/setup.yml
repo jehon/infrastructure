@@ -41,11 +41,5 @@
 
     - name: Setup host vps
       when: inventory_hostname == "vps"
-      with_items:
-        - host_vps
-        - jh_gitlab_runner
-
-      loop_control:
-        loop_var: role
       ansible.builtin.include_role:
-        name: "{{ role }}"
+        name: host_vps
