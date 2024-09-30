@@ -9,12 +9,16 @@ shopt -s nullglob
 
 historyFile="${stateFilesRadix}.history"
 
-if [ -z "$FORCE" ]; then
+if [ -n "$FORCE" ]; then
+    true
+elif [ "$(find "${historyFile}" -mtime -1 -print)" == "" ]; then
     # Modified days ago
-    if [ "$(find "${historyFile}" -mtime -1 -print)" != "" ]; then
-        echo "No need to run it"
-        exit 0
-    fi
+    true
+elif [ "$(date %H)" == "23" ]; then
+    true
+else
+    echo "No need to run it"
+    exit 0
 fi
 
 markAsSuccess() {
