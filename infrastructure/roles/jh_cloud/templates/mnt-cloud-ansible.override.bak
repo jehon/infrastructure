@@ -1,9 +1,0 @@
-
-# From Ansible setup
-#
-#   jh_cloud_mode: ro / rw
-#   jehon_cloud_cache_size: string
-#
-
-[Mount]
-Options=_netdev,{{ jh_cloud_mode }},noauto,allow-other,config=/etc/jehon/rclone.conf,cache-dir=/var/cache/rclone,{{ ( ',vfs-cache-mode=full,vfs-cache-max-size=' ~ jehon_cloud_cache_size ) if jehon_cloud_cache_size != '' }}

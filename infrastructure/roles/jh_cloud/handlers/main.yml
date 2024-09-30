@@ -6,12 +6,11 @@
     daemon_reload: true
   changed_when: false
   notify: Jh_cloud.remount
-
-- name: Do restart cloud mount
-  listen: Jh_cloud.remount
-  when: not virtual
-  with_items: "{{ mount_list }}"
-  ansible.builtin.systemd:
-    name: jehon-cloud@{{ item }}.service
-    state: "{{ 'restarted' if jh_cloud_start else 'stopped' }}"
-  changed_when: false
+#
+# - name: Do restart cloud mount
+#   listen: Jh_cloud.remount
+#   when: not virtual
+#   ansible.builtin.systemd:
+#     name: jehon-cloud@{{ item }}.service
+#     state: "{{ 'restarted' if jh_cloud_start else 'stopped' }}"
+#   changed_when: false

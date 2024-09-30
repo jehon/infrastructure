@@ -18,13 +18,13 @@
         mode: "0640"
       notify: Jh_cloud.remount
 
-    - name: Enable cloud mount service
-      when: not virtual
-      with_items: "{{ mount_list }}"
-      ansible.builtin.systemd:
-        name: jehon-cloud@{{ item }}.service
-        enabled: "{{ jh_cloud_start }}"
-        state: "{{ 'started' if jh_cloud_start else 'stopped' }}"
+    # - name: Enable cloud mount service
+    #   when: not virtual
+    #   with_items: "{{ mount_list }}"
+    #   ansible.builtin.systemd:
+    #     name: jehon-cloud@{{ item }}.service
+    #     enabled: "{{ jh_cloud_start }}"
+    #     state: "{{ 'started' if jh_cloud_start else 'stopped' }}"
 
 ## ELSE ##
 - name: "Remove config"
@@ -33,3 +33,6 @@
     dest: /etc/jehon/rclone.conf
     state: absent
   notify: Jh_cloud.systemctl_reload
+#
+# TODO: enable various mounts
+#
