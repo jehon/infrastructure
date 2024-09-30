@@ -7,16 +7,14 @@
       ansible.builtin.apt:
         name:
           - fuse3
-      notify: Jh_cloud.remount
 
     - name: "Install config"
       ansible.builtin.template:
         src: "rclone.conf"
         dest: /etc/jehon/rclone.conf
         owner: root
-        group: jehon-secrets
+        group: jehon-daemon
         mode: "0640"
-      notify: Jh_cloud.remount
 
     # - name: Enable cloud mount service
     #   when: not virtual
