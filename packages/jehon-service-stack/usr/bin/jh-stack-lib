@@ -20,7 +20,7 @@ on() {
     currentService="$1"
     # currentServiceUid="1000" # Most container run as 1000
 
-    header "* ${currentService}"
+    header "${currentService}"
 }
 
 # with_user() {
