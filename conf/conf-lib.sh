@@ -41,7 +41,7 @@ export BANDWIDTH
 #
 
 FORCE=""
-if [ -z "$JH_RUNNER" ]; then
+if [ "$1" == "-f" ]; then
     echo "Forcing run"
     FORCE="force"
     BANDWIDTH=2MiB # Nearly unlimited

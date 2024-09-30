@@ -5,18 +5,16 @@ set -o pipefail
 shopt -s nullglob
 
 # shellcheck source-path=SCRIPTDIR/
-. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
+. jh-lib
 
-historyFile="${stateFilesRadix}.history"
+historyFile="/var/run/$(jh-fs "path-to-file" "$0").history"
 
-if [ -n "$FORCE" ]; then
-    true
-elif [ "$(find "${historyFile}" -mtime -1 -print)" == "" ]; then
+if [ "$(find "${historyFile}" -mtime -1 -print)" == "" ]; then
     # Modified days ago
     true
 elif [ "$(date %H)" == "23" ]; then
     true
-else
+elif [ -n "$FORCE" ]; then
     echo "No need to run it"
     exit 0
 fi
