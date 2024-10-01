@@ -14,9 +14,6 @@ vps_ssh="vps"
 vps_ssh_user="jehon-daemon"
 vps_root="/home/jehon-daemon/stack/volumes"
 vps_watch="${vps_root}/torrents.watched.var/"
-vps_downloaded="${vps_root}/torrents.ready.var/"
-
-cloud_downloaded="${jhCloudFolderInUserHome}/Workspaces/Jean/Work/p2p/"
 
 vps_ops=(
     -e "ssh -l $vps_ssh_user"
@@ -41,10 +38,12 @@ vps_ops=(
 user_report_failure
 
 header_begin "Uploading desktop files to $vps_watch"
-rsync "${jhRsyncOptions[@]}" \
-    "${vps_ops[@]}" \
-    --recursive \
-    --remove-source-files \
-    --include='*.torrent' --include='*.torrent.magnet' --exclude '*' \
-    "$HOME/Desktop/" "${vps_ssh}:${vps_watch}"
-header_end
+if find "$HOME/Desktop/" \( -name "*.torrent" -o -name "*.torrent.magnet" \); then
+    rsync "${jhRsyncOptions[@]}" \
+        "${vps_ops[@]}" \
+        --recursive \
+        --remove-source-files \
+        --include='*.torrent' --include='*.torrent.magnet' --exclude '*' \
+        "$HOME/Desktop/" "${vps_ssh}:${vps_watch}"
+    header_end
+fi
