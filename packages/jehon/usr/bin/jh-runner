@@ -14,6 +14,10 @@ runInFolder() {
     local inFolder="$1"
     local result=0
 
+    if jh-fs is-empty "${inFolder}"; then
+        return
+    fi
+
     for F in "${inFolder}"/*; do
         BN="$(jh-fs "name" "${F}")"
 
@@ -40,12 +44,12 @@ runInFolder() {
         }
     done
 
-    # Recurse in subfolders
-    for F in "${inFolder}"/*; do
-        if [ -d "$F" ]; then
-            runInFolder "$F" jh-tag-stdin "$(basename "$F")" || result=1
-        fi
-    done
+    # # Recurse in subfolders
+    # for F in "${inFolder}"/*; do
+    #     if [ -d "$F" ]; then
+    #         runInFolder "$F" jh-tag-stdin "$(basename "$F")" || result=1
+    #     fi
+    # done
 
     return "${result}"
 }
