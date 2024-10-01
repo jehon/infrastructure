@@ -22,10 +22,6 @@ user_report_failure() {
 # Default values
 #
 
-mkdir -p "$(dirname "${stateFilesRadix}")"
-
-lockFile="${stateFilesRadix}.lock"
-
 case "$(jh-location-detect)" in
 "home")
     BANDWIDTH=400KiB # Bytes per seconds
@@ -45,10 +41,10 @@ if [ "$1" == "-f" ]; then
     echo "Forcing run"
     FORCE="force"
     BANDWIDTH=2MiB # Nearly unlimited
-    jh_exclusive "${lockFile}" --force
+    jh_exclusive_kill
 else
-    if ! jh_exclusive "${lockFile}"; then
-        echo "Already running at ${lockFile}"
+    if ! jh_exclusive; then
+        echo "Already running"
         exit 0
     fi
 fi

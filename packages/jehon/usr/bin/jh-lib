@@ -34,6 +34,7 @@ export jhMsgKo
 
 # Other configs
 jhValueIdent=10
+
 export jhCloudFolderInUserHome=~/pCloudDrive
 
 #
@@ -226,14 +227,12 @@ jh_background_process() {
 }
 
 jh_exclusive() {
-    local lockFile="${1:?Need the lockfile as [1]}"
+    local lockFile
     local fd
 
-    touch "$lockFile"
+    lockFile="$XDG_RUNTIME_DIR/$(jh-fs "path-to-file" "$0").lock"
 
-    if [ "$2" == "--force" ]; then
-        fuser --kill "${lockFile}" || true
-    fi
+    touch "$lockFile"
 
     #
     # check the actually running lock with
@@ -243,12 +242,19 @@ jh_exclusive() {
     # See https://www.baeldung.com/linux/bash-ensure-instance-running
     exec {fd}<"${lockFile}"
     flock --exclusive --nonblock "$fd" || {
-        echo "Lock file busy as ${lockFile}" >&2
-        fuser "${lockFile}"
+        jh_error "Lock file busy as ${lockFile} ($(fuser "${lockFile}"))" >&2
 
-        echo "Unlock with:" >&2
-        echo "\$ fuser --kill '${lockFile}'" >&2
-
-        jh_fatal "Could not acquire lock ${lockFile}" >&2
+        echo "Unlock with: \$ fuser --kill '${lockFile}'" >&2
+        return 1
     }
+}
+
+jh_exclusive_kill() {
+    local lockFile
+
+    lockFile="$XDG_RUNTIME_DIR/$(jh-fs "path-to-file" "$0").lock"
+
+    if [ -r "$lockFile" ]; then
+        fuser --kill "${lockFile}" || true
+    fi
 }
