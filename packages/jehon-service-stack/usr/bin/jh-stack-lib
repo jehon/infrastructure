@@ -41,3 +41,20 @@ with_folder() {
 with_var() {
     with_folder "$1.var"
 }
+
+update_stack() {
+    header_begin "Getting new images"
+    docker compose pull \
+        --quiet
+    header_end
+
+    header_begin "Building new images"
+    docker compose build
+    header_end
+
+    header_begin "Restart with new images"
+    docker compose up \
+        --remove-orphans \
+        --detach --wait
+    header_end
+}

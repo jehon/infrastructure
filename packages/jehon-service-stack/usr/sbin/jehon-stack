@@ -3,17 +3,14 @@
 set -o errexit
 set -o pipefail
 
-# shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin
-. jh-lib
-
 # shellcheck source-path=SCRIPTDIR/../bin/
 . jh-stack-lib
 
-if [ ! -r "$stackRoot" ]; then
+if [ ! -r "${stackRoot}" ]; then
     jh_fatal "No stack found"
 fi
 
-cd "$stackRoot"
+cd "${stackRoot}"
 
 if [ ! -r .git ]; then
     jh_fatal "No git repository found"
@@ -22,7 +19,7 @@ fi
 git fetch
 git reset --hard origin
 
-cat >"$stackRoot"/.env <<EOS
+cat >"${stackRoot}"/.env <<EOS
 # User running the stack
 # id: $(id)
 PUID=$(id -u)
@@ -30,29 +27,8 @@ PGID=$(id -g)
 TZ=$(cat /etc/timezone)
 EOS
 
-if [ -x bin/setup.sh ]; then
-    header_begin "Setting up the stack"
-    bin/setup.sh
-    header_end
-fi
-
-header_begin "Getting new images"
-docker compose pull \
-    --quiet
-header_end
-
-header_begin "Building new images"
-docker compose build
-header_end
-
-header_begin "Restart with new images"
-docker compose up \
-    --remove-orphans \
-    --detach --wait
-header_end
-
-if [ -x bin/cron.sh ]; then
+if [ -d "${stackRoot}"/cron ]; then
     header_begin "Running the cron"
-    bin/cron.sh
+    jh-runner "${stackRoot}"/cron
     header_end
 fi
