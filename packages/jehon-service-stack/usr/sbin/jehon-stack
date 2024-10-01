@@ -10,6 +10,9 @@ if [ ! -r "${stackRoot}" ]; then
     jh_fatal "No stack found"
 fi
 
+header_begin "Update git"
+# We need to do that before the jh-runner
+# to get the latests scripts
 cd "${stackRoot}"
 
 if [ ! -r .git ]; then
@@ -18,17 +21,8 @@ fi
 
 git fetch
 git reset --hard origin
+header_end
 
-cat >"${stackRoot}"/.env <<EOS
-# User running the stack
-# id: $(id)
-PUID=$(id -u)
-PGID=$(id -g)
-TZ=$(cat /etc/timezone)
-EOS
-
-if [ -d "${stackRoot}"/cron ]; then
-    header_begin "Running the cron"
-    jh-runner "${stackRoot}"/cron
-    header_end
-fi
+header_begin "Running the cron"
+jh-runner "${stackRoot}"/cron
+header_end
