@@ -5,8 +5,7 @@
 
 set -o errexit
 
-# shellcheck source-path=SCRIPTDIR
-. jh-lib
+# We can not include jh-lib since jh-lib call us
 
 ACTION="${1:?Need action}"
 FILE="${2:?Need file}"
