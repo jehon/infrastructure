@@ -226,13 +226,12 @@ jh_background_process() {
     echo "$PID"
 }
 
+jh_lockFile="${XDG_RUNTIME_DIR:-/tmp}/$(jh-fs "path-to-file" "$0").lock"
+
 jh_exclusive() {
-    local lockFile
     local fd
 
-    lockFile="$XDG_RUNTIME_DIR/$(jh-fs "path-to-file" "$0").lock"
-
-    touch "$lockFile"
+    touch "$jh_lockFile"
 
     #
     # check the actually running lock with
@@ -240,21 +239,17 @@ jh_exclusive() {
     #
 
     # See https://www.baeldung.com/linux/bash-ensure-instance-running
-    exec {fd}<"${lockFile}"
+    exec {fd}<"${jh_lockFile}"
     flock --exclusive --nonblock "$fd" || {
-        jh_error "Lock file busy as ${lockFile} ($(fuser "${lockFile}"))" >&2
+        jh_error "Lock file busy as ${jh_lockFile} ($(fuser "${jh_lockFile}"))" >&2
 
-        echo "Unlock with: \$ fuser --kill '${lockFile}'" >&2
+        echo "Unlock with: \$ fuser --kill '${jh_lockFile}'" >&2
         return 1
     }
 }
 
 jh_exclusive_kill() {
-    local lockFile
-
-    lockFile="$XDG_RUNTIME_DIR/$(jh-fs "path-to-file" "$0").lock"
-
-    if [ -r "$lockFile" ]; then
-        fuser --kill "${lockFile}" || true
+    if [ -r "$jh_lockFile" ]; then
+        fuser --kill "${jh_lockFile}" || true
     fi
 }

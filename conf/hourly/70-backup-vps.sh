@@ -17,8 +17,8 @@ target="${jhCloudFolderInUserHome}/Systèmes/vps"
 # Requirements
 #
 
-# shellcheck source-path=SCRIPTDIR/../../
-. "${prjRoot}"/bin/jh-run-only-daily
+# shellcheck source-path=SCRIPTDIR/../../packages/jehon/usr/bin/
+. jh-run-only-daily
 
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-wait-folder "${target}"
