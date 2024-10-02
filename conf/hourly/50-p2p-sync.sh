@@ -13,7 +13,7 @@ set -o errexit
 vps_ssh="vps"
 vps_ssh_user="jehon-daemon"
 vps_root="/home/jehon-daemon/stack/volumes"
-vps_watch="${vps_root}/torrents.watched.var/"
+vps_watch="${vps_root}/torrents.watch.var/"
 
 vps_ops=(
     -e "ssh -l $vps_ssh_user"
