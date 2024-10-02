@@ -14,34 +14,6 @@ set -o errexit
 stackRoot=/home/jehon-daemon/stack
 export stackRoot
 
-currentService=
-# currentServiceUid=
-on() {
-    currentService="$1"
-    # currentServiceUid="1000" # Most container run as 1000
-
-    header "${currentService}"
-}
-
-# with_user() {
-#     # By default, user is 1000
-#     currentServiceUid="${1:1000}"
-# }
-
-with_folder() {
-    folder="${1:?Need the folder name as etc-var.config}"
-
-    # Give access to the operators and remove access from others
-    folder="${stackRoot}/volumes/${currentService}.${folder}"
-    install -v --directory "${folder}"
-    # chown --change --recursive "${currentServiceUid}:operators" "${folder}"
-    # chmod --change --recursive g+rwX,o-rwx "${folder}"
-}
-
-with_var() {
-    with_folder "$1.var"
-}
-
 update_stack() {
     header_begin "Create .env"
     cat >"${stackRoot}"/.env <<EOS
