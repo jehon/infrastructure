@@ -44,6 +44,7 @@ rsync "${jhRsyncOptions[@]}" \
     --recursive \
     vps:/var/backups/snapshot/full/ "${target}/snapshot/full/"
 header_end
+
 header_begin "Full: Taking snapshots"
 jh-backup-take-snapshot.sh "${target}"
 header_end
