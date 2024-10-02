@@ -32,6 +32,12 @@ target="${jhCloudFolderInUserHome}/Systèmes/vps"
 #
 
 user_report_failure
+header_begin "Full: Syncing data"
+rsync "${jhRsyncOptions[@]}" \
+    --recursive \
+    --exclude "*.var/" \
+    vps:/home/jehon-daemon/stack/ "${target}/stack/"
+header_end
 
 header_begin "Full: Syncing data"
 rsync "${jhRsyncOptions[@]}" \
