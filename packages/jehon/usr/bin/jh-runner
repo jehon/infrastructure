@@ -31,7 +31,7 @@ runInFolder() {
             continue
         fi
 
-        if [ ! -d "$F" ]; then
+        if [ -d "$F" ]; then
             jh_info "Skipping folder $F"
             continue
         fi
