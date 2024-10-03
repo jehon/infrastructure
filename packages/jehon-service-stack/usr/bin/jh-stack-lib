@@ -14,7 +14,7 @@ set -o errexit
 stackRoot=/home/jehon-daemon/stack
 export stackRoot
 
-update_stack() {
+jh_stack_update() {
     header_begin "Create .env"
     cat >"${stackRoot}"/.env <<EOS
 # User running the stack
@@ -40,3 +40,25 @@ EOS
         --detach --wait
     header_end
 }
+
+jh_stack_rc() {
+    rclone \
+        --verbose \
+        --config /etc/jehon/rclone.conf \
+        "$@"
+}
+
+cd "$stackRoot"
+
+FORCE=""
+if [ "$1" == "-f" ]; then
+    echo "Forcing run"
+    FORCE="force"
+    jh_exclusive_kill
+fi
+
+if ! jh_exclusive; then
+    echo "Already running"
+    exit 0
+fi
+export FORCE
