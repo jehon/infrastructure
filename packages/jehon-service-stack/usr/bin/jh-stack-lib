@@ -48,8 +48,6 @@ jh_stack_rc() {
         "$@"
 }
 
-cd "$stackRoot"
-
 FORCE=""
 if [ "$1" == "-f" ]; then
     echo "Forcing run"

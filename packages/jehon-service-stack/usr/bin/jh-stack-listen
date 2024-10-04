@@ -6,4 +6,4 @@ set -o pipefail
 cd stack
 
 docker ps # --format json
-docker compose logs -f
+docker compose logs -f "$@"
