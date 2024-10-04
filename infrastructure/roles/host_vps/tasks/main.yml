@@ -1,4 +1,14 @@
 ---
+- name: Install secrets files
+  with_items:
+    - cryptomedic.sh
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "/home/jehon-daemon/stack/secrets/{{ item }}"
+    owner: "jehon-daemon"
+    group: jehon-secrets
+    mode: "0750"
+
 - name: Allow database connections
   # https://docs.ansible.com/ansible/latest/collections/community/general/ufw_module.html
   # with_items:
