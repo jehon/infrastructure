@@ -42,8 +42,10 @@ EOS
 }
 
 jh_stack_rc() {
+    # --links: transform symlinks
     rclone \
         --verbose \
+        --skip-links --one-file-system \
         --config /etc/jehon/rclone.conf \
         "$@"
 }
