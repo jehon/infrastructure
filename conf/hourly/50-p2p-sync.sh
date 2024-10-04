@@ -39,9 +39,9 @@ user_report_failure
 
 header_begin "Uploading desktop files to $vps_watch"
 if find "$HOME/Desktop/" \( -name "*.torrent" -o -name "*.torrent.magnet" \); then
+    # Not recursive, we take only first level one
     rsync "${jhRsyncOptions[@]}" \
         "${vps_ops[@]}" \
-        --recursive \
         --remove-source-files \
         --include='*.torrent' --include='*.torrent.magnet' --exclude '*' \
         "$HOME/Desktop/" "${vps_ssh}:${vps_watch}"
