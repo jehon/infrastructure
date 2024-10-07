@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# Thanks to https://stackoverflow.com/a/5246045/1954789
+ssh-keygen -y -f "${1:?Need the key as [1]}"
