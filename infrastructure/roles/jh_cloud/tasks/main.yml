@@ -24,12 +24,46 @@
     #     enabled: "{{ jh_cloud_start }}"
     #     state: "{{ 'started' if jh_cloud_start else 'stopped' }}"
 
+    - name: "Docker plugin"
+      # https://rclone.org/docker/#installing-as-managed-plugin
+      block:
+        - name: Create folders
+          with_items:
+            - /var/lib/docker-plugins/rclone/config
+            - /var/lib/docker-plugins/rclone/cache
+          ansible.builtin.file:
+            state: directory
+            path: "{{ item }}"
+            owner: root
+            group: root
+            mode: "0750"
+
+        - name: Install plugin config
+          ansible.builtin.template:
+            src: "rclone.conf"
+            dest: /var/lib/docker-plugins/rclone/config/rclone.conf
+            owner: root
+            group: jehon-daemon
+            mode: "0640"
+
+        - name: Install a plugin
+          when: not virtual
+          community.docker.docker_plugin:
+            plugin_name: rclone/docker-volume-rclone
+            alias: rclone
+            state: "enable"
+          # To reinitialize the plugin:
+          #   rm /var/lib/docker-plugins/rclone/cache/docker-plugin.state
+
 ## ELSE ##
 - name: "Remove config"
   when: jehon_cloud_type | length == 0
+  with_items:
+    - /etc/jehon/rclone.conf
+    - /var/lib/docker-plugins/rclone/config/rclone.conf
   ansible.builtin.file:
-    dest: /etc/jehon/rclone.conf
     state: absent
+    dest: "{{ item }}"
   notify: Jh_cloud.systemctl_reload
 #
 # TODO: enable various mounts
