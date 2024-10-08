@@ -6,23 +6,23 @@ set -o pipefail
 # shellcheck source-path=SCRIPTDIR/../bin/
 . jh-stack-lib
 
-if [ ! -r "${stackRoot}" ]; then
-    jh_fatal "No stack found"
-fi
+cd "${stackRoot}"
 
 header_begin "Update git"
 # We need to do that before the jh-runner
 # to get the latests scripts
-cd "${stackRoot}"
-
 if [ ! -r .git ]; then
-    jh_fatal "No git repository found"
+    jh_error "No git repository found"
+else
+    git fetch
+    git reset --hard origin
 fi
-
-git fetch
-git reset --hard origin
 header_end
 
 header_begin "Running the cron"
-jh-runner "${stackRoot}"/cron
+if [ -d "${stackRoot}"/cron ]; then
+    jh-runner "${stackRoot}"/cron
+else
+    jh_error "No cron folder found"
+fi
 header_end

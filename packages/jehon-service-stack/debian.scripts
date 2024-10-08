@@ -9,8 +9,10 @@ jh_deb_helper_service "jehon-stack.timer"
 # jh_deb_helper_ufw "app" "jehon-music" "homeIPv4"
 
 case "$1" in
-configure) ;;
-
+configure)
+    mkdir -p /opt/jehon/stack
+    chown jehon-daemon /opt/jehon/stack
+    ;;
 remove) ;;
 
 esac
