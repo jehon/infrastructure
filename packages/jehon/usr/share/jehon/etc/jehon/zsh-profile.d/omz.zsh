@@ -38,6 +38,7 @@ zstyle ':omz:update' frequency 13
 
 if [ ! -r $ZSH/oh-my-zsh.sh ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || true
+    echo "# Truncated by omz.zsh profile on initial install" >$HOME/.zshrc
 fi
 
 if [ -r $ZSH/oh-my-zsh.sh ]; then

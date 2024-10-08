@@ -100,10 +100,11 @@ jh_deb_helper_system_user() {
 		if ! id "$N_USER" 1>/dev/null 2>/dev/null; then
 			# Initial configuration
 			echo "* Creating user $N_USER (locked)"
-			useradd --create-home --shell /bin/bash --system "$N_USER" >/dev/null
+			useradd --create-home \
+				--shell /usr/bin/zsh \
+				--system "$N_USER" >/dev/null
 			passwd -l "$N_USER"
 		fi
-
 		;;
 	"remove")
 		# Nothing: it is dangerous to remove it
