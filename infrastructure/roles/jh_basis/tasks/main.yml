@@ -35,6 +35,8 @@
           when: jh_basis_initial_apt_update.cache_updated
           ansible.builtin.apt:
             upgrade: dist
+          # We don't want to track those changes
+          changed_when: false
 
     # ############################################
     # #
@@ -195,8 +197,16 @@
                 - /var/lib/docker-plugins/rclone/config
                 - /var/lib/docker-plugins/rclone/cache
               ansible.builtin.file:
-                state: folders
+                state: directory
+                path: "{{ item }}"
                 owner: root
                 group: root
                 mode: "0750"
+#
+# docker plugin install rclone/docker-volume-rclone:amd64 --grant-all-permissions --alias rclone
+# /var/lib/docker-plugins/rclone/config/rclone.conf
+#
+#
+# docker plugin set rclone args="-vv"
+# rm /var/lib/docker-plugins/rclone/cache/docker-plugin.state
 #
