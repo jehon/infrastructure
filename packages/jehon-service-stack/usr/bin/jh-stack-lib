@@ -11,7 +11,7 @@ set -o errexit
 #
 #
 
-stackRoot=/home/jehon-daemon/stack
+stackRoot=/opt/jehon/stack
 export stackRoot
 
 jh_stack_update() {

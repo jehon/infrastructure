@@ -3,7 +3,10 @@
 set -o errexit
 set -o pipefail
 
-cd stack
+# shellcheck source-path=SCRIPTDIR/
+. jh-stack-lib
+
+cd "$stackRoot"
 
 docker ps # --format json
 docker compose logs -f "$@"
