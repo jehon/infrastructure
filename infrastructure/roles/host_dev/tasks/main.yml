@@ -87,3 +87,7 @@
         name: "{{ item }}"
         state: present
         channel: edge
+
+- name: Setup client1
+  ansible.builtin.include_role:
+    name: client1
