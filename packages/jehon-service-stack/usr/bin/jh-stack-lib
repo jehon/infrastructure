@@ -13,6 +13,8 @@ set -o errexit
 
 stackRoot=/opt/jehon/stack
 export stackRoot
+PATH="$stackRoot/bin:$PATH"
+export PATH
 
 jh_stack_update() {
     header_begin "Create .env"
