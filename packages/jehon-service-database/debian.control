@@ -1,6 +1,0 @@
-Depends: ${misc:Depends},
-	jehon (<= JH_VERSION),
-	mariadb-server, mariadb-client, mariadb-backup,
-# Dandling coma
-	bash
-

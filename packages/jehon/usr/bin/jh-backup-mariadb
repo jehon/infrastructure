@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin/
+. jh-lib
+
+BACKUP_FOLDER="/var/backups/snapshot/full"
+
+rm -fr "${BACKUP_FOLDER}"
+mkdir -p "${BACKUP_FOLDER}"
+
+backupOne() {
+    db="$1"
+    echo "[$db] Start backup database"
+
+    FILE="${db//[^[:alnum:]]/_/}"
+    FILE="$BACKUP_FOLDER/mariadb-$FILE"
+    if [ -r "$FILE.gz" ]; then
+        rm "$FILE.gz"
+    fi
+
+    echo "[$db] Backup the database into $FILE"
+    mysqldump --flush-privileges --single-transaction --databases --skip-comments "$db" >"$FILE"
+    if [ -r "$FILE" ]; then
+        if [ ! -s "$FILE" ]; then
+            echo "[$db] File is empty ! Removing it"
+            rm "$FILE"
+            return
+        fi
+        echo "[$db] Compress backup"
+        gzip --no-name "$FILE"
+        echo "[$db] Backup done"
+    else
+        echo "[$db] Backup generate no file"
+    fi
+}
+
+if [ -z "$2" ]; then
+    mapfile monthlyBackups < <(mysql --silent --exec "show databases")
+    for db in "${monthlyBackups[@]}"; do
+        db="$(echo "$db" | tr -dc '[:alnum:]_')"
+
+        # echo "show databases" | mysql "$MYSQLSEC" | while read -r db; do
+        if [ -z "$db" ]; then continue; fi
+        if [ "$db" = "Database" ]; then continue; fi
+        if [ "$db" = "information_schema" ]; then continue; fi
+        if [ "$db" = "performance_schema" ]; then continue; fi
+        if [ "$db" = "mysql" ]; then continue; fi
+
+        backupOne "$db"
+    done
+else
+    # Backup only $2
+    backupOne "$2"
+fi
