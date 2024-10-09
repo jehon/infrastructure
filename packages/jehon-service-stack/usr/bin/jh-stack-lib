@@ -16,15 +16,19 @@ export stackRoot
 PATH="$stackRoot/bin:$PATH"
 export PATH
 
+setEnv() {
+    key=${1:?key as [1]}
+    val=${2:?val as [2]}
+
+    jh-env-file-set ".env" "$key" "$val"
+}
+
 jh_stack_update() {
     header_begin "Create .env"
-    cat >"${stackRoot}"/.env <<EOS
-# User running the stack
-# id: $(id)
-PUID=$(id -u)
-PGID=$(id -g)
-TZ=$(cat /etc/timezone)
-EOS
+    setEnv "PUID" "$(id -u)"
+    setEnv "PGID" "$(id -g)"
+    setEnv "TZ" "$(cat /etc/timezone)"
+
     header_end
 
     header_begin "Getting new images"
