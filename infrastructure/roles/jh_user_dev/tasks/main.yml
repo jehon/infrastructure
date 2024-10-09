@@ -3,7 +3,6 @@
   ansible.builtin.apt:
     pkg:
       - jehon-service-dev
-      - jehon-service-database
 
 - name: Setup profile
   when: jehon_dev_user is defined and jehon_dev_user
