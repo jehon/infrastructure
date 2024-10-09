@@ -21,10 +21,6 @@
     # later: delete this rule
     # delete: true
 
-- name: Setup Gitlab runner
-  ansible.builtin.include_role:
-    name: jh_gitlab_runner
-
 - name: Setup cloud
   ansible.builtin.include_role:
     name: jh_cloud
