@@ -26,6 +26,8 @@ Depends: ${misc:Depends},
 	netcat-openbsd,
 	systemd-timesyncd,
 	openssh-server,
+# Generate passwords
+	pwgen,
 	rename,
 	rclone, p7zip-full,
 	rsync,
