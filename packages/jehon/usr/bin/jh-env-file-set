@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+file=${1:? file as [1]}
+key=${2:?key as [2]}
+val=${3:?val as [3]}
+
+if [ ! -r "${file}" ]; then
+    touch "${file}"
+fi
+
+if grep "$key=" "$file" >&/dev/null; then
+    sed -i~ "/^${key}=/s/=.*/=""\"${val}\"""/" "$file"
+else
+    echo "$key=\"$val\"" >>"$file"
+fi
