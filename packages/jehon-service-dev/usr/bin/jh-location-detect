@@ -30,7 +30,7 @@ case "${WIFI}" in
 "Digiteal-dev")
     in_location "work"
     ;;
-"chez_honlet")
+"chez_honlet" | "chez_honlet_5G")
     in_location "home"
     ;;
 *)
