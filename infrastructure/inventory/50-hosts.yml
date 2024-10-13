@@ -59,7 +59,9 @@ all:
     # kiosk: 192.168.1.154
 
     # 3c:7c:3f:8b:1b:d0
-    jehon_ip_switch: fe80::3e7c:3fff:fe8b:1bd0
+    # 192.168.1.8
+    jehon_ip_switch: 192.168.1.8
+    # fe80::3e7c:3fff:fe8b:1bd0 (no reply on ipv6)
 
     # 00:11:32:1b:8f:92
     jehon_ip_synology: 2a02:a03f:a9cd:8a00:211:32ff:fe1b:8f92
