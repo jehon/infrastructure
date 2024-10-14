@@ -45,6 +45,9 @@ jh_stack_update() {
         --remove-orphans \
         --detach --wait
     header_end
+
+    chown jehon-daemon:jehon-daemon .env
+    chmod 660 .env
 }
 
 jh_stack_rc() {
