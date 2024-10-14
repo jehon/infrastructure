@@ -25,10 +25,11 @@ setEnv() {
 
 jh_stack_update() {
     header_begin "Create .env"
-    setEnv "PUID" "$(id -u)"
-    setEnv "PGID" "$(id -g)"
-    setEnv "TZ" "$(cat /etc/timezone)"
-
+    jh-env-file-set "PUID" "$(id -u)"
+    jh-env-file-set "PGID" "$(id -g)"
+    jh-env-file-set "TZ" "$(cat /etc/timezone)"
+    chown jehon-daemon:jehon-daemon .env
+    chmod 660 .env
     header_end
 
     header_begin "Getting new images"
@@ -45,9 +46,6 @@ jh_stack_update() {
         --remove-orphans \
         --detach --wait
     header_end
-
-    chown jehon-daemon:jehon-daemon .env
-    chmod 660 .env
 }
 
 jh_stack_rc() {
