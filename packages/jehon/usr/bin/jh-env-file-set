@@ -2,9 +2,9 @@
 
 set -o errexit
 
-file=${1:? file as [1]}
-key=${2:?key as [2]}
-val=${3:?val as [3]}
+file="${1:? file as [1]}"
+key="${2:?key as [2]}"
+val="$3" # Can be empty
 
 if [ ! -r "${file}" ]; then
     touch "${file}"
