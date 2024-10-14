@@ -10,8 +10,10 @@ if [ ! -r "${file}" ]; then
     touch "${file}"
 fi
 
+content="$(cat "$file")"
+
 if grep "$key=" "$file" >&/dev/null; then
-    sed -i~ "/^${key}=/s/=.*/=""\"${val}\"""/" "$file"
+    echo "$content" | sed "/^${key}=/s/=.*/=""\"${val}\"""/" >"$file"
 else
     echo "$key=\"$val\"" >>"$file"
 fi
