@@ -24,10 +24,10 @@ setEnv() {
 }
 
 jh_stack_update() {
-    header_begin "Create .env"
-    jh-env-file-set "PUID" "$(id -u)"
-    jh-env-file-set "PGID" "$(id -g)"
-    jh-env-file-set "TZ" "$(cat /etc/timezone)"
+    header_begin "Managing system in .env"
+    jh-env-file-set .env "PUID" "$(id -u)"
+    jh-env-file-set .env "PGID" "$(id -g)"
+    jh-env-file-set .env "TZ" "$(cat /etc/timezone)"
     chown jehon-daemon:jehon-daemon .env
     chmod 660 .env
     header_end

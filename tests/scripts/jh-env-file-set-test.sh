@@ -35,3 +35,11 @@ assert_success "add" "$script" "$e1" "test2" "cool2"
     assert_equals "test" "cool1" "$test"
     assert_equals "test2" "cool2" "$test2"
 )
+
+assert_success "special chars" "$script" "$e1" "test" "blabla/blibli"
+(
+    # shellcheck source=/dev/null
+    . "$e1"
+    assert_equals "test" "blabla/blibli" "$test"
+    assert_equals "test2" "cool2" "$test2"
+)
