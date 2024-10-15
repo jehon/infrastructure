@@ -37,6 +37,7 @@ backupOne() {
 }
 
 if [ -z "$2" ]; then
+    # Record output in array variable
     mapfile monthlyBackups < <(mysql --silent --exec "show databases")
     for db in "${monthlyBackups[@]}"; do
         db="$(echo "$db" | tr -dc '[:alnum:]_')"
