@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR
+. jh-lib
+
+host="${1:?Need host as [1]}"
+shift
+
+if ping -c 1 -w 2 "$host" "$@" >/dev/null; then
+    ok "Pinging $host ok"
+else
+    ko "Pinging $host ko"
+fi
