@@ -10,7 +10,7 @@ if [ -z "$host" ]; then
 fi
 # $@ are now servicess
 
-stackRoot=/opt/stack
+stackRoot=/srv/stack
 
 rsync -e "ssh -l jehon-daemon" \
     -ri --times --perms \

@@ -5,7 +5,7 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR
 . jh-lib
 
-ROOT="/opt/jehon/tmdb-to-movie"
+ROOT="/srv/jehon/tmdb-to-movie"
 
 jh-npm-update-if-necessary "$ROOT"
 

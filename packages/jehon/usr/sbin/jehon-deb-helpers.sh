@@ -135,7 +135,7 @@ jh_deb_helper_user_in_group() {
 jh_deb_helper_git_repo() {
 	REPO_NAME="$1"
 	REPO_URL="$2"
-	REPO_FOLDER="/opt/jehon/$REPO_NAME"
+	REPO_FOLDER="/srv/jehon/$REPO_NAME"
 
 	case "$DEB_CMD" in
 	"configure")
