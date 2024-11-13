@@ -11,7 +11,7 @@ set -o errexit
 #
 #
 
-stackRoot=/opt/jehon/stack
+stackRoot=/opt/stack
 export stackRoot
 PATH="$stackRoot/bin:$PATH"
 export PATH
