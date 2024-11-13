@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+host="$JH_DEPLOY_STACK_HOST"
+if [ -z "$host" ]; then
+    host="${1:?Need target host as [1]}"
+    shift
+fi
+# $@ are now servicess
+
+stackRoot=/opt/stack
+
+rsync -e "ssh -l jehon-daemon" \
+    -ri --times --perms \
+    --exclude .git \
+    --exclude volumes \
+    --exclude secrets \
+    --exclude .env \
+    --delete \
+    . "$host:$stackRoot/"
+
+if [ "$1" == "sync" ]; then
+    echo "Sync done, exiting as requested"
+    exit 0
+fi
+
+(
+    cat <<EOS
+    cd "$stackRoot"
+
+    echo "* Pulling images"
+    if [ -z "$1" ]; then
+        echo "* No service specified, pulling images"
+        docker compose pull
+    fi
+
+    # !! Expansion is done here, run is done on remote
+    for service in $@; do
+        echo "* Removing \$service"
+        docker compose down "\$service"
+    done
+
+    echo "* Starting the stack"
+    docker compose up \
+        --remove-orphans \
+        --detach --wait
+
+    if [ -n "$1" ]; then
+        echo "* Logs $@"
+        docker compose logs -f $@
+    fi
+EOS
+) | ssh "$host"
