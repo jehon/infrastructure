@@ -4,11 +4,6 @@ title=Cockpit
 description=Jehon facility
 ports=9090/tcp
 
-[jehon-deluge]
-title=Deluge Web
-description=Deluge Web server
-ports=8112/tcp
-
 [jehon-gsconnect]
 title=GSConnect
 description=Jehon facility
