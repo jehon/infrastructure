@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-# shellcheck source-path=SCRIPTDIR
-. jh-lib
+#
+# We can not source jh-lib
+# on script that are integrated in the shell
+#
 
 AWS_PROFILE="${AWS_PROFILE:=default}"
 
@@ -15,14 +17,14 @@ mfa_devices=$(aws iam list-mfa-devices --profile "$AWS_PROFILE" --output json)
 mfa_arn=$(echo "$mfa_devices" | jq -r '.MFADevices | map(select(.SerialNumber | test("^arn:aws:iam::[0-9]+:mfa/"))) | .[0].SerialNumber')
 
 if [ -z "$mfa_arn" ]; then
-    jh_error "Could not get MFA devices"
+    echo "Could not get MFA devices"
 else
     echo "* Authenticating with $mfa_arn"
     echo -n "Token: "
     read -r aws_token
     json="$(aws sts get-session-token --serial-number "$mfa_arn" --token-code "$aws_token" --profile "$AWS_PROFILE" --output json)"
     if [ -z "$json" ]; then
-        jh_error "Could not get MFA token"
+        echo "Could not get MFA token"
     else
         AWS_ACCESS_KEY_ID="$(echo "$json" | jq -r ".Credentials.AccessKeyId")"
         AWS_SECRET_ACCESS_KEY="$(echo "$json" | jq -r ".Credentials.SecretAccessKey")"
