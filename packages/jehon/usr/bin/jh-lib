@@ -2,7 +2,14 @@
 
 set -o errexit
 set -o pipefail
-shopt -s nullglob
+
+if [ -n "$ZSH_VERSION" ]; then
+    # ZSH Specific
+    setopt CSH_NULL_GLOB
+else
+    # Bash and other
+    shopt -s nullglob
+fi
 
 #
 # Configuration:
