@@ -16,20 +16,24 @@ mfa_arn=$(echo "$mfa_devices" | jq -r '.MFADevices | map(select(.SerialNumber | 
 
 echo "* Authenticating with $mfa_arn"
 echo -n "Token: "
-read aws_token
+read -r aws_token
 json="$(aws sts get-session-token --serial-number "$mfa_arn" --token-code "$aws_token" --profile "$aws_profile" --output json)"
 AWS_ACCESS_KEY_ID="$(echo "$json" | jq -r ".Credentials.AccessKeyId")"
 AWS_SECRET_ACCESS_KEY="$(echo "$json" | jq -r ".Credentials.SecretAccessKey")"
 AWS_SESSION_TOKEN="$(echo "$json" | jq -r ".Credentials.SessionToken")"
+JH_AWS_MFA_UNTIL="$(date "+%F-%T" -d "12 hours")"
 
 export AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY
 export AWS_SESSION_TOKEN
+export JH_AWS_MFA_UNTIL
 
 # echo "* Detected config"
 # echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
 # echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY"
 # echo "AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN"
+
+echo "* Valid untill $JH_AWS_MFA_UNTIL"
 
 echo "* Check caller identity"
 aws sts get-caller-identity --no-cli-pager

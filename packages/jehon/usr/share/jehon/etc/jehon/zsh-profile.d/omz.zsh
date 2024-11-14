@@ -66,6 +66,13 @@ if [ -r $ZSH/oh-my-zsh.sh ]; then
                     echo " jdk:$JAVA_VERSION"
                 )
             fi
+            if [ -n "$JH_AWS_MFA_UNTIL" ]; then
+                (
+                    if [[ "$JH_AWS_MFA_UNTIL" > "$(date "+%F-%T")" ]]; then
+                        echo " aws-mfa"
+                    fi
+                )
+            fi
         }
         RPROMPT='$(jh_custom_status)'
     fi
