@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-# Stop on error, but does not exit
-# Thanks to https://unix.stackexchange.com/a/725270/240487
-trap 'trap - ERR;return' ERR
+# shellcheck source-path=SCRIPTDIR
+. jh-lib
 
-aws_profile="default"
+AWS_PROFILE="${AWS_PROFILE:=default}"
 
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
@@ -12,33 +11,37 @@ AWS_SESSION_TOKEN=
 JH_AWS_MFA_UNTIL=
 
 echo "* Fetching MFA devices..."
-mfa_devices=$(aws iam list-mfa-devices --profile "$aws_profile" --output json)
+mfa_devices=$(aws iam list-mfa-devices --profile "$AWS_PROFILE" --output json)
 mfa_arn=$(echo "$mfa_devices" | jq -r '.MFADevices | map(select(.SerialNumber | test("^arn:aws:iam::[0-9]+:mfa/"))) | .[0].SerialNumber')
 
-echo "* Authenticating with $mfa_arn"
-echo -n "Token: "
-read -r aws_token
-json="$(aws sts get-session-token --serial-number "$mfa_arn" --token-code "$aws_token" --profile "$aws_profile" --output json)"
-if [ -z "$json" ]; then
-    jh_error "Could not get MFA token"
+if [ -z "$mfa_arn" ]; then
+    jh_error "Could not get MFA devices"
 else
-    AWS_ACCESS_KEY_ID="$(echo "$json" | jq -r ".Credentials.AccessKeyId")"
-    AWS_SECRET_ACCESS_KEY="$(echo "$json" | jq -r ".Credentials.SecretAccessKey")"
-    AWS_SESSION_TOKEN="$(echo "$json" | jq -r ".Credentials.SessionToken")"
-    JH_AWS_MFA_UNTIL="$(date "+%F-%T" -d "12 hours")"
+    echo "* Authenticating with $mfa_arn"
+    echo -n "Token: "
+    read -r aws_token
+    json="$(aws sts get-session-token --serial-number "$mfa_arn" --token-code "$aws_token" --profile "$AWS_PROFILE" --output json)"
+    if [ -z "$json" ]; then
+        jh_error "Could not get MFA token"
+    else
+        AWS_ACCESS_KEY_ID="$(echo "$json" | jq -r ".Credentials.AccessKeyId")"
+        AWS_SECRET_ACCESS_KEY="$(echo "$json" | jq -r ".Credentials.SecretAccessKey")"
+        AWS_SESSION_TOKEN="$(echo "$json" | jq -r ".Credentials.SessionToken")"
+        JH_AWS_MFA_UNTIL="$(date "+%F-%T" -d "12 hours")"
 
-    export AWS_ACCESS_KEY_ID
-    export AWS_SECRET_ACCESS_KEY
-    export AWS_SESSION_TOKEN
-    export JH_AWS_MFA_UNTIL
+        export AWS_ACCESS_KEY_ID
+        export AWS_SECRET_ACCESS_KEY
+        export AWS_SESSION_TOKEN
+        export JH_AWS_MFA_UNTIL
 
-    # echo "* Detected config"
-    # echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
-    # echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY"
-    # echo "AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN"
+        # echo "* Detected config"
+        # echo "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
+        # echo "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY"
+        # echo "AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN"
 
-    echo "* Valid untill $JH_AWS_MFA_UNTIL"
+        echo "* Valid untill $JH_AWS_MFA_UNTIL"
 
-    echo "* Check caller identity"
-    aws sts get-caller-identity --no-cli-pager
+        echo "* Check caller identity"
+        aws sts get-caller-identity --no-cli-pager
+    fi
 fi
