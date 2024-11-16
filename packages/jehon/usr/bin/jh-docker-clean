@@ -12,12 +12,6 @@ fi
 
 # https://docs.docker.com/config/pruning/
 
-# header_begin "System prune"
-# docker system prune \
-#     --filter "until=24h" \
-#     --all --force
-# header_end
-
 header_begin "Container prune"
 docker container prune \
     --force
@@ -40,5 +34,9 @@ header_begin "Images prune"
 docker image prune \
     --filter until=24h \
     --all --force
-# docker image rm -f $(docker images -aq)
+header_end
+
+header_begin "System prune"
+docker system prune \
+    --force
 header_end
