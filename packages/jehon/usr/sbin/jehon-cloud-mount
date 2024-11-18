@@ -2,19 +2,19 @@
 
 cloudFolder="$1"
 # To lower case:
-localFolder="${cloudFolder,,}"
+localFolder="/mnt/cloud/${cloudFolder,,}"
 gid="$(getent group jehon-cloud | cut -d ":" -f 3)"
 
 echo "** cloud folder: ${cloudFolder}"
 echo "** local folder: ${localFolder}"
 
-mkdir -r "${localFolder}"
+mkdir -p "${localFolder}"
 
 echo "Launching mount..."
 # See https://rclone.org/commands/rclone_mount/
 exec /usr/bin/rclone mount \
     "cloud:/${cloudFolder}" \
-    "/mnt/cloud/${localFolder}" \
+    "${localFolder}" \
     --allow-other \
     --gid="${gid}" \
     --file-perms=0660 \
