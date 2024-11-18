@@ -45,5 +45,5 @@ if find "$HOME/Desktop/" \( -name "*.torrent" -o -name "*.torrent.magnet" \); th
         --remove-source-files \
         --include='*.torrent' --include='*.torrent.magnet' --exclude '*' \
         "$HOME/Desktop/" "${vps_ssh}:${vps_watch}"
-    header_end
 fi
+header_end
