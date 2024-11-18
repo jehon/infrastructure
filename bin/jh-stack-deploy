@@ -36,11 +36,6 @@ fi
         docker compose pull
     fi
 
-    if [ -x bin/setup.sh ]; then
-        echo "* Running bin/setup.sh"
-        bin/setup.sh
-    fi
-
     # !! Expansion is done here, run is done on remote
     for service in $@; do
         echo "* Removing \$service"
@@ -54,6 +49,7 @@ fi
 
     if [ -n "$1" ]; then
         echo "* Logs $@"
+        # !! Expansion is done here, run is done on remote
         docker compose logs -f $@
     fi
 EOS
