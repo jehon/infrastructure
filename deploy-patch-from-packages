@@ -15,7 +15,7 @@ fi
 
 while [ -n "$1" ]; do
     source="$1"
-    dest="${source#packages/*/}"
+    dest="/${source#packages/*/}"
     jh_value "SOURCE" "${source}"
     jh_value "dest" "${dest}"
 
