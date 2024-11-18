@@ -21,8 +21,8 @@ rsync -e "ssh -l jehon-daemon" \
     --delete \
     . "$host:$stackRoot/"
 
-if [ "$1" == "sync" ]; then
-    echo "Sync done, exiting as requested"
+if [ "$1" == "scripts" ] || [ "$1" == "sync" ]; then
+    echo "Scripts/sync done, exiting as requested"
     exit 0
 fi
 
