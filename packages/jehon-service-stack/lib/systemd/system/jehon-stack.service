@@ -5,5 +5,4 @@ After=docker.service
 
 [Service]
 Type=oneshot
-User=jehon-daemon
 ExecStart=/usr/sbin/jehon-stack

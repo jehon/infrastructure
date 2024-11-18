@@ -8,20 +8,27 @@ set -o pipefail
 
 cd "${stackRoot}"
 
+asJD() {
+    # runuser -u jehon-daemon -- "$@"
+    sudo -u jehon-daemon -- "$@"
+}
+
+asJD env
+
 header_begin "Update git"
 # We need to do that before the jh-runner
 # to get the latests scripts
 if [ ! -r .git ]; then
     jh_error "No git repository found"
 else
-    git fetch
-    git reset --hard origin
+    asJD git fetch
+    asJD git reset --hard origin
 fi
 header_end
 
 header_begin "Running the cron"
 if [ -d "${stackRoot}"/cron ]; then
-    jh-runner "${stackRoot}"/cron
+    asJD jh-runner "${stackRoot}"/cron
 else
     jh_error "No cron folder found"
 fi
