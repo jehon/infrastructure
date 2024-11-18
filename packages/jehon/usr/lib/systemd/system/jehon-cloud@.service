@@ -1,10 +1,10 @@
 [Unit]
-Description=JH Cloud mount %I
+Description=JH Cloud mount "%I"
 After=jehon-update-rclone.service
 
 [Service]
 Type=notify
-ExecStart=/usr/sbin/jehon-cloud-mount "%i"
+ExecStart=/usr/sbin/jehon-cloud-mount '%I'
 
 [Install]
 WantedBy=multi-user.target
