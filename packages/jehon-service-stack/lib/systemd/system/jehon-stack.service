@@ -5,4 +5,4 @@ After=docker.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/sbin/jehon-stack
+ExecStart=/usr/sbin/jehon-stack-cron
