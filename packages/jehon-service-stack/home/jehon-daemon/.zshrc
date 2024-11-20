@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
 
-cd /srv/stack
-docker compose ps
+# shellcheck shell=bash # FIXME: shellcheck for zsh
+
+cd /srv/stack && docker compose ps
