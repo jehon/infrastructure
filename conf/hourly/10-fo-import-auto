@@ -56,4 +56,4 @@ import() {
 import "Workspaces/Jean/Backups/Google Pixel 7 Pro/"
 import "Workspaces/Marie-Line/Automatic Upload/"
 
-ok "Done"
+ok
