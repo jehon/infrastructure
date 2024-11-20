@@ -57,6 +57,7 @@ header_begin "On remote"
         docker compose logs -f $@
     fi
 EOS
+) | ssh "$host" bash - | jh-tag-stdin "remote"
 header_end
 
 ok
