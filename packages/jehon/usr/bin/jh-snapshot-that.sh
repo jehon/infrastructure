@@ -16,8 +16,8 @@ set -o errexit
 # Config
 #
 
-source="${1:?Source as [1]}" # Unused???
-snapshotsRoot="${2:?SnapshotsRoot root as [2]}"
+snapshotsRoot="${1:?SnapshotsRoot root}"
+source="${1:-"$snapshotsRoot/instant"}"
 
 ##################################
 #
@@ -26,9 +26,9 @@ snapshotsRoot="${2:?SnapshotsRoot root as [2]}"
 
 ts="$(date "+%Y-%m-%d--%H-%M-%S")"
 
-jh_value "Timestamp" "$ts"
-jh_value "From" "$source"
 jh_value "Snapshot's root" "$snapshotsRoot"
+jh_value "Timestamp" "$ts"
+jh_value "Source" "$source"
 
 mkdir -p "$snapshotsRoot"/daily
 mkdir -p "$snapshotsRoot"/monthly
@@ -44,15 +44,14 @@ findExistNewerThanDays() {
 removeOlderThanDays() {
     flavor="$1"
     daysAway="$2"
-    header_begin "Remove backups older than $1"
-    find "$snapshotsRoot/$flavor" -mindepth 1 -maxdepth 1 -mtime +"$daysAway" -exec rm -fr "{}" ";"
+    header_begin "Remove $flavor backups older than $daysAway"
+    find "$snapshotsRoot/$flavor" -mindepth 1 -maxdepth 1 -mtime +"$daysAway" -exec rm -fr "{}" ";" -print
     header_end
 }
 
 header_begin "Import daily snapshot"
 (
     rsync -ri "$source" "$snapshotsRoot/daily/$ts"
-    removeOlderThanDays "daily" 90
 ) | jh-tag-stdin "daily"
 
 last_daily="$(find "$snapshotsRoot"/daily -mindepth 1 -maxdepth 1 | sort | tail -n 1)"
@@ -65,7 +64,6 @@ if ! findExistNewerThanDays "monthly" 30; then
         rsync -a "$snapshotsRoot/daily/$last_daily" "$snapshotsRoot/monthly/"
         header_end
 
-        removeOlderThanDays "monthly" 750
     ) | jh-tag-stdin "monthly"
 fi
 
@@ -76,5 +74,10 @@ if ! findExistNewerThanDays "yearly" 365; then
         header_end
     ) | jh-tag-stdin "yearly"
 fi
+
+header_begin "Remove old backups"
+removeOlderThanDays "daily" 90
+removeOlderThanDays "monthly" 750
+header_end
 
 ok
