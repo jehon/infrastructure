@@ -3,6 +3,9 @@
 set -o errexit
 set -o pipefail
 
+# shellcheck source=/dev/null
+. jh-lib
+
 host="$JH_DEPLOY_STACK_HOST"
 if [ -z "$host" ]; then
     host="${1:?Need target host as [1]}"
@@ -12,6 +15,7 @@ fi
 
 stackRoot=/srv/stack
 
+header_begin "Syncing files"
 rsync -e "ssh -l jehon-daemon" \
     -ri --times --perms \
     --exclude .git \
@@ -20,7 +24,9 @@ rsync -e "ssh -l jehon-daemon" \
     --exclude .env \
     --delete \
     . "$host:$stackRoot/"
+header_end
 
+header_begin "On remote"
 (
     cat <<EOS
     cd "$stackRoot"
@@ -51,4 +57,6 @@ rsync -e "ssh -l jehon-daemon" \
         docker compose logs -f $@
     fi
 EOS
-) | ssh "$host"
+header_end
+
+ok
