@@ -21,11 +21,6 @@ rsync -e "ssh -l jehon-daemon" \
     --delete \
     . "$host:$stackRoot/"
 
-if [ "$1" == "scripts" ] || [ "$1" == "sync" ]; then
-    echo "Scripts/sync done, exiting as requested"
-    exit 0
-fi
-
 (
     cat <<EOS
     cd "$stackRoot"
@@ -37,17 +32,20 @@ fi
     fi
 
     # !! Expansion is done here, run is done on remote
-    for service in $@; do
-        echo "* Removing \$service"
-        docker compose down "\$service"
-    done
+
+    if [ "$1" != "sync" ]; then
+        for service in $@; do
+            echo "* Removing \$service"
+            docker compose down "\$service"
+        done
+    fi
 
     echo "* Starting the stack"
     docker compose up \
         --remove-orphans \
         --detach --wait
 
-    if [ -n "$1" ]; then
+    if [ "$1" != "sync" ] && [ -n "$1" ]; then
         echo "* Logs $@"
         # !! Expansion is done here, run is done on remote
         docker compose logs -f $@
