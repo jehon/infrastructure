@@ -17,7 +17,7 @@ set -o errexit
 #
 
 snapshotsRoot="${1:?SnapshotsRoot root}"
-source="${1:-"$snapshotsRoot/instant"}"
+source="${2:-"$snapshotsRoot/instant"}"
 
 ##################################
 #
@@ -49,9 +49,10 @@ removeOlderThanDays() {
     header_end
 }
 
-header_begin "Import daily snapshot"
 (
-    rsync -ri "$source" "$snapshotsRoot/daily/$ts"
+    header_begin "Import daily snapshot"
+    rsync -ri "$source/" "$snapshotsRoot/daily/$ts"
+    header_end
 ) | jh-tag-stdin "daily"
 
 last_daily="$(find "$snapshotsRoot"/daily -mindepth 1 -maxdepth 1 | sort | tail -n 1)"
