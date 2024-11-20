@@ -49,7 +49,8 @@ header_begin "On remote"
     echo "* Starting the stack"
     docker compose up \
         --remove-orphans \
-        --detach --wait
+        --detach --wait \
+        >/dev/null 2>&1 | grep -v Waiting | grep -v Healthy
 
     if [ "$1" != "sync" ] && [ -n "$1" ]; then
         echo "* Logs $@"
