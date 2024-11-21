@@ -10,8 +10,10 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="af-magic"
 
 plugins=(
+    aws
     direnv
     git
+    terraform
 )
 
 # Uncomment the following line to use hyphen-insensitive completion.
