@@ -13,7 +13,7 @@ Depends: ${misc:Depends},
 	file,
 # envsubst
 	gettext-base,
-	git, git-restore-mtime,
+	git,
 	htop,
 	iproute2,
 	jq,
