@@ -56,15 +56,17 @@
     - name: "Ensure installed snap"
       when: not virtual
       with_items:
-        - firefox
+        - aws-cli
+        - code
         - digikam
+        - firefox
+        - freemind
         - gimp
+        - inkscape
         - ksnip
-        - mkvtoolnix-jz
         - libreoffice
-        - slack
-        - spotify
-        - whatsapp-for-linux # Personnal (conf call)
+        - mkvtoolnix-jz
+        - pdfarranger
         - vlc
       community.general.snap:
         name: "{{ item }}"
