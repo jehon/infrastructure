@@ -4,7 +4,7 @@
     - cryptomedic.sh
   ansible.builtin.template:
     src: "{{ item }}"
-    dest: "/home/jehon-daemon/stack/secrets/{{ item }}"
+    dest: "/srv/stack/secrets/{{ item }}"
     owner: "jehon-daemon"
     group: jehon-secrets
     mode: "0750"
