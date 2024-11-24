@@ -5,6 +5,8 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR
 . jh-lib
 
+DELAY="${1:-"24h"}"
+
 if ! docker info >&/dev/null; then
     echo "Docker is not running, exiting...:"
     exit 0
@@ -19,7 +21,7 @@ header_end
 
 header_begin "Builder prune"
 docker builder prune \
-    --filter until=24h \
+    --filter until="$DELAY" \
     --all --force
 header_end
 
@@ -32,7 +34,7 @@ header_end
 header_begin "Images prune"
 # https://stackoverflow.com/q/44785585/1954789
 docker image prune \
-    --filter until=24h \
+    --filter until="$DELAY" \
     --all --force
 header_end
 
