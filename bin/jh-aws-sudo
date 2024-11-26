@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source=/dev/null
+. jh-lib
+
+whoami="$(aws sts get-caller-identity)"
+
+# {
+#     "UserId": "AIDAXDDNOXTMY5VA3SNPY",
+#     "Account": "487708343513",
+#     "Arn": "arn:aws:iam::487708343513:user/jean.honlet"
+# }
+
+user="$(aws iam get-user | jq -r ".User.UserName")"
+userARN="$(echo "$whoami" | jq -r ".Arn")"
+accountId="$(echo "$whoami" | jq -r ".Account")"
+policy="arn:aws:iam::$accountId:policy/d-deny-dangerous-actions"
+
+jh_value "user" "$user"
+jh_value "userARN" "$userARN"
+jh_value "accountId" "$accountId"
+jh_value "policy" "$policy"
+echo ""
+
+echo "Enabling dangerous actions"
+aws iam detach-user-policy --user-name "$user" --policy-arn "$policy" || true
+
+jh_info "Waiting for you to finish actions"
+read -r
+
+echo "Disabling dangerous actions"
+aws iam attach-user-policy --user-name "$user" --policy-arn "$policy"
+
+echo "Done"
