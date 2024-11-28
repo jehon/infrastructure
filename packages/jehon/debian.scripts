@@ -39,7 +39,7 @@ jh_deb_helper_user_in_group "jehon" "jehon-daemon"
 
 jh_deb_helper_service jehon-backup-snapshot.timer
 jh_deb_helper_service jehon-update-rclone.timer
-jh_deb_helper_service jehon-docker-clean.timer
+jh_deb_helper_service jehon-system-clean.timer
 
 jh_deb_helper_patch "/etc/fuse.conf" "jehon" "/usr/share/jehon/etc_fuse.conf.patch"
 jh_deb_helper_patch "/etc/inputrc" "jehon" "/usr/share/jehon/etc_inputrc.patch"
@@ -131,7 +131,10 @@ remove) ;;
 esac
 
 #
-# Legacy
+# Legacy: jh_deb_helper_legacy
 #
+
+# 2024-11-28
+jh_deb_helper_legacy jh_deb_helper_service jehon-docker-clean.timer
 
 exit 0

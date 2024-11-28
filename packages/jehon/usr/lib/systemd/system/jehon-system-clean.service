@@ -5,4 +5,4 @@ After=docker.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/jh-docker-clean
+ExecStart=/usr/sbin/jehon-system-clean

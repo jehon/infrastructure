@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/../bin/
+. jh-lib
+
+DELAY="${1:-"24h"}"
+
+if docker info >&/dev/null; then
+    header_begin "Docker"
+    # https://docs.docker.com/config/pruning/
+
+    header_begin "Container prune"
+    docker container prune \
+        --force
+    header_end
+
+    header_begin "Builder prune"
+    docker builder prune \
+        --filter until="$DELAY" \
+        --all --force
+    header_end
+
+    header_begin "Volume prune"
+    docker volume prune \
+        --filter "label!=keep" \
+        --all --force
+    header_end
+
+    header_begin "Images prune"
+    # https://stackoverflow.com/q/44785585/1954789
+    docker image prune \
+        --filter until="$DELAY" \
+        --all --force
+    header_end
+
+    header_begin "System prune"
+    docker system prune \
+        --force
+    header_end
+    header_end
+else
+    echo "Docker is not running, skipping it."
+fi
+
+if [ -x /usr/bin/apt ]; then
+    header_begin "Apt autoclean"
+    # shellcheck disable=SC2046 # the values are ok for word splitting
+    /usr/bin/apt autoclean
+    header_end
+
+    header_begin "Apt purge"
+    # shellcheck disable=SC2046 # the values are ok for word splitting
+    /usr/bin/apt purge --yes $(dpkg -l | grep '^rc' | awk '{print $2}')
+    header_end
+else
+    echo "APT not found, skipping it."
+fi
