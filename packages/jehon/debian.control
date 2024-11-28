@@ -21,7 +21,6 @@ Depends: ${misc:Depends},
 	locales,
 # list opened files - jh-kill-by-port
 	lsof,
-	lsb-release,
 	nano,
 	netcat-openbsd,
 	systemd-timesyncd,
