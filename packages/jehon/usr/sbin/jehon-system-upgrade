@@ -10,52 +10,48 @@ shopt -s nullglob
 export DEBIAN_FRONTEND=noninteractive
 
 header_begin "dpkg"
-	header_begin "Killing other dpkg"
-	killall dpkg || true
-	header_end
+header_begin "Killing other dpkg"
+killall dpkg || true
+header_end
 
-	header_begin "Configure broken packages"
-	dpkg --configure -a --force-confdef --force-confnew | jh-tag-stdin "dpkg-configure"
-	header_end
+header_begin "Configure broken packages"
+dpkg --configure -a --force-confdef --force-confnew |& jh-tag-stdin "dpkg-configure"
+header_end
 header_end
 
 header_begin "Apt"
-	header_begin "fix broken"
-	apt --quiet --yes --fix-broken install | jh-tag-stdin "fix-broken"
-	header_end
-
-	header_begin "update"
-	apt --quiet --yes update | jh-tag-stdin "update"
-	header_end
-
-	# # https://serverfault.com/a/839563/275843
-	# # confdef/confnew: https://manpages.debian.org/wheezy/dpkg/dpkg.1.fr.html
-	# ( apt install --fix-broken --fix-missing -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confnew' --yes  || true ) | jh-tag-stdin "fix broken/missing"
-
-	header_begin "full-upgrade"
-	apt --quiet --yes full-upgrade | jh-tag-stdin "full-upgrade"
-	header_end
-
-	header_begin "auto-remove"
-	apt --quiet --yes auto-remove | jh-tag-stdin "auto-remove"
-	header_end
-
-	# header_begin "Force update of jehon packages"
-	# while read -r P; do
-	#     header_begin "Package: $P"
-	#     apt-get install --quiet --yes "$P"
-	#     header_end
-	# done < <(apt list --installed "jehon*" 2>/dev/null | awk -F'/' 'NR>1{print $1}')
-	# header_end
+header_begin "fix broken"
+apt --quiet --yes --fix-broken install |& jh-tag-stdin "fix-broken"
 header_end
 
-header_begin "Git udate"
-/usr/bin/jh-system-opt-git-update | jh-tag-stdin "git"
+header_begin "update"
+apt --quiet --yes update |& jh-tag-stdin "update"
+header_end
+
+# # https://serverfault.com/a/839563/275843
+# # confdef/confnew: https://manpages.debian.org/wheezy/dpkg/dpkg.1.fr.html
+# ( apt install --fix-broken --fix-missing -o 'Dpkg::Options::=--force-confdef' -o 'Dpkg::Options::=--force-confnew' --yes  || true ) | jh-tag-stdin "fix broken/missing"
+
+header_begin "full-upgrade"
+apt --quiet --yes full-upgrade |& jh-tag-stdin "full-upgrade"
+header_end
+
+header_begin "auto-remove"
+apt --quiet --yes auto-remove |& jh-tag-stdin "auto-remove"
+header_end
+
+# header_begin "Force update of jehon packages"
+# while read -r P; do
+#     header_begin "Package: $P"
+#     apt-get install --quiet --yes "$P"
+#     header_end
+# done < <(apt list --installed "jehon*" 2>/dev/null | awk -F'/' 'NR>1{print $1}')
+# header_end
 header_end
 
 if [ -x /usr/bin/snap ]; then
 	header_begin "Refreshing snaps"
-	snap refresh 2>&1| jh-tag-stdin "snap"
+	snap refresh |& jh-tag-stdin "snap"
 	header_end
 fi
 

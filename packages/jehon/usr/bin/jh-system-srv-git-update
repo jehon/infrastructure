@@ -40,10 +40,10 @@ updateGit() {
     )
 }
 
-if jh-fs not-empty /srv/jehon; then
+if jh-fs not-empty /srv/; then
     while read -r F; do
         if [ -r "$F"/.git ]; then
             updateGit "$F"
         fi
-    done < <(find /srv/jehon/ -mindepth 1 -maxdepth 1)
+    done < <(find /srv/ -mindepth 1 -maxdepth 1)
 fi
