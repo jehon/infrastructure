@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+# shellcheck source-path=SCRIPTDIR
+. jh-lib
+
+if [ -n "$1" ]; then
+    cd "$1"
+fi
+
+# Thanks to https://stackoverflow.com/a/1628334/1954789
+git fetch origin
+git reset --hard origin/main
