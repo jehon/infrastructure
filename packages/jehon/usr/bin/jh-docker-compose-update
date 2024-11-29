@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+# shellcheck source=/dev/null
+. jh-lib
+
+isDCService() {
+    docker compose config "$service" >&/dev/null
+}
+
+if [ -z "$1" ]; then
+    if [ -w .env ]; then
+        header_begin "Managing system in .env"
+        jh-env-file-set .env "PUID" "$(id -u jehon-daemon)"
+        jh-env-file-set .env "PGID" "$(id -g jehon-daemon)"
+        jh-env-file-set .env "TZ" "$(cat /etc/timezone)"
+        if [ "$(id -u)" == "0" ]; then
+            chown jehon-daemon:jehon-daemon .env
+            chmod 660 .env
+        fi
+        header_end
+    else
+        jh_info ".env not writable, not modifying it"
+    fi
+
+    header_begin "Pulling images"
+    docker compose pull
+    header_end
+
+    header_begin "Building images"
+    docker compose build
+    header_end
+fi
+
+if [ -n "$1" ]; then
+    for service in "$@"; do
+        if isDCService "$service"; then
+            header_begin "* Removing $service"
+            docker compose down "$service"
+            header_end
+        else
+            jh_info "Skipping mythical service: $service"
+        fi
+    done
+fi
+
+header_begin "Starting the stack"
+docker compose up \
+    --remove-orphans \
+    --detach --wait \
+    >/dev/null 2>&1 | grep -v Waiting | grep -v Healthy
+header_end
+
+if [ -n "$1" ]; then
+    header "Logs $*"
+    # If $* is not a service, it will fail silently
+    docker compose logs -f "$@" || true
+fi

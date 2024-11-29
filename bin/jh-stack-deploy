@@ -27,38 +27,8 @@ rsync -e "ssh -l jehon-daemon" \
 header_end
 
 header_begin "On remote"
-(
-    cat <<EOS
-    cd "$stackRoot"
-
-    echo "* Pulling images"
-    if [ -z "$1" ]; then
-        echo "* No service specified, pulling images"
-        docker compose pull
-    fi
-
-    # !! Expansion is done here, run is done on remote
-
-    if [ "$1" != "sync" ]; then
-        for service in $@; do
-            echo "* Removing \$service"
-            docker compose down "\$service"
-        done
-    fi
-
-    echo "* Starting the stack"
-    docker compose up \
-        --remove-orphans \
-        --detach --wait \
-        >/dev/null 2>&1 | grep -v Waiting | grep -v Healthy
-
-    if [ "$1" != "sync" ] && [ -n "$1" ]; then
-        echo "* Logs $@"
-        # !! Expansion is done here, run is done on remote
-        docker compose logs -f $@
-    fi
-EOS
-) | ssh "$host" bash - | jh-tag-stdin "remote"
+# shellcheck disable=SC2029
+ssh "$host" /usr/bin/jh-docker-compose-update "$@" | jh-tag-stdin "remote"
 header_end
 
 ok
