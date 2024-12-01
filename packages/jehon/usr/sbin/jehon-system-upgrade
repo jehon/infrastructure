@@ -55,6 +55,12 @@ if [ -x /usr/bin/snap ]; then
 	header_end
 fi
 
+if [ -r /srv/stack/.git ] && [ -x /usr/sbin/jehon-stack-cron ]; then
+	header_begin "Update stack"
+	/usr/sbin/jehon-stack-cron
+	header_end
+fi
+
 if [ "$1" = "full" ]; then
 	if jh-is-full-machine; then
 		echo "* Rebooting..."
