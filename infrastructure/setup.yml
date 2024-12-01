@@ -13,27 +13,29 @@
       ansible.builtin.include_role:
         name: jh_basis
 
-    - name: Setup networking
-      when: "'grp_jehon' in group_names"
-      ansible.builtin.include_role:
-        name: jh_network
-
-    - name: Setup cloud
-      when: "'grp_jehon' in group_names"
-      ansible.builtin.include_role:
-        name: jh_cloud
-
     - name: Setup host dev
       when: inventory_hostname == "dev"
       ansible.builtin.include_role:
-        name: host_dev
+        name: "{{  item }}"
+      with_items:
+        - jh_network
+        - jh_cloud
+        - host_dev
 
     - name: Setup host kiosk
       when: inventory_hostname == "kiosk"
       ansible.builtin.include_role:
-        name: host_kiosk
+        name: "{{  item }}"
+      with_items:
+        - jh_network
+        - jh_cloud
+        - host_kiosk
 
     - name: Setup host vps
       when: inventory_hostname == "vps"
       ansible.builtin.include_role:
-        name: host_vps
+        name: "{{  item }}"
+      with_items:
+        - jh_network
+        - jh_cloud
+        - host_vps
