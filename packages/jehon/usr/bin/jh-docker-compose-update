@@ -50,7 +50,7 @@ header_begin "Starting the stack"
 docker compose up \
     --remove-orphans \
     --detach --wait \
-    >/dev/null 2>&1 | grep -v Waiting | grep -v Healthy
+    2>&1 | (grep -v Waiting || true) | (grep -v Healthy || true)
 header_end
 
 if [ -n "$1" ]; then
