@@ -28,7 +28,7 @@ header_end
 
 header_begin "On remote"
 # shellcheck disable=SC2029
-ssh "$host" "cd /srv/stack && /usr/bin/jh-docker-compose-update" | jh-tag-stdin "remote"
+ssh "$host" "cd /srv/stack && /usr/bin/jh-docker-compose-update" "$@" | jh-tag-stdin "remote"
 header_end
 
 ok
