@@ -6,6 +6,10 @@ set -o pipefail
 # shellcheck source-path=SCRIPTDIR/../bin/
 . jh-stack-lib
 
+if [ ! -r "${stackRoot}" ]; then
+    jh_fatal "${stackRoot} not found"
+fi
+
 cd "${stackRoot}"
 
 asJD() {
@@ -21,10 +25,11 @@ header_begin "Update git"
 if [ ! -r .git ]; then
     jh_error "No git repository found"
 else
-    asJD git fetch
-    asJD git reset --hard origin
+    asJD /usr/bin/jh-git-update-forced
 fi
 header_end
+
+/usr/bin/jh-docker-compose-update
 
 header_begin "Running the cron"
 if [ -d "${stackRoot}"/cron ]; then
