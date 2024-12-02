@@ -25,6 +25,9 @@ else
     jdk="$(echo "${available}" | tr -s ' ' | cut -d ' ' -f3)"
     jh_value "JDK" "${jdk}"
 
+    echo "export PATH=${jdk}/bin:\$PATH"
+    export PATH="${jdk}/bin:$PATH"
+
     echo "export JAVA_HOME=${jdk}"
     export JAVA_HOME="${jdk}"
 
