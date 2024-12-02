@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if [ -z "$JH_AWS_MFA_UNTIL" ]; then
+    exit 1
+fi
+
+if [[ "$JH_AWS_MFA_UNTIL" < "$(date "+%F-%T")" ]]; then
+    exit 1
+fi
+
+exit 0
