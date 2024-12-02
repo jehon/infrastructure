@@ -134,7 +134,4 @@ esac
 # Legacy: jh_deb_helper_legacy
 #
 
-# 2024-11-28
-jh_deb_helper_legacy jh_deb_helper_service jehon-docker-clean.timer
-
 exit 0
