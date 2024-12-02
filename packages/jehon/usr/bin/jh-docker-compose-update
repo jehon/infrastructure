@@ -37,7 +37,7 @@ fi
 if [ -n "$1" ]; then
     for service in "$@"; do
         if isDCService "$service"; then
-            header_begin "* Removing $service"
+            header_begin "Removing $service"
             docker compose down "$service"
             header_end
         else
