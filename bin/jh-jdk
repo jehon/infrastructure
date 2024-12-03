@@ -2,15 +2,12 @@
 
 # Used imported, so no failing
 
-# shellcheck source=SCRIPTDIR/../packages/jehon/usr/bin/jh-lib
-. jh-lib
-
 required="$1"
 if [ -z "${required}" ]; then
     required="$(xml_grep --text_only '/project/properties/java.version' pom.xml)"
 fi
 
-jh_value "Required" "${required}"
+echo "Required" "${required}"
 
 available="$(update-java-alternatives -l | grep "java-1.${required}")"
 
