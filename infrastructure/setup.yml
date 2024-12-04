@@ -14,27 +14,29 @@
 
     - name: Setup host dev
       when: inventory_hostname == "dev"
-      loop:
-        - host_dev
       loop_control:
         loop_var: include_role
+      loop:
+        - jh_02_user_dev
+        - host_dev
       ansible.builtin.include_role:
         name: "{{ include_role }}"
 
     - name: Setup host kiosk
       when: inventory_hostname == "kiosk"
-      loop:
-        - host_kiosk
       loop_control:
         loop_var: include_role
+      loop:
+        - host_kiosk
       ansible.builtin.include_role:
         name: "{{ include_role }}"
 
     - name: Setup host vps
       when: inventory_hostname == "vps"
-      loop:
-        - host_vps
       loop_control:
         loop_var: include_role
+      loop:
+        - jh_02_user_dev
+        - host_vps
       ansible.builtin.include_role:
         name: "{{ include_role }}"

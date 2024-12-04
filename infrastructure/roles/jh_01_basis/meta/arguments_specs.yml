@@ -10,3 +10,5 @@ argument_specs:
         type: string
       jehon_remote_pcloud_rw_token:
         type: string
+      jh_stack_git_slug:
+        type: string

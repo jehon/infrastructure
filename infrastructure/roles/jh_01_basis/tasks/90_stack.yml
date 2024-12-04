@@ -1,6 +1,6 @@
-- name: Setup stack
+- name: "In 90_stack > Setup stack"
   block:
-    - name: Install git repo
+    - name: "In 90_stack > Install git repo"
       become: true
       become_user: jehon-daemon
       become_method: ansible.builtin.su
@@ -11,7 +11,7 @@
         force: true
       notify: jh_stack.reload
 
-    - name: Install jehon-service-stack
+    - name: "In 90_stack > Install jehon-service-stack"
       ansible.builtin.apt:
         pkg:
           - jehon-service-stack

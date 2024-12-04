@@ -343,11 +343,6 @@ all:
     kiosk:
       ansible_host: "{{ jehon_ip_kiosk }}"
       jehon_cloud_type: pcloud
-      # jehon_cloud_mount:
-      #   Musiques: ro
-      #   Photos: ro
-      #   Videos: ro
-      jehon_always_connected: true
       jehon_remote_synology_username: "systeme-kiosk"
       jehon_remote_synology_password: !vault |
         $ANSIBLE_VAULT;1.1;AES256
@@ -367,3 +362,4 @@ all:
         62323932653330626132316332616634323836623330623663316161306437336637646263656332
         3939373434623236610a386661636635393166373164303161613537323632353266346335366431
         33376465323264663730663865666132643461623862333166383061353062326434
+      jh_stack_git_slug: "jehon/stack-vps"

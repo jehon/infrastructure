@@ -1,6 +1,0 @@
----
-argument_specs:
-  main:
-    options:
-      jh_stack_git_slug:
-        type: string

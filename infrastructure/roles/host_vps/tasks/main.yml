@@ -24,9 +24,3 @@
 - name: Setup cloud
   ansible.builtin.include_role:
     name: jh_cloud
-
-- name: Setup stack
-  ansible.builtin.include_role:
-    name: jh_stack
-  vars:
-    jh_stack_git_slug: "jehon/stack-vps"

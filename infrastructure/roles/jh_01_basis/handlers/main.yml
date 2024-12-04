@@ -7,8 +7,19 @@
   changed_when: false
 
 - name: Reload cloud service
-  listen: jh_01_basis.systemctl_reload
+  listen:
+    - jh_01_basis.systemctl_reload
+    - jh_01_basis.stack_reload
   when: not virtual
   ansible.builtin.systemd:
     daemon_reload: true
+  changed_when: false
+
+- name: Reload stack service
+  listen: jh_01_basis.stack_reload
+  when: not virtual
+  ansible.builtin.systemd:
+    # We start this, as it will setup/cron at start, and we want that
+    name: jehon-stack.service
+    state: restarted
   changed_when: false

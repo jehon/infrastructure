@@ -4,7 +4,7 @@
     pkg:
       - jehon-service-dev
 
-- name: Setup profile
+- name: Setup user profile
   when: jehon_dev_user is defined and jehon_dev_user
   block:
     ############################################
