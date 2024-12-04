@@ -1,0 +1,32 @@
+- name: Handle cloud configuration
+  block:
+    - name: Configure cloud
+      when: jehon_cloud_type | length > 0
+      block:
+        - name: Install packages (fuse)
+          when: ansible_pkg_mgr == "apt"
+          ansible.builtin.apt:
+            name:
+              - fuse3
+
+        - name: "Install config"
+          ansible.builtin.template:
+            src: "rclone.conf"
+            dest: /etc/jehon/rclone.conf
+            owner: root
+            group: jehon-daemon
+            mode: "0640"
+
+    ## ELSE ##
+    - name: "Remove config"
+      when: jehon_cloud_type | length == 0
+      with_items:
+        - /etc/jehon/rclone.conf
+        - /var/lib/docker-plugins/rclone/config/rclone.conf
+      ansible.builtin.file:
+        state: absent
+        dest: "{{ item }}"
+      notify: Jh_cloud.systemctl_reload
+  #
+  # TODO: enable various mounts
+  #

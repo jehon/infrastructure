@@ -6,7 +6,7 @@
     upgrade: full
   changed_when: false
 
-- name: reload cloud service
+- name: Reload cloud service
   listen: jh_01_basis.systemctl_reload
   when: not virtual
   ansible.builtin.systemd:

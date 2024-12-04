@@ -1,0 +1,36 @@
+############################################
+#
+# Docker:
+#
+# 2024-07-11: deb packages have apparmor problems
+# 2024-09-04: VPS is running on snap
+#             Forcing removal of docker packages
+# 2024-10-05: Switching to docker-ce.deb
+#              - remove --purge snap
+#              - reboot
+#              - install deb's
+#
+- name: Install Docker
+  block:
+    - name: "Docker snap"
+      when: not virtual
+      block:
+        - name: "Normal snaps"
+          community.general.snap:
+            state: absent
+            name:
+              - docker
+
+    - name: Install packages
+      when: ansible_pkg_mgr == "apt"
+      block:
+        - name: "Docker package"
+          ansible.builtin.apt:
+            state: present
+            pkg:
+              - containerd.io
+              - docker-ce
+              - docker-ce-cli
+              - docker-ce-rootless-extras
+              - docker-buildx-plugin
+              - docker-compose-plugin

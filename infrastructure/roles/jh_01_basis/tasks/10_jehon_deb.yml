@@ -1,0 +1,84 @@
+- name: Install packages
+  when: ansible_pkg_mgr == "apt"
+  block:
+    - name: "Install jehon.deb"
+      block:
+        - name: Dump jh_deb_url
+          ansible.builtin.debug:
+            var: jh_deb_url
+
+        # We need this one to be installed first, because next line will depend on it
+        - name: "Install jehon.deb"
+          when: "'jehon' not in ansible_facts.packages"
+          ansible.builtin.apt:
+            deb: "{{ jh_deb_url | default('https://jehon.github.io/infrastructure/packages/jehon.deb') }}"
+            # This will be done by the jh_01_basis.indexes at the correct time...
+            update_cache: false
+          notify: jh_01_basis.indexes
+          register: jehon_basis_jehon_deb
+          # Example: [run]   msg: Breaks existing package 'jehon-hardware-wsl' dependency jehon (<= 2023.06.28.14.53.03)
+          failed_when: >
+            jehon_basis_jehon_deb.failed
+            and (
+              ('A later version is already installed' != jehon_basis_jehon_deb.msg)
+              and (' dependency jehon (' not in jehon_basis_jehon_deb.msg)
+            )
+
+        - name: Remove online repositories because defined jh_deb_url
+          when: jh_deb_url is defined and jh_deb_url
+          ansible.builtin.file:
+            path: /etc/apt/sources.list.d/jehon-github.sources
+            state: absent
+
+    ############################################
+    #
+    # Update repository if necessary
+    #
+    ############################################
+    - name: Update repositories if necessary...
+      ansible.builtin.meta: flush_handlers
+
+    ############################################
+    #
+    # Packages jehon-*
+    #
+    ############################################
+    - name: Install jehon-hardware-*
+      block:
+        - name: Calculate jehon_hardware
+          block:
+            - name: Set default value for jehon_hardware
+              when: jehon_hardware is not defined
+              ansible.builtin.set_fact:
+                jehon_hardware: ""
+
+            - name: Set jehon_hardware to wsl
+              # https://stackoverflow.com/a/78046212/1954789
+              when: '"microsoft" in ansible_facts["kernel"]'
+              ansible.builtin.set_fact:
+                jehon_hardware: wsl
+
+            - name: Set jehon_hardware to raspberrypi
+              when: ansible_architecture == "aarch64" # vs. amd64 for laptop
+              ansible.builtin.set_fact:
+                jehon_hardware: raspberrypi
+
+            - name: Set jehon_hardware to docker
+              # https://docs.ansible.com/ansible/latest/collections/community/docker/current_container_facts_module.html
+              when: ansible_module_running_in_container
+              ansible.builtin.set_fact:
+                jehon_hardware: docker
+
+            # TODO: jehon_hardware = desktop ???
+
+        - name: Dump jehon_hardware
+          ansible.builtin.debug:
+            var: jehon_hardware
+
+        - name: Install hardware package
+          when: jehon_hardware | length > 0
+          block:
+            - name: "Ensure jehon-hardware is present for hardware {{ jehon_hardware }}"
+              ansible.builtin.apt:
+                pkg:
+                  - "jehon-hardware-{{ jehon_hardware }}"
