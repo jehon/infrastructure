@@ -2,7 +2,7 @@
 
 set -o errexit
 
-# shellcheck source-path=/usr/bin
+# shellcheck source-path=/dev/null
 . jh-lib
 
 export AWS_PAGER=""
