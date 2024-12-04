@@ -17,10 +17,10 @@ if [ -z "$available" ]; then
     echo "jdk ${required} not found"
     echo "!!!!!!!!!!!!!!"
 else
-    jh_value "Available" "${available}"
+    echo "Available" "${available}"
 
     jdk="$(echo "${available}" | tr -s ' ' | cut -d ' ' -f3)"
-    jh_value "JDK" "${jdk}"
+    echo "JDK" "${jdk}"
 
     echo "export PATH=${jdk}/bin:\$PATH"
     export PATH="${jdk}/bin:$PATH"
