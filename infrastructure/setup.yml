@@ -16,7 +16,6 @@
     - name: Setup host dev
       when: inventory_hostname == "dev"
       loop:
-        - jh_cloud
         - host_dev
       loop_control:
         loop_var: include_role
@@ -26,7 +25,6 @@
     - name: Setup host kiosk
       when: inventory_hostname == "kiosk"
       loop:
-        - jh_cloud
         - host_kiosk
       loop_control:
         loop_var: include_role
@@ -36,7 +34,6 @@
     - name: Setup host vps
       when: inventory_hostname == "vps"
       loop:
-        - jh_cloud
         - host_vps
       loop_control:
         loop_var: include_role

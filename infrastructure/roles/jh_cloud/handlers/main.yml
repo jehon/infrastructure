@@ -1,7 +1,0 @@
----
-- name: Do reload daemon
-  listen: Jh_cloud.systemctl_reload
-  when: not virtual
-  ansible.builtin.systemd:
-    daemon_reload: true
-  changed_when: false

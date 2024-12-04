@@ -5,3 +5,10 @@
     update_cache: true
     upgrade: full
   changed_when: false
+
+- name: reload cloud service
+  listen: jh_01_basis.systemctl_reload
+  when: not virtual
+  ansible.builtin.systemd:
+    daemon_reload: true
+  changed_when: false

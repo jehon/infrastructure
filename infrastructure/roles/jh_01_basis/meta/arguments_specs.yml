@@ -4,3 +4,9 @@ argument_specs:
     options:
       jh_deb_url:
         type: string
+      jehon_remote_synology_username:
+        type: string
+      jehon_remote_synology_password:
+        type: string
+      jehon_remote_pcloud_rw_token:
+        type: string
