@@ -9,7 +9,6 @@
   hosts: all
   tasks:
     - name: Setup jh_01_basis
-      when: "'grp_jehon' in group_names"
       ansible.builtin.include_role:
         name: jh_01_basis
 
