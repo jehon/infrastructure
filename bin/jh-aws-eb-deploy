@@ -7,8 +7,29 @@ set -o errexit
 
 export AWS_PAGER=""
 
-appName="${1:?Need application name}"
-envName="${2:?Need environment name}"
+if [ -n "$1" ]; then
+    awsEBAppName="$1"
+fi
+
+if [ -n "$2" ]; then
+    awsEBEnvName="$1"
+fi
+
+if [ -n "$3" ]; then
+    awsEBs3VersionBucket="$1"
+fi
+
+if [ -z "$awsEBAppName" ]; then
+    jh_fatal "Need awsEBAppName or [1]"
+fi
+
+if [ -z "$awsEBEnvName" ]; then
+    jh_fatal "Need awsEBEnvName or [2]"
+fi
+
+if [ -z "$awsEBs3VersionBucket" ]; then
+    jh_fatal "Need awsEBs3VersionBucket or [3]"
+fi
 
 artifact="$(mvn help:evaluate -pl . -q -DforceStdout -Dexpression='project.build.finalName')"
 #$ext="$(mvn help:evaluate -pl . -q -DforceStdout -Dexpression='project.packaging')"
@@ -16,14 +37,12 @@ ext="zip"
 file="target/$artifact.$ext"
 ts="$(date --iso-8601=seconds)"
 
-s3VesionBucket="d-dev-applications"
-
 versionName="$artifact-$ts"
 
 jh_value "File" "$file"
-jh_value "App name" "$appName"
-jh_value "Env name" "$envName"
-jh_value "s3VesionBucket" "$s3VesionBucket"
+jh_value "AWS EB App name" "$awsEBAppName"
+jh_value "AWS EB Env name" "$awsEBEnvName"
+jh_value "AWS EB s3VersionBucket" "$awsEBs3VersionBucket"
 jh_value "TS" "$ts"
 jh_value "Version name" "$versionName"
 
@@ -38,15 +57,15 @@ header "Who am i"
 aws sts get-caller-identity
 
 header "Upload"
-aws s3 cp "$file" "s3://$s3VesionBucket/$versionName"
+aws s3 cp "$file" "s3://$awsEBs3VersionBucket/$versionName"
 
 header "Create the version $versionName"
-aws elasticbeanstalk create-application-version --application-name "$appName" --version-label "$versionName" --source-bundle "S3Bucket=$s3VesionBucket,S3Key=$versionName"
+aws elasticbeanstalk create-application-version --application-name "$awsEBAppName" --version-label "$versionName" --source-bundle "S3Bucket=$awsEBs3VersionBucket,S3Key=$versionName"
 
-header "Deploy it to $envName"
+header "Deploy it to $awsEBEnvName"
 aws elasticbeanstalk update-environment \
-    --application-name "$appName" \
-    --environment-name "$envName" \
+    --application-name "$awsEBAppName" \
+    --environment-name "$awsEBEnvName" \
     --version-label "$versionName"
 
 date
