@@ -13,7 +13,7 @@
 - name: "In 80_docker > Install Docker"
   block:
     - name: "Docker snap"
-      when: not virtual
+      when: jh_with_snap
       block:
         - name: "Normal snaps"
           community.general.snap:

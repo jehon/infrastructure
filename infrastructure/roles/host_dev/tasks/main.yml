@@ -54,7 +54,7 @@
           - libfuse2 # pcloud
 
     - name: "Ensure installed snap"
-      when: not virtual
+      when: jh_with_snap
       with_items:
         - aws-cli
         - code
@@ -73,7 +73,7 @@
         state: present
 
     - name: "Ensure installed snap (classic)"
-      when: not virtual
+      when: jh_with_snap
       with_items:
         - code
       community.general.snap:
@@ -82,7 +82,7 @@
         classic: true
 
     - name: "Ensure installed snap (special) "
-      when: not virtual
+      when: jh_with_snap
       with_items:
         - subtitle-edit
       community.general.snap:

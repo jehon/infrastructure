@@ -2,6 +2,10 @@
 - name: Get facts on current container
   community.docker.current_container_facts:
 
+- name: Default value for jh_with_snap
+  ansible.builtin.set_fact:
+    jh_with_snap: false
+
 - name: Set is_virtual
   block:
     - name: Calculate 'virtual'
