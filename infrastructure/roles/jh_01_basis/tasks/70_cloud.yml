@@ -26,7 +26,7 @@
       ansible.builtin.file:
         state: absent
         dest: "{{ item }}"
-      notify: Jh_cloud.systemctl_reload
+      notify: jh_01_basis.systemctl_reload
   #
   # TODO: enable various mounts
   #

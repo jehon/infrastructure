@@ -9,9 +9,10 @@
         dest: /srv/stack
         version: main
         force: true
-      notify: jh_stack.reload
+      notify: jh_01_basis.stack_reload
 
     - name: "In 90_stack > Install jehon-service-stack"
       ansible.builtin.apt:
         pkg:
           - jehon-service-stack
+      notify: jh_01_basis.stack_reload
