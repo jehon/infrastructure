@@ -2,42 +2,46 @@
 
 set -o errexit
 
+# shellcheck source-path=/usr/bin
 . jh-lib
 
-appName="d-platform"
-envName="d-platform-test"
+export AWS_PAGER=""
+
+appName="${1:?Need application name}"
+envName="${2:?Need environment name}"
+
+artifact="$(mvn help:evaluate -pl . -q -DforceStdout -Dexpression='project.build.finalName')"
+#$ext="$(mvn help:evaluate -pl . -q -DforceStdout -Dexpression='project.packaging')"
+ext="zip"
+file="target/$artifact.$ext"
+ts="$(date --iso-8601=seconds)"
+
 s3VesionBucket="d-dev-applications"
 
-ts="$(date --iso-8601=seconds)"
-filename="$appName-$ts.zip"
-versionName="$filename"
+versionName="$artifact-$ts"
 
+jh_value "File" "$file"
 jh_value "App name" "$appName"
 jh_value "Env name" "$envName"
 jh_value "s3VesionBucket" "$s3VesionBucket"
 jh_value "TS" "$ts"
 jh_value "Version name" "$versionName"
 
-cd source
-cp ~/digiteal/digiteal/platform/target/platform-1.100.0-SNAPSHOT.jar ~/Téléchargements/plt/source/platform-1.100.1.jar
-ls
+if [ ! -r "$file" ]; then
+    jh_fatal "Not found: $file"
+fi
 
 header "Testing if we have a valid mfa"
 jh-aws-authenticated
-
-export AWS_PAGER=""
-
-header "zip it to $filename"
-zip -r "../$filename" .
 
 header "Who am i"
 aws sts get-caller-identity
 
 header "Upload"
-aws s3 cp "../$filename" "s3://$s3VesionBucket/$versionName"
+aws s3 cp "$file" "s3://$s3VesionBucket/$versionName"
 
 header "Create the version $versionName"
-aws elasticbeanstalk create-application-version --application-name "$appName" --version-label "$versionName" --source-bundle "S3Bucket=$s3VesionBucket,S3Key=$filename"
+aws elasticbeanstalk create-application-version --application-name "$appName" --version-label "$versionName" --source-bundle "S3Bucket=$s3VesionBucket,S3Key=$versionName"
 
 header "Deploy it to $envName"
 aws elasticbeanstalk update-environment \
