@@ -27,12 +27,12 @@
           ansible.builtin.apt:
             cache_valid_time: 3600 # seconds -> 1 hour
             autoclean: true
-          register: jh_basis_initial_apt_update
+          register: jh_01_basis_initial_apt_update
           # This does not make change!
           changed_when: false
 
         - name: Run upgrade
-          when: jh_basis_initial_apt_update.cache_updated
+          when: jh_01_basis_initial_apt_update.cache_updated
           ansible.builtin.apt:
             upgrade: dist
           # We don't want to track those changes
@@ -59,18 +59,18 @@
 
     - name: "Install jehon.deb"
       block:
-        - name: Dump jh_basis_deb_url
+        - name: Dump jh_deb_url
           ansible.builtin.debug:
-            var: jh_basis_deb_url
+            var: jh_deb_url
 
         # We need this one to be installed first, because next line will depend on it
         - name: "Install jehon.deb"
           when: "'jehon' not in ansible_facts.packages"
           ansible.builtin.apt:
-            deb: "{{ jh_basis_deb_url | default('https://jehon.github.io/infrastructure/packages/jehon.deb') }}"
-            # This will be done by the Jh_basis.indexes at the correct time...
+            deb: "{{ jh_deb_url | default('https://jehon.github.io/infrastructure/packages/jehon.deb') }}"
+            # This will be done by the jh_01_basis.indexes at the correct time...
             update_cache: false
-          notify: Jh_basis.indexes
+          notify: jh_01_basis.indexes
           register: jehon_basis_jehon_deb
           # Example: [run]   msg: Breaks existing package 'jehon-hardware-wsl' dependency jehon (<= 2023.06.28.14.53.03)
           failed_when: >
@@ -80,8 +80,8 @@
               and (' dependency jehon (' not in jehon_basis_jehon_deb.msg)
             )
 
-        - name: Remove online repositories because defined jh_basis_deb_url
-          when: jh_basis_deb_url is defined and jh_basis_deb_url
+        - name: Remove online repositories because defined jh_deb_url
+          when: jh_deb_url is defined and jh_deb_url
           ansible.builtin.file:
             path: /etc/apt/sources.list.d/jehon-github.sources
             state: absent
@@ -141,12 +141,6 @@
 
     ############################################
     #
-    # Snap's
-    #
-    ############################################
-
-    ############################################
-    #
     # Packages (too volatile one)
     #
     ############################################
@@ -188,3 +182,30 @@
               - docker-ce-rootless-extras
               - docker-buildx-plugin
               - docker-compose-plugin
+
+############################################
+#
+# Networks
+#
+############################################
+- name: Add IP address to /etc/hosts
+  loop: "{{ query('ansible.builtin.varnames', '^jehon_ip_.+') | replace('jehon_ip_', '') }}"
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    # Match: <ip|ipv6> <host>.honlet <legacy> # ansible
+    regexp: ".* {{ item }}.honlet .* # ansible"
+    # Set: <hostname>.honlet and <hostname> alias
+    line: "{{ vars['jehon_ip_' + item] }} {{ item }}.honlet {{ item }} # ansible"
+    state: present
+  register: _
+  # On docker, the /etc/hosts is not writable
+  # complete message: [Errno 16] Device or resource busy
+  failed_when: >
+    _.failed
+    and "[Errno 16]" not in _.msg
+
+############################################
+#
+# Snap's
+#
+############################################

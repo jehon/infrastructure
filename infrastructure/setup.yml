@@ -8,34 +8,37 @@
 - name: Setup systems
   hosts: all
   tasks:
-    - name: Setup jh_basis
+    - name: Setup jh_01_basis
       when: "'grp_jehon' in group_names"
       ansible.builtin.include_role:
-        name: jh_basis
+        name: jh_01_basis
 
     - name: Setup host dev
       when: inventory_hostname == "dev"
-      ansible.builtin.include_role:
-        name: "{{  item }}"
-      with_items:
-        - jh_network
+      loop:
         - jh_cloud
         - host_dev
+      loop_control:
+        loop_var: include_role
+      ansible.builtin.include_role:
+        name: "{{ include_role }}"
 
     - name: Setup host kiosk
       when: inventory_hostname == "kiosk"
-      ansible.builtin.include_role:
-        name: "{{  item }}"
-      with_items:
-        - jh_network
+      loop:
         - jh_cloud
         - host_kiosk
+      loop_control:
+        loop_var: include_role
+      ansible.builtin.include_role:
+        name: "{{ include_role }}"
 
     - name: Setup host vps
       when: inventory_hostname == "vps"
-      ansible.builtin.include_role:
-        name: "{{  item }}"
-      with_items:
-        - jh_network
+      loop:
         - jh_cloud
         - host_vps
+      loop_control:
+        loop_var: include_role
+      ansible.builtin.include_role:
+        name: "{{ include_role }}"
