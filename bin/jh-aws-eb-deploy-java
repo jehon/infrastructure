@@ -46,6 +46,8 @@ jh_value "AWS EB s3VersionBucket" "$awsEBs3VersionBucket"
 jh_value "TS" "$ts"
 jh_value "Version name" "$versionName"
 
+header "Building it"
+mvn package -Dmaven.test.skip |& jh-tag-stdin "build"
 if [ ! -r "$file" ]; then
     jh_fatal "Not found: $file"
 fi
