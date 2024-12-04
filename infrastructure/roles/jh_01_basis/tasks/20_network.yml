@@ -1,4 +1,4 @@
-- name: Add IP address to /etc/hosts
+- name: "In 20_network > Add IP address to /etc/hosts"
   loop: "{{ query('ansible.builtin.varnames', '^jehon_ip_.+') | replace('jehon_ip_', '') }}"
   ansible.builtin.lineinfile:
     path: /etc/hosts

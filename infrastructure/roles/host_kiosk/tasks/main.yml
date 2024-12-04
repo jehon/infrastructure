@@ -6,7 +6,7 @@
       - jehon-service-kiosk
       - jehon-service-headless
 
-- name: Set a hostname to {{ inventory_hostname }}
+- name: "Set a hostname to {{ inventory_hostname }}"
   ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
   when: not virtual

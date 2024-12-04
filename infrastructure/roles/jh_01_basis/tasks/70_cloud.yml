@@ -1,4 +1,4 @@
-- name: Handle cloud configuration
+- name: "In 70_cloud > Handle cloud configuration"
   block:
     - name: Configure cloud
       when: jehon_cloud_type | length > 0
@@ -18,7 +18,7 @@
             mode: "0640"
 
     ## ELSE ##
-    - name: "Remove config"
+    - name: "In 70_cloud > Remove config"
       when: jehon_cloud_type | length == 0
       with_items:
         - /etc/jehon/rclone.conf

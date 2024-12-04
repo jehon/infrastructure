@@ -10,7 +10,7 @@
 #              - reboot
 #              - install deb's
 #
-- name: Install Docker
+- name: "In 80_docker > Install Docker"
   block:
     - name: "Docker snap"
       when: not virtual
@@ -21,7 +21,7 @@
             name:
               - docker
 
-    - name: Install packages
+    - name: "In 80_docker > Install packages"
       when: ansible_pkg_mgr == "apt"
       block:
         - name: "Docker package"
