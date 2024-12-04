@@ -20,6 +20,14 @@
       ansible.builtin.package_facts:
         manager: auto
 
+    - name: Calculate jh_with_snap
+      ansible.builtin.set_fact:
+        jh_with_snap: "{{ 'snapd' in ansible_facts.packages }}"
+
+    - name: Dump jh_with_snap
+      ansible.builtin.debug:
+        var: jh_with_snap
+
     - name: Update system
       block:
         - name: Update cache if too old
