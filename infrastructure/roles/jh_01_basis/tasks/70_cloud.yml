@@ -1,15 +1,15 @@
 - name: "In 70_cloud > Handle cloud configuration"
   block:
-    - name: Configure cloud
+    - name: "In 70_cloud > Configure cloud"
       when: jehon_cloud_type
       block:
-        - name: Install packages (fuse)
+        - name: "In 70_cloud > Install packages (fuse)"
           when: ansible_pkg_mgr == "apt"
           ansible.builtin.apt:
             name:
               - fuse3
 
-        - name: "Install config"
+        - name: "In 70_cloud > Install config"
           ansible.builtin.template:
             src: "rclone.conf"
             dest: /etc/jehon/rclone.conf
