@@ -10,27 +10,37 @@
 #              - reboot
 #              - install deb's
 #
-- name: "In 80_docker > Install Docker"
+- name: "Docker snap"
+  when: jh_with_snap
   block:
-    - name: "Docker snap"
-      when: jh_with_snap
-      block:
-        - name: "In 80_docker > Normal snaps"
-          community.general.snap:
-            state: absent
-            name:
-              - docker
+    - name: "In 80_docker > Normal snaps"
+      community.general.snap:
+        state: absent
+        name:
+          - docker
 
-    - name: "In 80_docker > Install packages"
-      when: ansible_pkg_mgr == "apt"
-      block:
-        - name: "In 80_docker > Docker package"
-          ansible.builtin.apt:
-            state: present
-            pkg:
-              - containerd.io
-              - docker-ce
-              - docker-ce-cli
-              - docker-ce-rootless-extras
-              - docker-buildx-plugin
-              - docker-compose-plugin
+- name: "In 80_docker > Install packages"
+  when: ansible_pkg_mgr == "apt"
+  block:
+    - name: "In 80_docker > Docker package"
+      ansible.builtin.apt:
+        state: present
+        pkg:
+          - containerd.io
+          - docker-ce
+          - docker-ce-cli
+          - docker-ce-rootless-extras
+          - docker-buildx-plugin
+          - docker-compose-plugin
+
+- name: "In 80_docker > Authenticate to GitLab"
+  when: jehon_remote_gitlab_token
+  become: true
+  become_user: jehon-daemon
+  become_method: ansible.builtin.su
+  # https://docs.ansible.com/ansible/latest/collections/community/docker/docker_login_module.html
+  # https://docs.gitlab.com/ee/user/packages/container_registry/authenticate_with_container_registry.html
+  community.docker.docker_login:
+    registry_url: registry.gitlab.com
+    username: "{{ jehon_remote_gitlab_username }}"
+    password: "{{ jehon_remote_gitlab_token }}"

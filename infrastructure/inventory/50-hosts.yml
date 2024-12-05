@@ -362,6 +362,7 @@ all:
         3831343433306239650a306137366634303533656338623336633235386439303232353763343737
         6637
       jehon_cloud_type: pcloud-rw
+      # Required scopes: read_repository (git),read_registry (docker)
       jehon_remote_gitlab_token: !vault |
         $ANSIBLE_VAULT;1.1;AES256
         32663536376466346331636537373339373339373236646363383361313035646364353736653063
