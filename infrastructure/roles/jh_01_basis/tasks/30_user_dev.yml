@@ -1,6 +1,5 @@
-# TODO
 - name: "In 30_user_dev"
-  when: jehon_dev_user is defined and jehon_dev_user
+  when: jehon_dev_user
   block:
     - name: "In 30_user_dev > Install package jehon-service-dev"
       ansible.builtin.apt:
