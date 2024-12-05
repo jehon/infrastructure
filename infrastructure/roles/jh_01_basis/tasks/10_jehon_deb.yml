@@ -11,7 +11,7 @@
         - name: "In 10_jehon_deb > Install jehon.deb"
           when: "'jehon' not in ansible_facts.packages"
           ansible.builtin.apt:
-            deb: "{{ jh_deb_url | default('https://jehon.github.io/infrastructure/packages/jehon.deb') }}"
+            deb: "{{ jh_deb_url }}"
             # This will be done by the jh_01_basis.indexes at the correct time...
             update_cache: false
           notify: jh_01_basis.indexes
@@ -25,7 +25,7 @@
             )
 
         - name: "In 10_jehon_deb > Remove online repositories because defined jh_deb_url"
-          when: jh_deb_url is defined and jh_deb_url
+          when: jh_deb_url
           ansible.builtin.file:
             path: /etc/apt/sources.list.d/jehon-github.sources
             state: absent
