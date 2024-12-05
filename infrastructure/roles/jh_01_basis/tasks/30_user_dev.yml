@@ -1,4 +1,4 @@
----
+# TODO
 - name: "In 30_user_dev"
   when: jehon_dev_user is defined and jehon_dev_user
   block:
@@ -7,13 +7,13 @@
         pkg:
           - jehon-service-dev
 
-    - name: In 30_user_dev > Create user"
+    - name: "In 30_user_dev > Create user"
       ansible.builtin.user:
         name: "{{  jehon_dev_user }}"
         shell: /usr/bin/zsh
         generate_ssh_key: true
 
-    - name: In 30_user_dev > Set password"
+    - name: "In 30_user_dev > Set password"
       when: jehon_dev_password is defined and jehon_dev_password
       ansible.builtin.user:
         name: "{{ jehon_dev_user }}"
@@ -21,7 +21,7 @@
         update_password: on_create
         password: "{{ jehon_dev_password | password_hash('sha512', 'salt') }}"
 
-    - name: In 30_user_dev > Create restricted folder"
+    - name: "In 30_user_dev > Create restricted folder"
       # Required for later operations
       ansible.builtin.file:
         state: directory
@@ -30,10 +30,10 @@
         group: jehon-secrets
         mode: "0750"
 
-    - name: In 30_user_dev > Set git user for dev user"
+    - name: "In 30_user_dev > Set git user for dev user"
       when: jehon_remote_github_email is defined and jehon_remote_github_email
       block:
-        - name: Set gitconfig files
+        - name: "In 30_user_dev > Set gitconfig files"
           ansible.builtin.template:
             src: "{{ item }}"
             dest: /home/{{ jehon_dev_user }}/.{{ item }}

@@ -5,8 +5,8 @@
     - 00_variables
     - 05_update
     - 10_jehon_deb
-    - 30_user_dev
     - 20_network
+    - 30_user_dev
     - 50_packages
     - 70_cloud
     - 80_docker
