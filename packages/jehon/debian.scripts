@@ -28,6 +28,7 @@ jh_deb_helper_user_in_group "jehon" "fuse"
 jh_deb_helper_user_in_group "jehon" "sudo"
 jh_deb_helper_user_in_group "jehon" "vboxusers"
 jh_deb_helper_user_in_group "jehon" "systemd-journal"
+jh_deb_helper_user_in_group "jehon" "jehon-secrets"
 
 jh_deb_helper_system_user "jehon-tty"
 jh_deb_helper_user_in_group "jehon-tty" "tty"
