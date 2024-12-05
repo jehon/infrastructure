@@ -1,7 +1,7 @@
 - name: "In 70_cloud > Handle cloud configuration"
   block:
     - name: Configure cloud
-      when: jehon_cloud_type | length > 0
+      when: jehon_cloud_type
       block:
         - name: Install packages (fuse)
           when: ansible_pkg_mgr == "apt"
@@ -19,7 +19,7 @@
 
     ## ELSE ##
     - name: "In 70_cloud > Remove config"
-      when: jehon_cloud_type | length == 0
+      when: jehon_cloud_type == ""
       with_items:
         - /etc/jehon/rclone.conf
         - /var/lib/docker-plugins/rclone/config/rclone.conf
