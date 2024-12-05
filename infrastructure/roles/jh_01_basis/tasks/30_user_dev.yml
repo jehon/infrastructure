@@ -1,26 +1,19 @@
 ---
-- name: Install package jehon-service-dev
-  ansible.builtin.apt:
-    pkg:
-      - jehon-service-dev
-
-- name: Setup user profile
+- name: "In 30_user_dev"
   when: jehon_dev_user is defined and jehon_dev_user
   block:
-    ############################################
-    #
-    # User config
-    #
-    ############################################
-    - name: Create user
+    - name: "In 30_user_dev > Install package jehon-service-dev"
+      ansible.builtin.apt:
+        pkg:
+          - jehon-service-dev
+
+    - name: In 30_user_dev > Create user"
       ansible.builtin.user:
         name: "{{  jehon_dev_user }}"
-        shell: /bin/zsh
-        groups: sudo,docker,fuse,jehon-secrets
+        shell: /usr/bin/zsh
         generate_ssh_key: true
-        append: true
 
-    - name: Set password
+    - name: In 30_user_dev > Set password"
       when: jehon_dev_password is defined and jehon_dev_password
       ansible.builtin.user:
         name: "{{ jehon_dev_user }}"
@@ -28,7 +21,8 @@
         update_password: on_create
         password: "{{ jehon_dev_password | password_hash('sha512', 'salt') }}"
 
-    - name: Create restricted folder
+    - name: In 30_user_dev > Create restricted folder"
+      # Required for later operations
       ansible.builtin.file:
         state: directory
         dest: /home/{{ jehon_dev_user }}/restricted/
@@ -36,7 +30,7 @@
         group: jehon-secrets
         mode: "0750"
 
-    - name: Set git user for dev user
+    - name: In 30_user_dev > Set git user for dev user"
       when: jehon_remote_github_email is defined and jehon_remote_github_email
       block:
         - name: Set gitconfig files

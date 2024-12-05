@@ -5,6 +5,7 @@
     - 00_variables
     - 05_update
     - 10_jehon_deb
+    - 30_user_dev
     - 20_network
     - 50_packages
     - 70_cloud
