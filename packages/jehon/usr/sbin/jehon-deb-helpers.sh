@@ -93,24 +93,27 @@ jh_deb_helper_system_group() {
 }
 
 jh_deb_helper_system_user() {
-	N_USER="$1"
+	nUser="$1"
+	nShell=/usr/bin/zsh
 
 	case "$DEB_CMD" in
 	"configure")
-		if ! id "$N_USER" 1>/dev/null 2>/dev/null; then
+		if ! id "$nUser" 1>/dev/null 2>/dev/null; then
 			# Initial configuration
-			echo "* Creating user $N_USER (locked)"
+			echo "* Creating user $nUser (locked)"
 			useradd --create-home \
-				--shell /usr/bin/zsh \
-				--system "$N_USER" >/dev/null
-			passwd -l "$N_USER"
+				--shell "$nShell" \
+				--system "$nUser" >/dev/null
+			passwd -l "$nUser"
+		else
+			if [ "$(getent passwd "$(id -un)" | cut -d : -f 7)" != "$nShell" ]; then
+				echo "* Setting the shell for user $nUser"
+				chsh -s "$nShell"
+			fi
 		fi
 		;;
 	"remove")
 		# Nothing: it is dangerous to remove it
-		# if ! id "$N_USER" 1>/dev/null 2>/dev/null; then
-		# 	deluser --remove-home "$N_USER" 2>/dev/null || true
-		# fi
 		;;
 	esac
 }
