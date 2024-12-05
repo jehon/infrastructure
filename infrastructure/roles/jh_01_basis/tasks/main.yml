@@ -64,5 +64,6 @@
     - 50_packages
     - 70_cloud
     - 80_docker
+    - 90_stack
   ansible.builtin.include_tasks:
     file: "{{ i_file }}.yml"

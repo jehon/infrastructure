@@ -1,4 +1,5 @@
 - name: "In 90_stack > Setup stack"
+  when: jh_stack_git_slug
   block:
     - name: "In 90_stack > Install git repo"
       become: true
