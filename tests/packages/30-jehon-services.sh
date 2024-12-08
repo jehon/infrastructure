@@ -12,6 +12,8 @@ SWD="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 (
 	cat <<-'EOS'
 		echo "************* installing packages *******************"
-		apt install --yes jehon jehon-service-*
+		apt install --yes jehon
+		apt update
+		apt install --yes jehon-service-*
 	EOS
 ) | run_in_docker
