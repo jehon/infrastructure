@@ -10,7 +10,7 @@
 #              - reboot
 #              - install deb's
 #
-- name: "Docker snap"
+- name: "In 80_docker > Remove Docker snap if present"
   when: jh_with_snap
   block:
     - name: "In 80_docker > Normal snaps"
