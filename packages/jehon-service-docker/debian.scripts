@@ -7,11 +7,11 @@ set -o errexit
 
 case "$1" in
 configure)
+    mkdir -p /var/lib/docker-plugins/rclone/config
+    mkdir -p /var/lib/docker-plugins/rclone/cache
     if jh-is-full-machine; then
         if ! docker plugin inspect rclone >/dev/null 2>/dev/null; then
             echo "Install rclone plugin"
-            mkdir -p /var/lib/docker-plugins/rclone/config
-            mkdir -p /var/lib/docker-plugins/rclone/cache
             docker plugin install rclone/docker-volume-rclone:amd64 args="-v" --alias rclone --grant-all-permissions
         fi
     fi
