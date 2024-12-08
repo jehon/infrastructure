@@ -39,7 +39,6 @@ jh_deb_helper_user_in_group "jehon-daemon" "docker"
 jh_deb_helper_user_in_group "jehon" "jehon-daemon"
 
 jh_deb_helper_service jehon-backup-snapshot.timer
-jh_deb_helper_service jehon-update-rclone.timer
 jh_deb_helper_service jehon-system-clean.timer
 
 jh_deb_helper_patch "/etc/fuse.conf" "jehon" "/usr/share/jehon/etc_fuse.conf.patch"
@@ -134,5 +133,6 @@ esac
 #
 # Legacy: jh_deb_helper_legacy
 #
+jh_deb_helper_legacy jh_deb_helper_service jehon-update-rclone.timer
 
 exit 0
