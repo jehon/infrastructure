@@ -19,19 +19,12 @@
         name:
           - docker
 
-- name: "In 80_docker > Install packages"
+- name: "In 80_docker > Install jehon-service-docker"
   when: ansible_pkg_mgr == "apt"
-  block:
-    - name: "In 80_docker > Docker package"
-      ansible.builtin.apt:
-        state: present
-        pkg:
-          - containerd.io
-          - docker-ce
-          - docker-ce-cli
-          - docker-ce-rootless-extras
-          - docker-buildx-plugin
-          - docker-compose-plugin
+  ansible.builtin.apt:
+    state: present
+    pkg:
+      - jehon-service-docker
 
 - name: "In 80_docker > Install rclone config for plugin"
   when: ansible_pkg_mgr == "apt"
