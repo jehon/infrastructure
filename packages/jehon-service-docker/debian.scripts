@@ -1,0 +1,24 @@
+#!/usr/bin/sh
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/../jehon/usr/sbin/
+. /usr/sbin/jehon-deb-helpers.sh
+
+case "$1" in
+configure)
+    if ! docker plugin inspect rclone >&/dev/null; then
+        echo "Install rclone plugin"
+        mkdir -p /var/lib/docker-plugins/rclone/config
+        mkdir -p /var/lib/docker-plugins/rclone/cache
+        docker plugin install rclone/docker-volume-rclone:amd64 args="-v" --alias rclone --grant-all-permissions
+    fi
+    ;;
+
+esac
+
+#
+# Legacy
+#
+
+exit 0
