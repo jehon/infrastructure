@@ -10,23 +10,23 @@
 #              - reboot
 #              - install deb's
 #
-- name: "In {{ j_ctx }} > Remove Docker snap if present"
+- name: "{{ j_task }} | Remove Docker snap if present"
   when: jh_with_snap
   block:
-    - name: "In {{ j_ctx }} > Normal snaps"
+    - name: "{{ j_task }} | Normal snaps"
       community.general.snap:
         state: absent
         name:
           - docker
 
-- name: "In {{ j_ctx }} > Install jehon-service-docker"
+- name: "{{ j_task }} | Install jehon-service-docker"
   when: ansible_pkg_mgr == "apt"
   ansible.builtin.apt:
     state: present
     pkg:
       - jehon-service-docker
 
-- name: "In {{ j_ctx }} > Install rclone config for plugin"
+- name: "{{ j_task }} | Install rclone config for plugin"
   when: ansible_pkg_mgr == "apt"
   ansible.builtin.template:
     src: rclone.conf
@@ -35,7 +35,7 @@
     group: jehon-secrets
     mode: "0700"
 
-- name: "In {{ j_ctx }} > Authenticate to GitLab"
+- name: "{{ j_task }} | Authenticate to GitLab"
   when: jehon_remote_gitlab_token
   become: true
   become_user: jehon-daemon

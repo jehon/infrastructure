@@ -1,18 +1,18 @@
-- name: "In {{ j_ctx }}"
+- name: "In {{ j_task }}"
   when: jehon_dev_user
   block:
-    - name: "In {{ j_ctx }} > Install package jehon-service-dev"
+    - name: "{{ j_task }} | Install package jehon-service-dev"
       ansible.builtin.apt:
         pkg:
           - jehon-service-dev
 
-    - name: "In {{ j_ctx }} > Create user"
+    - name: "{{ j_task }} | Create user"
       ansible.builtin.user:
         name: "{{  jehon_dev_user }}"
         shell: /usr/bin/zsh
         generate_ssh_key: true
 
-    - name: "In {{ j_ctx }} > Set password"
+    - name: "{{ j_task }} | Set password"
       when: jehon_dev_password is defined and jehon_dev_password
       ansible.builtin.user:
         name: "{{ jehon_dev_user }}"
@@ -20,7 +20,7 @@
         update_password: on_create
         password: "{{ jehon_dev_password | password_hash('sha512', 'salt') }}"
 
-    - name: "In {{ j_ctx }} > Create restricted folder"
+    - name: "{{ j_task }} | Create restricted folder"
       # Required for later operations
       ansible.builtin.file:
         state: directory
@@ -29,10 +29,10 @@
         group: "{{ jehon_dev_user }}"
         mode: "0750"
 
-    - name: "In {{ j_ctx }} > Set git user for dev user"
+    - name: "{{ j_task }} | Set git user for dev user"
       when: jehon_remote_github_email is defined and jehon_remote_github_email
       block:
-        - name: "In {{ j_ctx }} > Set gitconfig files"
+        - name: "{{ j_task }} | Set gitconfig files"
           ansible.builtin.template:
             src: "{{ item }}"
             dest: /home/{{ jehon_dev_user }}/.{{ item }}

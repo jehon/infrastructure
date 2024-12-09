@@ -19,3 +19,4 @@ skip_list:
   - package-latest
   - meta-no-info
   - var-naming[no-role-prefix]
+  - name[template]

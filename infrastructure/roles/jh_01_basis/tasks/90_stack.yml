@@ -1,7 +1,7 @@
-- name: "In {{ j_ctx }} > Setup stack"
+- name: "{{ j_task }} | Setup stack"
   when: jh_stack_git_slug
   block:
-    - name: "In {{ j_ctx }} > Install git repo"
+    - name: "{{ j_task }} | Install git repo"
       become: true
       become_user: jehon-daemon
       become_method: ansible.builtin.su
@@ -12,7 +12,7 @@
         force: true
       notify: jh_01_basis.stack_reload
 
-    - name: "In {{ j_ctx }} > Install jehon-service-stack"
+    - name: "{{ j_task }} | Install jehon-service-stack"
       ansible.builtin.apt:
         pkg:
           - jehon-service-stack

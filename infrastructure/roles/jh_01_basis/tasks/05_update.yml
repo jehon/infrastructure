@@ -1,14 +1,14 @@
-- name: "In {{ j_ctx }} > Install packages"
+- name: "{{ j_task }} | Install packages"
   when: ansible_pkg_mgr == "apt"
   block:
     # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_facts_module.html
-    - name: "In {{ j_ctx }} > Gather facts"
+    - name: "{{ j_task }} | Gather facts"
       ansible.builtin.package_facts:
         manager: auto
 
-    - name: "In {{ j_ctx }} > Update system"
+    - name: "{{ j_task }} | Update system"
       block:
-        - name: "In {{ j_ctx }} > Update cache if too old"
+        - name: "{{ j_task }} | Update cache if too old"
           # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html#parameter-cache_valid_time
           ansible.builtin.apt:
             cache_valid_time: 3600 # seconds -> 1 hour
@@ -17,7 +17,7 @@
           # This does not make change!
           changed_when: false
 
-        - name: "In {{ j_ctx }} > Run upgrade"
+        - name: "{{ j_task }} | Run upgrade"
           when: jh_01_basis_initial_apt_update.cache_updated
           ansible.builtin.apt:
             upgrade: dist
