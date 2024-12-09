@@ -26,7 +26,7 @@
         state: directory
         dest: /home/{{ jehon_dev_user }}/restricted/
         owner: "{{ jehon_dev_user }}"
-        group: jehon-secrets
+        group: "{{ jehon_dev_user }}"
         mode: "0750"
 
     - name: "In 30_user_dev > Set git user for dev user"
