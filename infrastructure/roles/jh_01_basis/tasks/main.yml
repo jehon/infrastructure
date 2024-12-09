@@ -4,3 +4,5 @@
   loop: "{{ lookup('fileglob', ( role_path ~ '/tasks/[0-9]*.yml' ), wantlist=True) | map('basename') | map('regex_replace', '\\.yml', '') | sort }}"
   ansible.builtin.include_tasks:
     file: "{{ i_file }}.yml"
+  vars:
+    j_ctx: "{{ i_file }}"

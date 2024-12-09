@@ -1,14 +1,14 @@
-- name: "In 10_jehon_deb > Install packages"
+- name: "In {{ j_ctx }} > Install packages"
   when: ansible_pkg_mgr == "apt"
   block:
-    - name: "In 10_jehon_deb > Install jehon.deb"
+    - name: "In {{ j_ctx }} > Install jehon.deb"
       block:
-        - name: "In 10_jehon_deb > Dump jh_deb_url"
+        - name: "In {{ j_ctx }} > Dump jh_deb_url"
           ansible.builtin.debug:
             var: jh_deb_url
 
         # We need this one to be installed first, because next line will depend on it
-        - name: "In 10_jehon_deb > Install jehon.deb"
+        - name: "In {{ j_ctx }} > Install jehon.deb"
           when: "'jehon' not in ansible_facts.packages"
           ansible.builtin.apt:
             deb: "{{ jh_deb_url }}"
@@ -29,7 +29,7 @@
     # Update repository if necessary
     #
     ############################################
-    - name: "In 10_jehon_deb > Update repositories if necessary..."
+    - name: "In {{ j_ctx }} > Update repositories if necessary..."
       ansible.builtin.meta: flush_handlers
 
     ############################################
@@ -37,27 +37,27 @@
     # Packages jehon-*
     #
     ############################################
-    - name: "In 10_jehon_deb > Install jehon-hardware-*"
+    - name: "In {{ j_ctx }} > Install jehon-hardware-*"
       block:
-        - name: "In 10_jehon_deb > Calculate jehon_hardware"
+        - name: "In {{ j_ctx }} > Calculate jehon_hardware"
           block:
-            - name: "In 10_jehon_deb > Set default value for jehon_hardware"
+            - name: "In {{ j_ctx }} > Set default value for jehon_hardware"
               when: jehon_hardware is not defined
               ansible.builtin.set_fact:
                 jehon_hardware: ""
 
-            - name: "In 10_jehon_deb > Set jehon_hardware to wsl"
+            - name: "In {{ j_ctx }} > Set jehon_hardware to wsl"
               # https://stackoverflow.com/a/78046212/1954789
               when: '"microsoft" in ansible_facts["kernel"]'
               ansible.builtin.set_fact:
                 jehon_hardware: wsl
 
-            - name: "In 10_jehon_deb > Set jehon_hardware to raspberrypi"
+            - name: "In {{ j_ctx }} > Set jehon_hardware to raspberrypi"
               when: ansible_architecture == "aarch64" # vs. amd64 for laptop
               ansible.builtin.set_fact:
                 jehon_hardware: raspberrypi
 
-            - name: "In 10_jehon_deb > Set jehon_hardware to docker"
+            - name: "In {{ j_ctx }} > Set jehon_hardware to docker"
               # https://docs.ansible.com/ansible/latest/collections/community/docker/current_container_facts_module.html
               when: ansible_module_running_in_container
               ansible.builtin.set_fact:
@@ -65,14 +65,14 @@
 
             # TODO: jehon_hardware = desktop ???
 
-        - name: "In 10_jehon_deb > Dump jehon_hardware"
+        - name: "In {{ j_ctx }} > Dump jehon_hardware"
           ansible.builtin.debug:
             var: jehon_hardware
 
-        - name: "In 10_jehon_deb > Install hardware package"
+        - name: "In {{ j_ctx }} > Install hardware package"
           when: jehon_hardware | length > 0
           block:
-            - name: "In 10_jehon_deb > Ensure jehon-hardware is present for hardware {{ jehon_hardware }}"
+            - name: "In {{ j_ctx }} > Ensure jehon-hardware is present for hardware {{ jehon_hardware }}"
               ansible.builtin.apt:
                 pkg:
                   - "jehon-hardware-{{ jehon_hardware }}"
