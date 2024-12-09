@@ -24,12 +24,6 @@
               and (' dependency jehon (' not in jehon_basis_jehon_deb.msg)
             )
 
-        - name: "In 10_jehon_deb > Remove online repositories because defined jh_deb_url"
-          when: jh_deb_url
-          ansible.builtin.file:
-            path: /etc/apt/sources.list.d/jehon-github.sources
-            state: absent
-
     ############################################
     #
     # Update repository if necessary
