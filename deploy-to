@@ -24,6 +24,7 @@ requireSudo() {
         echo "Require sudo password"
     fi
     withSudo="sudo --preserve-env=PATH,PYTHONPATH"
+    # TODO: should --ask-become-pass ?
     # ARGS+=("--ask-become-pass")
 }
 
@@ -40,7 +41,7 @@ cd infrastructure || exit
 
 withSudo=""
 
-if ("${#hosts}"); then
+if ((${#hosts} > 0)); then
     for host in "${hosts[@]}"; do
         case "$host" in
         "" | "dev")
@@ -52,10 +53,10 @@ else
     requireSudo
 fi
 
-# TODO: What condition here?
-if [ -n "$HOST" ]; then
-    runIt --limit "${hosts[0]}"
-else
-    # TODO: should --ask-become-pass ?
-    runIt
-fi
+# Join the array with comma
+#   https://stackoverflow.com/a/9429887/1954789
+hostsList=$(
+    IFS=,
+    echo "${hosts[*]}"
+)
+runIt --limit "$hostsList"
