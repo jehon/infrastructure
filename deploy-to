@@ -11,14 +11,21 @@ prjRoot="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 #
 
 PLAYBOOK="${PLAYBOOK:-"setup.yml"}"
+hosts=("$@")
 
-if [ -z "$1" ]; then
-    echo "You need to setup a host"
-    echo "For initial setup, use 'init'"
+runIt() {
+    $withSudo "${prjRoot}"/tmp/python/common/bin/ansible-playbook --diff "${PLAYBOOK}" "$@"
+}
 
-    jh_fatal "Need [host...]"
-fi
-HOST="$1"
+requireSudo() {
+    if [ -n "$1" ]; then
+        echo "Require sudo password for $host"
+    else
+        echo "Require sudo password"
+    fi
+    withSudo="sudo --preserve-env=PATH,PYTHONPATH"
+    # ARGS+=("--ask-become-pass")
+}
 
 if [ ! -r ~/restricted/ansible-encryption-key ]; then
     mkdir -p ~/restricted
@@ -33,17 +40,22 @@ cd infrastructure || exit
 
 withSudo=""
 
-case "$HOST" in
-"" | "dev")
-    echo "Require sudo password"
-    withSudo="sudo --preserve-env=PATH,PYTHONPATH"
-    # ARGS+=("--ask-become-pass")
-    ;;
-esac
-
-if [ -n "$1" ]; then
-    shift
-    $withSudo "${prjRoot}"/tmp/python/common/bin/ansible-playbook --limit "${HOST}" --diff "$@" "${PLAYBOOK}" "${ARGS[@]}"
+if ("${#hosts}"); then
+    for host in "${hosts[@]}"; do
+        case "$host" in
+        "" | "dev")
+            requireSudo "$host"
+            ;;
+        esac
+    done
 else
-    ansible-playbook "${PLAYBOOK}"
+    requireSudo
+fi
+
+# TODO: What condition here?
+if [ -n "$HOST" ]; then
+    runIt --limit "${hosts[0]}"
+else
+    # TODO: should --ask-become-pass ?
+    runIt
 fi
