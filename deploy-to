@@ -43,9 +43,7 @@ esac
 
 if [ -n "$1" ]; then
     shift
-    $withSudo "${prjRoot}"/tmp/python/common/bin/ansible-playbook --limit "${HOST}" --diff "$@" "${PLAYBOOK}" \
-        "${ARGS[@]}" |
-        "${prjRoot}"/packages/jehon/usr/bin/jh-tag-stdin "${HOST}"
+    $withSudo "${prjRoot}"/tmp/python/common/bin/ansible-playbook --limit "${HOST}" --diff "$@" "${PLAYBOOK}" "${ARGS[@]}"
 else
     ansible-playbook "${PLAYBOOK}"
 fi
