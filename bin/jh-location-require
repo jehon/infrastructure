@@ -21,4 +21,8 @@ while [ -n "$1" ]; do
     shift
 done
 
+if [ -n "$FORCE" ]; then
+    echo "* Forcing execution on network $detected"
+fi
+
 jh_fatal "Not at the required location: $detected (${all_locations})"
