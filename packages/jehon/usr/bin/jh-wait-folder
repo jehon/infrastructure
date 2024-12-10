@@ -4,12 +4,10 @@ set -o errexit
 set -o pipefail
 shopt -s nullglob
 
-_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+# shellcheck source-path=SCRIPTDIR/
+. jh-lib
 
-# shellcheck source-path=SCRIPTDIR
-. "${_SD}"/lib.sh
-
-check="${1:-"${jhCloudFolderInUserHome}/Workspaces"}"
+check="${1:?Need what to check as [1]}"
 
 echo check: "$check"
 

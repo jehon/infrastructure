@@ -17,8 +17,8 @@ target="${jhCloudFolderInUserHome}/Workspaces/Jean/Backups/Ideas"
 # Requirements
 #
 
-# shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-wait-folder "${target}"
+# shellcheck source=/dev/null
+jh-wait-folder "${target}"
 
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-location-require "home" "work"

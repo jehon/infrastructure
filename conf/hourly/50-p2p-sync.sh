@@ -10,22 +10,15 @@ set -o errexit
 # Config
 #
 
-vps_ssh="vps"
-vps_ssh_user="jehon-daemon"
-vps_root="/srv/stack/volumes"
-vps_watch="${vps_root}/torrents.watch.var/"
-
-vps_ops=(
-    -e "ssh -l $vps_ssh_user"
-)
+target="${jhCloudFolderInUserHome}/Systèmes/vps/p2p.watch"
 
 ##################################
 #
 # Requirements
 #
 
-# shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-wait-folder
+# shellcheck source=/dev/null
+jh-wait-folder "${target}"
 
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-location-require "home" "work"
@@ -38,12 +31,11 @@ vps_ops=(
 user_report_failure
 
 header_begin "Uploading desktop files to $vps_watch"
-if find "$HOME/Desktop/" \( -name "*.torrent" -o -name "*.torrent.magnet" \); then
+if find "$HOME/Téléchargements/" \( -name "*.torrent" -o -name "*.torrent.magnet" \); then
     # Not recursive, we take only first level one
     rsync "${jhRsyncOptions[@]}" \
-        "${vps_ops[@]}" \
         --remove-source-files \
         --include='*.torrent' --include='*.torrent.magnet' --exclude '*' \
-        "$HOME/Desktop/" "${vps_ssh}:${vps_watch}"
+        "$HOME/Desktop/" "${target}"
 fi
 header_end

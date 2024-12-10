@@ -27,9 +27,11 @@ minFreeSpaceGb=10
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-location-require "home"
 
-# shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-wait-folder "$localTarget"
-"${prjRoot}"/bin/jh-wait-folder "$localBackup"
+# shellcheck source=/dev/null
+jh-wait-folder "${localTarget}"
+
+# shellcheck source=/dev/null
+jh-wait-folder "${localBackup}"
 
 ##################################
 #

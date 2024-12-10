@@ -11,13 +11,15 @@ set -o pipefail
 # Config
 #
 
+target="${jhCloudFolderInUserHome}"
+
 ##################################
 #
 # Requirements
 #
 
-# shellcheck source-path=SCRIPTDIR/../../
-"${prjRoot}"/bin/jh-wait-folder
+# shellcheck source=/dev/null
+jh-wait-folder "${target}"
 
 # shellcheck source-path=SCRIPTDIR/../../
 "${prjRoot}"/bin/jh-location-require "home"
