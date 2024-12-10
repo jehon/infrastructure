@@ -58,6 +58,7 @@ fi
 if [ -x /usr/bin/rclone ]; then
 	header_begin "Rclone"
 	/usr/bin/rclone self-update
+	rclone --version
 	header_end
 fi
 
