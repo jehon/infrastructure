@@ -24,10 +24,7 @@ case "${WIFI}" in
 "Heyfjveidofbridkegxto")
     in_location "mobile"
     ;;
-"Digiteal")
-    in_location "work"
-    ;;
-"Digiteal-dev")
+"Digiteal" | "Digiteal-dev" | "digiteal.eu dev 2.4GHz")
     in_location "work"
     ;;
 "chez_honlet" | "chez_honlet_5G")
