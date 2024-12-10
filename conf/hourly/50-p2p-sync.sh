@@ -30,12 +30,15 @@ jh-wait-folder "${target}"
 
 user_report_failure
 
+# shellcheck source=/dev/null
+. ~/.config/user-dirs.dirs
+
 header_begin "Uploading desktop files to $vps_watch"
 if find "$HOME/Téléchargements/" \( -name "*.torrent" -o -name "*.torrent.magnet" \); then
     # Not recursive, we take only first level one
     rsync "${jhRsyncOptions[@]}" \
         --remove-source-files \
         --include='*.torrent' --include='*.torrent.magnet' --exclude '*' \
-        "$HOME/Desktop/" "${target}"
+        "$XDG_DOANLOAD_DIR/" "${target}"
 fi
 header_end
