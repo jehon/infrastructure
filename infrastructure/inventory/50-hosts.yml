@@ -52,7 +52,7 @@ all:
 
     # Mac:
     # jehon_ip_kiosk: 2a02:a03f:a9cd:8a00:ba27:ebff:fe7c:8ef3
-    # kiosk: 192.168.1.154
+    kiosk: 192.168.1.154
 
     # 3c:7c:3f:8b:1b:d0
     # 192.168.1.8
