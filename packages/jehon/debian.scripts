@@ -133,6 +133,5 @@ esac
 #
 # Legacy: jh_deb_helper_legacy
 #
-jh_deb_helper_legacy jh_deb_helper_service jehon-update-rclone.timer
 
 exit 0
