@@ -1,4 +1,9 @@
 ---
+- name: Install kiosk packages
+  ansible.builtin.apt:
+    pkg:
+      - jehon-service-headless
+
 - name: Install secrets files
   with_items:
     - cryptomedic.sh
