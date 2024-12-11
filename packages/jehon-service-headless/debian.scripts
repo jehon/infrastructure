@@ -11,6 +11,8 @@ jh_deb_helper_ufw "app" "jehon-cockpit" "homeIPv4"
 jh_deb_helper_service "jehon-ssh-get-latest-key.timer"
 jh_deb_helper_ufw "port" "ssh" "public"
 
+jh_deb_helper_service "alloy"
+
 case "$1" in
 configure)
 	if jh-is-full-machine; then

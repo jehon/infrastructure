@@ -1,0 +1,29 @@
+- name: "{{ j_task }} | Handle configuration"
+  block:
+    - name: "{{ j_task }} | Configure"
+      when: jehon_grafana_token
+      block:
+        - name: "{{ j_task }} | Install packages"
+          when: ansible_pkg_mgr == "apt"
+          ansible.builtin.apt:
+            name:
+              - jehon-service-headless
+
+        - name: "{{ j_task }} | Install config"
+          ansible.builtin.template:
+            src: "alloy.conf"
+            dest: /etc/alloy/alloy.conf
+            owner: root
+            group: jehon-daemon
+            mode: "0640"
+
+    ## ELSE ##
+    - name: "{{ j_task }} | Remove config"
+      when: jehon_grafana_token == ""
+      with_items:
+        - /etc/alloy/alloy.conf
+      ansible.builtin.file:
+        state: absent
+        dest: "{{ item }}"
+
+  notify: jh_01_basis.alloy_reload

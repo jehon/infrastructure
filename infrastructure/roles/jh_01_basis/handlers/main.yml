@@ -6,6 +6,14 @@
     upgrade: full
   changed_when: false
 
+- name: Reload stack service
+  listen: jh_01_basis.alloy_reload
+  when: not virtual
+  ansible.builtin.systemd:
+    name: alloy.service
+    state: restarted
+  changed_when: false
+
 - name: Reload cloud service
   listen:
     - jh_01_basis.systemctl_reload

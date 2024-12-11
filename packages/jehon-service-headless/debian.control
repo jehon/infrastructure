@@ -3,5 +3,7 @@ Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
 # Cockpit
 	cockpit,
+# Grafana
+	alloy,
 # Dandling coma
 	bash
