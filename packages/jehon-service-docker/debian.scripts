@@ -20,7 +20,13 @@ configure)
                 TAG=latest
                 ;;
             esac
-            docker plugin install "rclone/docker-volume-rclone:$TAG" --alias rclone --grant-all-permissions
+            #
+            # In case of problem:
+            #   $rm -fr /var/lib/docker-plugins/rclone/cache
+            #
+            # Logs are in journalctl -u docker.service
+            #
+            docker plugin install "rclone/docker-volume-rclone:$TAG" args="-v" --alias rclone --grant-all-permissions
         fi
     fi
     ;;
