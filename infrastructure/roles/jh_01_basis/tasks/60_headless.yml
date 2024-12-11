@@ -11,9 +11,9 @@
 
         - name: "{{ j_task }} | Install config"
           ansible.builtin.template:
-            src: "alloy.conf"
-            dest: /etc/alloy/alloy.conf
-            owner: root
+            src: "config.alloy"
+            dest: /etc/alloy/config.alloy
+            owner: alloy
             group: jehon-daemon
             mode: "0640"
 
@@ -21,7 +21,7 @@
     - name: "{{ j_task }} | Remove config"
       when: jehon_grafana_token == ""
       with_items:
-        - /etc/alloy/alloy.conf
+        - /etc/alloy/config.alloy
       ansible.builtin.file:
         state: absent
         dest: "{{ item }}"

@@ -41,7 +41,8 @@ all:
       6664316137663031320a333836636434356564346666643465653361373639373831343338313866
       3232
 
-    jehon_grafana_user: 776025
+    jehon_grafana_user_loki: 776025
+    jehon_grafana_user_prom: 1353997
 
     #
     # Those variables can not be overriden!

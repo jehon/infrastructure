@@ -19,9 +19,9 @@ discovery.relabel "integrations_node_exporter" {
 //
 // Prometheus: metrics
 //
+//  custom:   https://grafana.com/orgs/jehon/hosted-metrics/1353997#sending-metrics
 //  help:
 //  tutorial:
-//  explanation:
 //
 
 prometheus.exporter.unix "integrations_node_exporter" {
@@ -60,10 +60,10 @@ prometheus.relabel "integrations_node_exporter" {
 prometheus.remote_write "metrics_service" {
     endpoint {
         // https://grafana.com/orgs/jehon/hosted-logs/776025#sending-logs
-        url = "https://logs-prod-012.grafana.net/api/prom/push
+        url = "https://prometheus-prod-24-prod-eu-west-2.grafana.net/api/prom/push"
 
         basic_auth {
-            username = "{{ jehon_grafana_user }}"
+            username = "{{ jehon_grafana_user_prom }}"
             password = "{{ jehon_grafana_token }}"
         }
     }
@@ -72,7 +72,7 @@ prometheus.remote_write "metrics_service" {
 //
 // Loki: logs
 //
-//  help:        https://grafana.com/orgs/jehon/hosted-logs/776025#sending-logs
+//  custom:      https://grafana.com/orgs/jehon/hosted-logs/776025#sending-logs
 //  tutorial:    https://jehon.grafana.net/connections/add-new-connection/linux-node?page=alloy
 //  explanation: https://grafana.com/docs/grafana-cloud/send-data/alloy/tutorials/send-logs-to-loki/
 //  dashboard:
@@ -129,7 +129,7 @@ loki.write "grafana_cloud_loki" {
         url = "https://logs-prod-012.grafana.net/loki/api/v1/push"
 
         basic_auth {
-            username = "{{ jehon_grafana_user }}"
+            username = "{{ jehon_grafana_user_loki }}"
             password = "{{ jehon_grafana_token }}"
         }
     }
