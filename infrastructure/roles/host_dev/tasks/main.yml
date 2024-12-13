@@ -58,6 +58,7 @@
       with_items:
         - aws-cli
         - code
+        - dbeaver-ce # Database tool
         - digikam
         - firefox
         - freemind
