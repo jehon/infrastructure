@@ -10,6 +10,7 @@ set -o errexit
 # Config
 #
 
+source="volumes/p2p.ready/"
 target="${jhCloudFolderInUserHome}/Systèmes/vps/p2p"
 
 ##################################
@@ -34,6 +35,6 @@ rsync "${jhRsyncOptions[@]}" \
     --recursive --times \
     --remove-source-files \
     --partial --append-verify \
-    vps:/srv/stack/volumes/transmission.ready/ "$target/"
+    "vps:/srv/stack/$source" "$target/"
 
 ok
