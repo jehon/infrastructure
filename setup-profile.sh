@@ -24,3 +24,5 @@ if [ -n "$SWD" ]; then
     echo "Path: Adding '$LOCAL_BIN'"
     export PATH="$LOCAL_BIN:$PATH"
 fi
+
+export RCLONE_CONFIG=/etc/jehon/rclone.conf
