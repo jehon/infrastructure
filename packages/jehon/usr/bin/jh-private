@@ -5,7 +5,7 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR
 . jh-lib
 
-cryptedSource="${jhCloudFolderInUserHome}/Workspaces/Jean/.encrypted_2024"
+cryptedSource="${jhCloudFolderInUserHome}/Workspaces/Jean/.encrypted_2025"
 cryptedMounted="${HOME}/Private"
 toBeEncrypted="${HOME}/to-be-encrypted"
 newlyEncrypted="${cryptedMounted}/divers"
@@ -47,43 +47,46 @@ mount_folder() {
 
 		#################################################
 		#
-		# GoCryptFS
+		# Alternatives
 		#
+		# !! To not mount both, add prefix
+		#
+
+		#
+		# GoCryptFS
 		#
 		jh_info "Using gocryptfs"
 		gocryptfs "${SRC}.go" "${DST}.go"
 
-		#################################################
-		#
-		# RClone CryptFS
-		#
-		#
-		jh_info "Using rclone cryptfs"
+		# #
+		# # RClone CryptFS
+		# #
+		# jh_info "Using rclone cryptfs"
 
-		# -r: allow backslash
-		# -s: silent
-		echo -n "Enter password for rclone mount: "
-		read -r -s PWD
-		echo ""
-		echo "Mounting in background..."
-		(
-			#
-			# Thanks to https://forum.rclone.org/t/rclone-one-liner-to-connect-a-webdav-mount-without-rclone-conf/20444
-			#
-			#  @see connection-strings: https://rclone.org/docs/#connection-strings
-			#  @see log-level: https://rclone.org/docs/#log-level-level
-			#  @see vfs caching: https://rclone.org/commands/rclone_mount/#vfs-file-caching
-			#     !! caching is done outside of folder, so uncrypted data is available to all
-			#  @see other options: https://rclone.org/crypt/#standard-options
-			#
-			PWD_CRYTED="$(echo "$PWD" | rclone obscure -)"
-			rclone mount \
-				--log-level=ERROR \
-				--vfs-cache-mode=off \
-				":crypt,remote=${SRC},filename_encryption=standard,directory_name_encryption,password='$PWD_CRYTED',password2='$PWD_CRYTED'":/ \
-				"${DST}" \
-				2>&1 | jh-tag-stdin "rclone"
-		) &
+		# # -r: allow backslash
+		# # -s: silent
+		# echo -n "Enter password for rclone mount: "
+		# read -r -s PWD
+		# echo ""
+		# echo "Mounting in background..."
+		# (
+		# 	#
+		# 	# Thanks to https://forum.rclone.org/t/rclone-one-liner-to-connect-a-webdav-mount-without-rclone-conf/20444
+		# 	#
+		# 	#  @see connection-strings: https://rclone.org/docs/#connection-strings
+		# 	#  @see log-level: https://rclone.org/docs/#log-level-level
+		# 	#  @see vfs caching: https://rclone.org/commands/rclone_mount/#vfs-file-caching
+		# 	#     !! caching is done outside of folder, so uncrypted data is available to all
+		# 	#  @see other options: https://rclone.org/crypt/#standard-options
+		# 	#
+		# 	PWD_CRYTED="$(echo "$PWD" | rclone obscure -)"
+		# 	rclone mount \
+		# 		--log-level=ERROR \
+		# 		--vfs-cache-mode=off \
+		# 		":crypt,remote=${SRC},filename_encryption=standard,directory_name_encryption,password='$PWD_CRYTED',password2='$PWD_CRYTED'":/ \
+		# 		"${DST}" \
+		# 		2>&1 | jh-tag-stdin "rclone"
+		# ) &
 
 		#
 		# Continue
