@@ -32,32 +32,7 @@ check_mounted_folder() {
 	fi
 }
 
-# mount_gocryptfs() {
-# 	SRC="${1}"
-# 	DST="${2}"
-
-# 	header_begin "Mounting ${SRC} to ${DST}"
-# 	MOUNTED+=( "${DST}")
-
-# 	[ -d "${SRC}" ] || jh_fatal "Encrypted source dir (${SRC}) not found"
-# 	mkdir -p "${DST}" || true
-
-# 	if ! check_mounted_folder "${DST}" 2>/dev/null; then
-# 		echo "Encore un secret:"
-# 		jh_info "Mounting folder"
-
-# 		gocryptfs "${SRC}" "${DST}"
-
-# 		sleep 1s
-
-# 		check_mounted_folder "${DST}" || jh_fatal "Mounting failure"
-# 	fi
-
-# 	# jh-cloud-prefetch "${SRC}"
-# 	header_end
-# }
-
-mount_rclone() {
+mount_folder() {
 	SRC="${1}"
 	DST="${2}"
 
@@ -68,6 +43,23 @@ mount_rclone() {
 	mkdir -p "${DST}" || true
 
 	if ! check_mounted_folder "${DST}" 2>/dev/null; then
+		echo "Encore un secret..."
+
+		#################################################
+		#
+		# GoCryptFS
+		#
+		#
+		jh_info "Using gocryptfs"
+		gocryptfs "${SRC}.go" "${DST}.go"
+
+		#################################################
+		#
+		# RClone CryptFS
+		#
+		#
+		jh_info "Using rclone cryptfs"
+
 		# -r: allow backslash
 		# -s: silent
 		echo -n "Enter password for rclone mount: "
@@ -93,8 +85,12 @@ mount_rclone() {
 				2>&1 | jh-tag-stdin "rclone"
 		) &
 
+		#
+		# Continue
+		#
+		#################################################
+		ok "Continue"
 		sleep 1s
-
 		check_mounted_folder "${DST}" || jh_fatal "Mounting failure"
 	fi
 
@@ -103,7 +99,7 @@ mount_rclone() {
 }
 
 start() {
-	mount_rclone "${cryptedSource}" "${cryptedMounted}"
+	mount_folder "${cryptedSource}" "${cryptedMounted}"
 
 	do_move_to_be_encrypted_files
 
