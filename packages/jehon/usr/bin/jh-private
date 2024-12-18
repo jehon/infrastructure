@@ -56,7 +56,7 @@ mount_folder() {
 		# GoCryptFS
 		#
 		jh_info "Using gocryptfs"
-		gocryptfs "${SRC}.go" "${DST}.go"
+		gocryptfs -allow_other "${SRC}" "${DST}"
 
 		# #
 		# # RClone CryptFS
@@ -95,6 +95,9 @@ mount_folder() {
 		ok "Continue"
 		sleep 1s
 		check_mounted_folder "${DST}" || jh_fatal "Mounting failure"
+
+		jh_info "Clean up some files"
+		rm -f "${DST}"/apps/firefox-profile/.parentlock
 	fi
 
 	# jh-cloud-prefetch "${SRC}"
@@ -217,6 +220,10 @@ function treatAction() {
 		start
 		do_move_to_be_encrypted_files
 		;;
+	"f")
+		# https://wiki.mozilla.org/Firefox/CommandLineOptions#-profile_%22profile_path%22
+		firefox -no-remote -profile "${cryptedMounted}"/apps/firefox-profile/ &
+		;;
 	"p")
 		jh_background_process prefetch
 		;;
@@ -245,7 +252,8 @@ start
 while true; do
 	A=$(
 		TERM=ansi whiptail --menu "Actions" 20 $COLUMNS 10 \
-			"n" "nautilus" \
+			"n" "Nautilus" \
+			"f" "Firefox" \
 			"p" "prefetch" \
 			"i" "import" \
 			"s" "stop" \
