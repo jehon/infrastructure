@@ -1,6 +1,6 @@
 
 # https://pyyaml.org/wiki/PyYAMLDocumentation
-pyaml==24.9.0
+pyaml==24.12.1
 types-PyYAML
 
 # https://pypi.org/project/openpyxl/
