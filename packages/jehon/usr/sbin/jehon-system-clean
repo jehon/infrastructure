@@ -5,6 +5,12 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../bin/
 . jh-lib
 
+if [ -n "$1" ]; then
+    bn="$(basename "$0")"
+    # shellcheck disable=SC2029
+    ssh "root@$1" "/usr/sbin/$bn"
+fi
+
 DELAY="${1:-"24h"}"
 
 if docker info >&/dev/null; then
@@ -57,3 +63,6 @@ if [ -x /usr/bin/apt ]; then
 else
     echo "APT not found, skipping it."
 fi
+
+jh_info "Final space left"
+df -h /
