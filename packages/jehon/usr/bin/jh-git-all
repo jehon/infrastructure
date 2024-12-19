@@ -6,11 +6,22 @@ set -o pipefail
 # shellcheck source-path=SCRIPTDIR
 . jh-lib
 
+res=0
+cmd="$1"
 for F in *; do
     if [ -r "$F/.git" ]; then
         (
             cd "$F"
-            jh-git-status | grep "✗" || true
-        ) | jh-tag-stdin "$F"
+            if [ -n "$cmd" ]; then
+                echo "$cmd..."
+                git "$cmd"
+            else
+                echo "Analyzing..."
+                jh-git-status | grep "✗" || true
+            fi
+            ok
+        ) |& jh-tag-stdin "$F" || res=1
     fi
 done
+
+exit $res
