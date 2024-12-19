@@ -5,13 +5,19 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../bin/
 . jh-lib
 
+if [ -r /etc/jehon/site.conf ]; then
+    # shellcheck source=/dev/null
+    . /etc/jehon/site.conf
+fi
+
 if [ -n "$1" ]; then
     bn="$(basename "$0")"
     # shellcheck disable=SC2029
     ssh "root@$1" "/usr/sbin/$bn"
 fi
 
-DELAY="${1:-"24h"}"
+DELAY="${jehonSystemCleanDelay:-"24h"}"
+jh_value "DELAY" "$DELAY"
 
 if docker info >&/dev/null; then
     header_begin "Docker"
