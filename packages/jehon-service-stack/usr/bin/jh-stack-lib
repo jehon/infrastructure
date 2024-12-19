@@ -43,4 +43,6 @@ if ! jh_exclusive; then
     echo "Already running"
     exit 0
 fi
+
 export FORCE
+export stackRoot
