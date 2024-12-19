@@ -4,6 +4,14 @@
     pkg:
       - jehon-service-headless
 
+- name: Install site.config
+  ansible.builtin.template:
+    src: "site.conf"
+    dest: "/etc/jehon/site.conf"
+    owner: root
+    group: root
+    mode: "0644"
+
 - name: Install secrets files
   with_items:
     - cryptomedic.sh
