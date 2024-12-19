@@ -27,7 +27,7 @@
         dest: /home/{{ jehon_dev_user }}/restricted/
         owner: "{{ jehon_dev_user }}"
         group: "{{ jehon_dev_user }}"
-        mode: "0750"
+        mode: "0600"
 
     - name: "{{ j_task }} | Set git user for dev user"
       when: jehon_remote_github_email is defined and jehon_remote_github_email

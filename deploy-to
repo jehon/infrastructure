@@ -29,7 +29,7 @@ requireSudo() {
 }
 
 if [ ! -r ~/restricted/ansible-encryption-key ]; then
-    mkdir -p ~/restricted
+    mkdir --mode=0700 ~/restricted
     touch ~/restricted/ansible-encryption-key
     jh_fatal "Key is not defined at ~/restricted/ansible-encryption-key"
 fi
