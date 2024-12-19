@@ -5,6 +5,11 @@ set -o errexit
 # shellcheck source=/dev/null
 . jh-lib
 
+if ! jh-aws-authenticated; then
+    # shellcheck source=/dev/null
+    . jh-aws-mfa
+fi
+
 whoami="$(aws sts get-caller-identity)"
 
 # {
