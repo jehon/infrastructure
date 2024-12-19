@@ -1,4 +1,5 @@
 - name: "{{ j_task }} | Handle configuration"
+  notify: jh_01_basis.alloy_reload
   block:
     - name: "{{ j_task }} | Configure"
       when: jehon_grafana_token
@@ -25,5 +26,3 @@
       ansible.builtin.file:
         state: absent
         dest: "{{ item }}"
-
-  notify: jh_01_basis.alloy_reload
