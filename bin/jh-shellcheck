@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+_SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+git ls-files |
+    grep -v -E "🔒" |
+    xargs -r file -if - |
+    (grep "x-shellscript" || true) |
+    cut -d : -f 1 |
+    xargs -r -- shellcheck -x
