@@ -29,7 +29,8 @@ requireSudo() {
 }
 
 if [ ! -r ~/restricted/ansible-encryption-key ]; then
-    mkdir --mode=0700 ~/restricted
+    # shellcheck disable=SC2174
+    mkdir --mode=0700 -p ~/restricted
     touch ~/restricted/ansible-encryption-key
     jh_fatal "Key is not defined at ~/restricted/ansible-encryption-key"
 fi
