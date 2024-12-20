@@ -12,4 +12,4 @@ fi
 
 # Thanks to https://stackoverflow.com/a/1628334/1954789
 git fetch origin
-git reset --hard origin/main
+git reset --hard
