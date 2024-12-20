@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+
+# shellcheck source-path=SCRIPTDIR
+. jh-lib
+
+# From: https://gitlab.com/gitlab-org/gitlab-runner/blob/main/packaging/root/usr/share/gitlab-runner/clear-docker-cache
+# Referred here: https://docs.gitlab.com/runner/executors/docker.html#clear-the-docker-cache
+
+filterFlag='label=com.gitlab.gitlab-runner.managed=true'
+
+header_begin "Removing containers"
+docker ps -a -q \
+    --filter=status=exited \
+    --filter=status=dead \
+    --filter="$filterFlag" |
+    xargs -r docker rm -v
+header_end
+
+header_begin "Removing volumes"
+docker system prune --volumes -af \
+    --filter "$filterFlag"
+header_end
