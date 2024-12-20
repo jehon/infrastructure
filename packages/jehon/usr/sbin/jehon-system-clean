@@ -23,6 +23,10 @@ if docker info >&/dev/null; then
     header_begin "Docker"
     # https://docs.docker.com/config/pruning/
 
+    header_begin "Prune Gitalb runner"
+    /usr/bin/jh-gitlab-clean-runner-cache
+    header_end
+
     header_begin "Container prune"
     docker container prune \
         --force
