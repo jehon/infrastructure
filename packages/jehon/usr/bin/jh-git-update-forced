@@ -11,5 +11,5 @@ if [ -n "$1" ]; then
 fi
 
 # Thanks to https://stackoverflow.com/a/1628334/1954789
-git fetch origin
+git fetch --all
 git reset --hard
