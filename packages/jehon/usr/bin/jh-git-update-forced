@@ -12,4 +12,6 @@ fi
 
 # Thanks to https://stackoverflow.com/a/1628334/1954789
 git fetch --all
+git clean -f
 git reset --hard
+git pull
