@@ -46,17 +46,17 @@ jh_value "AWS EB s3VersionBucket" "$awsEBs3VersionBucket"
 jh_value "TS" "$ts"
 jh_value "Version name" "$versionName"
 
-header "Building it"
-mvn package -Dmaven.test.skip |& jh-tag-stdin "build"
-if [ ! -r "$file" ]; then
-    jh_fatal "Not found: $file"
-fi
-
 header "Testing if we have a valid mfa"
 jh-aws-authenticated
 
 header "Who am i"
 aws sts get-caller-identity
+
+header "Building it"
+mvn package -Dmaven.test.skip |& jh-tag-stdin "build"
+if [ ! -r "$file" ]; then
+    jh_fatal "Not found: $file"
+fi
 
 header "Upload"
 aws s3 cp "$file" "s3://$awsEBs3VersionBucket/$versionName"
