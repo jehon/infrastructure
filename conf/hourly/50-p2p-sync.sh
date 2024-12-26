@@ -3,7 +3,7 @@
 set -o errexit
 
 # shellcheck source-path=SCRIPTDIR/
-. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/../conf-lib.sh"
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/../../bin/conf-lib.sh"
 
 ##################################
 #
