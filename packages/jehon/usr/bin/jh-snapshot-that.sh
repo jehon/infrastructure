@@ -55,14 +55,13 @@ removeOlderThanDays() {
     header_end
 ) | jh-tag-stdin "daily"
 
-last_daily="$(find "$snapshotsRoot"/daily -mindepth 1 -maxdepth 1 | sort | tail -n 1)"
-last_daily="$(basename "$last_daily")"
-jh_value "Last Daily" "$last_daily"
-
 if ! findExistNewerThanDays "monthly" 30; then
     (
         header_begin "Create monthly backup"
-        rsync -a "$snapshotsRoot/daily/$last_daily" "$snapshotsRoot/monthly/"
+        last_daily="$("$(find "$snapshotsRoot"/daily -mindepth 1 -maxdepth 1 | sort | tail -n 1)")"
+        jh_value "Last Daily" "$last_daily"
+
+        mv "$snapshotsRoot/daily/$last_daily" "$snapshotsRoot/monthly/"
         header_end
 
     ) | jh-tag-stdin "monthly"
@@ -71,7 +70,10 @@ fi
 if ! findExistNewerThanDays "yearly" 365; then
     (
         header_begin "Create yearly backup"
-        rsync -a "$snapshotsRoot/daily/$last_daily" "$snapshotsRoot/yearly/"
+        last_daily="$("$(find "$snapshotsRoot"/daily -mindepth 1 -maxdepth 1 | sort | tail -n 1)")"
+        jh_value "Last Daily" "$last_daily"
+
+        mv "$snapshotsRoot/daily/$last_daily" "$snapshotsRoot/yearly/"
         header_end
     ) | jh-tag-stdin "yearly"
 fi
