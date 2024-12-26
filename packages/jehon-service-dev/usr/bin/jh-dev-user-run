@@ -11,9 +11,11 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin/
 . jh-lib
 
-context="$1"
-configRoot="${HOME}/koalty/infrastructure/conf"
-config="${configRoot}/${context}"
+CONTEXT="$1"
+config="${HOME}/koalty/infrastructure/cron"
+
+# For info in scripts
+export CONTEXT
 
 # shell check disable=SC
 LOCATION="${LOCATION:''}"
@@ -21,7 +23,6 @@ if [ -z "${LOCATION}" ]; then
     LOCATION="$(jh-location-detect)"
 fi
 
-[ -d "${configRoot}" ] || jh_fatal "Config folder not found: ${configRoot}"
 [ -d "${config}" ] || jh_fatal "Context config not found: ${config}"
 
 # Logs are in the journalctl
