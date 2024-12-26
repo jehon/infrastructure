@@ -48,32 +48,30 @@ if [ -r $ZSH/oh-my-zsh.sh ]; then
     # Load profiles and set various default values
     source $ZSH/oh-my-zsh.sh
 
-    if [ -r $HOME/koalty ]; then
-        #
-        # We could reevaluate at each run by \$( xxx )
-        #   See https://stackoverflow.com/a/69652752/1954789
-        #
+    #
+    # We could reevaluate at each run by \$( xxx )
+    #   See https://stackoverflow.com/a/69652752/1954789
+    #
 
-        #
-        # Customize right prompt status (override)
-        #
-        JH_PROMPT_STATUS=""
-        jh_custom_status() {
-            if [ -n "$JH_PROMPT_STATUS" ]; then
-                echo "$JH_PROMPT_STATUS"
-            fi
-            if [ -n "$JAVA_HOME" ] && [ -r $JAVA_HOME/release ]; then
-                (
-                    . $JAVA_HOME/release
-                    echo " jdk:$JAVA_VERSION"
-                )
-            fi
-            if jh-aws-authenticated; then
-                echo " aws-mfa"
-            fi
-        }
-        RPROMPT='$(jh_custom_status)'
-    fi
+    #
+    # Customize right prompt status (override)
+    #
+    JH_PROMPT_STATUS=""
+    jh_custom_status() {
+        if [ -n "$JH_PROMPT_STATUS" ]; then
+            echo "$JH_PROMPT_STATUS"
+        fi
+        if [ -n "$JAVA_HOME" ] && [ -r $JAVA_HOME/release ]; then
+            (
+                . $JAVA_HOME/release
+                echo " jdk:$JAVA_VERSION"
+            )
+        fi
+        if jh-aws-authenticated; then
+            echo " aws-mfa"
+        fi
+    }
+    RPROMPT="$RPROMPT \$(jh_custom_status)"
 else
     echo "Could not load oh-my-zsh in $ZSH/oh-my-zsh.sh. Continuing..." >&2
 fi
