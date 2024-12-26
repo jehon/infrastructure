@@ -8,27 +8,15 @@ set -o errexit
 export AWS_PAGER=""
 
 if [ -n "$1" ]; then
-    awsEBAppName="$1"
-fi
-
-if [ -n "$2" ]; then
     awsEBEnvName="$1"
 fi
 
-if [ -n "$3" ]; then
-    awsEBs3VersionBucket="$1"
-fi
-
 if [ -z "$awsEBAppName" ]; then
-    jh_fatal "Need awsEBAppName or [1]"
-fi
-
-if [ -z "$awsEBEnvName" ]; then
-    jh_fatal "Need awsEBEnvName or [2]"
+    jh_fatal "Need awsEBAppName"
 fi
 
 if [ -z "$awsEBs3VersionBucket" ]; then
-    jh_fatal "Need awsEBs3VersionBucket or [3]"
+    jh_fatal "Need awsEBs3VersionBucket"
 fi
 
 artifact="$(mvn help:evaluate -pl . -q -DforceStdout -Dexpression='project.build.finalName')"
@@ -64,11 +52,13 @@ aws s3 cp "$file" "s3://$awsEBs3VersionBucket/$versionName"
 header "Create the version $versionName"
 aws elasticbeanstalk create-application-version --application-name "$awsEBAppName" --version-label "$versionName" --source-bundle "S3Bucket=$awsEBs3VersionBucket,S3Key=$versionName"
 
-header "Deploy it to $awsEBEnvName"
-aws elasticbeanstalk update-environment \
-    --application-name "$awsEBAppName" \
-    --environment-name "$awsEBEnvName" \
-    --version-label "$versionName"
+if [ -n "$awsEBEnvName" ]; then
+    header "Deploy it to $awsEBEnvName"
+    aws elasticbeanstalk update-environment \
+        --application-name "$awsEBAppName" \
+        --environment-name "$awsEBEnvName" \
+        --version-label "$versionName"
+fi
 
 date
 
