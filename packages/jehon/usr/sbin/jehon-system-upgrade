@@ -62,6 +62,13 @@ if [ -x /usr/bin/rclone ]; then
 	header_end
 fi
 
+pluginId=$(docker plugin list --no-trunc | awk '/rclone/{print$1}')
+if [ -n "$pluginId" ] && [ -x /usr/bin/runc ]; then
+	header_begin "Updating docker plugin rclone inline"
+	runc --root /run/docker/runtime-runc/plugins.moby exec --tty "$pluginId" sh -c "rclone selfupdate"
+	header_end
+fi
+
 if [ -r /srv/stack/.git ] && [ -x /usr/sbin/jehon-stack-cron ]; then
 	header_begin "Update stack"
 	/usr/sbin/jehon-stack-cron
