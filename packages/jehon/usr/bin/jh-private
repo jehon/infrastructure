@@ -264,5 +264,5 @@ while true; do
 	if ! treatAction "$A"; then
 		echo "Unknown action: $A"
 	fi
-	read -t 5 -p "Ok?" -r _pause
+	read -t 5 -p "Ok (5 seconds)?" -r _pause
 done
