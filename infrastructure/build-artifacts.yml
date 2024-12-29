@@ -9,7 +9,9 @@
 
   tasks:
     - name: Generate dev-config.yml for github homepage
+      loop:
+        - dev-config.json
       ansible.builtin.template:
-        src: "templates/setup-dev-config.json"
-        dest: "../tmp/publish/dev-config.json"
+        src: "templates/{{ item }}"
+        dest: "../tmp/publish/{{ item }}"
         mode: "0644"
