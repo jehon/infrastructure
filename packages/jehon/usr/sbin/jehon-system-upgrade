@@ -57,7 +57,7 @@ fi
 
 if [ -x /usr/bin/rclone ]; then
 	header_begin "Rclone"
-	/usr/sbin/jh-install-rclone-latest
+	/usr/sbin/jehon-install-rclone-latest
 	header_end
 fi
 
