@@ -2,7 +2,8 @@
 
 set -o errexit
 
-set -x
+# shellcheck source-path=SCRIPTDIR/../bin/
+. jh-lib
 
 #
 # Update will be done by jehon-update-rclone.service (+ timer)
@@ -11,7 +12,7 @@ set -x
 
 # FIXME(rclone>1.64.2): remove this when ubuntu version is > 1.64.2
 
-echo "* Native rclone..."
+header_begin "Native rclone..."
 if type rclone >&/dev/null; then
     VERSION="$(rclone version | head -n 1 | cut -d " " -f 2)"
     # Lowercase comparison
@@ -25,14 +26,14 @@ if type rclone >&/dev/null; then
     else
         echo "** Self updating (${VERSION}) **"
         if ! rclone selfupdate --check | grep -v "beta" | grep "upgrade" >/dev/null; then
-            echo "Already at the latest"
+            ok "Already at the latest"
         else
             #
             # We have a self updating version, let's do that
             #
 
             # No change if "rclone is up to date"
-            echo "[modified] Self updating"
+            jh_info "[modified] Self updating"
             rclone selfupdate
         fi
     fi
@@ -42,28 +43,32 @@ if ! type rclone >&/dev/null; then
     # This should always change since it will install the latest version (>1.60)
     # and selfupdate is already present in 1.55
     #
-    echo "[modified] Installing"
+    jh_info "[modified] Installing"
     curl https://rclone.org/install.sh | bash
 fi
-echo "* Native rclone done"
+header_end
 
-echo "* Docker plugin..."
-if type docker >&/dev/null && type runc >&/dev/null; then
-    pluginId=$(docker plugin list --no-trunc | awk '/rclone/{print$1}')
-    if [ -n "$pluginId" ]; then
-        runInDocker() {
-            runc --root /run/docker/runtime-runc/plugins.moby exec --tty "$pluginId" sh -c "rclone $1"
-        }
-        if ! runInDocker selfupdate --check | grep -v "beta" | grep "upgrade" >/dev/null; then
-            echo "Already At the latest"
+header_begin "Docker plugin..."
+if jh-is-full-machine; then
+    if type docker >&/dev/null && type runc >&/dev/null; then
+        pluginId=$(docker plugin list --no-trunc | awk '/rclone/{print$1}')
+        if [ -n "$pluginId" ]; then
+            runInDocker() {
+                runc --root /run/docker/runtime-runc/plugins.moby exec --tty "$pluginId" sh -c "rclone $1"
+            }
+            if ! runInDocker selfupdate --check | grep -v "beta" | grep "upgrade" >/dev/null; then
+                ok "Already At the latest"
+            else
+                jh_info "[modified] Self updating"
+                runc --root /run/docker/runtime-runc/plugins.moby exec --tty "$pluginId" sh -c "rclone selfupdate"
+            fi
         else
-            echo "[modified] Self updating"
-            runc --root /run/docker/runtime-runc/plugins.moby exec --tty "$pluginId" sh -c "rclone selfupdate"
+            jh_info "* Plugin not installed"
         fi
     else
-        echo "* Plugin not installed"
+        jh_info "* Docker and/or rcunc not installed"
     fi
 else
-    echo "* Docker and/or rcunc not installed"
+    jh_info "** Not full machine"
 fi
-echo "* Docker plugin done"
+header_end
