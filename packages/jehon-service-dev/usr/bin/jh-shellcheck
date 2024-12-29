@@ -4,8 +4,10 @@ set -o errexit
 
 _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
+exclude="${1:-"🔒"}"
+
 git ls-files |
-    grep -v -E "🔒" |
+    grep -v -E "$exclude" |
     xargs -r file -if - |
     (grep "x-shellscript" || true) |
     cut -d : -f 1 |
