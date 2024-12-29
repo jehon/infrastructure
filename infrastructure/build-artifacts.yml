@@ -11,6 +11,7 @@
     - name: Generate dev-config.yml for github homepage
       loop:
         - dev-config.json
+        - user-data
       ansible.builtin.template:
         src: "templates/{{ item }}"
         dest: "../tmp/publish/{{ item }}"

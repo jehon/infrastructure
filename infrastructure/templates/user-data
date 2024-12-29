@@ -1,0 +1,23 @@
+#cloud-config
+hostname: kiosk
+manage_etc_hosts: true
+packages:
+  - avahi-daemon
+  - curl
+apt:
+  conf: |
+    Acquire {
+      Check-Date "false";
+    };
+
+users:
+  - name: "{{ jehon_dev_user }}"
+    groups: users,adm,dialout,audio,netdev,video,plugdev,cdrom,games,input,gpio,spi,i2c,render,sudo
+    shell: /bin/bash
+    lock_passwd: false
+    sudo: ALL=(ALL) NOPASSWD:ALL
+
+timezone: Europe/Brussels
+runcmd:
+  - localectl set-x11-keymap "us" pc105
+  - setupcon -k --force || true
