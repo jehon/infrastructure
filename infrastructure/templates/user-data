@@ -21,3 +21,6 @@ timezone: Europe/Brussels
 runcmd:
   - localectl set-x11-keymap "us" pc105
   - setupcon -k --force || true
+  - echo "{{ jh_deb_url }}" > /initial.txt
+  - curl -fsSL "{{ jh_deb_url }}" -O /initial.deb
+  - apt install --yes /initial.deb
