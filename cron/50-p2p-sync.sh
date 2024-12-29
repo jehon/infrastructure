@@ -33,7 +33,7 @@ user_report_failure
 # shellcheck source=/dev/null
 . ~/.config/user-dirs.dirs
 
-header_begin "Uploading desktop files to $vps_watch"
+header_begin "Uploading desktop files to $target"
 if find "$HOME/Téléchargements/" \( -name "*.torrent" -o -name "*.torrent.magnet" \); then
     # Not recursive, we take only first level one
     rsync "${jhRsyncOptions[@]}" \

@@ -4,6 +4,7 @@ set -o errexit
 set -o pipefail
 shopt -s nullglob
 
+# shellcheck source-path=SCRIPTDIR/packages/jehon/usr/bin/
 . jh-lib
 
 host=dev

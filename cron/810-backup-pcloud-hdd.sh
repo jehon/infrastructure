@@ -21,10 +21,10 @@ minFreeSpaceGb=10
 # Requirements
 #
 
-# shellcheck source-path=SCRIPTDIR/../../packages/jehon/usr/bin/
+# shellcheck source-path=SCRIPTDIR/../packages/jehon/usr/bin/
 . jh-run-only-daily
 
-# shellcheck source-path=SCRIPTDIR/../../
+# shellcheck source-path=SCRIPTDIR/../
 "${prjRoot}"/bin/jh-location-require "home"
 
 # shellcheck source=/dev/null

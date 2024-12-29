@@ -7,8 +7,8 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 exclude="${1:-"🔒"}"
 
 git ls-files |
-    grep -v -E "$exclude" |
-    xargs -r file -if - |
+    grep --invert-match --extended-regex "$exclude" |
+    xargs --no-run-if-empty file --mime-type -f - |
     (grep "x-shellscript" || true) |
-    cut -d : -f 1 |
-    xargs -r -- shellcheck -x
+    cut --delimiter : --field 1 |
+    xargs --no-run-if-empty -- shellcheck --external-sources
