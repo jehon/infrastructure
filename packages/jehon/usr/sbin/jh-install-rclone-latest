@@ -2,8 +2,7 @@
 
 set -o errexit
 
-# shellcheck source-path=SCRIPTDIR/../bin/
-. jh-lib
+set -x
 
 #
 # Update will be done by jehon-update-rclone.service (+ timer)
@@ -12,7 +11,7 @@ set -o errexit
 
 # FIXME(rclone>1.64.2): remove this when ubuntu version is > 1.64.2
 
-header_begin "* Native rclone..."
+echo "* Native rclone..."
 if type rclone >&/dev/null; then
     VERSION="$(rclone version | head -n 1 | cut -d " " -f 2)"
     # Lowercase comparison
@@ -46,10 +45,9 @@ if ! type rclone >&/dev/null; then
     echo "[modified] Installing"
     curl https://rclone.org/install.sh | bash
 fi
+echo "* Native rclone done"
 
-header_end
-
-header_begin "Docker plugin"
+echo "* Docker plugin..."
 if type docker >&/dev/null && type runc >&/dev/null; then
     pluginId=$(docker plugin list --no-trunc | awk '/rclone/{print$1}')
     if [ -n "$pluginId" ]; then
@@ -68,4 +66,4 @@ if type docker >&/dev/null && type runc >&/dev/null; then
 else
     echo "* Docker and/or rcunc not installed"
 fi
-header_end
+echo "* Docker plugin done"

@@ -80,7 +80,9 @@ configure)
 	# Install a new revision of rclone
 	# Uninstallation will be done when removing rclone package
 	# FIXME(rclone>1.64.2): remove this when ubuntu version is > 1.64.2
+	echo "* Update rclone..."
 	/usr/sbin/jh-install-rclone-latest
+	echo "* Update rclone done"
 
 	if [ -r /etc/locale.gen ]; then
 		jh_enable_locale() {
