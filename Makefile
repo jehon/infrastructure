@@ -157,7 +157,6 @@ include Makefile.packages
 # Latest file must be in top folder
 # for ROOT to be ok
 include Makefile.infrastructure
-include Makefile.devstack
 
 #
 #
@@ -212,4 +211,3 @@ global-test:
 clean-force: clean
 # Thanks to https://stackoverflow.com/a/46273201/1954789
 	git clean -dfX
-
