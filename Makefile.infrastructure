@@ -125,4 +125,9 @@ $(INFRASTRUCTURE_TMP)/50-hosts.yml: infrastructure/inventory/50-hosts.yml \
 	$(call touch,$@)
 
 .PHONY: infrastructure-release
-infrastructure-release: $(PUBLISH)/dev-config.json
+infrastructure-release: $(INFRASTRUCTURE_TMP)/.artifacts
+
+$(INFRASTRUCTURE_TMP)/.artifacts: $(INFRASTRUCTURE_TMP)/test.built
+	$(call mkdir,$@)
+	./deploy-to artifacts
+	$(call touch,$@)
