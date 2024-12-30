@@ -1,13 +1,8 @@
----
 - name: Dump variables
   hosts: all
-  #  gather_facts: false
+  gather_facts: false
 
   tasks:
-    - name: Debug jehon
-      ansible.builtin.debug:
-        var: jehon
-
     - name: Display all variables/facts known for a host
       ansible.builtin.debug:
         var: hostvars[inventory_hostname]
