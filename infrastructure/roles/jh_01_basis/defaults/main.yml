@@ -1,7 +1,5 @@
 jehon_cloud_type: ""
 jehon_dev_user: ""
 jehon_remote_gitlab_token: ""
-
-jh_deb_url: "https://jehon.github.io/infrastructure/packages/jehon.deb"
-jh_stack_git_slug: ""
 jehon_grafana_token: ""
+jh_stack_git_slug: ""

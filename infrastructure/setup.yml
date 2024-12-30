@@ -6,7 +6,7 @@
 #
 
 - name: Setup systems
-  hosts: all
+  hosts: computers
   tasks:
     - name: Setup jh_01_basis
       ansible.builtin.include_role:
@@ -15,3 +15,15 @@
     - name: Setup host
       ansible.builtin.include_role:
         name: "host_{{ inventory_hostname }}"
+
+- name: Generate artifacts
+  hosts: artifacts
+  tasks:
+    - name: Generate dev-config.yml for github homepage
+      loop:
+        - dev-config.json
+        - user-data
+      ansible.builtin.template:
+        src: "templates/{{ item }}"
+        dest: "../tmp/publish/{{ item }}"
+        mode: "0644"

@@ -3,15 +3,15 @@
   block:
     - name: "{{ j_task }} | Install jehon.deb"
       block:
-        - name: "{{ j_task }} | Dump jh_deb_url"
+        - name: "{{ j_task }} | Dump jehon_deb_url"
           ansible.builtin.debug:
-            var: jh_deb_url
+            var: jehon_deb_url
 
         # We need this one to be installed first, because next line will depend on it
         - name: "{{ j_task }} | Install jehon.deb"
           when: "'jehon' not in ansible_facts.packages"
           ansible.builtin.apt:
-            deb: "{{ jh_deb_url }}"
+            deb: "{{ jehon_deb_url }}"
             # This will be done by the jh_01_basis.indexes at the correct time...
             update_cache: false
           notify: jh_01_basis.indexes

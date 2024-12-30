@@ -1,6 +1,6 @@
 ---
 - name: Dump infos
-  hosts: all
+  hosts: computers
   gather_facts: false
   tasks:
     - name: Show inventory_hostname

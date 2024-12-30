@@ -2,7 +2,7 @@
 argument_specs:
   main:
     options:
-      jh_deb_url:
+      jehon_deb_url:
         type: string
       jehon_remote_synology_username:
         type: string

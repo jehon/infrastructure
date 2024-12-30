@@ -1,6 +1,6 @@
 ---
 - name: Setup systems
-  hosts: grp_jehon
+  hosts: computers
   tasks:
     - name: Do a full upgrade and reboot
       ansible.builtin.command:
