@@ -130,5 +130,7 @@ infrastructure-release: $(INFRASTRUCTURE_TMP)/.artifacts
 
 $(INFRASTRUCTURE_TMP)/.artifacts: $(INFRASTRUCTURE_TMP)/test.built
 	$(call mkdir,$@)
-	./deploy-to artifacts
+	cd infrastructure/ && ansible-playbook \
+		--vault-password-file $(ROOT)/$(ENCRYPTION_MOCK) \
+		setup.yml --limit artifacts
 	$(call touch,$@)
