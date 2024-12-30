@@ -112,6 +112,7 @@ $(INFRASTRUCTURE_TMP)/test.built: \
 		$(PYTHON_DEPENDENCY_COMMON_MARK) \
 		$(PACKAGES_REPO_MARK) \
 		$(INFRASTRUCTURE_TMP)/50-hosts.yml \
+		$(INFRASTRUCTURE_TMP)/encryption-key \
 		$(HOME)/.ssh/$(SSH_KEY_FILE).pub \
 		setup.sh
 
