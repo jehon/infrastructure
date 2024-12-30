@@ -32,6 +32,7 @@ all:
   vars:
     ansible_python_interpreter: auto_silent # https://docs.ansible.com/ansible-core/2.13/reference_appendices/interpreter_discovery.html
     ansible_user: root
+    jehon_project_dir: "{{ playbook_dir | dirname }}"
     jehon_deb_url: "https://jehon.github.io/infrastructure/packages/jehon.deb"
     jehon_dev_display_name: !vault |
       $ANSIBLE_VAULT;1.1;AES256
