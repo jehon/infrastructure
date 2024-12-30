@@ -1,14 +1,13 @@
 - name: Create targets folders
   loop:
-    # TODO: Relative to {{ jehon_project_dir }}
+    # Relative to {{ jehon_project_dir }}
     - tmp
     - tmp/publish
     - tmp/artifacts
   ansible.builtin.file:
+    # In the CI, impossible to tell the user/group!
     state: directory
     dest: "{{ jehon_project_dir }}/{{ item }}"
-    owner: "{{ jehon_dev_user }}"
-    group: "{{ jehon_dev_user }}"
     mode: "0750"
 
 - name: Generate artifacts for github homepage
