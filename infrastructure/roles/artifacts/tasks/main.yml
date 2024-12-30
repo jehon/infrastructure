@@ -1,0 +1,15 @@
+- name: Generate artifacts for github homepage
+  loop:
+    - dev-config.json
+  ansible.builtin.template:
+    src: "templates/{{ item }}"
+    dest: "../tmp/publish/{{ item }}"
+    mode: "0644"
+
+- name: Generate artifacts locally
+  loop:
+    - user-data
+  ansible.builtin.template:
+    src: "templates/{{ item }}"
+    dest: "../tmp/{{ item }}"
+    mode: "0644"

@@ -19,11 +19,6 @@
 - name: Generate artifacts
   hosts: artifacts
   tasks:
-    - name: Generate dev-config.yml for github homepage
-      loop:
-        - dev-config.json
-        - user-data
-      ansible.builtin.template:
-        src: "templates/{{ item }}"
-        dest: "../tmp/publish/{{ item }}"
-        mode: "0644"
+    - name: Build artifacts
+      ansible.builtin.include_role:
+        name: artifacts
