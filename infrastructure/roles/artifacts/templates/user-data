@@ -22,5 +22,5 @@ runcmd:
   - localectl set-x11-keymap "us" pc105
   - setupcon -k --force || true
   - echo "{{ jehon_deb_url }}" > /initial.txt
-  - curl -fsSL "{{ jehon_deb_url }}" -O /initial.deb
+  - curl -fsSL --output /initial.deb "{{ jehon_deb_url }}"
   - apt install --yes /initial.deb
