@@ -13,7 +13,7 @@ set -o errexit
 # FIXME(rclone>1.64.2): remove this when ubuntu version is > 1.64.2
 
 header_begin "Native rclone..."
-if type rclone >&/dev/null; then
+if type rclone &>/dev/null; then
     VERSION="$(rclone version | head -n 1 | cut -d " " -f 2)"
     # Lowercase comparison
     if dpkg --compare-versions "${VERSION,,}" lt "v1.64.2" 2>/dev/null; then
@@ -38,7 +38,7 @@ if type rclone >&/dev/null; then
         fi
     fi
 fi
-if ! type rclone >&/dev/null; then
+if ! type rclone &>/dev/null; then
     #
     # This should always change since it will install the latest version (>1.60)
     # and selfupdate is already present in 1.55
@@ -50,7 +50,7 @@ header_end
 
 header_begin "Docker plugin..."
 if jh-is-full-machine; then
-    if type docker >&/dev/null && type runc >&/dev/null; then
+    if type docker &>/dev/null && type runc &>/dev/null; then
         pluginId=$(docker plugin list --no-trunc | awk '/rclone/{print$1}')
         if [ -n "$pluginId" ]; then
             runInDocker() {

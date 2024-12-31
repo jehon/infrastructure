@@ -44,4 +44,4 @@ cp -f "$TARGET" "$BACKUP"
 		cat "$INCLUDE"
 		echo "$TAG_END"
 	fi
-} > "$TARGET"
+} >"$TARGET"

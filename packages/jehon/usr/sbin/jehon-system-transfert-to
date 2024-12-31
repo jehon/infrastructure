@@ -9,7 +9,7 @@ DEST=${1:?Need the dest as [1]}
 
 for U in /home/*; do
     USER="$(basename "$U")"
-    if id "$USER" >&/dev/null; then
+    if id "$USER" &>/dev/null; then
         echo "* Cleaning for user $USER"
         sudo -u "$USER" jh-home-cleanup |& jh-tag-stdin "home-${U}"
     fi
@@ -17,7 +17,7 @@ done
 
 jh-home-cleanup |& jh-tag-stdin "home-root"
 
-if docker ps >&/dev/null; then
+if docker ps &>/dev/null; then
     (
         jh-docker-stop-all
         docker system prune -a

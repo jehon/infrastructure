@@ -12,31 +12,29 @@ treatFolder() {
 		if [ -d "$F" ]; then
 			treatFolder "$F"
 		else
-			EXT=$( jh-fs extension "$F" )
-			F_NEW=$( jh-fs to-extension "$F" ".mp3" )
+			EXT=$(jh-fs extension "$F")
+			F_NEW=$(jh-fs to-extension "$F" ".mp3")
 			case $EXT in
-				"converted" )
-					;;
-				"mp3" )
-					;;
-				"MP3" | "Mp3" )
-					echo "** Canonize lowercase: $F ====> $F_NEW"
-					mv "$F" "$F_NEW"
-					;;
-				"m4a" )
-					echo "** Converting (ffmpeg) $F ====> $F_NEW"
-					ffmpeg -hide_banner -loglevel error -nostats -i "$F" "$F_NEW"
-					mv "$F" "$F.converted"
-					;;
-				"wma" | "ogg"  | "wav" )
-					echo "** Converting (sox) $F ====> $F_NEW"
-					sox "$F" "$F_NEW"
-					mv "$F" "$F.converted"
-					;;
-				"pdf" | "jpg" | "txt" )
-					;;
-				* )
-					echo "!! Unknown file extension: $F" >&2
+			"converted") ;;
+			"mp3") ;;
+			"MP3" | "Mp3")
+				echo "** Canonize lowercase: $F ====> $F_NEW"
+				mv "$F" "$F_NEW"
+				;;
+			"m4a")
+				echo "** Converting (ffmpeg) $F ====> $F_NEW"
+				ffmpeg -hide_banner -loglevel error -nostats -i "$F" "$F_NEW"
+				mv "$F" "$F.converted"
+				;;
+			"wma" | "ogg" | "wav")
+				echo "** Converting (sox) $F ====> $F_NEW"
+				sox "$F" "$F_NEW"
+				mv "$F" "$F.converted"
+				;;
+			"pdf" | "jpg" | "txt") ;;
+			*)
+				echo "!! Unknown file extension: $F" >&2
+				;;
 			esac
 
 			# TODO: rename files to <artist> - <title> (<year>)

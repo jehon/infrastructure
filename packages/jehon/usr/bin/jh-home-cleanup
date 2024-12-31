@@ -8,7 +8,7 @@ set -o errexit
 cd ~
 
 findAndDeleteThis() {
-    if find . -mount -name "$1" >&/dev/null; then
+    if find . -mount -name "$1" &>/dev/null; then
         echo "Cleaning $1"
         find . -mount -name "$1" -exec "rm" "-fr" "{}" ";"
     fi

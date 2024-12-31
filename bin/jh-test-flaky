@@ -7,10 +7,10 @@ set -o pipefail
 . "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
 
 I=1
-while true ; do
+while true; do
     (
         echo "************** Run $I **************************"
-        "$@" >/dev/null 2>&1
+        "$@" >/dev/null 2 >&1
     ) | jh-tag-stdin "$I"
-    (( I++ ))
+    ((I++))
 done

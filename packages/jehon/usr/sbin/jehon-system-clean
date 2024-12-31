@@ -19,7 +19,7 @@ fi
 DELAY="${jehonSystemCleanDelay:-"24h"}"
 jh_value "DELAY" "$DELAY"
 
-if docker info >&/dev/null; then
+if docker info &>/dev/null; then
     header_begin "Docker"
     # https://docs.docker.com/config/pruning/
 

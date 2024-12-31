@@ -13,7 +13,7 @@ if [ -d /etc/jehon/profile.d ]; then
             # shellcheck source=/dev/null
             . "$ic"
         else
-            echo "Skipping $ic" >& 2
+            echo "Skipping $ic" >&2
         fi
     done
     unset ic

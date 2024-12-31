@@ -22,7 +22,7 @@ if [ "$1" == "-n" ]; then
 fi
 
 gsettings_set() {
-    if ! type gsettings >&/dev/null; then
+    if ! type gsettings &>/dev/null; then
         echo "!! gsettings not installed"
     fi
 
