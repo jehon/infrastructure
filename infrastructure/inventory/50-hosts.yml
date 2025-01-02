@@ -52,8 +52,8 @@ all:
     # jehon_ip_synology: 192.168.1.9
 
     # vps: vps-c87b5de6.vps.ovh.net
-    jehon_ip_vps: 135.125.106.114
-    # jehon_ip_vps: 2001:41d0:404:200::2a3f
+    # jehon_ip_vps: 135.125.106.114
+    jehon_ip_vps: 2001:41d0:404:200::2a3f
 
     # Other:
     # - wifi home: 192.168.1.8 (3c:7c:3f:8b:1b:d0)
