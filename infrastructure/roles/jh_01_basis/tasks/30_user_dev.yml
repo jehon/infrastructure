@@ -13,7 +13,7 @@
         generate_ssh_key: true
 
     - name: "{{ j_task }} | Set password"
-      when: jehon_dev_password is defined and jehon_dev_password
+      when: jehon_dev_password
       ansible.builtin.user:
         name: "{{ jehon_dev_user }}"
         # See https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module
