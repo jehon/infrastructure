@@ -2,22 +2,6 @@
 #
 # We can't put this in vars.yml, because vars.yml is loaded too late...
 #
-
-# == To calculate the IP address from hostname
-#
-# -------------------------
-# |       |  ABC  |  DEF  |
-# |   1   |   2   |   3   |
-# -------------------------
-# |  GHI  |  JKL  |  MNO  |
-# |   4   |   5   |   6   |
-# -------------------------
-# | PQRS  |  TUV  | WXYZ  |
-# |   7   |   8   |   9   |
-# -------------------------
-# |       |       |       |
-# |   *   |   0   |   #   |
-# -------------------------
 #
 # Belgacom router:
 # - IP: 2 -> 63
@@ -53,8 +37,8 @@ all:
     jehon_ip_gateway: 192.168.1.1
 
     # Mac:
-    # jehon_ip_kiosk: 2a02:a03f:a9cd:8a00:ba27:ebff:fe7c:8ef3
-    jehon_ip_kiosk: 192.168.1.154
+    # jehon_ip_kiosk:
+    jehon_ip_kiosk: 192.168.1.11
 
     # 3c:7c:3f:8b:1b:d0
     # 192.168.1.8

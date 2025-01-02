@@ -2,9 +2,9 @@
 - name: Install kiosk packages
   ansible.builtin.apt:
     pkg:
-      - jehon-service-music
-      - jehon-service-kiosk
       - jehon-service-headless
+      - jehon-service-kiosk
+      - jehon-service-music
 
 - name: "Set a hostname to {{ inventory_hostname }}"
   ansible.builtin.hostname:
