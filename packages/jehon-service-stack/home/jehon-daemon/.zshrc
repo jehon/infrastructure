@@ -2,4 +2,6 @@
 
 # shellcheck shell=bash # FIXME: shellcheck for zsh
 
-cd /srv/stack && docker compose ps
+cd /srv/stack || true
+
+docker compose ps
