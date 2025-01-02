@@ -11,6 +11,11 @@ configure)
 		echo "* Disabling user pi"
 		passwd -l pi || true
 	fi
+
+	# /boot/firmware/config.txt
+	# [all]
+	# usb_max_current_enable=1
+	crudini --verbose --set /boot/firmware/config.txt all usb_max_current_enable 1
 	;;
 
 triggered)

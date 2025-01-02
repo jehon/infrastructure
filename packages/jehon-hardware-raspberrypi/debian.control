@@ -6,5 +6,7 @@ Conflicts:
 	jehon-hardware
 Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
+# Modify config.txt
+	crudini,
 # Dandling coma
 	bash

@@ -25,6 +25,9 @@ all:
       31313065356561663432643231633661303837393861313566653232373563336130633130636265
       6664316137663031320a333836636434356564346666643465653361373639373831343338313866
       3232
+    # mkpasswd --method=SHA-512 --rounds=4096
+    # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/password_hash_filter.html
+    jehon_dev_initial_password: password
     jehon_dev_password:
     jehon_dev_user: jehon
     jehon_grafana_user_loki: 776025
