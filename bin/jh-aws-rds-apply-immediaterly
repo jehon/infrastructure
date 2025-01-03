@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source=/dev/null
+. jh-lib
+
+export AWS_PAGER=""
+
+rdsId="${1:?Need database name as [1]}"
+
+# https://charlesnagy.info/it/aws/rds-apply-pending-modifications
+
+aws rds modify-db-instance --db-instance-identifier "$rdsId" --apply-immediately
