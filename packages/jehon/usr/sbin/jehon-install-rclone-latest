@@ -15,8 +15,12 @@ set -o errexit
 header_begin "Native rclone..."
 if type rclone &>/dev/null; then
     echo "Calculating version..."
-    VERSION="$(rclone version | head -n 1 | cut -d " " -f 2)"
-    echo "Calculating version: $VERSION"
+    type rclone
+    type head
+    type cut
+    rclone version || true
+    VERSION="$(rclone version | head -n 1 | cut -d " " -f 2 || true)"
+    echo "Found version: $VERSION"
     # Lowercase comparison
     if dpkg --compare-versions "${VERSION,,}" lt "v1.64.2" 2>/dev/null; then
         echo "** Version can not self-update **"
