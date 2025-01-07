@@ -12,7 +12,7 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 . jh-lib
 
 CONTEXT="$1"
-config="${HOME}/koalty/infrastructure/cron"
+config="${HOME}/koalty/scripts/cron"
 
 # For info in scripts
 export CONTEXT
