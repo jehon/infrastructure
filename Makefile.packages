@@ -78,7 +78,7 @@ $(PACKAGES_REPO)/Packages: $(PACKAGES_TMP)/.structure.built
 # Build the deb packages
 # https://askubuntu.com/a/963445
 	cd $(PACKAGES_TMP_STRUCTURE) && DEBEMAIL="jehon@users.noreply.github.com" dch --newversion="$(call version)" --distribution "stable" "all latest updates" | jh-tag-stdin "build-changelog"
-	cd $(PACKAGES_TMP_STRUCTURE) && debuild -rfakeroot --no-lintian -uc -us --build=binary | jh-tag-stdin "build-debs"
+	cd $(PACKAGES_TMP_STRUCTURE) && debuild --no-lintian --unsigned-changes --unsigned-source --build=all | jh-tag-stdin "build-debs"
 
 # debs are in one folder above, let's move them into $(PACKAGES_REPO)/
 	mv $(PACKAGES_TMP)/*.deb $(PACKAGES_REPO)/ | jh-tag-stdin "build-move-deb"
