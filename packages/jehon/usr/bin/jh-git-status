@@ -5,6 +5,11 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR
 . jh-lib
 
+silent=""
+if [ "$1" = "-s" ]; then
+    silent="true"
+fi
+
 PAD_HEADER=25
 
 ORIGIN="$(git remote get-url origin)"
@@ -16,7 +21,9 @@ GIT_PROJECT="${GIT_SLUG#*\/}"
 GIT_BRANCH="$(git name-rev --name-only HEAD)"
 
 m() {
-    echo "$1 $(printf %-${PAD_HEADER}s "$2:") $3"
+    if [ -z "$silent" ]; then
+        echo "$1 $(printf %-${PAD_HEADER}s "$2:") $3"
+    fi
 }
 
 echo "Looking for"
@@ -31,15 +38,24 @@ export GIT_SLUG
 export GIT_OWNER
 export GIT_PROJECT
 export GIT_BRANCH
-export GIT_STASH_CNT
+
+if [ -z "$(git status --porcelain)" ]; then
+    GIT_STATUS=""
+    m "$jhMsgOk" "GIT status" "clean"
+else
+    GIT_STATUS="dirty"
+    m "$jhMsgKo" "GIT status" "dirty"
+fi
+export GIT_STATUS
 
 # LOCAL COMMIT NOT PUSHED
-AHEAD=$(git status -sb | grep -E '\[(ahead|behind)' | sed -r 's/^.*\[//g' | sed -r 's/\].*$//g')
-if [ -z "$AHEAD" ]; then
+GIT_AHEAD=$(git status -sb | grep -E '\[(ahead|behind)' | sed -r 's/^.*\[//g' | sed -r 's/\].*$//g') || true
+if [ -z "$GIT_AHEAD" ]; then
     m "$jhMsgOk" "GIT origin" "up-to-date"
 else
-    m "$jhMsgKo" "GIT origin" "$AHEAD"
+    m "$jhMsgKo" "GIT origin" "$GIT_AHEAD"
 fi
+export GIT_AHEAD
 
 # STASH LIST
 GIT_STASH_CNT=$(git stash list | wc -l)
@@ -48,3 +64,4 @@ if [[ $GIT_STASH_CNT -eq 0 ]]; then
 else
     m "$jhMsgKo" "GIT Stash" "$GIT_STASH_CNT"
 fi
+export GIT_STASH_CNT
