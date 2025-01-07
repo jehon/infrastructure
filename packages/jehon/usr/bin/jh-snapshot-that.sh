@@ -8,7 +8,7 @@
 
 set -o errexit
 
-# shellcheck source=/dev/null
+# shellcheck source-path=SCRIPTDIR
 . jh-lib
 
 ##################################
