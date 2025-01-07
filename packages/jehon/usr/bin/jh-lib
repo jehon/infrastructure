@@ -39,9 +39,6 @@ export jhSWD
 export jhMsgOk
 export jhMsgKo
 
-# Other configs
-jhValueIdent=10
-
 export jhCloudFolderInUserHome=~/pCloudDrive
 
 #
@@ -144,7 +141,7 @@ jh_value() {
     echo -n " 🛈"
     jh_color
 
-    printf " %-${jhValueIdent}s " "${key}:"
+    printf " %-${jhValueIdent:-10}s " "${key}:"
     jh_color 36
     echo -n "${value}"
     jh_color
