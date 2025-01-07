@@ -3,7 +3,7 @@
 set -o errexit
 set -o pipefail
 
-# shellcheck source=/dev/null
+# shellcheck source-path=SCRIPTDIR
 . jh-lib
 
 isDCService() {
