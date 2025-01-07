@@ -31,7 +31,7 @@ echo "* Installing packages..."
 PKGS=(
     direnv
     exiftool
-    debhelper binutils-arm-linux-gnueabihf dirmngr apt-utils desktop-file-utils rsync devscripts
+    debhelper build-essential binutils-arm-linux-gnueabihf dirmngr apt-utils desktop-file-utils rsync devscripts
     # git-restore-mtime: https://stackoverflow.com/a/64147402/1954789
     git-restore-mtime
     shellcheck
