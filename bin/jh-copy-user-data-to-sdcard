@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# shellcheck source-path=SCRIPTDIR/
+. "$(dirname "$(realpath "${BASH_SOURCE[0]}")")/lib.sh"
+
+sdcard="/media/jehon/system-boot/"
+
+header_begin "Building"
+"${prjRoot}"/deploy-to artifacts | jh-tag-stdin "build"
+header_end
+
+header_begin "Copying to sdcard $sdcard"
+if [ -r "$sdcard/user-data" ]; then
+    echo "Taking backup"
+    mv -v "$sdcard/user-data" "$sdcard/user-data.$jhTS"
+fi
+cp -v tmp/artifacts/user-data "$sdcard/user-data"
+header_end
+
+header_begin "Patch config.txt"
+# TODO: File location
+if [ -r "$sdcard/boot/firmware/config.txt" ]; then
+    crudini --verbose --set "$sdcard/boot/firmware/config.txt" all usb_max_current_enable 1
+else
+    jh_fatal "Not correctly implemented: file not found!"
+fi
+header_end
+
+header_begin "Ejecting the card"
+eject "$sdcard"
+header_end
+
+ok
