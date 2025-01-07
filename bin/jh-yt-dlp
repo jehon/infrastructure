@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-set -o errexit
-set -o pipefail
-
-docker run --rm -it -v ".:/downloads" jauderho/yt-dlp:latest "$1"
-
-docker run --rm -it -v ".:/downloads" alpine chown -R "$(id -u):$(id -g)" /downloads
