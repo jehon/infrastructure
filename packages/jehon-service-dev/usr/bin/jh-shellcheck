@@ -5,13 +5,19 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin/
 . jh-lib
 
-exclude="${1:-"🔒"}"
+exclude="🔒"
 res=0
 
 checkOne() {
 	file="$1"
 	if ! shellcheck --external-sources "$file" >&/dev/null; then
 		echo "[shellcheck] $file"
+		res=1
+	fi
+
+	check="$(shfmt -l "$file")"
+	if [ -n "$check" ]; then
+		echo "[shfmt] $file"
 		res=1
 	fi
 }
