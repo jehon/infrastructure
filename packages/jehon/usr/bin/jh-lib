@@ -145,7 +145,7 @@ jh_value() {
     jh_color 36
     echo -n "${value}"
     jh_color
-    echo
+    echo ""
 }
 
 jh_value_file() {
@@ -179,12 +179,15 @@ ko() {
 }
 
 jh_trace() {
-    echo "* $*"
-    if "$@"; then
-        ok
+    jh_info "$*"
+    "$@"
+    res="$?"
+    if [ $res == 0 ]; then
+        ok "with success"
     else
-        ko ""
+        ko "with failure"
     fi
+    return $res
 }
 
 declare -a jh_on_exit_hanlder_list_success
