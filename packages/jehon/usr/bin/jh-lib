@@ -178,6 +178,15 @@ ko() {
     fi
 }
 
+jh_trace() {
+    echo "* $*"
+    if "$@"; then
+        ok
+    else
+        ko ""
+    fi
+}
+
 declare -a jh_on_exit_hanlder_list_success
 declare -a jh_on_exit_hanlder_list_failure
 jh_on_exit_hanlder() {
