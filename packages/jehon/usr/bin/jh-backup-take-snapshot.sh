@@ -19,23 +19,23 @@ mkdir -p "${to}/daily"
 mkdir -p "${to}/monthly"
 
 if jh-fs "is-empty" "${from}"; then
-    echo "No live data, exiting.."
-    exit 0
+	echo "No live data, exiting.."
+	exit 0
 fi
 
 dayly_dt=$(date +%Y-%m-%d-%H.%M.%S)
 monthly_dt=$(date +%Y-%m)
 while read -r -d $'\0' file; do
-    filename="$(realpath --relative-to "${from}" "$file" | sed "s#/#--#")"
-    daily_dest="${to}/daily/${dayly_dt}-${filename}"
-    echo "Daily: ${file} -> ${daily_dest}"
-    cp -f "${file}" "${daily_dest}"
+	filename="$(realpath --relative-to "${from}" "$file" | sed "s#/#--#")"
+	daily_dest="${to}/daily/${dayly_dt}-${filename}"
+	echo "Daily: ${file} -> ${daily_dest}"
+	cp -f "${file}" "${daily_dest}"
 
-    monthly_dest="${to}/monthly/${monthly_dt}-${filename}"
-    if [ ! -r "${monthly_dest}" ]; then
-        echo "Monthly: ${file} -> ${monthly_dest}"
-        cp -f "${file}" "${monthly_dest}"
-    fi
+	monthly_dest="${to}/monthly/${monthly_dt}-${filename}"
+	if [ ! -r "${monthly_dest}" ]; then
+		echo "Monthly: ${file} -> ${monthly_dest}"
+		cp -f "${file}" "${monthly_dest}"
+	fi
 done < <(find "${from}" -type f -print0)
 
 # Remove daily old backups - covered by monthly backup

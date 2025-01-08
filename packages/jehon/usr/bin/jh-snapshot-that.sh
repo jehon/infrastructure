@@ -35,47 +35,47 @@ mkdir -p "$snapshotsRoot"/monthly
 mkdir -p "$snapshotsRoot"/yearly
 
 findExistNewerThanDays() {
-    flavor="$1"
-    daysAway="$2"
+	flavor="$1"
+	daysAway="$2"
 
-    find "$snapshotsRoot/$flavor" -mindepth 1 -maxdepth 1 -mtime -"$daysAway" | grep "" >/dev/null
+	find "$snapshotsRoot/$flavor" -mindepth 1 -maxdepth 1 -mtime -"$daysAway" | grep "" >/dev/null
 }
 
 removeOlderThanDays() {
-    flavor="$1"
-    daysAway="$2"
-    header_begin "Remove $flavor backups older than $daysAway"
-    find "$snapshotsRoot/$flavor" -mindepth 1 -maxdepth 1 -mtime +"$daysAway" -exec rm -fr "{}" ";" -print
-    header_end
+	flavor="$1"
+	daysAway="$2"
+	header_begin "Remove $flavor backups older than $daysAway"
+	find "$snapshotsRoot/$flavor" -mindepth 1 -maxdepth 1 -mtime +"$daysAway" -exec rm -fr "{}" ";" -print
+	header_end
 }
 
 (
-    header_begin "Import daily snapshot"
-    rsync -ri "$source/" "$snapshotsRoot/daily/$ts"
-    header_end
+	header_begin "Import daily snapshot"
+	rsync -ri "$source/" "$snapshotsRoot/daily/$ts"
+	header_end
 ) | jh-tag-stdin "daily"
 
 if ! findExistNewerThanDays "monthly" 30; then
-    (
-        header_begin "Create monthly backup"
-        last_daily="$("$(find "$snapshotsRoot"/daily -mindepth 1 -maxdepth 1 | sort | tail -n 1)")"
-        jh_value "Last Daily" "$last_daily"
+	(
+		header_begin "Create monthly backup"
+		last_daily="$("$(find "$snapshotsRoot"/daily -mindepth 1 -maxdepth 1 | sort | tail -n 1)")"
+		jh_value "Last Daily" "$last_daily"
 
-        mv "$snapshotsRoot/daily/$last_daily" "$snapshotsRoot/monthly/"
-        header_end
+		mv "$snapshotsRoot/daily/$last_daily" "$snapshotsRoot/monthly/"
+		header_end
 
-    ) | jh-tag-stdin "monthly"
+	) | jh-tag-stdin "monthly"
 fi
 
 if ! findExistNewerThanDays "yearly" 365; then
-    (
-        header_begin "Create yearly backup"
-        last_daily="$("$(find "$snapshotsRoot"/daily -mindepth 1 -maxdepth 1 | sort | tail -n 1)")"
-        jh_value "Last Daily" "$last_daily"
+	(
+		header_begin "Create yearly backup"
+		last_daily="$("$(find "$snapshotsRoot"/daily -mindepth 1 -maxdepth 1 | sort | tail -n 1)")"
+		jh_value "Last Daily" "$last_daily"
 
-        mv "$snapshotsRoot/daily/$last_daily" "$snapshotsRoot/yearly/"
-        header_end
-    ) | jh-tag-stdin "yearly"
+		mv "$snapshotsRoot/daily/$last_daily" "$snapshotsRoot/yearly/"
+		header_end
+	) | jh-tag-stdin "yearly"
 fi
 
 header_begin "Remove old backups"

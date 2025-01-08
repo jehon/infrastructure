@@ -8,32 +8,32 @@ F1="${1:?First file}"
 F2="${2:?Second file}"
 
 debug() {
-    echo "$@"
-    return
+	echo "$@"
+	return
 }
 
 if [ ! -e "${F1}" ]; then
-    debug "F1 does not exists"
-    exit 1
+	debug "F1 does not exists"
+	exit 1
 fi
 
 if [ ! -e "${F2}" ]; then
-    debug "F2 does not exists"
-    exit 1
+	debug "F2 does not exists"
+	exit 1
 fi
 
 if [ ! -f "${F1}" ]; then
-    if [ ! -f "${F2}" ]; then
-        debug "Files are special: ok"
-        exit 0
-    fi
-    debug "F1 is special"
-    exit 1
+	if [ ! -f "${F2}" ]; then
+		debug "Files are special: ok"
+		exit 0
+	fi
+	debug "F1 is special"
+	exit 1
 fi
 
 if [ ! -f "${F2}" ]; then
-    debug "F2 is special"
-    exit 1
+	debug "F2 is special"
+	exit 1
 fi
 
 #
@@ -42,8 +42,8 @@ fi
 F1_S="$(stat -c %s "${F1}")"
 F2_S="$(stat -c %s "${F2}")"
 if [ "${F1_S}" != "${F2_S}" ]; then
-    debug "Sizes differ: ${F1_S} vs ${F2_S}"
-    exit 1
+	debug "Sizes differ: ${F1_S} vs ${F2_S}"
+	exit 1
 fi
 
 #
@@ -52,8 +52,8 @@ fi
 F1_T="$(stat -c %Y "${F1}")"
 F2_T="$(stat -c %Y "${F2}")"
 if [ "${F1_T}" != "${F2_T}" ]; then
-    debug "Times differ: ${F1_T} vs ${F2_T}"
-    exit 1
+	debug "Times differ: ${F1_T} vs ${F2_T}"
+	exit 1
 fi
 
 exit 0

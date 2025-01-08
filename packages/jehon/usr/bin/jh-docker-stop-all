@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$UID" == 0 ]; then
-    aa-remove-unknown
+	aa-remove-unknown
 fi
 
 # shellcheck disable=SC2046

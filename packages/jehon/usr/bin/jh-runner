@@ -11,52 +11,52 @@ folder="${1:-.}"
 regex="${2:-".*"}"
 
 runInFolder() {
-    local inFolder="$1"
-    local result=0
+	local inFolder="$1"
+	local result=0
 
-    if jh-fs is-empty "${inFolder}"; then
-        return
-    fi
+	if jh-fs is-empty "${inFolder}"; then
+		return
+	fi
 
-    for F in "${inFolder}"/*; do
-        BN="$(jh-fs "name" "${F}")"
+	for F in "${inFolder}"/*; do
+		BN="$(jh-fs "name" "${F}")"
 
-        if ! [[ "${BN}" =~ ${regex} ]]; then
-            jh_info "Skipping non matching file $F"
-            continue
-        fi
+		if ! [[ "${BN}" =~ ${regex} ]]; then
+			jh_info "Skipping non matching file $F"
+			continue
+		fi
 
-        if [ ! -x "$F" ]; then
-            jh_info "Skipping non-executable $F"
-            continue
-        fi
+		if [ ! -x "$F" ]; then
+			jh_info "Skipping non-executable $F"
+			continue
+		fi
 
-        if [ -d "$F" ]; then
-            jh_info "Skipping folder $F"
-            continue
-        fi
+		if [ -d "$F" ]; then
+			jh_info "Skipping folder $F"
+			continue
+		fi
 
-        {
-            (
-                # We are in a subshell
-                echo "Starting '${BN}' ..."
-                export JH_RUNNER=1
-                "$F" && ok "Script ok"
-            ) | jh-tag-stdin "${BN}"
-        } || {
-            ko "Failure"
-            result=1
-        }
-    done
+		{
+			(
+				# We are in a subshell
+				echo "Starting '${BN}' ..."
+				export JH_RUNNER=1
+				"$F" && ok "Script ok"
+			) | jh-tag-stdin "${BN}"
+		} || {
+			ko "Failure"
+			result=1
+		}
+	done
 
-    # # Recurse in subfolders
-    # for F in "${inFolder}"/*; do
-    #     if [ -d "$F" ]; then
-    #         runInFolder "$F" jh-tag-stdin "$(basename "$F")" || result=1
-    #     fi
-    # done
+	# # Recurse in subfolders
+	# for F in "${inFolder}"/*; do
+	#     if [ -d "$F" ]; then
+	#         runInFolder "$F" jh-tag-stdin "$(basename "$F")" || result=1
+	#     fi
+	# done
 
-    return "${result}"
+	return "${result}"
 }
 
 runInFolder "${folder}"

@@ -9,22 +9,22 @@ host="$1"
 shift
 
 if [ -z "$1" ]; then
-    # host is already shifted
-    jh_fatal "Need [host] [source]"
+	# host is already shifted
+	jh_fatal "Need [host] [source]"
 fi
 
 while [ -n "$1" ]; do
-    source="$1"
-    dest="/${source#packages/*/}"
-    jh_value "SOURCE" "${source}"
-    jh_value "dest" "${dest}"
+	source="$1"
+	dest="/${source#packages/*/}"
+	jh_value "SOURCE" "${source}"
+	jh_value "dest" "${dest}"
 
-    if [ "${host}" == "dev" ]; then
-        sudo cp -f "${source}" "/${dest}"
-    else
-        rsync -i --checksum "${source}" "root@${host}:/${dest}"
-    fi
-    # scp "$SOURCE" "root@$HOST:/${dest}"
-    ok "Uploaded to ${dest}"
-    shift
+	if [ "${host}" == "dev" ]; then
+		sudo cp -f "${source}" "/${dest}"
+	else
+		rsync -i --checksum "${source}" "root@${host}:/${dest}"
+	fi
+	# scp "$SOURCE" "root@$HOST:/${dest}"
+	ok "Uploaded to ${dest}"
+	shift
 done

@@ -9,19 +9,19 @@ set -o pipefail
 res=0
 cmd="$1"
 for F in *; do
-    if [ -r "$F/.git" ]; then
-        (
-            cd "$F"
-            if [ -n "$cmd" ]; then
-                echo "$cmd..."
-                git "$cmd"
-            else
-                echo "Analyzing..."
-                jh-git-status | grep "✗" || true
-            fi
-            ok
-        ) |& jh-tag-stdin "$F" || res=1
-    fi
+	if [ -r "$F/.git" ]; then
+		(
+			cd "$F"
+			if [ -n "$cmd" ]; then
+				echo "$cmd..."
+				git "$cmd"
+			else
+				echo "Analyzing..."
+				jh-git-status | grep "✗" || true
+			fi
+			ok
+		) |& jh-tag-stdin "$F" || res=1
+	fi
 done
 
 exit $res

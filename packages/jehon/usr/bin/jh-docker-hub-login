@@ -4,44 +4,44 @@
 . jh-lib
 
 check_login() {
-    MSG=$(docker pull jehon/missing:missing 2>&1)
-    export MSG
-    case "$MSG" in
-    *"requested access to the resource is denied"* | *"pull access denied"*)
-        return 1
-        ;;
-    esac
-    return 0
+	MSG=$(docker pull jehon/missing:missing 2>&1)
+	export MSG
+	case "$MSG" in
+	*"requested access to the resource is denied"* | *"pull access denied"*)
+		return 1
+		;;
+	esac
+	return 0
 }
 
 do_login() {
-    if [ -z "$JH_DOCKER_HUB_TOKEN" ]; then
-        echo "Getting JH_DOCKER_HUB_TOKEN from dev.sh"
-        # shellcheck source=/dev/null
-        . ~/restricted/dev.sh
-    fi
+	if [ -z "$JH_DOCKER_HUB_TOKEN" ]; then
+		echo "Getting JH_DOCKER_HUB_TOKEN from dev.sh"
+		# shellcheck source=/dev/null
+		. ~/restricted/dev.sh
+	fi
 
-    echo "Password is ${#JH_DOCKER_HUB_TOKEN} characters"
-    docker login --username "jehon" --password "$JH_DOCKER_HUB_TOKEN"
+	echo "Password is ${#JH_DOCKER_HUB_TOKEN} characters"
+	docker login --username "jehon" --password "$JH_DOCKER_HUB_TOKEN"
 }
 
 case "$1" in
 "check")
-    if ! check_login; then
-        echo "Need to login to docker hub"
-        echo "Message: $MSG"
-        exit 1
-    fi
-    ;;
+	if ! check_login; then
+		echo "Need to login to docker hub"
+		echo "Message: $MSG"
+		exit 1
+	fi
+	;;
 
 "force")
-    do_login
-    ;;
+	do_login
+	;;
 
 *)
-    if ! check_login; then
-        echo "Need to login to docker hub"
-        do_login
-    fi
-    ;;
+	if ! check_login; then
+		echo "Need to login to docker hub"
+		do_login
+	fi
+	;;
 esac

@@ -7,11 +7,11 @@ set -o pipefail
 # Run the command in all subfolders
 #
 
-for F in * ; do
-    if [ -r "${F}/.git" ]; then
-        (
-            cd "${F}"
-            "$@"
-        ) |&  awk "{print \"[\033[34m${F}\033[0m] \" \$0}"
-    fi
+for F in *; do
+	if [ -r "${F}/.git" ]; then
+		(
+			cd "${F}"
+			"$@"
+		) |& awk "{print \"[\033[34m${F}\033[0m] \" \$0}"
+	fi
 done

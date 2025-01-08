@@ -6,7 +6,7 @@ shift
 shift
 
 rsync --itemize-changes \
-        --recursive --times --delete \
-        "$@" \
-        "${SOURCE}" "${TARGET}" \
-    | awk '{ print "[modified] " $0; }'
+	--recursive --times --delete \
+	"$@" \
+	"${SOURCE}" "${TARGET}" |
+	awk '{ print "[modified] " $0; }'

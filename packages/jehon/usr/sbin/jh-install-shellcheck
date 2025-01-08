@@ -8,9 +8,9 @@ set -o pipefail
 scversion="stable" # or "v0.4.7", or "latest"
 
 if type shellcheck && [ -z "$1" ]; then
-    echo "Shellcheck is already present"
-    shellcheck --version
-    exit 0
+	echo "Shellcheck is already present"
+	shellcheck --version
+	exit 0
 fi
 
 echo "[modified] Installing shellcheck"

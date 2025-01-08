@@ -7,21 +7,21 @@ set -o errexit
 
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [ "$GIT_BRANCH" = "main" ]; then
-    git pull --all --prune
+	git pull --all --prune
 
-    GIT_BRANCH_RAW="$(git branch --format='%(refname:short)' --all | grep -v 'main$' | grep -v 'HEAD$' | fzf)"
-    GIT_BRANCH="${GIT_BRANCH_RAW#origin\/}"
-    jh_info "Switching to $GIT_BRANCH"
-    git checkout "$GIT_BRANCH"
+	GIT_BRANCH_RAW="$(git branch --format='%(refname:short)' --all | grep -v 'main$' | grep -v 'HEAD$' | fzf)"
+	GIT_BRANCH="${GIT_BRANCH_RAW#origin\/}"
+	jh_info "Switching to $GIT_BRANCH"
+	git checkout "$GIT_BRANCH"
 fi
 export NO_CLEAR=1
 
 header_begin "Prepare env in $GIT_BRANCH"
 git pull
 git rebase main || (
-    git rebase --abort
-    echo "Could not rebase"
-    exit 1
+	git rebase --abort
+	echo "Could not rebase"
+	exit 1
 )
 make clean | jh-tag-stdin "$GIT_BRANCH clean"
 header_end
@@ -33,6 +33,6 @@ header_end
 jh_info "Tests are successfull!"
 
 if [ "$GIT_BRANCH" != "main" ]; then
-    "$jhSWD"/jh-ci-merge | jh-tag-stdin "$GIT_BRANCH merge"
-    "$0"
+	"$jhSWD"/jh-ci-merge | jh-tag-stdin "$GIT_BRANCH merge"
+	"$0"
 fi

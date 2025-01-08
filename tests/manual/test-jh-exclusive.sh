@@ -6,7 +6,7 @@ prjRoot="$(dirname "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")")"
 . "$prjRoot"/packages/jehon/usr/bin/jh-lib
 
 if [ "$1" == "-f" ]; then
-    jh_exclusive_kill
+	jh_exclusive_kill
 fi
 jh_exclusive
 

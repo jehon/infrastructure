@@ -3,14 +3,14 @@
 WHERE="${1:-.}"
 
 readOne() {
-    size="$(stat --printf="%s" "$1")"
-    name="$(basename "$1")"
+	size="$(stat --printf="%s" "$1")"
+	name="$(basename "$1")"
 
-    dd if="$1" status=none |
-        pv --name "${name}" --size "${size}" --eta --progress |
-        dd of=/dev/null status=none
+	dd if="$1" status=none |
+		pv --name "${name}" --size "${size}" --eta --progress |
+		dd of=/dev/null status=none
 }
 
 while IFS= read -d '' -r filename; do
-    readOne "${filename}"
+	readOne "${filename}"
 done < <(find "$WHERE" -type f -print0)

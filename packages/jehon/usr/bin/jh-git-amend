@@ -8,9 +8,9 @@ shopt -s nullglob
 . jh-lib
 
 if [ "$1" == "add" ]; then
-    header_begin "Adding files"
-    git add .
-    header_end
+	header_begin "Adding files"
+	git add .
+	header_end
 fi
 
 header_begin "Commit"

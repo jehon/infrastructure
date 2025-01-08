@@ -13,14 +13,14 @@ all_locations="$*"
 detected="$(jh-location-detect)"
 
 while [ -n "$1" ]; do
-    if [ "$detected" == "${1}" ]; then
-        exit 0
-    fi
-    shift
+	if [ "$detected" == "${1}" ]; then
+		exit 0
+	fi
+	shift
 done
 
 if [ -n "$FORCE" ]; then
-    echo "* Forcing execution on network $detected"
+	echo "* Forcing execution on network $detected"
 fi
 
 jh_fatal "Not at the required location: $detected (${all_locations})"

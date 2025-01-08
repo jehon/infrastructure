@@ -6,8 +6,8 @@ PID=$(lsof -t "-i:$1")
 # PID=$(netstat -lnp | grep ":$1 " | ...)
 
 if [ "$PID" != "" ]; then
-  echo "Kill $PID"
-  kill -9 "$PID"
+	echo "Kill $PID"
+	kill -9 "$PID"
 else
-  echo "Nobody seem to listen to port $1"
+	echo "Nobody seem to listen to port $1"
 fi

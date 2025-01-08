@@ -14,25 +14,25 @@ PLAYBOOK="${PLAYBOOK:-"setup.yml"}"
 hosts=("$@")
 
 runIt() {
-    $withSudo "${prjRoot}"/tmp/python/common/bin/ansible-playbook --diff "${PLAYBOOK}" "$@"
+	$withSudo "${prjRoot}"/tmp/python/common/bin/ansible-playbook --diff "${PLAYBOOK}" "$@"
 }
 
 requireSudo() {
-    if [ -n "$1" ]; then
-        echo "Require sudo password for $host"
-    else
-        echo "Require sudo password"
-    fi
-    withSudo="sudo --preserve-env=PATH,PYTHONPATH"
-    # TODO: should --ask-become-pass ?
-    # ARGS+=("--ask-become-pass")
+	if [ -n "$1" ]; then
+		echo "Require sudo password for $host"
+	else
+		echo "Require sudo password"
+	fi
+	withSudo="sudo --preserve-env=PATH,PYTHONPATH"
+	# TODO: should --ask-become-pass ?
+	# ARGS+=("--ask-become-pass")
 }
 
 if [ ! -r ~/restricted/ansible-encryption-key ]; then
-    # shellcheck disable=SC2174
-    mkdir --mode=0700 -p ~/restricted
-    touch ~/restricted/ansible-encryption-key
-    jh_fatal "Key is not defined at ~/restricted/ansible-encryption-key"
+	# shellcheck disable=SC2174
+	mkdir --mode=0700 -p ~/restricted
+	touch ~/restricted/ansible-encryption-key
+	jh_fatal "Key is not defined at ~/restricted/ansible-encryption-key"
 fi
 
 make dependencies
@@ -43,21 +43,21 @@ cd infrastructure || exit
 withSudo=""
 
 if ((${#hosts} > 0)); then
-    for host in "${hosts[@]}"; do
-        case "$host" in
-        "" | "dev")
-            requireSudo "$host"
-            ;;
-        esac
-    done
+	for host in "${hosts[@]}"; do
+		case "$host" in
+		"" | "dev")
+			requireSudo "$host"
+			;;
+		esac
+	done
 else
-    requireSudo
+	requireSudo
 fi
 
 # Join the array with comma
 #   https://stackoverflow.com/a/9429887/1954789
 hostsList=$(
-    IFS=,
-    echo "${hosts[*]}"
+	IFS=,
+	echo "${hosts[*]}"
 )
 runIt --limit "$hostsList"

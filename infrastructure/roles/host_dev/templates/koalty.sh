@@ -9,5 +9,5 @@ export KOALTY_FTP_USER="{{jehon_remote_koalty_ftp_user}}"
 export KOALTY_FTP_PASS="{{jehon_remote_koalty_ftp_pass}}"
 
 if [ -n "$1" ]; then
-    "$@"
+	"$@"
 fi

@@ -9,27 +9,27 @@ PID1="$(ps --no-headers -o comm 1)"
 
 ECHO=true
 if [ "$1" == "-v" ]; then
-    ECHO="echo"
+	ECHO="echo"
 fi
 
 if ! type systemctl &>/dev/null; then
-    $ECHO "Ko, systemctl not found"
-    exit 1
+	$ECHO "Ko, systemctl not found"
+	exit 1
 fi
 
 if [ "$(systemctl is-system-running)" == "offline" ]; then
-    $ECHO "Ko, systemd is in offline state"
-    exit 1
+	$ECHO "Ko, systemd is in offline state"
+	exit 1
 fi
 
 if [ "$(systemctl is-system-running)" == "unknown" ]; then
-    $ECHO "Ko, systemd is in unknown state"
-    exit 1
+	$ECHO "Ko, systemd is in unknown state"
+	exit 1
 fi
 
 if [ "$PID1" != 'systemd' ]; then
-    $ECHO "Ko, systemd is not pid 1"
-    exit 1
+	$ECHO "Ko, systemd is not pid 1"
+	exit 1
 fi
 
 $ECHO "Ok, systemd is running"

@@ -12,14 +12,14 @@ shopt -s nullglob
 detected="$(jh-location-detect)"
 
 if [ -n "$FORCE" ]; then
-    echo "* Forcing execution on network $detected"
+	echo "* Forcing execution on network $detected"
 fi
 
 while [ -n "$1" ]; do
-    if [ "$detected" == "${1}" ]; then
-        jh_fatal "At excluded location (${1})"
-    fi
-    shift
+	if [ "$detected" == "${1}" ]; then
+		jh_fatal "At excluded location (${1})"
+	fi
+	shift
 done
 
 exit 0

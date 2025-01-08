@@ -10,10 +10,10 @@ SOURCE="/mnt/cloud/videos/Fire/fire.mp4"
 TARGET="/var/cache/jehon/fire"
 
 if ! jh-file-equal "${SOURCE}" "${TARGET}"; then
-    header_begin "Refreshing fire"
-    rsync --times -i "${SOURCE}" "${TARGET}"
-    systemctl restart jehon-kiosk-fire.service
-    header_end
+	header_begin "Refreshing fire"
+	rsync --times -i "${SOURCE}" "${TARGET}"
+	systemctl restart jehon-kiosk-fire.service
+	header_end
 else
-    jh_info "Fire already up-to-date"
+	jh_info "Fire already up-to-date"
 fi

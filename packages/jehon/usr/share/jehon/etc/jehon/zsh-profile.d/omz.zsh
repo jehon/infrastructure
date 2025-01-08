@@ -10,10 +10,10 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="af-magic"
 
 plugins=(
-    aws
-    direnv
-    git
-    terraform
+	aws
+	direnv
+	git
+	terraform
 )
 
 # Uncomment the following line to use hyphen-insensitive completion.
@@ -39,41 +39,41 @@ zstyle ':omz:update' frequency 13
 # COMPLETION_WAITING_DOTS="true"
 
 if [ ! -r $ZSH/oh-my-zsh.sh ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || true
-    echo "# Truncated by omz.zsh profile on initial install" >$HOME/.zshrc
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || true
+	echo "# Truncated by omz.zsh profile on initial install" >$HOME/.zshrc
 fi
 
 if [ -r $ZSH/oh-my-zsh.sh ]; then
-    # Get our home zsh
-    # Load profiles and set various default values
-    source $ZSH/oh-my-zsh.sh
+	# Get our home zsh
+	# Load profiles and set various default values
+	source $ZSH/oh-my-zsh.sh
 
-    #
-    # We could reevaluate at each run by \$( xxx )
-    #   See https://stackoverflow.com/a/69652752/1954789
-    #
+	#
+	# We could reevaluate at each run by \$( xxx )
+	#   See https://stackoverflow.com/a/69652752/1954789
+	#
 
-    #
-    # Customize right prompt status (override)
-    #
-    JH_PROMPT_STATUS=""
-    jh_custom_status() {
-        if [ -n "$JH_PROMPT_STATUS" ]; then
-            echo "$JH_PROMPT_STATUS"
-        fi
-        if [ -n "$JAVA_HOME" ] && [ -r $JAVA_HOME/release ]; then
-            (
-                . $JAVA_HOME/release
-                echo " jdk:$JAVA_VERSION"
-            )
-        fi
-        if jh-aws-authenticated; then
-            echo " aws-mfa"
-        fi
-    }
-    RPROMPT="$RPROMPT \$(jh_custom_status)"
+	#
+	# Customize right prompt status (override)
+	#
+	JH_PROMPT_STATUS=""
+	jh_custom_status() {
+		if [ -n "$JH_PROMPT_STATUS" ]; then
+			echo "$JH_PROMPT_STATUS"
+		fi
+		if [ -n "$JAVA_HOME" ] && [ -r $JAVA_HOME/release ]; then
+			(
+				. $JAVA_HOME/release
+				echo " jdk:$JAVA_VERSION"
+			)
+		fi
+		if jh-aws-authenticated; then
+			echo " aws-mfa"
+		fi
+	}
+	RPROMPT="$RPROMPT \$(jh_custom_status)"
 else
-    echo "Could not load oh-my-zsh in $ZSH/oh-my-zsh.sh. Continuing..." >&2
+	echo "Could not load oh-my-zsh in $ZSH/oh-my-zsh.sh. Continuing..." >&2
 fi
 
 unsetopt share_history

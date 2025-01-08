@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "" ]; then
-  echo "Missing destination as \$1"
-  exit 1
+	echo "Missing destination as \$1"
+	exit 1
 fi
 
 HOST="$(hostname)"

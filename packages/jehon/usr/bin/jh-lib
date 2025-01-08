@@ -4,11 +4,11 @@ set -o errexit
 set -o pipefail
 
 if [ -n "$ZSH_VERSION" ]; then
-    # ZSH Specific
-    setopt CSH_NULL_GLOB
+	# ZSH Specific
+	setopt CSH_NULL_GLOB
 else
-    # Bash and other
-    shopt -s nullglob
+	# Bash and other
+	shopt -s nullglob
 fi
 
 #
@@ -60,216 +60,216 @@ jhSWD="$(dirname "$(realpath --physical "$(realpath "$0")")")"
 # If SELF is as /usr/bin, then it is not under package source
 prjRoot="$(dirname "$(dirname "$(dirname "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]:-$0}")")")")")")"
 if [ "$prjRoot" = "/" ] || [ -z "$prjRoot" ]; then
-    prjRoot=""
+	prjRoot=""
 fi
 
 if [ -z "$JH_DAEMON" ]; then
-    if [[ $- == *i* ]] || [ -t 0 ]; then
-        JH_DAEMON=""
-    else
-        JH_DAEMON="yes"
-    fi
+	if [[ $- == *i* ]] || [ -t 0 ]; then
+		JH_DAEMON=""
+	else
+		JH_DAEMON="yes"
+	fi
 fi
 if [ "$JH_DAEMON" = "no" ]; then
-    JH_DAEMON=""
+	JH_DAEMON=""
 fi
 export JH_DAEMON
 
 jh_color() {
-    COLOR=${1:-"0"}
-    if [ -z "$JH_DAEMON" ]; then
-        echo -en "\e[${COLOR}m"
-    fi
+	COLOR=${1:-"0"}
+	if [ -z "$JH_DAEMON" ]; then
+		echo -en "\e[${COLOR}m"
+	fi
 }
 
 header() {
-    printf '*%.0s' $(seq ${#JH_HEADER_MSGS[@]})
-    jh_color 93
-    echo -n " $1"
-    jh_color
-    echo
+	printf '*%.0s' $(seq ${#JH_HEADER_MSGS[@]})
+	jh_color 93
+	echo -n " $1"
+	jh_color
+	echo
 }
 
 JH_HEADER_MSGS=()
 
 header_begin() {
-    JH_HEADER_MSGS+=("$1")
-    header "$1..."
+	JH_HEADER_MSGS+=("$1")
+	header "$1..."
 }
 
 header_end() {
-    header "${JH_HEADER_MSGS[-1]} done"
-    unset 'JH_HEADER_MSGS[${#arr[@]}-1]'
+	header "${JH_HEADER_MSGS[-1]} done"
+	unset 'JH_HEADER_MSGS[${#arr[@]}-1]'
 }
 
 jh_debug() {
-    if [ -z "$DEBUG" ]; then
-        return
-    fi
+	if [ -z "$DEBUG" ]; then
+		return
+	fi
 
-    jh_color 33
-    echo -n "[DEBUG] $*"
-    jh_color
-    echo
+	jh_color 33
+	echo -n "[DEBUG] $*"
+	jh_color
+	echo
 }
 
 jh_error() {
-    (
-        jh_color 41
-        echo -n "[ERROR] $*"
-        jh_color
-        echo
-    ) >&2
+	(
+		jh_color 41
+		echo -n "[ERROR] $*"
+		jh_color
+		echo
+	) >&2
 }
 
 jh_fatal() {
-    jh_error "$@"
-    exit 1
+	jh_error "$@"
+	exit 1
 }
 
 jh_info() {
-    jh_color 36
-    echo "[INFOS] $*"
-    jh_color
+	jh_color 36
+	echo "[INFOS] $*"
+	jh_color
 }
 
 jh_value() {
-    key="$1"
-    value="$2"
-    # Add : to key to put empty spaces after the :
-    jh_color 36
-    echo -n " 🛈"
-    jh_color
+	key="$1"
+	value="$2"
+	# Add : to key to put empty spaces after the :
+	jh_color 36
+	echo -n " 🛈"
+	jh_color
 
-    printf " %-${jhValueIdent:-10}s " "${key}:"
-    jh_color 36
-    echo -n "${value}"
-    jh_color
-    echo ""
+	printf " %-${jhValueIdent:-10}s " "${key}:"
+	jh_color 36
+	echo -n "${value}"
+	jh_color
+	echo ""
 }
 
 jh_value_file() {
-    key="$1"
-    file="$2"
+	key="$1"
+	file="$2"
 
-    if [ -e "${file}" ]; then
-        jh_value "$key" "${file} ${jhMsgOk}"
-    else
-        jh_value "$key" "${file} ${jhMsgKo}"
-    fi
+	if [ -e "${file}" ]; then
+		jh_value "$key" "${file} ${jhMsgOk}"
+	else
+		jh_value "$key" "${file} ${jhMsgKo}"
+	fi
 }
 
 jhMsgOk="$(jh_color "01;32")✓$(jh_color)"
 jhMsgKo="$(jh_color "01;31")✗$(jh_color)"
 
 ok() {
-    if [ -n "$1" ]; then
-        echo "$jhMsgOk $*"
-    else
-        ok "Done"
-    fi
+	if [ -n "$1" ]; then
+		echo "$jhMsgOk $*"
+	else
+		ok "Done"
+	fi
 }
 
 ko() {
-    if [ -n "$1" ]; then
-        echo -e "$jhMsgKo $*"
-    else
-        echo -e "$jhMsgKo failed"
-    fi
+	if [ -n "$1" ]; then
+		echo -e "$jhMsgKo $*"
+	else
+		echo -e "$jhMsgKo failed"
+	fi
 }
 
 jh_trace() {
-    jh_info "$*"
-    res=0
-    "$@" || res=$?
-    if [ $res == 0 ]; then
-        ok "with success"
-    else
-        ko "with failure [$res]"
-    fi
-    return $res
+	jh_info "$*"
+	res=0
+	"$@" || res=$?
+	if [ $res == 0 ]; then
+		ok "with success"
+	else
+		ko "with failure [$res]"
+	fi
+	return $res
 }
 
 declare -a jh_on_exit_hanlder_list_success
 declare -a jh_on_exit_hanlder_list_failure
 jh_on_exit_hanlder() {
-    local exitCode=$?
+	local exitCode=$?
 
-    if [ "$exitCode" == 0 ]; then
-        cmds=("${jh_on_exit_hanlder_list_success[@]}")
-    else
-        cmds=("${jh_on_exit_hanlder_list_failure[@]}")
-    fi
-    for cmd in "${cmds[@]}"; do
-        # echo "$cmd"
-        # Eval keep the " and ' as-is
-        eval "$cmd"
-    done
-    exit "$exitCode"
+	if [ "$exitCode" == 0 ]; then
+		cmds=("${jh_on_exit_hanlder_list_success[@]}")
+	else
+		cmds=("${jh_on_exit_hanlder_list_failure[@]}")
+	fi
+	for cmd in "${cmds[@]}"; do
+		# echo "$cmd"
+		# Eval keep the " and ' as-is
+		eval "$cmd"
+	done
+	exit "$exitCode"
 }
 
 trap jh_on_exit_hanlder EXIT
 
 jh_on_ctrl_c_hanlder() {
-    # Trigger the jh_on_exit_hanlder about failure
-    exit 130
+	# Trigger the jh_on_exit_hanlder about failure
+	exit 130
 }
 trap jh_on_ctrl_c_hanlder INT
 
 jh_on_exit() {
-    jh_on_exit_success "$1"
-    jh_on_exit_failure "$1"
+	jh_on_exit_success "$1"
+	jh_on_exit_failure "$1"
 }
 
 jh_on_exit_success() {
-    jh_on_exit_hanlder_list_success+=("$1")
+	jh_on_exit_hanlder_list_success+=("$1")
 }
 
 jh_on_exit_failure() {
-    jh_on_exit_hanlder_list_failure+=("$1")
+	jh_on_exit_hanlder_list_failure+=("$1")
 }
 
 jh_background_process() {
-    if [ -n "$JH_BACKGROUND_LOG" ]; then
-        "$@" >"$JH_BACKGROUND_LOG" 2>&1 &
-    else
-        "$@" &
-    fi
-    local PID="$!"
-    if [ "$PID" = "0" ]; then
-        jh_error "Failed to launch background process: $*"
-        return 1
-    fi
-    jh_on_exit "kill '$PID'"
+	if [ -n "$JH_BACKGROUND_LOG" ]; then
+		"$@" >"$JH_BACKGROUND_LOG" 2>&1 &
+	else
+		"$@" &
+	fi
+	local PID="$!"
+	if [ "$PID" = "0" ]; then
+		jh_error "Failed to launch background process: $*"
+		return 1
+	fi
+	jh_on_exit "kill '$PID'"
 
-    # Return the result:
-    echo "$PID"
+	# Return the result:
+	echo "$PID"
 }
 
 jh_lockFile="${XDG_RUNTIME_DIR:-/tmp}/$(jh-fs "path-to-file" "$0").lock"
 
 jh_exclusive() {
-    local fd
+	local fd
 
-    touch "$jh_lockFile"
+	touch "$jh_lockFile"
 
-    #
-    # check the actually running lock with
-    #     sudo fuser $LOCK_FILE
-    #
+	#
+	# check the actually running lock with
+	#     sudo fuser $LOCK_FILE
+	#
 
-    # See https://www.baeldung.com/linux/bash-ensure-instance-running
-    exec {fd}<"${jh_lockFile}"
-    flock --exclusive --nonblock "$fd" || {
-        jh_error "Lock file busy as ${jh_lockFile} ($(fuser "${jh_lockFile}"))" >&2
+	# See https://www.baeldung.com/linux/bash-ensure-instance-running
+	exec {fd}<"${jh_lockFile}"
+	flock --exclusive --nonblock "$fd" || {
+		jh_error "Lock file busy as ${jh_lockFile} ($(fuser "${jh_lockFile}"))" >&2
 
-        echo "Unlock with: \$ fuser --kill '${jh_lockFile}'" >&2
-        return 1
-    }
+		echo "Unlock with: \$ fuser --kill '${jh_lockFile}'" >&2
+		return 1
+	}
 }
 
 jh_exclusive_kill() {
-    if [ -r "$jh_lockFile" ]; then
-        fuser --kill "${jh_lockFile}" || true
-    fi
+	if [ -r "$jh_lockFile" ]; then
+		fuser --kill "${jh_lockFile}" || true
+	fi
 }

@@ -13,13 +13,13 @@ mkdir -p "${localFolder}"
 echo "Launching mount..."
 # See https://rclone.org/commands/rclone_mount/
 exec /usr/bin/rclone mount \
-    "cloud:/${cloudFolder}" \
-    "${localFolder}" \
-    --allow-other \
-    --gid="${gid}" \
-    --file-perms=0660 \
-    --dir-perms=0775 \
-    --config=/etc/jehon/rclone.conf \
-    --cache-dir=/var/cache/rclone \
-    --vfs-cache-max-size=1000M \
-    --vfs-cache-mode=full
+	"cloud:/${cloudFolder}" \
+	"${localFolder}" \
+	--allow-other \
+	--gid="${gid}" \
+	--file-perms=0660 \
+	--dir-perms=0775 \
+	--config=/etc/jehon/rclone.conf \
+	--cache-dir=/var/cache/rclone \
+	--vfs-cache-max-size=1000M \
+	--vfs-cache-mode=full

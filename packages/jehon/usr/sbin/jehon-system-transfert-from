@@ -6,8 +6,8 @@ set -o errexit
 _SD="$(dirname "$(realpath --physical "${BASH_SOURCE[0]}")")"
 
 rsync -ai \
-        --progress \
-        --one-file-system \
-        --delete --delete-excluded \
-        "$_SD/home/" \
-        /home/
+	--progress \
+	--one-file-system \
+	--delete --delete-excluded \
+	"$_SD/home/" \
+	/home/

@@ -7,7 +7,7 @@ set -o errexit
 
 silent=""
 if [ "$1" = "-s" ]; then
-    silent="true"
+	silent="true"
 fi
 
 PAD_HEADER=25
@@ -21,9 +21,9 @@ GIT_PROJECT="${GIT_SLUG#*\/}"
 GIT_BRANCH="$(git name-rev --name-only HEAD)"
 
 m() {
-    if [ -z "$silent" ]; then
-        echo "$1 $(printf %-${PAD_HEADER}s "$2:") $3"
-    fi
+	if [ -z "$silent" ]; then
+		echo "$1 $(printf %-${PAD_HEADER}s "$2:") $3"
+	fi
 }
 
 echo "Looking for"
@@ -40,28 +40,28 @@ export GIT_PROJECT
 export GIT_BRANCH
 
 if [ -z "$(git status --porcelain)" ]; then
-    GIT_STATUS=""
-    m "$jhMsgOk" "GIT status" "clean"
+	GIT_STATUS=""
+	m "$jhMsgOk" "GIT status" "clean"
 else
-    GIT_STATUS="dirty"
-    m "$jhMsgKo" "GIT status" "dirty"
+	GIT_STATUS="dirty"
+	m "$jhMsgKo" "GIT status" "dirty"
 fi
 export GIT_STATUS
 
 # LOCAL COMMIT NOT PUSHED
 GIT_AHEAD=$(git status -sb | grep -E '\[(ahead|behind)' | sed -r 's/^.*\[//g' | sed -r 's/\].*$//g') || true
 if [ -z "$GIT_AHEAD" ]; then
-    m "$jhMsgOk" "GIT origin" "up-to-date"
+	m "$jhMsgOk" "GIT origin" "up-to-date"
 else
-    m "$jhMsgKo" "GIT origin" "$GIT_AHEAD"
+	m "$jhMsgKo" "GIT origin" "$GIT_AHEAD"
 fi
 export GIT_AHEAD
 
 # STASH LIST
 GIT_STASH_CNT=$(git stash list | wc -l)
 if [[ $GIT_STASH_CNT -eq 0 ]]; then
-    m "$jhMsgOk" "GIT Stash" "None"
+	m "$jhMsgOk" "GIT Stash" "None"
 else
-    m "$jhMsgKo" "GIT Stash" "$GIT_STASH_CNT"
+	m "$jhMsgKo" "GIT Stash" "$GIT_STASH_CNT"
 fi
 export GIT_STASH_CNT

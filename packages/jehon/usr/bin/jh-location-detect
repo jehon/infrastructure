@@ -6,12 +6,12 @@ set -o errexit
 . jh-lib
 
 in_location() {
-    echo "$1"
-    exit 0
+	echo "$1"
+	exit 0
 }
 
 if ! ping -c 1 8.8.8.8 &>/dev/null; then
-    in_location "disconnected"
+	in_location "disconnected"
 fi
 
 WIFI="$(iwgetid -r || true)"
@@ -19,34 +19,34 @@ jh_debug "Detected WIFI: $WIFI"
 
 case "${WIFI}" in
 "")
-    # No wifi
-    ;;
+	# No wifi
+	;;
 "Heyfjveidofbridkegxto")
-    in_location "mobile"
-    ;;
+	in_location "mobile"
+	;;
 "Digiteal" | "Digiteal-dev" | "digiteal.eu dev 2.4GHz")
-    in_location "work"
-    ;;
+	in_location "work"
+	;;
 "chez_honlet" | "chez_honlet_5G")
-    in_location "home"
-    ;;
+	in_location "home"
+	;;
 *)
-    in_location "public"
-    ;;
+	in_location "public"
+	;;
 esac
 
 IPS="$(hostname -I)"
 jh_debug "Detected IP: $IPS"
 for IP in $IPS; do
-    jh_debug "IP: $IP"
-    case "${IP}" in
-    "")
-        in_location "disconnected"
-        ;;
-    192\.168\.1\.*)
-        in_location "home"
-        ;;
-    esac
+	jh_debug "IP: $IP"
+	case "${IP}" in
+	"")
+		in_location "disconnected"
+		;;
+	192\.168\.1\.*)
+		in_location "home"
+		;;
+	esac
 done
 
 # Fallback

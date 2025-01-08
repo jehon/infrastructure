@@ -20,7 +20,7 @@ export CONTEXT
 # shell check disable=SC
 LOCATION="${LOCATION:''}"
 if [ -z "${LOCATION}" ]; then
-    LOCATION="$(jh-location-detect)"
+	LOCATION="$(jh-location-detect)"
 fi
 
 [ -d "${config}" ] || jh_fatal "Context config not found: ${config}"

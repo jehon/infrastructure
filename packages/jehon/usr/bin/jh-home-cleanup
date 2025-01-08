@@ -8,10 +8,10 @@ set -o errexit
 cd ~
 
 findAndDeleteThis() {
-    if find . -mount -name "$1" &>/dev/null; then
-        echo "Cleaning $1"
-        find . -mount -name "$1" -exec "rm" "-fr" "{}" ";"
-    fi
+	if find . -mount -name "$1" &>/dev/null; then
+		echo "Cleaning $1"
+		find . -mount -name "$1" -exec "rm" "-fr" "{}" ";"
+	fi
 }
 
 rm -fr .cache

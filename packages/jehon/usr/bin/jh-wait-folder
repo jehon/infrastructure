@@ -12,11 +12,11 @@ check="${1:?Need what to check as [1]}"
 echo check: "$check"
 
 if [ ! -r "${check}" ]; then
-    header_begin "Wait for cloud folder"
-    sleep 1s
-    if [ ! -r "${check}" ]; then
-        jh_fatal "Cloud folder is NOT ready"
-    fi
-    echo "Cloud folder is ready"
-    header_end
+	header_begin "Wait for cloud folder"
+	sleep 1s
+	if [ ! -r "${check}" ]; then
+		jh_fatal "Cloud folder is NOT ready"
+	fi
+	echo "Cloud folder is ready"
+	header_end
 fi

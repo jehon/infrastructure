@@ -13,13 +13,13 @@ filterFlag='label=com.gitlab.gitlab-runner.managed=true'
 
 header_begin "Removing containers"
 docker ps -a -q \
-    --filter=status=exited \
-    --filter=status=dead \
-    --filter="$filterFlag" |
-    xargs -r docker rm -v
+	--filter=status=exited \
+	--filter=status=dead \
+	--filter="$filterFlag" |
+	xargs -r docker rm -v
 header_end
 
 header_begin "Removing volumes"
 docker system prune --volumes -af \
-    --filter "$filterFlag"
+	--filter "$filterFlag"
 header_end

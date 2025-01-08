@@ -13,8 +13,8 @@ header_end
 
 header_begin "Copying to sdcard $sdcard"
 if [ -r "$sdcard/user-data" ]; then
-    echo "Taking backup"
-    mv -v "$sdcard/user-data" "$sdcard/user-data.$jhTS"
+	echo "Taking backup"
+	mv -v "$sdcard/user-data" "$sdcard/user-data.$jhTS"
 fi
 cp -v tmp/artifacts/user-data "$sdcard/user-data"
 header_end
@@ -22,9 +22,9 @@ header_end
 header_begin "Patch config.txt"
 # TODO: File location
 if [ -r "$sdcard/boot/firmware/config.txt" ]; then
-    crudini --verbose --set "$sdcard/boot/firmware/config.txt" all usb_max_current_enable 1
+	crudini --verbose --set "$sdcard/boot/firmware/config.txt" all usb_max_current_enable 1
 else
-    jh_fatal "Not correctly implemented: file not found!"
+	jh_fatal "Not correctly implemented: file not found!"
 fi
 header_end
 

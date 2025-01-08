@@ -21,8 +21,8 @@ jh_value "IP_LAT" "${IP_LAT}"
 jh_value "Location" "https://maps.google.com/maps?q=${IP_LAT},${IP_LONG}"
 
 W_DATA="$(
-    curl -fsSL \
-        "https://api.open-meteo.com/v1/forecast?latitude=${IP_LAT}&longitude=${IP_LONG}&current=temperature_2m&daily=temperature_2m_min&forecast_days=1"
+	curl -fsSL \
+		"https://api.open-meteo.com/v1/forecast?latitude=${IP_LAT}&longitude=${IP_LONG}&current=temperature_2m&daily=temperature_2m_min&forecast_days=1"
 )"
 jh_value "W_DATA" "${W_DATA}"
 
@@ -34,14 +34,14 @@ jh_value "W_FUTURE" "${W_FUTURE}"
 
 W_MIN="${W_CURRENT}"
 if [ "$(bc <<<"${W_FUTURE} < ${W_MIN}")" == "1" ]; then
-    W_MIN="${W_FUTURE}"
+	W_MIN="${W_FUTURE}"
 fi
 jh_value "W_MIN" "${W_MIN}"
 
 # IP received is Brussels...
 if [ "$(bc <<<"${W_MIN} < 3")" == "1" ]; then
-    ko "There is a freezing risk"
-    exit 1
+	ko "There is a freezing risk"
+	exit 1
 fi
 
 ok "You are safe"

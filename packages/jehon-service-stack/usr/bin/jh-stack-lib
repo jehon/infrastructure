@@ -17,31 +17,31 @@ PATH="$stackRoot/bin:$PATH"
 export PATH
 
 setEnv() {
-    key=${1:?key as [1]}
-    val=${2:?val as [2]}
+	key=${1:?key as [1]}
+	val=${2:?val as [2]}
 
-    jh-env-file-set ".env" "$key" "$val"
+	jh-env-file-set ".env" "$key" "$val"
 }
 
 jh_stack_rc() {
-    # --links: transform symlinks
-    rclone \
-        --verbose \
-        --skip-links --one-file-system \
-        --config /etc/jehon/rclone.conf \
-        "$@"
+	# --links: transform symlinks
+	rclone \
+		--verbose \
+		--skip-links --one-file-system \
+		--config /etc/jehon/rclone.conf \
+		"$@"
 }
 
 FORCE=""
 if [ "$1" == "-f" ]; then
-    echo "Forcing run"
-    FORCE="force"
-    jh_exclusive_kill
+	echo "Forcing run"
+	FORCE="force"
+	jh_exclusive_kill
 fi
 
 if ! jh_exclusive; then
-    echo "Already running"
-    exit 0
+	echo "Already running"
+	exit 0
 fi
 
 export FORCE

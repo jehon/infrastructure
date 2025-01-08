@@ -9,24 +9,24 @@ shopt -s nullglob
 
 historyFile="/var/cache/jehon/$(jh-fs "path-to-file" "$0").history"
 if [ ! -w "$historyFile" ]; then
-    historyFile="$HOME/cache/jehon/$(jh-fs "path-to-file" "$0").history"
-    mkdir -p "$(dirname "$historyFile")"
+	historyFile="$HOME/cache/jehon/$(jh-fs "path-to-file" "$0").history"
+	mkdir -p "$(dirname "$historyFile")"
 fi
 
 if [ "$(find "${historyFile}" -mtime -1 -print 2>/dev/null)" == "" ]; then
-    echo "Last run too old..."
+	echo "Last run too old..."
 elif [ "$(date '+%H')" == "23" ]; then
-    echo "Time to run again..."
+	echo "Time to run again..."
 elif [ -n "$FORCE" ]; then
-    echo "Forced run"
+	echo "Forced run"
 else
-    echo "No need to run it"
-    exit 0
+	echo "No need to run it"
+	exit 0
 fi
 
 markAsSuccess() {
-    echo "Marking job as done in ${historyFile}"
-    touch "${historyFile}"
+	echo "Marking job as done in ${historyFile}"
+	touch "${historyFile}"
 }
 
 # Create/update the history marker only on success

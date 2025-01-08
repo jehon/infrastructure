@@ -15,31 +15,31 @@ rm -f "$e1"
 
 assert_success "init" "$script" "$e1" "test" "cool"
 (
-    # shellcheck source=/dev/null
-    . "$e1"
+	# shellcheck source=/dev/null
+	. "$e1"
 
-    assert_equals "test" "cool" "$test"
+	assert_equals "test" "cool" "$test"
 )
 
 assert_success "update" "$script" "$e1" "test" "cool1"
 (
-    # shellcheck source=/dev/null
-    . "$e1"
-    assert_equals "test" "cool1" "$test"
+	# shellcheck source=/dev/null
+	. "$e1"
+	assert_equals "test" "cool1" "$test"
 )
 
 assert_success "add" "$script" "$e1" "test2" "cool2"
 (
-    # shellcheck source=/dev/null
-    . "$e1"
-    assert_equals "test" "cool1" "$test"
-    assert_equals "test2" "cool2" "$test2"
+	# shellcheck source=/dev/null
+	. "$e1"
+	assert_equals "test" "cool1" "$test"
+	assert_equals "test2" "cool2" "$test2"
 )
 
 assert_success "special chars" "$script" "$e1" "test" "blabla/blibli"
 (
-    # shellcheck source=/dev/null
-    . "$e1"
-    assert_equals "test" "blabla/blibli" "$test"
-    assert_equals "test2" "cool2" "$test2"
+	# shellcheck source=/dev/null
+	. "$e1"
+	assert_equals "test" "blabla/blibli" "$test"
+	assert_equals "test2" "cool2" "$test2"
 )

@@ -9,7 +9,7 @@ host="${1:?Need host as [1]}"
 shift
 
 if ping -c 1 -w 2 "$host" "$@" >/dev/null; then
-    ok "Pinging $host ok"
+	ok "Pinging $host ok"
 else
-    ko "Pinging $host ko"
+	ko "Pinging $host ko"
 fi

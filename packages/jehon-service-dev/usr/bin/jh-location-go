@@ -18,15 +18,15 @@ CACHE="/var/cache/jehon/location"
 CONF="/usr/share/jehon/locations"
 
 if [ -r "${CACHE}" ]; then
-    PREV_LOCATION="$(cat "${CACHE}")"
+	PREV_LOCATION="$(cat "${CACHE}")"
 fi
 
 jh_debug "PREV_LOCATION: ${PREV_LOCATION}"
 jh_debug "LOCATION:      ${LOCATION}"
 
 if [ "${PREV_LOCATION}" == "${LOCATION}" ]; then
-    jh_info "Already at location ${LOCATION}"
-    exit 0
+	jh_info "Already at location ${LOCATION}"
+	exit 0
 fi
 
 jh_info "Going to location ${LOCATION}"

@@ -14,64 +14,64 @@ set -o errexit
 
 header_begin "Native rclone..."
 if type rclone &>/dev/null; then
-    echo "Calculating version..."
-    rclone version || true
-    VERSION="$(rclone version | head -n 1 | cut -d " " -f 2 || true)"
-    echo "Found version: $VERSION"
-    # Lowercase comparison
-    if dpkg --compare-versions "${VERSION,,}" lt "v1.64.2" 2>/dev/null; then
-        echo "** Version can not self-update **"
-        echo "[modified] Removing old version"
-        REAL="$(type -P rclone)"
-        rm -fv "$REAL"
+	echo "Calculating version..."
+	rclone version || true
+	VERSION="$(rclone version | head -n 1 | cut -d " " -f 2 || true)"
+	echo "Found version: $VERSION"
+	# Lowercase comparison
+	if dpkg --compare-versions "${VERSION,,}" lt "v1.64.2" 2>/dev/null; then
+		echo "** Version can not self-update **"
+		echo "[modified] Removing old version"
+		REAL="$(type -P rclone)"
+		rm -fv "$REAL"
 
-        # Now we need to make the real install
-    else
-        echo "** Self updating (${VERSION}) **"
-        if ! rclone selfupdate --check | grep -v "beta" | grep "upgrade" >/dev/null; then
-            ok "Already at the latest"
-        else
-            #
-            # We have a self updating version, let's do that
-            #
+		# Now we need to make the real install
+	else
+		echo "** Self updating (${VERSION}) **"
+		if ! rclone selfupdate --check | grep -v "beta" | grep "upgrade" >/dev/null; then
+			ok "Already at the latest"
+		else
+			#
+			# We have a self updating version, let's do that
+			#
 
-            # No change if "rclone is up to date"
-            jh_info "[modified] Self updating"
-            rclone selfupdate
-        fi
-    fi
+			# No change if "rclone is up to date"
+			jh_info "[modified] Self updating"
+			rclone selfupdate
+		fi
+	fi
 fi
 if ! type rclone &>/dev/null; then
-    #
-    # This should always change since it will install the latest version (>1.60)
-    # and selfupdate is already present in 1.55
-    #
-    jh_info "[modified] Installing"
-    curl https://rclone.org/install.sh | bash
+	#
+	# This should always change since it will install the latest version (>1.60)
+	# and selfupdate is already present in 1.55
+	#
+	jh_info "[modified] Installing"
+	curl https://rclone.org/install.sh | bash
 fi
 header_end
 
 header_begin "Docker plugin..."
 if jh-is-full-machine; then
-    if type docker &>/dev/null && type runc &>/dev/null; then
-        pluginId=$(docker plugin list --no-trunc | awk '/rclone/{print$1}')
-        if [ -n "$pluginId" ]; then
-            runInDocker() {
-                runc --root /run/docker/runtime-runc/plugins.moby exec --tty "$pluginId" sh -c "rclone $1"
-            }
-            if ! runInDocker selfupdate --check | grep -v "beta" | grep "upgrade" >/dev/null; then
-                ok "Already At the latest"
-            else
-                jh_info "[modified] Self updating"
-                runc --root /run/docker/runtime-runc/plugins.moby exec --tty "$pluginId" sh -c "rclone selfupdate"
-            fi
-        else
-            jh_info "* Plugin not installed"
-        fi
-    else
-        jh_info "* Docker and/or rcunc not installed"
-    fi
+	if type docker &>/dev/null && type runc &>/dev/null; then
+		pluginId=$(docker plugin list --no-trunc | awk '/rclone/{print$1}')
+		if [ -n "$pluginId" ]; then
+			runInDocker() {
+				runc --root /run/docker/runtime-runc/plugins.moby exec --tty "$pluginId" sh -c "rclone $1"
+			}
+			if ! runInDocker selfupdate --check | grep -v "beta" | grep "upgrade" >/dev/null; then
+				ok "Already At the latest"
+			else
+				jh_info "[modified] Self updating"
+				runc --root /run/docker/runtime-runc/plugins.moby exec --tty "$pluginId" sh -c "rclone selfupdate"
+			fi
+		else
+			jh_info "* Plugin not installed"
+		fi
+	else
+		jh_info "* Docker and/or rcunc not installed"
+	fi
 else
-    jh_info "** Not full machine"
+	jh_info "** Not full machine"
 fi
 header_end

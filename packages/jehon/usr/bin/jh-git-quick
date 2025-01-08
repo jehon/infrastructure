@@ -10,10 +10,10 @@ shopt -s nullglob
 jh_info "TS: ${jhTS}"
 
 if [ "$1" == "add" ]; then
-    header_begin "Adding files"
-    git add .
-    header_end
-    shift
+	header_begin "Adding files"
+	git add .
+	header_end
+	shift
 fi
 
 header_begin "Pull"

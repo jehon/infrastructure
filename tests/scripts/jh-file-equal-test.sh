@@ -9,14 +9,14 @@ shopt -s nullglob
 
 F1="${JH_TEST_TMP}/f1"
 F2="${JH_TEST_TMP}/f2"
-echo 1 > "${F1}"
+echo 1 >"${F1}"
 sleep 1s
-echo 1 > "${F2}"
+echo 1 >"${F2}"
 
 header_begin "Special cases"
-(! jh-file-equal "${JH_TEST_TMP}/does-not-exists" "/etc/hosts" )
-(! jh-file-equal "/etc/hosts" "${JH_TEST_TMP}/does-not-exists" )
-(! jh-file-equal "${JH_TEST_TMP}/does-not-exists" "${JH_TEST_TMP}/does-not-exists" )
+(! jh-file-equal "${JH_TEST_TMP}/does-not-exists" "/etc/hosts")
+(! jh-file-equal "/etc/hosts" "${JH_TEST_TMP}/does-not-exists")
+(! jh-file-equal "${JH_TEST_TMP}/does-not-exists" "${JH_TEST_TMP}/does-not-exists")
 jh-file-equal "/tmp" "/tmp"
 header_end
 

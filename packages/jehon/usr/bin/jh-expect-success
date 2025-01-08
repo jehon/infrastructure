@@ -11,9 +11,9 @@ msg="run $MSG"
 
 echo "$msg..."
 if "$@" |& jh-tag-stdin "$msg"; then
-    echo
-    ok "Success $MSG"
+	echo
+	ok "Success $MSG"
 else
-    echo
-    jh_fatal "Failure $MSG"
+	echo
+	jh_fatal "Failure $MSG"
 fi

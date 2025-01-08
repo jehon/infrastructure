@@ -6,5 +6,5 @@
 #    -v /etc:/.config/jesseduffield/lazydocker \
 
 docker run --rm -it -v \
-    /var/run/docker.sock:/var/run/docker.sock \
-    lazyteam/lazydocker
+	/var/run/docker.sock:/var/run/docker.sock \
+	lazyteam/lazydocker

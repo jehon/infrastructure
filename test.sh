@@ -11,8 +11,8 @@ host=dev
 service=jehon-cloud@Photos.service
 
 ./deploy-patch-from-packages "${host}" \
-    packages/jehon/usr/lib/systemd/system/jehon-cloud@.service \
-    packages/jehon/usr/sbin/jehon-cloud-mount
+	packages/jehon/usr/lib/systemd/system/jehon-cloud@.service \
+	packages/jehon/usr/sbin/jehon-cloud-mount
 
 # shellcheck disable=SC2087 # client side expension
 # ssh "${host}" <<EOS
@@ -28,7 +28,7 @@ sleep 1
 
 jh_info "Restarting ${service}"
 if ! sudo systemctl restart "${service}"; then
-    sudo journalctl -u "${service}" -n 150 -f
+	sudo journalctl -u "${service}" -n 150 -f
 fi
 
 echo "..."

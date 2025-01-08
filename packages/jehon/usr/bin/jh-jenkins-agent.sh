@@ -17,7 +17,7 @@ mkdir -p "$WORKDIR"
 
 echo "Getting agent jar"
 while ! curl --silent --output "$JAR" "$JENKINS_URL"/jnlpJars/agent.jar; do
-    echo -n '.'
+	echo -n '.'
 done
 echo ""
 

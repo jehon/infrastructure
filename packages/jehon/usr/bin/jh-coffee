@@ -2,7 +2,7 @@
 
 if [[ "$(id -u)" == "0" ]]; then
 
-  cat <<EOF
+	cat <<EOF
 
                                   '' '/++++++.
                          -o++:+++s+/+o-     'oo
@@ -37,7 +37,7 @@ EOF
 
 else
 
-  cat <<EOF
+	cat <<EOF
                                             ./
                                              -: '     :
                                               o /     +

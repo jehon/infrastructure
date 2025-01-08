@@ -34,23 +34,23 @@ jh_value "CLOUD" "${jhCloudFolderInUserHome}"
 jh_value "TARGET" "${target}"
 
 if [ ! -d "${target}" ]; then
-    echo "Could not access target ${target}... exiting"
-    exit 0
+	echo "Could not access target ${target}... exiting"
+	exit 0
 fi
 
 import() {
-    name="$1"
-    source="${jhCloudFolderInUserHome}/$1"
-    shift
+	name="$1"
+	source="${jhCloudFolderInUserHome}/$1"
+	shift
 
-    jh_info "Importing $name"
-    if [ ! -d "${source}" ]; then
-        jh_fatal "Could not read source ${source}"
-    fi
+	jh_info "Importing $name"
+	if [ ! -d "${source}" ]; then
+		jh_fatal "Could not read source ${source}"
+	fi
 
-    # FIXME: rework TZ into fo.ts and remove harmony-temporal
-    export TZ="Europe/Brussels"
-    jh-fo "import" --no-progress --to "${target}" "${source}"
+	# FIXME: rework TZ into fo.ts and remove harmony-temporal
+	export TZ="Europe/Brussels"
+	jh-fo "import" --no-progress --to "${target}" "${source}"
 }
 
 import "Workspaces/Jean/Backups/Google Pixel 7 Pro/"

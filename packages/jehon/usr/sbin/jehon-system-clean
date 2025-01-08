@@ -6,72 +6,72 @@ set -o errexit
 . jh-lib
 
 if [ -r /etc/jehon/site.conf ]; then
-    # shellcheck source=/dev/null
-    . /etc/jehon/site.conf
+	# shellcheck source=/dev/null
+	. /etc/jehon/site.conf
 fi
 
 if [ -n "$1" ]; then
-    bn="$(basename "$0")"
-    # shellcheck disable=SC2029
-    ssh "root@$1" "/usr/sbin/$bn"
+	bn="$(basename "$0")"
+	# shellcheck disable=SC2029
+	ssh "root@$1" "/usr/sbin/$bn"
 fi
 
 DELAY="${jehonSystemCleanDelay:-"24h"}"
 jh_value "DELAY" "$DELAY"
 
 if docker info &>/dev/null; then
-    header_begin "Docker"
-    # https://docs.docker.com/config/pruning/
+	header_begin "Docker"
+	# https://docs.docker.com/config/pruning/
 
-    header_begin "Prune Gitalb runner"
-    /usr/bin/jh-gitlab-clean-runner-cache
-    header_end
+	header_begin "Prune Gitalb runner"
+	/usr/bin/jh-gitlab-clean-runner-cache
+	header_end
 
-    header_begin "Container prune"
-    docker container prune \
-        --force
-    header_end
+	header_begin "Container prune"
+	docker container prune \
+		--force
+	header_end
 
-    header_begin "Builder prune"
-    docker builder prune \
-        --filter until="$DELAY" \
-        --all --force
-    header_end
+	header_begin "Builder prune"
+	docker builder prune \
+		--filter until="$DELAY" \
+		--all --force
+	header_end
 
-    header_begin "Volume prune"
-    docker volume prune \
-        --filter "label!=keep" \
-        --all --force
-    header_end
+	header_begin "Volume prune"
+	docker volume prune \
+		--filter "label!=keep" \
+		--all --force
+	header_end
 
-    header_begin "Images prune"
-    # https://stackoverflow.com/q/44785585/1954789
-    docker image prune \
-        --filter until="$DELAY" \
-        --all --force
-    header_end
+	header_begin "Images prune"
+	# https://stackoverflow.com/q/44785585/1954789
+	docker image prune \
+		--filter until="$DELAY" \
+		--all --force
+	header_end
 
-    header_begin "System prune"
-    docker system prune \
-        --force
-    header_end
-    header_end
+	header_begin "System prune"
+	docker system prune \
+		--force
+	header_end
+	header_end
 else
-    echo "Docker is not running, skipping it."
+	echo "Docker is not running, skipping it."
 fi
 
 if [ -x /usr/bin/apt ]; then
-    header_begin "Apt autoclean"
-    # shellcheck disable=SC2046 # the values are ok for word splitting
-    /usr/bin/apt autoclean
-    header_end
+	header_begin "Apt autoclean"
+	# shellcheck disable=SC2046 # the values are ok for word splitting
+	/usr/bin/apt autoclean
+	header_end
 
-    header_begin "Apt purge"
-    # shellcheck disable=SC2046 # the values are ok for word splitting
-    /usr/bin/apt purge --yes $(dpkg -l | grep '^rc' | awk '{print $2}')
-    header_end
+	header_begin "Apt purge"
+	# shellcheck disable=SC2046 # the values are ok for word splitting
+	/usr/bin/apt purge --yes $(dpkg -l | grep '^rc' | awk '{print $2}')
+	header_end
 else
-    echo "APT not found, skipping it."
+	echo "APT not found, skipping it."
 fi
 
 jh_info "Final space left"

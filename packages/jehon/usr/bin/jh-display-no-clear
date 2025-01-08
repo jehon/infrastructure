@@ -7,32 +7,35 @@ set -o errexit
 # echo -ne "\e[0;0f"
 tput cup 0 0
 while read -r line; do
-    tput el # Clear line
-    echo "$line";
+	tput el # Clear line
+	echo "$line"
 
-    tput sc # Save position
-    tput el # Clear line
+	tput sc # Save position
+	tput el # Clear line
 
-    # Add a waiting sign
-    echo " ..."
-    tput el # Clear line
+	# Add a waiting sign
+	echo " ..."
+	tput el # Clear line
 
-    # Insert a white line before
-    echo ""
-    tput el # Clear line
+	# Insert a white line before
+	echo ""
+	tput el # Clear line
 
-    # Go back
-    tput rc # Restore position (tput sc)
+	# Go back
+	tput rc # Restore position (tput sc)
 done < <(
-    "$@" || true
+	"$@" || true
 )
 
 echo "--------------------------------------------"
-LINES="$( tput lines )"
-LINE="$( IFS=';' read -rsdR -p $'\E[6n' ROW _COL; echo "${ROW#*[}" )"
+LINES="$(tput lines)"
+LINE="$(
+	IFS=';' read -rsdR -p $'\E[6n' ROW _COL
+	echo "${ROW#*[}"
+)"
 # echo -n "LINE: $LINE / $LINES"
-while (( LINE < LINES )) ; do
-    tput el # Clear line
-    echo "."
-    (( LINE++ )) || true
+while ((LINE < LINES)); do
+	tput el # Clear line
+	echo "."
+	((LINE++)) || true
 done

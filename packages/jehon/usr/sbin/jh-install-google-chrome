@@ -10,8 +10,8 @@ set -o errexit
 [ -x /usr/bin/google-chrome ] && echo "Already installed"
 
 if [ "$(whoami)" != "root" ]; then
-    echo "You need to be root"
-    exit 1
+	echo "You need to be root"
+	exit 1
 fi
 
 export DEBIAN_FRONTEND=noninteractive

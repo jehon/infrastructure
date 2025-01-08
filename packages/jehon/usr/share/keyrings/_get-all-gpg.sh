@@ -7,23 +7,23 @@ shopt -s nullglob
 _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 
 getGPGKey() {
-    TARGET="$1"
-    URL="$2"
+	TARGET="$1"
+	URL="$2"
 
-    TARGET="${_SD}/jehon-${TARGET}.gpg"
-    echo "Getting key from ${URL} to ${TARGET}"
-    curl -fsSL "${URL}" >"${TARGET}"
-    echo "Saving to ${TARGET}"
+	TARGET="${_SD}/jehon-${TARGET}.gpg"
+	echo "Getting key from ${URL} to ${TARGET}"
+	curl -fsSL "${URL}" >"${TARGET}"
+	echo "Saving to ${TARGET}"
 }
 
 getGPGKeyAndDearmor() {
-    TARGET="$1"
-    URL="$2"
+	TARGET="$1"
+	URL="$2"
 
-    TARGET="${_SD}/jehon-${TARGET}.gpg"
-    echo "Getting key from ${URL} and encode it to ${TARGET}"
-    curl -fsSL "${URL}" | gpg --dearmor --yes -o "${TARGET}"
-    echo "Saving to ${TARGET}"
+	TARGET="${_SD}/jehon-${TARGET}.gpg"
+	echo "Getting key from ${URL} and encode it to ${TARGET}"
+	curl -fsSL "${URL}" | gpg --dearmor --yes -o "${TARGET}"
+	echo "Saving to ${TARGET}"
 }
 
 # # !! Keep jehon.gpg
