@@ -27,11 +27,24 @@ export NODE_NO_WARNINGS=1
 
 # Import setup-profile.sh everywhere
 if [ -r ~/koalty ]; then
+    function jhAddPathToProfile() {
+        local lpath
+        lpath="$(pwd)/$1"
+        if [ ! -r "$lpath" ]; then
+            echo "Path: + '$lpath' not found"
+        else
+            echo "Path: + '$lpath'"
+            export PATH="$lpath:$PATH"
+        fi
+    }
+
     while read -r F; do
         # No pipe or fancy, otherwise no include...
 
+        cd "$(dirname "$F")" >/dev/null || true
         # shellcheck source=/dev/null
-        source "$F"
+        (source "$F" || true)
+        cd - >/dev/null || true
     done < <(find ~/koalty \
         -type d \( -name "node_modules" -o -name "vendor" -o -name "tmp" \) -prune -false \
         -o -name "setup-profile.sh")
