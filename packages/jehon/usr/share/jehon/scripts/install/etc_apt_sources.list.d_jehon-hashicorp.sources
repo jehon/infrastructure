@@ -9,8 +9,8 @@ target="$(jh-fs "file-to-path" "$0")"
 
 case "$1" in
 "configure" | "")
-    (
-        cat <<EOS
+	(
+		cat <<EOS
 #
 # For Vagrant
 #
@@ -28,9 +28,9 @@ Enabled: yes
 Signed-By: /usr/share/keyrings/jehon-hashicorp.gpg
 EOS
 
-    ) | jh-install-file "${target}"
-    ;;
+	) | jh-install-file "${target}"
+	;;
 "remove")
-    rm -f "${target}"
-    ;;
+	rm -f "${target}"
+	;;
 esac
