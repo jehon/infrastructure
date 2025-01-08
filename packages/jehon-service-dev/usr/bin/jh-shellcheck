@@ -6,12 +6,32 @@ set -o errexit
 . jh-lib
 
 exclude="${1:-"🔒"}"
+res=0
 
-git ls-files |
-    grep --invert-match --extended-regex "$exclude" |
-    xargs --no-run-if-empty file --mime-type -f - |
-    (grep "x-shellscript" || true) |
-    cut --delimiter : --field 1 |
-    xargs --no-run-if-empty -- shellcheck --external-sources
+checkOne() {
+	file="$1"
+	if ! shellcheck --external-sources "$file" >&/dev/null; then
+		echo "[shellcheck] $file"
+		res=1
+	fi
+}
+
+if [ -n "$1" ]; then
+	checkOne "$1"
+else
+	while read -r f; do
+		checkOne "$f"
+	done < <(
+		git ls-files |
+			grep --invert-match --extended-regex "$exclude" |
+			xargs --no-run-if-empty file --mime-type -f - |
+			(grep "x-shellscript" || true) |
+			cut --delimiter : --field 1
+	)
+fi
+
+if [ "$res" -ne 0 ]; then
+	jh_fatal "Shellcheck failed"
+fi
 
 ok
