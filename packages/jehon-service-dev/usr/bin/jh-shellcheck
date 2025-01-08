@@ -5,10 +5,6 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin/
 . jh-lib
 
-if [ -n "$TERM" ]; then
-    clear
-fi
-
 exclude="${1:-"🔒"}"
 
 git ls-files |
