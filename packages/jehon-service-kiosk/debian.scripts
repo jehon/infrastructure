@@ -11,13 +11,13 @@ jh_deb_helper_service "jehon-kiosk-mode.timer"
 
 case "$1" in
 configure)
-    if jh-fs is-empty /var/cache/jehon/pictures; then
-        if jh-is-full-machine; then
-            systemctl start "jehon-kiosk-select-pictures.service" || true
-            systemctl start "jehon-kiosk-refresh-fire.service" || true
-        fi
-    fi
-    ;;
+	if jh-fs is-empty /var/cache/jehon/pictures; then
+		if jh-is-full-machine; then
+			systemctl start "jehon-kiosk-select-pictures.service" || true
+			systemctl start "jehon-kiosk-refresh-fire.service" || true
+		fi
+	fi
+	;;
 
 remove) ;;
 

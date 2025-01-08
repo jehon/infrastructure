@@ -10,9 +10,9 @@ jh_deb_helper_service "jehon-stack.timer"
 
 case "$1" in
 configure)
-    mkdir -p /srv/stack
-    chown jehon-daemon /srv/stack
-    ;;
+	mkdir -p /srv/stack
+	chown jehon-daemon /srv/stack
+	;;
 remove) ;;
 
 esac
