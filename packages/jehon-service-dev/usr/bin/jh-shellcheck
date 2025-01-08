@@ -5,7 +5,9 @@ set -o errexit
 # shellcheck source-path=SCRIPTDIR/../../../jehon/usr/bin/
 . jh-lib
 
-clear
+if [ -n "$TERM" ]; then
+    clear
+fi
 
 exclude="${1:-"🔒"}"
 
