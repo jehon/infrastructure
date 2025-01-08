@@ -171,7 +171,11 @@ ok() {
 }
 
 ko() {
-    echo -e "$jhMsgKo $*"
+    if [ -n "$1" ]; then
+        echo -e "$jhMsgKo $*"
+    else
+        echo -e "$jhMsgKo failed"
+    fi
 }
 
 declare -a jh_on_exit_hanlder_list_success
