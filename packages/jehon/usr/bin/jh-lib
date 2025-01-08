@@ -180,12 +180,12 @@ ko() {
 
 jh_trace() {
     jh_info "$*"
-    "$@"
-    res="$?"
+    res=0
+    "$@" || res=$?
     if [ $res == 0 ]; then
         ok "with success"
     else
-        ko "with failure"
+        ko "with failure [$res]"
     fi
     return $res
 }
