@@ -26,6 +26,14 @@
     pkg:
       - jehon-service-docker
 
+- name: "{{ j_task }} | Create plugin folders"
+  with_items:
+    - /var/lib/docker-plugins/rclone/cache
+    - /var/lib/docker-plugins/rclone/config
+  ansible.builtin.file:
+    state: folder
+    dest: "{{ item  }}"
+
 - name: "{{ j_task }} | Authenticate to GitLab"
   when: jehon_remote_gitlab_token
   become: true
