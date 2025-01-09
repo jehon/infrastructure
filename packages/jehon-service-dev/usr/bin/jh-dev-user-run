@@ -17,13 +17,16 @@ config="${HOME}/koalty/scripts/cron"
 # For info in scripts
 export CONTEXT
 
-# shell check disable=SC
 LOCATION="${LOCATION:''}"
 if [ -z "${LOCATION}" ]; then
 	LOCATION="$(jh-location-detect)"
 fi
+export LOCATION
 
-[ -d "${config}" ] || jh_fatal "Context config not found: ${config}"
-
-# Logs are in the journalctl
-jh-runner "${config}"
+if [ -d "${config}" ]; then
+	# Logs are in the journalctl
+	jh-runner "${config}"
+else
+	# Acceptable
+	jh_error "Context config not found: ${config}"
+fi
