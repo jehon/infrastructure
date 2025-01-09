@@ -51,18 +51,6 @@ export jhCloudFolderInUserHome=~/pCloudDrive
 #
 jhSWD="$(dirname "$(realpath --physical "$(realpath "$0")")")"
 
-#
-#
-# Where is the package source file located
-#
-#  !! this depend on [0] <= the jh-lib script
-#
-# If SELF is as /usr/bin, then it is not under package source
-prjRoot="$(dirname "$(dirname "$(dirname "$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]:-$0}")")")")")")"
-if [ "$prjRoot" = "/" ] || [ -z "$prjRoot" ]; then
-	prjRoot=""
-fi
-
 if [ -z "$JH_DAEMON" ]; then
 	if [[ $- == *i* ]] || [ -t 0 ]; then
 		JH_DAEMON=""
