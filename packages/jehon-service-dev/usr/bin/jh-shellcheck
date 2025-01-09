@@ -52,4 +52,4 @@ if [ -n "$res" ]; then
 	jh_fatal "Shellcheck failed"
 fi
 
-ok
+ok "Shellcheck passed"

@@ -9,7 +9,9 @@ _SD="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 # shellcheck source-path=SCRIPTDIR
 . jh-lib
 
+prjRoot="$(dirname "$(dirname "$(dirname "${_SD}")")")"
 localScript="${prjRoot}/../file-organizer/bin/file-organizer"
+
 if [ -x "${localScript}" ]; then
 	${localScript} "$@"
 	exit 0

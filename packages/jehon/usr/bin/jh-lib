@@ -30,9 +30,6 @@ export jhTS
 # For Debug easy (https://wiki.bash-hackers.org/scripting/debuggingtips)
 export PS4='\033[0;33m+${BASH_SOURCE[0]: -10}:${LINENO}:\033[0m ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
 
-# ...koalty/packages
-export prjRoot
-
 # relative to initial($0) script
 export jhSWD
 
