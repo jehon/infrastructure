@@ -6,19 +6,31 @@ set -o errexit
 . jh-lib
 
 exclude="🔒"
-res=0
+res=
+fix=
+
+if [ "$1" == "fix" ]; then
+	fix="yes"
+	shift
+fi
 
 checkOne() {
 	file="$1"
+
+	if [ "$fix" == "yes" ]; then
+		shfmt -w "$file"
+		shellcheck -f diff "$file" | git apply --allow-empty
+	fi
+
 	if ! shellcheck --external-sources "$file" >&/dev/null; then
 		echo "[shellcheck] $file"
-		res=1
+		res="error"
 	fi
 
 	check="$(shfmt -l "$file")"
 	if [ -n "$check" ]; then
 		echo "[shfmt] $file"
-		res=1
+		res="error"
 	fi
 }
 
@@ -36,7 +48,7 @@ else
 	)
 fi
 
-if [ "$res" -ne 0 ]; then
+if [ -n "$res" ]; then
 	jh_fatal "Shellcheck failed"
 fi
 
