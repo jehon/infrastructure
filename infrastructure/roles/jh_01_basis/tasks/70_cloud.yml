@@ -14,7 +14,7 @@
             - /etc/jehon/rclone.conf
             - /var/lib/docker-plugins/rclone/config/rclone.conf
           ansible.builtin.file:
-            state: folder
+            state: directory
             dest: "{{ item | dirname }}"
 
         - name: "{{ j_task }} | Install config"

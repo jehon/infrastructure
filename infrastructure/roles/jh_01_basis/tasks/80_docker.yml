@@ -31,7 +31,7 @@
     - /var/lib/docker-plugins/rclone/cache
     - /var/lib/docker-plugins/rclone/config
   ansible.builtin.file:
-    state: folder
+    state: directory
     dest: "{{ item  }}"
 
 - name: "{{ j_task }} | Authenticate to GitLab"
