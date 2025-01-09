@@ -1,7 +1,6 @@
 Depends: ${misc:Depends},
 	jehon (<= JH_VERSION),
 	fbi,
-	nodejs,
 	vlc,
 # Dandling coma
 	bash

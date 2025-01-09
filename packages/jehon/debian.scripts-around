@@ -1,0 +1,17 @@
+# #!/bin/sh
+
+# # Example script
+
+# set -o errexit
+
+# case "$1" in
+# install | upgrade)
+#     # dpkg-divert --rename --divert /etc/mpd.conf.diverted /etc/mpd.conf
+#     ;;
+
+# purge | remove)
+#     # dpkg-divert --remove --rename --divert /etc/minidlna.conf.diverted /etc/minidlna.conf
+#     ;;
+# esac
+
+# exit 0
