@@ -43,7 +43,7 @@ if [ -r ~/koalty ]; then
 
 		cd "$(dirname "$F")" >/dev/null || true
 		# shellcheck source=/dev/null
-		(source "$F" || true)
+		source "$F" || true
 		cd - >/dev/null || true
 	done < <(find ~/koalty \
 		-type d \( -name "node_modules" -o -name "vendor" -o -name "tmp" \) -prune -false \
