@@ -26,15 +26,6 @@
     pkg:
       - jehon-service-docker
 
-- name: "{{ j_task }} | Install rclone config for plugin"
-  when: ansible_pkg_mgr == "apt"
-  ansible.builtin.template:
-    src: rclone.conf
-    dest: /var/lib/docker-plugins/rclone/config/rclone.conf
-    owner: root
-    group: jehon-secrets
-    mode: "0700"
-
 - name: "{{ j_task }} | Authenticate to GitLab"
   when: jehon_remote_gitlab_token
   become: true
