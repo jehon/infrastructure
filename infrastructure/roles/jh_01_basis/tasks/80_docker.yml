@@ -32,7 +32,10 @@
     - /var/lib/docker-plugins/rclone/config
   ansible.builtin.file:
     state: directory
-    dest: "{{ item  }}"
+    dest: "{{ item }}"
+    owner: root
+    group: root
+    permissions: "0755"
 
 - name: "{{ j_task }} | Authenticate to GitLab"
   when: jehon_remote_gitlab_token
