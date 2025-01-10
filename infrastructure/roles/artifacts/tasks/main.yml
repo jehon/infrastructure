@@ -20,8 +20,9 @@
 
 - name: Generate artifacts locally
   loop:
+    - dev-config.json
     - user-data
   ansible.builtin.template:
     src: "templates/{{ item }}"
     dest: "{{ jehon_project_dir }}/tmp/artifacts/{{ item }}"
-    mode: "0644"
+    mode: "0640"
