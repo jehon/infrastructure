@@ -35,7 +35,7 @@
     dest: "{{ item }}"
     owner: root
     group: root
-    permissions: "0755"
+    mode: "0755"
 
 - name: "{{ j_task }} | Authenticate to GitLab"
   when: jehon_remote_gitlab_token

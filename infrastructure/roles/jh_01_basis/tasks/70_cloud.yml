@@ -16,6 +16,9 @@
           ansible.builtin.file:
             state: directory
             dest: "{{ item | dirname }}"
+            owner: root
+            group: root
+            mode: "0755"
 
         - name: "{{ j_task }} | Install config"
           with_items:
