@@ -17,7 +17,7 @@
             state: directory
             dest: "{{ item | dirname }}"
             owner: root
-            group: root
+            group: jehon-secrets
             mode: "0755"
 
         - name: "{{ j_task }} | Install config"
@@ -28,7 +28,7 @@
             src: "rclone.conf"
             dest: "{{ item }}"
             owner: root
-            group: jehon-daemon
+            group: jehon-secrets
             mode: "0640"
     #
     # TODO: enable various mounts
