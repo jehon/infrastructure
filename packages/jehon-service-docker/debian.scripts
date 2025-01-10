@@ -8,7 +8,13 @@ set -o errexit
 case "$1" in
 configure)
     mkdir -p /var/lib/docker-plugins/rclone/config
+    chown root.jehon-secrets /var/lib/docker-plugins/rclone/config
+    chmod "750" /var/lib/docker-plugins/rclone/config
+
     mkdir -p /var/lib/docker-plugins/rclone/cache
+    chown root.jehon-secrets /var/lib/docker-plugins/rclone/cache
+    chmod "750" /var/lib/docker-plugins/rclone/cache
+
     if jh-is-full-machine; then
         if ! docker plugin inspect rclone >/dev/null 2>/dev/null; then
             echo "Install rclone plugin"

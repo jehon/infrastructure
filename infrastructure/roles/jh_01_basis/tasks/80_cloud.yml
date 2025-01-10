@@ -9,17 +9,6 @@
             name:
               - fuse3
 
-        - name: "{{ j_task }} | Create folders"
-          with_items:
-            - /etc/jehon/rclone.conf
-            - /var/lib/docker-plugins/rclone/config/rclone.conf
-          ansible.builtin.file:
-            state: directory
-            dest: "{{ item | dirname }}"
-            owner: root
-            group: jehon-secrets
-            mode: "0755"
-
         - name: "{{ j_task }} | Install config"
           with_items:
             - /etc/jehon/rclone.conf
