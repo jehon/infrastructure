@@ -7,6 +7,24 @@
       ansible.builtin.debug:
         var: hostvars[inventory_hostname]
 
+    - name: Show inventory_hostname
+      ansible.builtin.debug:
+        var: inventory_hostname
+
+    - name: Show ansible_connection
+      ansible.builtin.debug:
+        var: ansible_connection
+
+    - name: Show ansible_host
+      when: ansible_connection != "local"
+      ansible.builtin.debug:
+        var: ansible_host
+
+    - name: Show ansible_become
+      when: ansible_connection == "local"
+      ansible.builtin.debug:
+        var: ansible_become
+
     - name: Display facts
       ansible.builtin.debug:
         var: ansible_facts
