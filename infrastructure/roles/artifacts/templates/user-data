@@ -14,7 +14,7 @@ users:
   - name: "{{ jehon_dev_user }}"
     groups: users,adm,dialout,audio,netdev,video,plugdev,cdrom,games,input,gpio,spi,i2c,render,sudo
     shell: /bin/bash
-    hashed_passwd: "{{ jehon_dev_initial_password | password_hash(hashtype='sha512',rounds=4096) }}"
+    hashed_passwd: "{{ jehon_dev_initial_password_hashed }}"
     lock_passwd: false
     sudo: ALL=(ALL) NOPASSWD:ALL
 

@@ -28,6 +28,8 @@ all:
     # mkpasswd --method=SHA-512 --rounds=4096
     # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/password_hash_filter.html
     jehon_dev_initial_password: password
+    # apt install whois; mkpasswd --method=sha-512 --rounds=4096 <password
+    jehon_dev_initial_password_hashed: $6$rounds=4096$kqdLBGU3uj9kKpqg$8Ipu8fAgPOBbVqk9pqMAm3JzZkkEBRueiIZ4ctwkGO53ZTfkSSh87Ms8SuTGMsXcojh3RquFZ7NfTt4UHMQzy0
     jehon_dev_password:
     jehon_dev_user: jehon
     jehon_grafana_user_loki: 776025
