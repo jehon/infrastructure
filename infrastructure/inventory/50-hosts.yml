@@ -365,6 +365,7 @@ all:
       jh_stack_git_slug: "jehon/stack-vps"
     artifacts:
       ansible_connection: local
+      ansible_become: false
       gather_facts: false
 computers:
   hosts:
