@@ -36,6 +36,7 @@ jh_deb_helper_user_in_group "jehon-tty" "video"
 
 jh_deb_helper_system_user "jehon-daemon"
 jh_deb_helper_user_in_group "jehon-daemon" "docker"
+jh_deb_helper_user_in_group "jehon-daemon" "jehon-secrets"
 jh_deb_helper_user_in_group "jehon" "jehon-daemon"
 
 jh_deb_helper_service jehon-backup-snapshot.timer
