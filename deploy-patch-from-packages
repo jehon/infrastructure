@@ -16,8 +16,9 @@ fi
 while [ -n "$1" ]; do
 	source="$1"
 	dest="/${source#packages/*/}"
-	jh_value "SOURCE" "${source}"
-	jh_value "dest" "${dest}"
+	jh_value "Host" "${host}"
+	jh_value "Source" "${source}"
+	jh_value "Dest" "${dest}"
 
 	if [ "${host}" == "dev" ]; then
 		sudo cp -f "${source}" "/${dest}"
